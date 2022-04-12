@@ -1,0 +1,24 @@
+{
+  "bindingItems": [
+    {
+      "id": "92821989-cc22-7c9a-ba02-aaad0007cc7c",
+      "label": "411649XXXXXX1111 12/24",
+      "paymentSystem": "VISA",
+      "cardHolder": "test",
+      "createdDate": 1560764528168,
+      "payerEmail": "",
+      "payerPhone": "",
+      "isMaestro": false
+    },
+    {
+      "id": "0917804e-7675-754f-9ffe-7a320007cc7c",
+      "label": "555555XXXXXX5599 12/24",
+      "paymentSystem": "MASTERCARD",
+      "cardHolder": "test",
+      "createdDate": 1541766548482,
+      "payerEmail": "",
+      "payerPhone": "",
+      "isMaestro": false
+    }
+  ]
+}

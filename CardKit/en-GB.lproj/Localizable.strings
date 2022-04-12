@@ -1,0 +1,27 @@
+/* 
+  Localizable.strings
+  CardKit
+
+  Created by Yury Korolev on 9/16/19.
+  Copyright © 2019 AnjLab. All rights reserved.
+*/
+
+"title" = "Enter card details";
+"card" = "Card";
+"cardholder" = "Cardholder";
+"cardholderPlaceholder" = "NAME";
+"Card Number" = "Number";
+"MM/YY" = "MM/YY";
+"doneButton" = "Submit payment";
+"scanBackButton" = "Enter details manually";
+"expiry" = "Card expiry date";
+"cvc" = "Last three code digits on the signature line";
+
+"incorrectLength" = "Card number length should be 16-19 digits";
+"incorrectCardNumber" = "The card number is incorrect";
+"incorrectExpiry" = "Card expiry date is incorrect";
+"incorrectCvc" = "CVC2/CVV2 is incorrect";
+"incorrectCardholder" = "The card holder is incorrect";
+
+"switchViewTitle" = "Save card";
+"payByCard" = "New card";
