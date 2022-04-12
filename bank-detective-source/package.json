@@ -1,0 +1,13 @@
+{
+  "name": "banks",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "yarn webpack && cp -r 'src/general-banks-info/images' 'dist/'"
+  },
+  "devDependencies": {
+    "webpack": "^4.39.3",
+    "webpack-cli": "^3.3.7"
+  }
+}
