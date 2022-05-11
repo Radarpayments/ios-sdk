@@ -47,16 +47,9 @@ class ThreeDS2ViewController: UITableViewController, TransactionManagerDelegate,
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    let request: URLRequest = URLRequest(url: URL(string: "https://dummy3dsdev.intabia.ru/acs2/secret/cert")!)
     
-    URLSession.shared.dataTask(with: request as URLRequest, completionHandler: { (data, response, error) -> Void in
-      guard let data = data else { return }
-
-      DispatchQueue.main.async {
-        self._textFieldRootCI.text = String(data: data, encoding: .utf8) ?? ""
-      }
-    }).resume()
-
+    self._fetchRootCI()
+    
     ThreeDS2ViewController.logs.removeAllObjects()
     if #available(iOS 13.0, *) {
       CardKConfig.shared.theme = CardKTheme.system()
@@ -70,9 +63,6 @@ class ThreeDS2ViewController: UITableViewController, TransactionManagerDelegate,
     CardKConfig.shared.mdOrder = "mdOrder";
     CardKConfig.shared.mrBinApiURL = "https://mrbin.io/bins/display";
     CardKConfig.shared.mrBinURL = "https://mrbin.io/bins/";
-    CardKConfig.shared.pubKey = """
------BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAp04PhwMu5k3fRMRmAb1ZRxbD3brU4a7oKa4NDlGXKQJiCEuw6e8SYcYW2i4rt0WsieeRRrrX7VnUZ2pH20lMtUnrTUtw2MaH5Ta9c3begST7sFkqU3t22BYedtamLGR5y55C5GWwI0Ie9ozecSckqcLW7KVITNT4GXME+Q1lFWYMGwr66vhu1fIV1pfVNWvMX3lEzVLwmwPkt0gf2ODR+AfO8rg17P4z4BHN/jSL0maOFsJlriCEf11jqtVbJKz5EDghyFO9Iw+gzorwlioc133li1OG0NbKzK/Nq5z29udoEWneisp3ub5M53jWvxDNiVl8uvPUfxyz+86mwNQ87QIDAQAB-----END PUBLIC KEY-----
-"""
 
     _transactionManager.delegate = self
     _textFieldBaseUrl.text = url
@@ -83,11 +73,11 @@ class ThreeDS2ViewController: UITableViewController, TransactionManagerDelegate,
     _textFieldCost.keyboardType = .numberPad
     _textFieldCost.placeholder = "Price"
     
-    _textFieldPassword.text = "3ds2-api"
+    _textFieldPassword.text = "vkyvbG0"
     _textFieldPassword.isSecureTextEntry = true
     _textFieldPassword.placeholder = "Password"
     
-    _textFieldUserName.text = "3ds2-api"
+    _textFieldUserName.text = "mobile-sdk-api"
     _textFieldUserName.placeholder = "User name"
     
     _textFieldRootCI.placeholder = "Root CI"
@@ -112,12 +102,31 @@ class ThreeDS2ViewController: UITableViewController, TransactionManagerDelegate,
     self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cellIdentifier")
     self.tableView.autoresizingMask = .flexibleWidth
     
+    _textFieldBaseUrl.addTarget(self, action: #selector(self._textFieldDidEndEditing), for: .editingDidEnd)
     _notificationCenter.addObserver(self, selector: #selector(_reloadTableView), name: Notification.Name("ReloadTable"), object: nil)
+    self._fetchPubKey()
   }
   
-  func textFieldDidEndEditing(_ textField: UITextField) {
-    let urlString = String("\(textField.text ?? url)/se/keys.do")
+  func _fetchRootCI() {
+    let request: URLRequest = URLRequest(url: URL(string: "https://dummy3dsdev.intabia.ru/acs2/secret/cert")!)
+    
+    URLSession.shared.dataTask(with: request as URLRequest, completionHandler: { (data, response, error) -> Void in
+      guard let data = data else { return }
+
+      DispatchQueue.main.async {
+        self._textFieldRootCI.text = String(data: data, encoding: .utf8) ?? ""
+      }
+    }).resume()
+  }
+  
+  func _fetchPubKey() {
+    let urlString = String("\(self._textFieldBaseUrl.text ?? url)/se/keys.do")
+  
     CardKConfig.fetchKeys(urlString)
+  }
+  
+  @objc func _textFieldDidEndEditing() {
+    _fetchPubKey()
   }
 
   @objc func dismissKeyboard() {

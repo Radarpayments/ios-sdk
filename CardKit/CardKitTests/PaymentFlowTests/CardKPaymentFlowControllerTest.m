@@ -51,12 +51,12 @@ typedef NS_ENUM(NSUInteger, ActionTypeInForm) {
   CardKConfig.shared.isTestMod = YES;
   CardKConfig.shared.mrBinApiURL = @"https://mrbin.io/bins/display";
   CardKConfig.shared.mrBinURL = @"https://mrbin.io/bins/";
-  CardKConfig.shared.pubKey = @"-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAp04PhwMu5k3fRMRmAb1ZRxbD3brU4a7oKa4NDlGXKQJiCEuw6e8SYcYW2i4rt0WsieeRRrrX7VnUZ2pH20lMtUnrTUtw2MaH5Ta9c3begST7sFkqU3t22BYedtamLGR5y55C5GWwI0Ie9ozecSckqcLW7KVITNT4GXME+Q1lFWYMGwr66vhu1fIV1pfVNWvMX3lEzVLwmwPkt0gf2ODR+AfO8rg17P4z4BHN/jSL0maOFsJlriCEf11jqtVbJKz5EDghyFO9Iw+gzorwlioc133li1OG0NbKzK/Nq5z29udoEWneisp3ub5M53jWvxDNiVl8uvPUfxyz+86mwNQ87QIDAQAB-----END PUBLIC KEY-----";
+  CardKConfig.shared.pubKey = @"-----BEGIN PUBLIC KEY-----MIICDTCCAbOgAwIBAgIUOO3a573khC9kCsQJGKj/PpKOSl8wCgYIKoZIzj0EAwIwXDELMAkGA1UEBhMCQVUxEzARBgNVBAgMClNvbWUtU3RhdGUxITAfBgNVBAoMGEludGVybmV0IFdpZGdpdHMgUHR5IEx0ZDEVMBMGA1UEAwwMZHVtbXkzZHNyb290MB4XDTIxMDkxNDA2NDQ1OVoXDTMxMDkxMjA2NDQ1OVowXDELMAkGA1UEBhMCQVUxEzARBgNVBAgMClNvbWUtU3RhdGUxITAfBgNVBAoMGEludGVybmV0IFdpZGdpdHMgUHR5IEx0ZDEVMBMGA1UEAwwMZHVtbXkzZHNyb290MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE//e+MhwdgWxkFpexkjBCx8FtJ24KznHRXMSWabTrRYwdSZMScgwdpG1QvDO/ErTtW8IwouvDRlR2ViheGr02bqNTMFEwHQYDVR0OBBYEFHK/QzMXw3kW9UzY5w9LVOXr+6YpMB8GA1UdIwQYMBaAFHK/QzMXw3kW9UzY5w9LVOXr+6YpMA8GA1UdEwEB/wQFMAMBAf8wCgYIKoZIzj0EAwIDSAAwRQIhAOPEiotH3HJPIjlrj9/0m3BjlgvME0EhGn+pBzoX7Z3LAiAOtAFtkipd9T5c9qwFAqpjqwS9sSm5odIzk7ug8wow4Q-----END PUBLIC KEY-----";
   CardKConfig.shared.rootCertificate = @"MIICDTCCAbOgAwIBAgIUOO3a573khC9kCsQJGKj/PpKOSl8wCgYIKoZIzj0EAwIwXDELMAkGA1UEBhMCQVUxEzARBgNVBAgMClNvbWUtU3RhdGUxITAfBgNVBAoMGEludGVybmV0IFdpZGdpdHMgUHR5IEx0ZDEVMBMGA1UEAwwMZHVtbXkzZHNyb290MB4XDTIxMDkxNDA2NDQ1OVoXDTMxMDkxMjA2NDQ1OVowXDELMAkGA1UEBhMCQVUxEzARBgNVBAgMClNvbWUtU3RhdGUxITAfBgNVBAoMGEludGVybmV0IFdpZGdpdHMgUHR5IEx0ZDEVMBMGA1UEAwwMZHVtbXkzZHNyb290MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE//e+MhwdgWxkFpexkjBCx8FtJ24KznHRXMSWabTrRYwdSZMScgwdpG1QvDO/ErTtW8IwouvDRlR2ViheGr02bqNTMFEwHQYDVR0OBBYEFHK/QzMXw3kW9UzY5w9LVOXr+6YpMB8GA1UdIwQYMBaAFHK/QzMXw3kW9UzY5w9LVOXr+6YpMA8GA1UdEwEB/wQFMAMBAf8wCgYIKoZIzj0EAwIDSAAwRQIhAOPEiotH3HJPIjlrj9/0m3BjlgvME0EhGn+pBzoX7Z3LAiAOtAFtkipd9T5c9qwFAqpjqwS9sSm5odIzk7ug8wow4Q==";
 
   payment = [[PaymentFlowController alloc] init];
   payment.delegate = self;
-  payment.url = @"https://web.rbsdev.com/multigatepayment-release";
+  payment.url = @"https://ecommerce.radarpayments.com/payment";
   payment.primaryColor = UIColor.systemBlueColor;
   payment.textDoneButtonColor = [UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:1.00];
   payment.headerLabel = @"Custom header label";
@@ -447,8 +447,8 @@ typedef NS_ENUM(NSUInteger, ActionTypeInForm) {
 
 - (void)_registerOrderWithAmount:(NSString*) amount callback:(void (^)(void)) handler {
   NSString *amountParameter = [NSString stringWithFormat:@"%@%@", @"amount=", amount];
-  NSString *userName = [NSString stringWithFormat:@"%@%@", @"userName=", @"3ds2-api"];
-  NSString *password = [NSString stringWithFormat:@"%@%@", @"password=", @"3ds2-api"];
+  NSString *userName = [NSString stringWithFormat:@"%@%@", @"userName=", @"mobile-sdk-api"];
+  NSString *password = [NSString stringWithFormat:@"%@%@", @"password=", @"vkyvbG0"];
   NSString *returnUrl = [NSString stringWithFormat:@"%@%@", @"returnUrl=", @"returnUrl"];
   NSString *failUrl = [NSString stringWithFormat:@"%@%@", @"failUrl=", @"errors.html"];
   NSString *email = [NSString stringWithFormat:@"%@%@", @"email=", @"test@test.com"];
@@ -458,7 +458,7 @@ typedef NS_ENUM(NSUInteger, ActionTypeInForm) {
 
   NSData *postData = [parameters dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
   
-  NSString *url = @"https://web.rbsdev.com/multigatepayment-release";
+  NSString *url = @"https://ecommerce.radarpayments.com/payment";
   
   NSString *URL = [NSString stringWithFormat:@"%@%@", url, @"/rest/register.do"];
 
