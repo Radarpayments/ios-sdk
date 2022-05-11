@@ -38,7 +38,7 @@ import ThreeDSSDK
         _isInitService = true
       }
 
-      _sdkTransaction = try _service.createTransaction(directoryServerID: directoryServerId, messageVersion: nil, publicKeyBase64: pubKey, rootCertificateBase64: rootCertificate, logoBase64: "")
+      _sdkTransaction = try _service.createTransaction(directoryServerID: directoryServerId, messageVersion: nil, pemPublicKey: pubKey, dsRoot: rootCertificate, logoBase64: "")
 
       _sdkProgressDialog = try _sdkTransaction!.getProgressView()
     } catch {

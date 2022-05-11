@@ -16,11 +16,11 @@
 		9234CC56247D2157009E3034 /* bindings.json in Resources */ = {isa = PBXBuildFile; fileRef = 9234CC55247D2157009E3034 /* bindings.json */; };
 		9234CC5D247FDA8F009E3034 /* SampleCardKPaymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9234CC5C247FDA8F009E3034 /* SampleCardKPaymentView.swift */; };
 		9245F89525B190FB0065AF9E /* ReqResDetailsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9245F89425B190FB0065AF9E /* ReqResDetailsController.swift */; };
+		92479BC7282BA80A006A2157 /* ThreeDSSDK.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92479BC5282BA800006A2157 /* ThreeDSSDK.xcframework */; };
+		92479BC8282BA80A006A2157 /* ThreeDSSDK.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 92479BC5282BA800006A2157 /* ThreeDSSDK.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9262A63D24C5CAE600042DDC /* CardKit.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 9262A63C24C5CAE600042DDC /* CardKit.podspec */; };
 		926876CD2613153C0080D65B /* PaymentFlowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926876CC2613153C0080D65B /* PaymentFlowController.swift */; };
 		926A717825B969D800C72A92 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926A717725B969D800C72A92 /* Utils.swift */; };
-		926D17232729240400E019E1 /* ThreeDSSDK.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 926D17222729240400E019E1 /* ThreeDSSDK.xcframework */; };
-		926D17242729240400E019E1 /* ThreeDSSDK.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 926D17222729240400E019E1 /* ThreeDSSDK.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9277F45E2726A2F700F96E31 /* Pods_SampleApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B616F87CB22C36459150EF5F /* Pods_SampleApp.framework */; };
 		927F3701259CA52A0019DE21 /* TransactionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927F3700259CA5290019DE21 /* TransactionManager.swift */; };
 		927F370D259CA5970019DE21 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927F370C259CA5970019DE21 /* API.swift */; };
@@ -58,8 +58,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				926D17242729240400E019E1 /* ThreeDSSDK.xcframework in Embed Frameworks */,
 				921FFE8B27438B4100FD8185 /* CardKit.framework in Embed Frameworks */,
+				92479BC8282BA80A006A2157 /* ThreeDSSDK.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -81,10 +81,10 @@
 		9234CC57247E90AB009E3034 /* SampleApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SampleApp.entitlements; sourceTree = "<group>"; };
 		9234CC5C247FDA8F009E3034 /* SampleCardKPaymentView.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = SampleCardKPaymentView.swift; sourceTree = "<group>"; tabWidth = 2; };
 		9245F89425B190FB0065AF9E /* ReqResDetailsController.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = ReqResDetailsController.swift; sourceTree = "<group>"; tabWidth = 2; };
+		92479BC5282BA800006A2157 /* ThreeDSSDK.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = ThreeDSSDK.xcframework; sourceTree = "<group>"; };
 		9262A63C24C5CAE600042DDC /* CardKit.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CardKit.podspec; path = ../CardKit.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		926876CC2613153C0080D65B /* PaymentFlowController.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = PaymentFlowController.swift; sourceTree = "<group>"; tabWidth = 2; };
 		926A717725B969D800C72A92 /* Utils.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; tabWidth = 2; };
-		926D17222729240400E019E1 /* ThreeDSSDK.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = ThreeDSSDK.xcframework; path = ../../CardKit/ThreeDSSDK.xcframework; sourceTree = "<group>"; };
 		927F3700259CA5290019DE21 /* TransactionManager.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = TransactionManager.swift; sourceTree = "<group>"; tabWidth = 2; };
 		927F370C259CA5970019DE21 /* API.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; tabWidth = 2; };
 		927F3710259CA6E80019DE21 /* ThreeDS2ViewController.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = ThreeDS2ViewController.swift; sourceTree = "<group>"; tabWidth = 2; };
@@ -118,9 +118,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				926D17232729240400E019E1 /* ThreeDSSDK.xcframework in Frameworks */,
 				9277F45E2726A2F700F96E31 /* Pods_SampleApp.framework in Frameworks */,
 				921FFE8A27438B4100FD8185 /* CardKit.framework in Frameworks */,
+				92479BC7282BA80A006A2157 /* ThreeDSSDK.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -160,8 +160,8 @@
 		9239897125AC517000DB1682 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				92479BC5282BA800006A2157 /* ThreeDSSDK.xcframework */,
 				921FFE8927438B4100FD8185 /* CardKit.framework */,
-				926D17222729240400E019E1 /* ThreeDSSDK.xcframework */,
 				B616F87CB22C36459150EF5F /* Pods_SampleApp.framework */,
 				3982329686EEDDAB5989B65E /* Pods_SampleAppUITests.framework */,
 			);

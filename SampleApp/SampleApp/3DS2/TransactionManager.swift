@@ -29,7 +29,7 @@ public class TransactionManager: NSObject {
   public func initializeSdk() throws {
     try _service.initialize(configParameters: ConfigParameters(), locale: Locale.current.languageCode, uiCustomization: _setUpTheme())
 
-    _sdkTransaction = try _service.createTransaction(directoryServerID: directoryServerId, messageVersion: nil, publicKeyBase64: pubKey, rootCertificateBase64: rootCI, logoBase64: "")
+    _sdkTransaction = try _service.createTransaction(directoryServerID: directoryServerId, messageVersion: nil, pemPublicKey: pubKey, dsRoot: rootCI, logoBase64: "")
 
     _sdkProgressDialog = try _sdkTransaction!.getProgressView()
   }
