@@ -62,7 +62,7 @@
     }
   }
 
-  - (void)_sendRedirectError {
+- (void)_sendRedirectError {
     [super _sendRedirectError];
     if (self.sendRedirectErrorExpectation != nil) {
       [self.sendRedirectErrorExpectation fulfill];
@@ -95,7 +95,7 @@
   - (void)_moveChoosePaymentMethodController {
     [super _moveChoosePaymentMethodController];
     
-    double delayInSeconds = 1.0;
+    double delayInSeconds = 3.0;
  
     dispatch_time_t timer = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
 
@@ -137,7 +137,7 @@
       
       UITextField *cardNumberTextField = (UITextField *)[window.rootViewController.view viewWithTag:cardNumberTextFieldTag];
       
-      [cardNumberTextField setText:@"5777777777777775"];
+      [cardNumberTextField setText:@"5555555555555599"];
       
       UITextField *expireDateTextField = (UITextField *)[window.rootViewController.view viewWithTag:expireDateTextFieldTag];
       

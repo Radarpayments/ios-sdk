@@ -19,7 +19,7 @@
 - (void)setUp {
   self.continueAfterFailure = NO;
 
-  _app = [[XCUIApplication alloc] initWithBundleIdentifier:@"com.anjlab.SampleApp"];
+  _app = [[XCUIApplication alloc] initWithBundleIdentifier:@"com.rbs.demo"];
 
   [_app launch];
 }

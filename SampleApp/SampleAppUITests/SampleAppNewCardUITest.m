@@ -14,25 +14,13 @@
 
 @implementation SampleAppNewCardUITest {
   XCUIApplication *_app;
-  NSBundle *_bundle;
-  NSBundle *_languageBundle;
 }
 
 - (void)setUp {
   self.continueAfterFailure = NO;
 
-  _app = [[XCUIApplication alloc] initWithBundleIdentifier:@"com.anjlab.SampleApp"];
+  _app = [[XCUIApplication alloc] initWithBundleIdentifier:@"com.rbs.demo"];
   [_app launch];
-  
-  _bundle = [NSBundle bundleForClass:[SampleAppNewCardUITest class]];
-
-  NSString *language = _app.accessibilityLanguage;
-  
-  if (language != nil) {
-    _languageBundle = [NSBundle bundleWithPath:[_bundle pathForResource:language ofType:@"lproj"]];
-  } else {
-    _languageBundle = _bundle;
-  }
 }
 
 - (void)tearDown {

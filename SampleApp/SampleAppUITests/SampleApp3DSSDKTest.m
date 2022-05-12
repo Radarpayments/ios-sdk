@@ -21,7 +21,7 @@
 - (void)setUp {
   self.continueAfterFailure = NO;
 
-  _app = [[XCUIApplication alloc] initWithBundleIdentifier:@"com.anjlab.SampleApp"];
+  _app = [[XCUIApplication alloc] initWithBundleIdentifier:@"com.rbs.demo"];
   [_app launch];
   
   _bundle = [NSBundle bundleForClass:[SampleApp3DSSDKTest class]];
@@ -72,7 +72,7 @@
   [self _tapWaitingElement:_app.buttons[@"New card"]];
 
   [_app.textFields[@"Number"] tap];
-  [_app.textFields[@"Number"] typeText:@"5777777777777775"];
+  [_app.textFields[@"Number"] typeText:@"5555555555555599"];
 
   [_app.textFields[@"MM/YY"] tap];
   [_app.textFields[@"MM/YY"] typeText:@"1224"];
@@ -90,7 +90,7 @@
   [self _tapWaitingElement:_app.buttons[@"New card"]];
 
   [_app.textFields[@"Number"] tap];
-  [_app.textFields[@"Number"] typeText:@"5777777777777775"];
+  [_app.textFields[@"Number"] typeText:@"5555555555555599"];
 
   [_app.textFields[@"MM/YY"] tap];
   [_app.textFields[@"MM/YY"] typeText:@"1224"];
