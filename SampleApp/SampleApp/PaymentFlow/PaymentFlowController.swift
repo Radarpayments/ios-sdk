@@ -77,6 +77,7 @@ class PaymentFlowController: UIViewController {
   
   @objc func _pressedButton() {
     _fetchRootCert()
+    _fetchPubKey()
   }
   
   func _fetchRootCert() {
