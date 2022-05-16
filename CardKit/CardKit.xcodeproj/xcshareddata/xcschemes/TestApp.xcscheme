@@ -48,6 +48,16 @@
                ReferencedContainer = "container:CardKit.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "92992A85283289CE0031AFFF"
+               BuildableName = "CardKitPaymentTests.xctest"
+               BlueprintName = "CardKitPaymentTests"
+               ReferencedContainer = "container:CardKit.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
