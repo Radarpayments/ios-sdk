@@ -19,11 +19,13 @@ jobs:
         run: pod install
         shell: bash
 
-      - name: Testing SampleApp
-        run: exec ./.github/scripts/test-sample-app-ui.sh
       - name: Testing CardKitPayment
         run: exec ./.github/scripts/test-card-kit-payment.sh
-      - name: Testing CardKitCore
-        run: exec ./.github/scripts/test-card-kit-core.sh
+
+      - name: Testing SampleApp
+        run: exec ./.github/scripts/test-sample-app-ui.sh
       - name: Testing CardKit
         run: exec ./.github/scripts/test-card-kit.sh
+
+      - name: Testing CardKitCore
+        run: exec ./.github/scripts/test-card-kit-core.sh
