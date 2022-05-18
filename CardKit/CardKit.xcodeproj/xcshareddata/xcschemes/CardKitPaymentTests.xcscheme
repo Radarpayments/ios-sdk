@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1240"
+   LastUpgradeVersion = "1320"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,9 +14,9 @@
             buildForAnalyzing = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "920480E7261B034F00026C1F"
-               BuildableName = "CardKitTests.xctest"
-               BlueprintName = "CardKitTests"
+               BlueprintIdentifier = "92992A85283289CE0031AFFF"
+               BuildableName = "CardKitPaymentTests.xctest"
+               BlueprintName = "CardKitPaymentTests"
                ReferencedContainer = "container:CardKit.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -32,39 +32,9 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "920480E7261B034F00026C1F"
-               BuildableName = "CardKitTests.xctest"
-               BlueprintName = "CardKitTests"
-               ReferencedContainer = "container:CardKit.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "922A8FEE2625985D00B6FC4F"
-               BuildableName = "TestAppUITests.xctest"
-               BlueprintName = "TestAppUITests"
-               ReferencedContainer = "container:CardKit.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "922A900C26259A9F00B6FC4F"
-               BuildableName = "CardKitUITests.xctest"
-               BlueprintName = "CardKitUITests"
-               ReferencedContainer = "container:CardKit.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "92C9AEAD283523AA0000D878"
-               BuildableName = "CardKitPayment2Tests.xctest"
-               BlueprintName = "CardKitPayment2Tests"
+               BlueprintIdentifier = "92992A85283289CE0031AFFF"
+               BuildableName = "CardKitPaymentTests.xctest"
+               BlueprintName = "CardKitPaymentTests"
                ReferencedContainer = "container:CardKit.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -90,9 +60,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "920480E7261B034F00026C1F"
-            BuildableName = "CardKitTests.xctest"
-            BlueprintName = "CardKitTests"
+            BlueprintIdentifier = "92992A85283289CE0031AFFF"
+            BuildableName = "CardKitPaymentTests.xctest"
+            BlueprintName = "CardKitPaymentTests"
             ReferencedContainer = "container:CardKit.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

@@ -1,15 +1,16 @@
 //
-//  NSObject+CardKPaymentFlowController.m
-//  CardKitTests
+//  CardKPaymentControllerTest.m
+//  CardKitPaymentTests
 //
-//  Created by Alex Korotkov on 4/5/21.
-//  Copyright © 2021 AnjLab. All rights reserved.
+//  Created by Alex Korotkov on 18.05.2022.
+//  Copyright © 2022 AnjLab. All rights reserved.
 //
 
 #import <XCTest/XCTest.h>
-#import "PaymentFlowController.h"
-#import <ThreeDSSDK/ThreeDSSDK.h>
-@interface CardKPaymentFlowControllerTest: XCTestCase<PaymentFlowControllerDelegate>
+#import "PaymentController.h"
+#import <CardKit/CardKConfig.h>
+
+@interface CardKPaymentControllerTest: XCTestCase<PaymentControllerDelegate>
 
 @end
 
@@ -39,9 +40,9 @@ typedef NS_ENUM(NSUInteger, ActionTypeInForm) {
   ActionTypeFillOTPFormWithIncorrectCode = 4
 };
 
-@implementation CardKPaymentFlowControllerTest {
+@implementation CardKPaymentControllerTest {
   int actionTypeInForm;
-  PaymentFlowController *payment;
+  PaymentController *payment;
 }
 
 - (void)setUp {
@@ -55,7 +56,7 @@ typedef NS_ENUM(NSUInteger, ActionTypeInForm) {
   [CardKConfig fetchKeys: [NSString stringWithFormat: @"%@/se/keys.do", url]];
   CardKConfig.shared.rootCertificate = @"MIICDTCCAbOgAwIBAgIUOO3a573khC9kCsQJGKj/PpKOSl8wCgYIKoZIzj0EAwIwXDELMAkGA1UEBhMCQVUxEzARBgNVBAgMClNvbWUtU3RhdGUxITAfBgNVBAoMGEludGVybmV0IFdpZGdpdHMgUHR5IEx0ZDEVMBMGA1UEAwwMZHVtbXkzZHNyb290MB4XDTIxMDkxNDA2NDQ1OVoXDTMxMDkxMjA2NDQ1OVowXDELMAkGA1UEBhMCQVUxEzARBgNVBAgMClNvbWUtU3RhdGUxITAfBgNVBAoMGEludGVybmV0IFdpZGdpdHMgUHR5IEx0ZDEVMBMGA1UEAwwMZHVtbXkzZHNyb290MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE//e+MhwdgWxkFpexkjBCx8FtJ24KznHRXMSWabTrRYwdSZMScgwdpG1QvDO/ErTtW8IwouvDRlR2ViheGr02bqNTMFEwHQYDVR0OBBYEFHK/QzMXw3kW9UzY5w9LVOXr+6YpMB8GA1UdIwQYMBaAFHK/QzMXw3kW9UzY5w9LVOXr+6YpMA8GA1UdEwEB/wQFMAMBAf8wCgYIKoZIzj0EAwIDSAAwRQIhAOPEiotH3HJPIjlrj9/0m3BjlgvME0EhGn+pBzoX7Z3LAiAOtAFtkipd9T5c9qwFAqpjqwS9sSm5odIzk7ug8wow4Q==";
 
-  payment = [[PaymentFlowController alloc] init];
+  payment = [[PaymentController alloc] init];
   payment.delegate = self;
   payment.url = url;
   payment.primaryColor = UIColor.systemBlueColor;

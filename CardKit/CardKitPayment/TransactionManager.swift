@@ -1,11 +1,10 @@
 //
-//  CardKPaymentFlowController.swift
-//  CardKit
+//  TransactionManager.swift
+//  CardKitPayment
 //
-//  Created by Alex Korotkov on 4/7/21.
-//  Copyright © 2021 AnjLab. All rights reserved.
+//  Created by Alex Korotkov on 18.05.2022.
+//  Copyright © 2022 AnjLab. All rights reserved.
 //
-
 
 import UIKit
 import ThreeDSSDK

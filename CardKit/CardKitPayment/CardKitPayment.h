@@ -17,3 +17,8 @@ FOUNDATION_EXPORT const unsigned char CardKitPaymentVersionString[];
 // In this header, you should import all the public headers of your framework using statements like #import <CardKitPayment/PublicHeader.h>
 
 
+#import <CardKitPayment/CardKPaymentSessionStatus.h>
+#import <CardKitPayment/CardKPaymentController.h>
+#import <CardKitPayment/CardKPaymentError.h>
+#import <CardKitPayment/ARes.h>
+#import <CardKitPayment/RequestParams.h>

@@ -1,27 +1,27 @@
 //
-//  PaymentFlowController.h
+//  PaymentController.h
 //  CardKit
 //
-//  Created by Alex Korotkov on 4/5/21.
-//  Copyright © 2021 AnjLab. All rights reserved.
+//  Created by Alex Korotkov on 18.05.2022.
+//  Copyright © 2022 AnjLab. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
 
-#import "CardKit.h"
+#import "CardKitPayment.h"
 #import "CardKPaymentSessionStatus.h"
 #import "ConfirmChoosedCard.h"
 
-@protocol PaymentFlowControllerDelegate
+@protocol PaymentControllerDelegate
 
 - (void)fillForm;
 
 @end
 
 
-@interface PaymentFlowController: CardKPaymentFlowController
-  @property (weak, nonatomic, nullable) id<PaymentFlowControllerDelegate> delegate;
+@interface PaymentController: CardKPaymentController
+  @property (weak, nonatomic, nullable) id<PaymentControllerDelegate> delegate;
   @property (weak, nonatomic, nullable) id<CardKDelegate> cKitDelegate;
   @property BOOL doUseNewCard;
   @property BOOL unbindCard;

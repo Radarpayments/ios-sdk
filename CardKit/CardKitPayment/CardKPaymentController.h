@@ -8,19 +8,19 @@
 
 #import <UIKit/UIKit.h>
 
-#import "CardKViewController.h"
+#import <CardKit/CardKViewController.h>
 #import "CardKPaymentError.h"
 #import "RequestParams.h"
 
-@protocol CardKPaymentFlowDelegate <NSObject>
+@protocol CardKPaymentDelegate <NSObject>
 - (void)didFinishPaymentFlow:(NSDictionary *) paymentInfo;
 - (void)didErrorPaymentFlow:(CardKPaymentError *) paymentError;
 - (void)didCancelPaymentFlow;
 - (void)scanCardRequest:(CardKViewController *)controller;
 @end
 
-@interface CardKPaymentFlowController: UIViewController<CardKDelegate>
-  @property (weak, nonatomic) id<CardKPaymentFlowDelegate> cardKPaymentFlowDelegate;
+@interface CardKPaymentController: UIViewController<CardKDelegate>
+  @property (weak, nonatomic) id<CardKPaymentDelegate> cardKPaymentDelegate;
 
   @property CardKPaymentView* cardKPaymentView;
   @property NSString* url;

@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "CardKBinding.h"
+#import <CardKit/CardKBinding.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

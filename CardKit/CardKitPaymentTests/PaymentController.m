@@ -1,15 +1,16 @@
 //
-//  NSObject+PaymentFlowController.m
-//  CardKitTests
+//  PaymentController.m
+//  CardKitPaymentTests
 //
-//  Created by Alex Korotkov on 4/5/21.
-//  Copyright © 2021 AnjLab. All rights reserved.
+//  Created by Alex Korotkov on 18.05.2022.
+//  Copyright © 2022 AnjLab. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
-#import "CardKit.h"
+#import <CardKit/CardKKindPaymentViewController.h>
+#import <CardKit/CardKConfig.h>
 
-#import "PaymentFlowController.h"
+#import "PaymentController.h"
 #import "CardKPaymentSessionStatus.h"
 #import "SeTokenGenerator.h"
 #import "CardKPaymentSessionStatus.h"
@@ -24,7 +25,7 @@
 
 
 
-@interface CardKPaymentFlowController (Test)
+@interface CardKPaymentController (Test)
   - (void)_sePayment;
   - (void)_sendError;
 
@@ -49,7 +50,7 @@
   - (void) _processBindingFormRequestStep2:(ConfirmChoosedCard *) choosedCard callback: (void (^)(NSDictionary *)) handler;
 @end
 
-@implementation PaymentFlowController: CardKPaymentFlowController
+@implementation PaymentController: CardKPaymentController
   - (void) _getSessionStatusRequest {
     [super _getSessionStatusRequest];
   }
@@ -175,9 +176,9 @@
     
     UINavigationController *navController = (UINavigationController *)window.rootViewController;
     
-    PaymentFlowController *paymentFlowController = navController.viewControllers.firstObject;
+    PaymentController *PaymentController = navController.viewControllers.firstObject;
     
-    CardKKindPaymentViewController *kindPaymentViewController =  paymentFlowController.childViewControllers.firstObject;
+    CardKKindPaymentViewController *kindPaymentViewController =  PaymentController.childViewControllers.firstObject;
     
     UITableView *tableView = (UITableView *)[navController.view viewWithTag:40001];
     
@@ -215,9 +216,9 @@
     
     UINavigationController *navController = (UINavigationController *)window.rootViewController;
     
-    PaymentFlowController *paymentFlowController = navController.viewControllers.firstObject;
+    PaymentController *PaymentController = navController.viewControllers.firstObject;
     
-    CardKKindPaymentViewController *kindPaymentViewController =  paymentFlowController.childViewControllers.firstObject;
+    CardKKindPaymentViewController *kindPaymentViewController =  PaymentController.childViewControllers.firstObject;
     
     UITableView *tableView = (UITableView *)[navController.view viewWithTag:40001];
     

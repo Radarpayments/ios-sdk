@@ -21,10 +21,3 @@ FOUNDATION_EXPORT const unsigned char CardKitVersionString[];
 #import <CardKit/CardKViewController.h>
 #import <CardKit/CardKKindPaymentViewController.h>
 #import <CardKit/CardKPaymentView.h>
-#import <CardKit/CardKPaymentFlowController.h>
-#import <CardKit/ARes.h>
-#import <CardKit/RequestParams.h>
-#import <CardKit/CardKPaymentSessionStatus.h>
-#import <CardKit/CardKPaymentFlowController.h>
-#import <CardKit/CardKPaymentError.h>
-

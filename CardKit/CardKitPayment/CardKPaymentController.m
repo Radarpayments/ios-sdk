@@ -6,7 +6,7 @@
 //  Copyright © 2021 AnjLab. All rights reserved.
 //
 #import <PassKit/PassKit.h>
-#import "CardKPaymentFlowController.h"
+#import "CardKPaymentController.h"
 #import "CardKKindPaymentViewController.h"
 #import "CardKConfig.h"
 #import "RSA.h"
@@ -14,15 +14,15 @@
 #import "CardKPaymentSessionStatus.h"
 #import <ThreeDSSDK/ThreeDSSDK.h>
 
-#import <CardKit/CardKit-Swift.h>
+#import <CardKitPayment/CardKitPayment-Swift.h>
 #import "ARes.h"
 
 @protocol TransactionManagerDelegate;
 
-@interface CardKPaymentFlowController () <TransactionManagerDelegate>
+@interface CardKPaymentController () <TransactionManagerDelegate>
 @end
 
-@implementation CardKPaymentFlowController {
+@implementation CardKPaymentController {
   CardKKindPaymentViewController *_kindPaymentController;
   UIActivityIndicatorView *_spinner;
   CardKTheme *_theme;
@@ -92,16 +92,16 @@
   }
 
   - (void) _sendErrorWithCardPaymentError:(CardKPaymentError *) cardKPaymentError {
-    if (self->_cardKPaymentFlowDelegate != nil) {
-      [self->_cardKPaymentFlowDelegate didErrorPaymentFlow: self->_cardKPaymentError];
+      if (self->_cardKPaymentDelegate != nil) {
+          [self->_cardKPaymentDelegate didErrorPaymentFlow: self->_cardKPaymentError];
     } else {
       [self _showAlertMessage:cardKPaymentError.message];
     }
   }
 
   - (void) _sendSuccessMessage:(NSDictionary *) responseDictionary {
-    if (self.cardKPaymentFlowDelegate != nil) {
-      [self.cardKPaymentFlowDelegate didFinishPaymentFlow:responseDictionary];
+      if (self.cardKPaymentDelegate != nil) {
+          [self.cardKPaymentDelegate didFinishPaymentFlow:responseDictionary];
       
       return;
     }
@@ -114,14 +114,14 @@
 
   - (void) _sendError {
     self->_cardKPaymentError.message = @"Request error";
-    [self->_cardKPaymentFlowDelegate didErrorPaymentFlow:self->_cardKPaymentError];
+      [self->_cardKPaymentDelegate didErrorPaymentFlow:self->_cardKPaymentError];
 
-    [self _sendErrorWithCardPaymentError: self->_cardKPaymentFlowDelegate];
+      [self _sendErrorWithCardPaymentError: self->_cardKPaymentDelegate];
   }
 
   - (void)_sendRedirectError {
     self->_cardKPaymentError.message = self->_sessionStatus.redirect;
-    [self->_cardKPaymentFlowDelegate didErrorPaymentFlow: self->_cardKPaymentError];
+      [self->_cardKPaymentDelegate didErrorPaymentFlow: self->_cardKPaymentError];
   
     [self.navigationController popViewControllerAnimated:YES];
   }
@@ -363,7 +363,7 @@
 
         if (httpResponse.statusCode != 200) {
           self->_cardKPaymentError.message = @"Form data request failed";
-          [self->_cardKPaymentFlowDelegate didErrorPaymentFlow:self->_cardKPaymentError];
+            [self->_cardKPaymentDelegate didErrorPaymentFlow:self->_cardKPaymentError];
 
           return;
         }
@@ -507,7 +507,7 @@
 
         if (httpResponse.statusCode != 200) {
           self->_cardKPaymentError.message = @"Form data request failed";
-          [self->_cardKPaymentFlowDelegate didErrorPaymentFlow:self->_cardKPaymentError];
+            [self->_cardKPaymentDelegate didErrorPaymentFlow:self->_cardKPaymentError];
 
           return;
         }
@@ -722,7 +722,7 @@
   }
 
   - (void)didCancel {
-    [self.cardKPaymentFlowDelegate didCancelPaymentFlow];
+      [self.cardKPaymentDelegate didCancelPaymentFlow];
   }
 
   - (void)didCompleteWithTransactionStatus:(NSString *) transactionStatus {
@@ -771,7 +771,7 @@
   }
 
   - (void)cardKitViewControllerScanCardRequest:(CardKViewController *)controller {
-    [self.cardKPaymentFlowDelegate scanCardRequest:controller];
+      [self.cardKPaymentDelegate scanCardRequest:controller];
   }
 
 @end
