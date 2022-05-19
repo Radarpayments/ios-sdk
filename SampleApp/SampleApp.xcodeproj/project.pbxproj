@@ -33,7 +33,6 @@
 		D245AB99231C444600369747 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D245AB98231C444600369747 /* ViewController.swift */; };
 		D245AB9E231C444700369747 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D245AB9D231C444700369747 /* Assets.xcassets */; };
 		D245ABA1231C444700369747 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D245AB9F231C444700369747 /* LaunchScreen.storyboard */; };
-		D245ABAC231C444700369747 /* SampleAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D245ABAB231C444700369747 /* SampleAppTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -104,7 +103,6 @@
 		D245AB9D231C444700369747 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D245ABA2231C444700369747 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D245ABA7231C444700369747 /* SampleAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SampleAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		D245ABAB231C444700369747 /* SampleAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleAppTests.swift; sourceTree = "<group>"; };
 		D245ABAD231C444700369747 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D2F44D11233898D900B6EEAB /* SampleApp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SampleApp-Bridging-Header.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -248,7 +246,6 @@
 		D245ABAA231C444700369747 /* SampleAppTests */ = {
 			isa = PBXGroup;
 			children = (
-				D245ABAB231C444700369747 /* SampleAppTests.swift */,
 				D245ABAD231C444700369747 /* Info.plist */,
 			);
 			path = SampleAppTests;
@@ -466,7 +463,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D245ABAC231C444700369747 /* SampleAppTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
