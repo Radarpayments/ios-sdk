@@ -1,5 +1,5 @@
 //
-//  UITableViewController+ConfirmChoosedCard.h
+//  CardKBindingViewController.h
 //  CardKit
 //
 //  Created by Alex Korotkov on 5/21/20.
@@ -13,7 +13,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ConfirmChoosedCard: UITableViewController
+@interface CardKBindingViewController: UITableViewController
 
 @property CardKBinding *cardKBinding;
 @property CardKBankLogoView *bankLogoView;

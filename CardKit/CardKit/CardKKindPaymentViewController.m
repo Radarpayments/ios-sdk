@@ -11,7 +11,7 @@
 #import "CardKViewController.h"
 #import "CardKConfig.h"
 #import "CardKBinding.h"
-#import "ConfirmChoosedCard.h"
+#import "CardKBindingViewController.h"
 #import "CardKBankLogoView.h"
 #import "CardKPaymentView.h"
 #import "PaymentSystemProvider.h"
@@ -198,7 +198,7 @@ const NSString *CardKKindPayRows = @"rows";
   NSString *cellID = [_sections[indexPath.section][CardKKindPayRows][0] allKeys][0];
   
   if ([CardKSavedCardsCellID isEqual:cellID]) {
-    ConfirmChoosedCard *confirmChoosedCard = [[ConfirmChoosedCard alloc] init];
+    CardKBindingViewController *cardKBindingViewController = [[CardKBindingViewController alloc] init];
     CardKBinding *cardKBinding = [[CardKBinding alloc] init];
     CardKBinding *selectedCardBinding = _sections[indexPath.section][CardKKindPayRows][0][CardKSavedCardsCellID][indexPath.row];
     
@@ -207,11 +207,11 @@ const NSString *CardKKindPayRows = @"rows";
     cardKBinding.cardNumber = selectedCardBinding.cardNumber;
     cardKBinding.expireDate = selectedCardBinding.expireDate;
 
-    confirmChoosedCard.cardKBinding = cardKBinding;
-    confirmChoosedCard.bankLogoView = _bankLogoView;
-    confirmChoosedCard.cKitDelegate = _cKitDelegate;
+    cardKBindingViewController.cardKBinding = cardKBinding;
+    cardKBindingViewController.bankLogoView = _bankLogoView;
+    cardKBindingViewController.cKitDelegate = _cKitDelegate;
     
-    [self.navigationController pushViewController:confirmChoosedCard animated:true];
+    [self.navigationController pushViewController:cardKBindingViewController animated:true];
   }
 }
 

@@ -6,7 +6,7 @@
 //  Copyright © 2020 AnjLab. All rights reserved.
 //
 
-#import "ConfirmChoosedCard.h"
+#import "CardKBindingViewController.h"
 #import "CardKConfig.h"
 #import "CardKBinding.h"
 #import "CardKTextField.h"
@@ -20,7 +20,7 @@ const NSString *CardKBindingButtonCellID = @"button";
 const NSString *CardKConfirmChoosedCardRows = @"rows";
 NSString *CardKConfirmChoosedCardFooterID = @"footer";
 
-@implementation ConfirmChoosedCard {
+@implementation CardKBindingViewController {
   UIButton *_button;
   NSBundle *_bundle;
   NSBundle *_languageBundle;
@@ -35,7 +35,7 @@ NSString *CardKConfirmChoosedCardFooterID = @"footer";
     _button =  [UIButton buttonWithType:UIButtonTypeSystem];
     _button.tag = 30007;
     
-    _bundle = [NSBundle bundleForClass:[ConfirmChoosedCard class]];
+    _bundle = [NSBundle bundleForClass:[CardKBindingViewController class]];
      
      NSString *language = CardKConfig.shared.language;
     
@@ -89,7 +89,7 @@ NSString *CardKConfirmChoosedCardFooterID = @"footer";
   
   NSString *seToken = [SeTokenGenerator generateSeTokenWithBinding:_cardKBinding];
 
-  [_cKitDelegate cardKitViewController:self didCreateSeToken:seToken allowSaveBinding:NO isNewCard: NO];
+  [_cKitDelegate bindingViewController:self didCreateSeToken:seToken allowSaveBinding:NO isNewCard: NO];
 }
 
 - (void)_animateError {

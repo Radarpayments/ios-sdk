@@ -16,17 +16,23 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class CardKViewController;
 @class CardKPaymentView;
+@class CardKBindingViewController;
 
 @protocol CardKDelegate <NSObject>
 
-- (void)cardKitViewController:(UIViewController *)controller didCreateSeToken:(NSString *)seToken allowSaveBinding:(BOOL) allowSaveBinding isNewCard:(BOOL) isNewCard;
 - (void)didLoadController:(CardKViewController *) controller;
 
 - (void)willShowPaymentView:(CardKPaymentView *) paymentView;
-- (void)cardKPaymentView:(CardKPaymentView *) paymentView didAuthorizePayment:(PKPayment *) pKPayment;
-- (void)didRemoveBindings:(NSArray<CardKBinding *> *)removedBindings;
 
-@optional - (void)cardKitViewControllerScanCardRequest:(CardKViewController *)controller;
+- (void)cardKitViewControllerScanCardRequest:(CardKViewController *)controller;
+
+- (void)cardKitViewController:(CardKViewController *)controller didCreateSeToken:(NSString *)seToken allowSaveBinding:(BOOL) allowSaveBinding isNewCard:(BOOL) isNewCard;
+
+- (void)bindingViewController:(CardKBindingViewController *)controller didCreateSeToken:(NSString *)seToken allowSaveBinding:(BOOL) allowSaveBinding isNewCard:(BOOL) isNewCard;
+
+@optional - (void)didRemoveBindings:(NSArray<CardKBinding *> *)removedBindings;
+
+@optional - (void)cardKPaymentView:(CardKPaymentView *) paymentView didAuthorizePayment:(PKPayment *) pKPayment;
 
 @end
 
