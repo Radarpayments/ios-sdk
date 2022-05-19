@@ -6,45 +6,43 @@
 //  Copyright © 2021 AnjLab. All rights reserved.
 //
 #import <PassKit/PassKit.h>
-#import "CardKPaymentController.h"
-#import "CardKKindPaymentViewController.h"
-#import "CardKConfig.h"
-#import "RSA.h"
-#import "ConfirmChoosedCard.h"
-#import "CardKPaymentSessionStatus.h"
 #import <ThreeDSSDK/ThreeDSSDK.h>
+#import <CardKit/CardKConfig.h>
+#import <CardKit/CardKPaymentView.h>
+#import <CardKit/CardKBindingViewController.h>
+
+#import "CardKPaymentController.h"
+#import "CardKPaymentSessionStatus.h"
 
 #import <CardKitPayment/CardKitPayment-Swift.h>
 #import "ARes.h"
 
 @protocol TransactionManagerDelegate;
 
-@interface CardKPaymentController () <TransactionManagerDelegate>
+@interface CardKPaymentController () <TransactionManagerDelegate, CardKDelegate>
 @end
 
 @implementation CardKPaymentController {
-  CardKKindPaymentViewController *_kindPaymentController;
   UIActivityIndicatorView *_spinner;
   CardKTheme *_theme;
   CardKBinding *_cardKBinding;
   CardKPaymentSessionStatus *_sessionStatus;
   CardKPaymentError *_cardKPaymentError;
-  NSString *_seToken;
   TransactionManager *_transactionManager;
   NSBundle *_languageBundle;
-  NSBundle *_bundle;
 }
 - (instancetype)init
   {
     self = [super init];
     if (self) {
-      _bundle = [NSBundle bundleForClass:[CardKViewController class]];
+      NSBundle * bundle = [NSBundle bundleForClass:[CardKViewController class]];
       
       NSString *language = CardKConfig.shared.language;
+      
       if (language != nil) {
-        _languageBundle = [NSBundle bundleWithPath:[_bundle pathForResource:language ofType:@"lproj"]];
+        _languageBundle = [NSBundle bundleWithPath:[bundle pathForResource:language ofType:@"lproj"]];
       } else {
-        _languageBundle = _bundle;
+        _languageBundle = bundle;
       }
       
       _theme = CardKConfig.shared.theme;
@@ -127,15 +125,17 @@
   }
 
   - (void)_moveChoosePaymentMethodController {
-    _kindPaymentController = [[CardKKindPaymentViewController alloc] init];
-    _kindPaymentController.verticalButtonsRendered = YES;
-    _kindPaymentController.cKitDelegate = self;
+    CardKViewController *cardKViewController = [[CardKViewController alloc] init];
+      
+    cardKViewController.cKitDelegate = self;
+      
+    UIViewController *kindPaymentController = [CardKViewController create:self controller:cardKViewController];
     
-    self.navigationItem.rightBarButtonItem = _kindPaymentController.navigationItem.rightBarButtonItem;
+    self.navigationItem.rightBarButtonItem = kindPaymentController.navigationItem.rightBarButtonItem;
     
-    [self addChildViewController:_kindPaymentController];
-    _kindPaymentController.view.frame = self.view.frame;
-    [self.view addSubview:_kindPaymentController.view];
+    [self addChildViewController:kindPaymentController];
+    kindPaymentController.view.frame = self.view.frame;
+    [self.view addSubview:kindPaymentController.view];
     
     [self->_spinner stopAnimating];
   }
@@ -246,10 +246,10 @@
     [dataTask resume];
   }
 
-  - (void) _processBindingFormRequest:(ConfirmChoosedCard *) choosedCard callback: (void (^)(NSDictionary *)) handler {
+  - (void) _processBindingFormRequest {
     NSString *mdOrder = [NSString stringWithFormat:@"%@%@", @"orderId=", CardKConfig.shared.mdOrder];
-    NSString *bindingId = [NSString stringWithFormat:@"%@%@", @"bindingId=", choosedCard.cardKBinding.bindingId];
-    NSString *cvc = [NSString stringWithFormat:@"%@%@", @"cvc=", choosedCard.cardKBinding.secureCode];
+    NSString *bindingId = [NSString stringWithFormat:@"%@%@", @"bindingId=", _cardKBinding.bindingId];
+    NSString *cvc = [NSString stringWithFormat:@"%@%@", @"cvc=", _cardKBinding.secureCode];
     NSString *language = [NSString stringWithFormat:@"%@%@", @"language=", CardKConfig.shared.language];
     NSString *threeDSSDK = [NSString stringWithFormat:@"%@%@", @"threeDSSDK=", @"true"];
     
@@ -314,7 +314,7 @@
         RequestParams.shared.threeDSSDKAppId = reqParams[@"threeDSSDKAppId"];
         RequestParams.shared.threeDSSDKTransId = reqParams[@"threeDSSDKTransId"];
 
-        [self _processBindingFormRequestStep2:(ConfirmChoosedCard *) choosedCard  callback: (void (^)(NSDictionary *)) handler];
+        [self _processBindingFormRequestStep2];
       }
     });
       
@@ -322,10 +322,10 @@
     [dataTask resume];
   }
 
-  - (void) _processBindingFormRequestStep2:(ConfirmChoosedCard *) choosedCard callback: (void (^)(NSDictionary *)) handler {
+  - (void) _processBindingFormRequestStep2 {
     NSString *mdOrder = [NSString stringWithFormat:@"%@%@", @"orderId=", CardKConfig.shared.mdOrder];
-    NSString *bindingId = [NSString stringWithFormat:@"%@%@", @"bindingId=", choosedCard.cardKBinding.bindingId];
-    NSString *cvc = [NSString stringWithFormat:@"%@%@", @"cvc=", choosedCard.cardKBinding.secureCode];
+    NSString *bindingId = [NSString stringWithFormat:@"%@%@", @"bindingId=", _cardKBinding.bindingId];
+    NSString *cvc = [NSString stringWithFormat:@"%@%@", @"cvc=", _cardKBinding.secureCode];
     NSString *language = [NSString stringWithFormat:@"%@%@", @"language=", CardKConfig.shared.language];
     
     NSString *threeDSSDK = [NSString stringWithFormat:@"%@%@", @"threeDSSDK=", @"true"];
@@ -671,21 +671,17 @@
     [self _applePay: base64Encoded];
   }
 
-  - (void)cardKitViewController:(nonnull UIViewController *)controller didCreateSeToken:(nonnull NSString *)seToken allowSaveBinding:(BOOL)allowSaveBinding isNewCard:(BOOL)isNewCard {
-    _seToken = seToken;
-    if (isNewCard) {
-      CardKViewController *cardKViewController = (CardKViewController *) controller;
-      [self _processFormRequest: [cardKViewController getCardKView]
-                 cardOwner:[cardKViewController getCardOwner]
+  - (void)cardKitViewController:(nonnull CardKViewController *)controller didCreateSeToken:(nonnull NSString *)seToken allowSaveBinding:(BOOL)allowSaveBinding isNewCard:(BOOL)isNewCard {
+    [self _processFormRequest: [controller getCardKView]
+                 cardOwner:[controller getCardOwner]
                   seToken:seToken
        allowSaveBinding: allowSaveBinding
                   callback:^(NSDictionary * sessionStatus) {}];
-    } else {
-      ConfirmChoosedCard *confirmChoosedCardController = (ConfirmChoosedCard *) controller;
-      _cardKBinding = confirmChoosedCardController.cardKBinding;
-      [self _processBindingFormRequest:confirmChoosedCardController
-                          callback:^(NSDictionary * sessionStatus) {}];
-    }
+  }
+
+  - (void)bindingViewController:(nonnull CardKBindingViewController *)controller didCreateSeToken:(nonnull NSString *)seToken allowSaveBinding:(BOOL)allowSaveBinding isNewCard:(BOOL)isNewCard {
+    _cardKBinding = controller.cardKBinding;
+    [self _processBindingFormRequest];
   }
 
   - (void)didLoadController:(nonnull CardKViewController *)controller {
