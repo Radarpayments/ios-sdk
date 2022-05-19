@@ -594,6 +594,13 @@ class ViewController: UITableViewController {
       return []
     }
   }
+  
+  func _showAlert(_ controller: UIViewController, didCreateSeToken seToken: String, allowSaveBinding: Bool, isNewCard: Bool) {
+    let alert = UIAlertController(title: "SeToken", message: "allowSaveCard = \(allowSaveBinding) \n isNewCard = \(isNewCard) \n seToken = \(seToken)", preferredStyle: UIAlertController.Style.alert)
+    alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+
+    controller.present(alert, animated: true)
+  }
 }
 
 extension ViewController: CardKDelegate {
@@ -634,13 +641,16 @@ extension ViewController: CardKDelegate {
     controller.displayCardHolderField = displayCardholderField;
   }
   
-  func cardKitViewController(_ controller: UIViewController, didCreateSeToken seToken: String, allowSaveBinding: Bool, isNewCard: Bool) {
+  func cardKitViewController(_ controller: CardKViewController, didCreateSeToken seToken: String, allowSaveBinding: Bool, isNewCard: Bool) {
     debugPrint(seToken)
-
-    let alert = UIAlertController(title: "SeToken", message: "allowSaveCard = \(allowSaveBinding) \n isNewCard = \(isNewCard) \n seToken = \(seToken)", preferredStyle: UIAlertController.Style.alert)
-    alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
-
-    controller.present(alert, animated: true)
+    
+    self._showAlert(controller, didCreateSeToken: seToken, allowSaveBinding: allowSaveBinding, isNewCard: isNewCard)
+  }
+  
+  func bindingViewController(_ controller: CardKBindingViewController, didCreateSeToken seToken: String, allowSaveBinding: Bool, isNewCard: Bool) {
+    debugPrint(seToken)
+    
+    self._showAlert(controller, didCreateSeToken: seToken, allowSaveBinding: allowSaveBinding, isNewCard: isNewCard)
   }
   
   func cardKitViewControllerScanCardRequest(_ controller: CardKViewController) {
