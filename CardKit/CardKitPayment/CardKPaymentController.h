@@ -10,7 +10,6 @@
 #import <CardKit/CardKViewController.h>
 
 #import "CardKPaymentError.h"
-#import "RequestParams.h"
 
 @protocol CardKPaymentDelegate <NSObject>
 - (void)didFinishPaymentFlow:(NSDictionary *) paymentInfo;
@@ -19,7 +18,7 @@
 - (void)scanCardRequest:(CardKViewController *)controller;
 @end
 
-@interface CardKPaymentController: UIViewController<CardKDelegate>
+@interface CardKPaymentController: UIViewController
   @property (weak, nonatomic) id<CardKPaymentDelegate> cardKPaymentDelegate;
 
   @property CardKPaymentView* cardKPaymentView;

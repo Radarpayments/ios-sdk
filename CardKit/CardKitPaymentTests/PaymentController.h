@@ -11,7 +11,7 @@
 
 #import "CardKitPayment.h"
 #import "CardKPaymentSessionStatus.h"
-#import "ConfirmChoosedCard.h"
+#import "CardKBindingViewController.h"
 
 @protocol PaymentControllerDelegate
 

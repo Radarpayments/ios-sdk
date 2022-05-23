@@ -12,20 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface RequestParams: NSObject
 
-@property NSString *userName;
-@property NSString *password;
-@property NSString *amount;
-@property NSString *returnUrl;
-@property NSString *failUrl;
-@property NSString *email;
-
-@property NSString *orderId;
-@property NSString *seToken;
-@property NSString *text;
-@property NSString *threeDSSDK;
 @property NSString *threeDSServerTransId;
 @property NSString *threeDSSDKKey;
-@property NSString *cliendId;
 
 @property NSString *threeDSSDKEncData;
 @property NSString *threeDSSDKEphemPubKey;

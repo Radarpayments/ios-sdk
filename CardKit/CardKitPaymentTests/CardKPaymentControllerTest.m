@@ -8,7 +8,7 @@
 
 #import <XCTest/XCTest.h>
 #import "PaymentController.h"
-#import <CardKit/CardKConfig.h>
+#import "CardKConfig.h"
 
 @interface CardKPaymentControllerTest: XCTestCase<PaymentControllerDelegate>
 

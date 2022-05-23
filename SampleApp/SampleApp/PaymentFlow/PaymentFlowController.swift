@@ -4,7 +4,7 @@
 //
 //  Created by Alex Korotkov on 3/30/21.
 //  Copyright © 2021 AnjLab. All rights reserved.
-//
+
 
 import Foundation
 import CardKitPayment
@@ -23,7 +23,7 @@ class PaymentFlowController: UIViewController {
       set(newAmount) {
         PaymentFlowController.requestParams.amount = newAmount
       }
-  } 
+  }
   
   var _button: UIButton = UIButton();
 

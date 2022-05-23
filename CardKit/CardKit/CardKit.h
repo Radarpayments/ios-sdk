@@ -23,3 +23,4 @@ FOUNDATION_EXPORT const unsigned char CardKitVersionString[];
 #import <CardKit/CardKTheme.h>
 #import <CardKit/CardKConfig.h>
 #import <CardKit/CardKBinding.h>
+#import <CardKit/CardKCardView.h>

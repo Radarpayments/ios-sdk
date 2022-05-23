@@ -7,16 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <CardKit/CardKKindPaymentViewController.h>
-#import <CardKit/CardKConfig.h>
-
-#import "PaymentController.h"
-#import "CardKPaymentSessionStatus.h"
-#import "SeTokenGenerator.h"
-#import "CardKPaymentSessionStatus.h"
+#import "CardKKindPaymentViewController.h"
+#import "CardKConfig.h"
+#import "CardKBindingViewController.h"
 #import "CardKCardView.h"
-#import "ConfirmChoosedCard.h"
 #import "CardKSwitchView.h"
+#import "PaymentController.h"
+
+#import "CardKPaymentSessionStatus.h"
 #import "CardKPaymentError.h"
 
 @interface CardKKindPaymentViewControllerTest: CardKKindPaymentViewController
@@ -46,8 +44,8 @@
 
   - (NSArray<CardKBinding *> *) _convertBindingItemsToCardKBinding:(NSArray<NSDictionary *> *) bindingItems;
 
-  - (void) _processBindingFormRequest:(ConfirmChoosedCard *) choosedCard callback: (void (^)(NSDictionary *)) handler;
-  - (void) _processBindingFormRequestStep2:(ConfirmChoosedCard *) choosedCard callback: (void (^)(NSDictionary *)) handler;
+  - (void) _processBindingFormRequest:(CardKBindingViewController *) choosedCard callback: (void (^)(NSDictionary *)) handler;
+  - (void) _processBindingFormRequestStep2:(CardKBindingViewController *) choosedCard callback: (void (^)(NSDictionary *)) handler;
 @end
 
 @implementation PaymentController: CardKPaymentController
@@ -259,7 +257,7 @@
     }
   }
 
-  - (void) _processBindingFormRequest:(ConfirmChoosedCard *) choosedCard callback: (void (^)(NSDictionary *)) handler {
+  - (void) _processBindingFormRequest:(CardKBindingViewController *) choosedCard callback: (void (^)(NSDictionary *)) handler {
     [super _processBindingFormRequest:choosedCard callback:handler];
     
     if (self.processBindingFormRequestExpectation != nil) {
@@ -267,7 +265,7 @@
     }
   }
 
-  - (void) _processBindingFormRequestStep2:(ConfirmChoosedCard *) choosedCard callback: (void (^)(NSDictionary *)) handler {
+  - (void) _processBindingFormRequestStep2:(CardKBindingViewController *) choosedCard callback: (void (^)(NSDictionary *)) handler {
     [super _processBindingFormRequestStep2:choosedCard callback:handler];
     
     if (self.processBindingFormRequestStep2Expectation != nil) {

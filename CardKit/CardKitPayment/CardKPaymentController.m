@@ -7,12 +7,16 @@
 //
 #import <PassKit/PassKit.h>
 #import <ThreeDSSDK/ThreeDSSDK.h>
+#import <UIKit/UIKit.h>
+
+#import <CardKit/CardKViewController.h>
 #import <CardKit/CardKConfig.h>
 #import <CardKit/CardKPaymentView.h>
 #import <CardKit/CardKBindingViewController.h>
 
 #import "CardKPaymentController.h"
 #import "CardKPaymentSessionStatus.h"
+#import "RequestParams.h"
 
 #import <CardKitPayment/CardKitPayment-Swift.h>
 #import "ARes.h"
