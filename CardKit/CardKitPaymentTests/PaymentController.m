@@ -44,8 +44,8 @@
 
   - (NSArray<CardKBinding *> *) _convertBindingItemsToCardKBinding:(NSArray<NSDictionary *> *) bindingItems;
 
-  - (void) _processBindingFormRequest:(CardKBindingViewController *) choosedCard callback: (void (^)(NSDictionary *)) handler;
-  - (void) _processBindingFormRequestStep2:(CardKBindingViewController *) choosedCard callback: (void (^)(NSDictionary *)) handler;
+  - (void) _processBindingFormRequest;
+  - (void) _processBindingFormRequestStep2;
 @end
 
 @implementation PaymentController: CardKPaymentController
@@ -257,16 +257,16 @@
     }
   }
 
-  - (void) _processBindingFormRequest:(CardKBindingViewController *) choosedCard callback: (void (^)(NSDictionary *)) handler {
-    [super _processBindingFormRequest:choosedCard callback:handler];
+  - (void) _processBindingFormRequest {
+    [super _processBindingFormRequest];
     
     if (self.processBindingFormRequestExpectation != nil) {
       [self.processBindingFormRequestExpectation fulfill];
     }
   }
 
-  - (void) _processBindingFormRequestStep2:(CardKBindingViewController *) choosedCard callback: (void (^)(NSDictionary *)) handler {
-    [super _processBindingFormRequestStep2:choosedCard callback:handler];
+  - (void) _processBindingFormRequestStep2 {
+    [super _processBindingFormRequestStep2];
     
     if (self.processBindingFormRequestStep2Expectation != nil) {
       [self.processBindingFormRequestStep2Expectation fulfill];
