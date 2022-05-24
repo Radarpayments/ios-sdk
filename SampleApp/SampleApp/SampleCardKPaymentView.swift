@@ -9,6 +9,7 @@
 import UIKit
 import CardKit
 
+
 class SampleCardKPaymentView: UIViewController {
   var buttons: [CardKPaymentView] = [];
   
@@ -98,7 +99,10 @@ extension SampleCardKPaymentView: CardKDelegate {
     controller.isSaveBinding = false;
   }
   
-  func cardKitViewController(_ controller: UIViewController, didCreateSeToken seToken: String, allowSaveBinding: Bool, isNewCard: Bool) {
+  func cardKitViewController(_ controller: CardKViewController, didCreateSeToken seToken: String, allowSaveBinding: Bool, isNewCard: Bool) {
+  }
+  
+  func bindingViewController(_ controller: CardKBindingViewController, didCreateSeToken seToken: String, allowSaveBinding: Bool, isNewCard: Bool) {
   }
   
   func cardKitViewControllerScanCardRequest(_ controller: CardKViewController) {

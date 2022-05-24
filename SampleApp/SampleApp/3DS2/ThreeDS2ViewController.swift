@@ -330,7 +330,19 @@ extension ThreeDS2ViewController: CardKDelegate {
   
   }
   
-  func cardKitViewController(_ controller: UIViewController, didCreateSeToken seToken: String, allowSaveBinding: Bool, isNewCard: Bool) {
+  func cardKitViewController(_ controller: CardKViewController, didCreateSeToken seToken: String, allowSaveBinding: Bool, isNewCard: Bool) {
+    debugPrint(seToken)
+
+    let alert = UIAlertController(title: "SeToken", message: "allowSaveCard = \(allowSaveBinding) \n isNewCard = \(isNewCard) \n seToken = \(seToken)", preferredStyle: UIAlertController.Style.alert)
+    alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+
+    _requestParams.seToken = seToken
+    
+    self.dismiss(animated: true, completion: nil)
+    _sePayment()
+  }
+  
+  func bindingViewController(_ controller: CardKBindingViewController, didCreateSeToken seToken: String, allowSaveBinding: Bool, isNewCard: Bool) {
     debugPrint(seToken)
 
     let alert = UIAlertController(title: "SeToken", message: "allowSaveCard = \(allowSaveBinding) \n isNewCard = \(isNewCard) \n seToken = \(seToken)", preferredStyle: UIAlertController.Style.alert)

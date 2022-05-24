@@ -4,10 +4,10 @@
 //
 //  Created by Alex Korotkov on 3/30/21.
 //  Copyright © 2021 AnjLab. All rights reserved.
-//
+
 
 import Foundation
-import CardKit
+import CardKitPayment
 
 class PaymentFlowController: UIViewController {
   var sampleAppCardIO: SampleAppCardIO? = nil
@@ -15,7 +15,7 @@ class PaymentFlowController: UIViewController {
   let url = "https://ecommerce.radarpayments.com/payment";
   
   static var requestParams: RequestParams = RequestParams();
-  var _paymentFlowController: CardKPaymentFlowController!;
+  var _paymentFlowController: CardKPaymentController!;
   var amount: String {
       get {
         return PaymentFlowController.requestParams.amount ?? ""
@@ -23,15 +23,15 @@ class PaymentFlowController: UIViewController {
       set(newAmount) {
         PaymentFlowController.requestParams.amount = newAmount
       }
-  } 
+  }
   
   var _button: UIButton = UIButton();
 
   init() {
     super.init(nibName: nil, bundle: nil)
 
-    _paymentFlowController = CardKPaymentFlowController();
-    _paymentFlowController.cardKPaymentFlowDelegate = self;
+    _paymentFlowController = CardKPaymentController();
+    _paymentFlowController.cardKPaymentDelegate = self;
 
     navController = UINavigationController(rootViewController: _paymentFlowController)
     self.view.addSubview(_button)
@@ -99,8 +99,8 @@ class PaymentFlowController: UIViewController {
   }
 
   func _registerOrder() {
-    _paymentFlowController = CardKPaymentFlowController();
-    _paymentFlowController.cardKPaymentFlowDelegate = self;
+    _paymentFlowController = CardKPaymentController();
+    _paymentFlowController.cardKPaymentDelegate = self;
     
     API.registerNewOrder(params: PaymentFlowController.requestParams) {(data, response) in
       PaymentFlowController.requestParams.orderId = data.orderId
@@ -153,7 +153,7 @@ class PaymentFlowController: UIViewController {
   }
 }
 
-extension PaymentFlowController: CardKPaymentFlowDelegate {
+extension PaymentFlowController: CardKPaymentDelegate {
   func didFinishPaymentFlow(_ paymentInfo: [AnyHashable : Any]!) {
     print("didFinishPaymentFlow")
     var message = ""

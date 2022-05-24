@@ -29,7 +29,7 @@
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
          <TestableReference
-            skipped = "NO">
+            skipped = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "922A8FEE2625985D00B6FC4F"
@@ -39,12 +39,32 @@
             </BuildableReference>
          </TestableReference>
          <TestableReference
-            skipped = "NO">
+            skipped = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "922A902126259AC400B6FC4F"
                BuildableName = "CardKitUITests.xctest"
                BlueprintName = "CardKitUITests"
+               ReferencedContainer = "container:CardKit.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "92992A85283289CE0031AFFF"
+               BuildableName = "CardKitPaymentTests.xctest"
+               BlueprintName = "CardKitPaymentTests"
+               ReferencedContainer = "container:CardKit.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "92C9AEAD283523AA0000D878"
+               BuildableName = "CardKitPayment2Tests.xctest"
+               BlueprintName = "CardKitPayment2Tests"
                ReferencedContainer = "container:CardKit.xcodeproj">
             </BuildableReference>
          </TestableReference>
