@@ -15,9 +15,11 @@ Pod::Spec.new do |spec|
   spec.author       = { "RBS" => "rbssupport2@bpcbt.com" }
   spec.source       = { :git => "https://github.com/Radarpayments/ios-sdk.git" }
 
+  spec.source_files = 'CardKit/CardKitPayment/*.{h,m,swift}'
   spec.exclude_files = "CardKit/Carthage/*.{h,m}", "CardKit/Carthage/**/**/*.lproj/*.strings"
   
-  spec.source_files = 'CardKit/CardKitPayment/*.{h,m,swift}'
+  spec.dependency 'CardKit'
+  spec.dependency 'ThreeDSSDK'
 
   spec.ios.deployment_target  = '10.0'
 end
