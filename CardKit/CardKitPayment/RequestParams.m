@@ -8,16 +8,6 @@
 
 #import "RequestParams.h"
 
-static RequestParams *__instanceRequestParams = nil;
-
-@implementation RequestParams: NSObject
-
-+ (RequestParams *)shared {
-  if (__instanceRequestParams == nil) {
-      __instanceRequestParams = [[RequestParams alloc] init];
-  }
-
-  return __instanceRequestParams;
-}
+@implementation RequestParams
 
 @end

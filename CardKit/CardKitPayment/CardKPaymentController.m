@@ -34,6 +34,7 @@
   CardKPaymentError *_cardKPaymentError;
   TransactionManager *_transactionManager;
   NSBundle *_languageBundle;
+  RequestParams *_requestParams;
 }
 - (instancetype)init
   {
@@ -64,6 +65,7 @@
       _transactionManager.rootCertificate = CardKConfig.shared.rootCertificate;
 
       _transactionManager.delegate = self;
+      _requestParams = [[RequestParams alloc] init];
     }
     return self;
   }
@@ -303,20 +305,20 @@
         self->_cardKPaymentError.message = message;
         [self _sendErrorWithCardPaymentError: self->_cardKPaymentError];
       } else if (is3DSVer2){
-        RequestParams.shared.threeDSServerTransId = [responseDictionary objectForKey:@"threeDSServerTransId"];
-        RequestParams.shared.threeDSSDKKey = [responseDictionary objectForKey:@"threeDSSDKKey"];
+        self->_requestParams.threeDSServerTransId = [responseDictionary objectForKey:@"threeDSServerTransId"];
+        self->_requestParams.threeDSSDKKey = [responseDictionary objectForKey:@"threeDSSDKKey"];
 
-        self->_transactionManager.pubKey = RequestParams.shared.threeDSSDKKey;
+        self->_transactionManager.pubKey = self->_requestParams.threeDSSDKKey;
         self->_transactionManager.headerLabel = self.headerLabel;
         [self->_transactionManager setUpUICustomizationWithPrimaryColor:self.primaryColor textDoneButtonColor:self.textDoneButtonColor error:nil];
         [self->_transactionManager initializeSdk];
         [self->_transactionManager showProgressDialog];
         NSDictionary *reqParams = [self->_transactionManager getAuthRequestParameters];
         
-        RequestParams.shared.threeDSSDKEncData = reqParams[@"threeDSSDKEncData"];
-        RequestParams.shared.threeDSSDKEphemPubKey = reqParams[@"threeDSSDKEphemPubKey"];
-        RequestParams.shared.threeDSSDKAppId = reqParams[@"threeDSSDKAppId"];
-        RequestParams.shared.threeDSSDKTransId = reqParams[@"threeDSSDKTransId"];
+        self->_requestParams.threeDSSDKEncData = reqParams[@"threeDSSDKEncData"];
+        self->_requestParams.threeDSSDKEphemPubKey = reqParams[@"threeDSSDKEphemPubKey"];
+        self->_requestParams.threeDSSDKAppId = reqParams[@"threeDSSDKAppId"];
+        self->_requestParams.threeDSSDKTransId = reqParams[@"threeDSSDKTransId"];
 
         [self _processBindingFormRequestStep2];
       }
@@ -333,11 +335,11 @@
     NSString *language = [NSString stringWithFormat:@"%@%@", @"language=", CardKConfig.shared.language];
     
     NSString *threeDSSDK = [NSString stringWithFormat:@"%@%@", @"threeDSSDK=", @"true"];
-    NSString *threeDSSDKEncData = [NSString stringWithFormat:@"%@%@", @"threeDSSDKEncData=", RequestParams.shared.threeDSSDKEncData];
-    NSString *threeDSSDKEphemPubKey = [NSString stringWithFormat:@"%@%@", @"threeDSSDKEphemPubKey=", RequestParams.shared.threeDSSDKEphemPubKey];
-    NSString *threeDSSDKAppId = [NSString stringWithFormat:@"%@%@", @"threeDSSDKAppId=", RequestParams.shared.threeDSSDKAppId];
-    NSString *threeDSSDKTransId = [NSString stringWithFormat:@"%@%@", @"threeDSSDKTransId=", RequestParams.shared.threeDSSDKTransId];
-    NSString *threeDSServerTransId = [NSString stringWithFormat:@"%@%@", @"threeDSServerTransId=", RequestParams.shared.threeDSServerTransId];
+    NSString *threeDSSDKEncData = [NSString stringWithFormat:@"%@%@", @"threeDSSDKEncData=", _requestParams.threeDSSDKEncData];
+    NSString *threeDSSDKEphemPubKey = [NSString stringWithFormat:@"%@%@", @"threeDSSDKEphemPubKey=", _requestParams.threeDSSDKEphemPubKey];
+    NSString *threeDSSDKAppId = [NSString stringWithFormat:@"%@%@", @"threeDSSDKAppId=", _requestParams.threeDSSDKAppId];
+    NSString *threeDSSDKTransId = [NSString stringWithFormat:@"%@%@", @"threeDSSDKTransId=", _requestParams.threeDSSDKTransId];
+    NSString *threeDSServerTransId = [NSString stringWithFormat:@"%@%@", @"threeDSServerTransId=", _requestParams.threeDSServerTransId];
     NSString *threeDSSDKReferenceNumber = [NSString stringWithFormat:@"%@%@", @"threeDSSDKReferenceNumber=", @"3DS_LOA_SDK_BPBT_020100_00233"];
     
     NSString *parameters = @"";
@@ -404,10 +406,10 @@
       [self->_transactionManager showProgressDialog];
       NSDictionary *reqParams = [self->_transactionManager getAuthRequestParameters];
       
-      RequestParams.shared.threeDSSDKEncData = reqParams[@"threeDSSDKEncData"];
-      RequestParams.shared.threeDSSDKEphemPubKey = reqParams[@"threeDSSDKEphemPubKey"];
-      RequestParams.shared.threeDSSDKAppId = reqParams[@"threeDSSDKAppId"];
-      RequestParams.shared.threeDSSDKTransId = reqParams[@"threeDSSDKTransId"];
+      self->_requestParams.threeDSSDKEncData = reqParams[@"threeDSSDKEncData"];
+      self->_requestParams.threeDSSDKEphemPubKey = reqParams[@"threeDSSDKEphemPubKey"];
+      self->_requestParams.threeDSSDKAppId = reqParams[@"threeDSSDKAppId"];
+      self->_requestParams.threeDSSDKTransId = reqParams[@"threeDSSDKTransId"];
 
       [self _processFormRequestStep2:(CardKCardView *) cardView cardOwner:(NSString *) cardOwner seToken:(NSString *) seToken allowSaveBinding:(BOOL) allowSaveBinding callback: (void (^)(NSDictionary *)) handler];
     });
@@ -456,10 +458,10 @@
         self->_cardKPaymentError.message = errorMessage;
         [self _sendErrorWithCardPaymentError: self->_cardKPaymentError];
       } else if (is3DSVer2){
-        RequestParams.shared.threeDSServerTransId = [responseDictionary objectForKey:@"threeDSServerTransId"];
-        RequestParams.shared.threeDSSDKKey = [responseDictionary objectForKey:@"threeDSSDKKey"];
+        self->_requestParams.threeDSServerTransId = [responseDictionary objectForKey:@"threeDSServerTransId"];
+        self->_requestParams.threeDSSDKKey = [responseDictionary objectForKey:@"threeDSSDKKey"];
 
-        self->_transactionManager.pubKey = RequestParams.shared.threeDSSDKKey;
+        self->_transactionManager.pubKey = self->_requestParams.threeDSSDKKey;
        
         [self _initSDK:(CardKCardView *) cardView cardOwner:(NSString *) cardOwner seToken:(NSString *) seToken allowSaveBinding:(BOOL) allowSaveBinding callback: (void (^)(NSDictionary *)) handler];
       }
@@ -474,7 +476,7 @@
     aRes.acsTransID = [responseDictionary objectForKey:@"threeDSAcsTransactionId"];
     aRes.acsReferenceNumber = [responseDictionary objectForKey:@"threeDSAcsRefNumber"];
     aRes.acsSignedContent = [responseDictionary objectForKey:@"threeDSAcsSignedContent"];
-    aRes.threeDSServerTransID = RequestParams.shared.threeDSServerTransId;
+    aRes.threeDSServerTransID = _requestParams.threeDSServerTransId;
 
     [self->_transactionManager handleResponseWithARes:aRes];
   }
@@ -487,11 +489,11 @@
       NSString *bindingNotNeeded = [NSString stringWithFormat:@"%@%@", @"bindingNotNeeded=", allowSaveBinding ? @"false" : @"true"];
       NSString *seTokenParam = [NSString stringWithFormat:@"%@%@", @"seToken=", [seToken stringByReplacingOccurrencesOfString:@"+" withString:@"%2B"]];
     
-      NSString *threeDSSDKEncData = [NSString stringWithFormat:@"%@%@", @"threeDSSDKEncData=", RequestParams.shared.threeDSSDKEncData];
-      NSString *threeDSSDKEphemPubKey = [NSString stringWithFormat:@"%@%@", @"threeDSSDKEphemPubKey=", RequestParams.shared.threeDSSDKEphemPubKey];
-      NSString *threeDSSDKAppId = [NSString stringWithFormat:@"%@%@", @"threeDSSDKAppId=", RequestParams.shared.threeDSSDKAppId];
-      NSString *threeDSSDKTransId = [NSString stringWithFormat:@"%@%@", @"threeDSSDKTransId=", RequestParams.shared.threeDSSDKTransId];
-      NSString *threeDSServerTransId = [NSString stringWithFormat:@"%@%@", @"threeDSServerTransId=", RequestParams.shared.threeDSServerTransId];
+      NSString *threeDSSDKEncData = [NSString stringWithFormat:@"%@%@", @"threeDSSDKEncData=", _requestParams.threeDSSDKEncData];
+      NSString *threeDSSDKEphemPubKey = [NSString stringWithFormat:@"%@%@", @"threeDSSDKEphemPubKey=", _requestParams.threeDSSDKEphemPubKey];
+      NSString *threeDSSDKAppId = [NSString stringWithFormat:@"%@%@", @"threeDSSDKAppId=", _requestParams.threeDSSDKAppId];
+      NSString *threeDSSDKTransId = [NSString stringWithFormat:@"%@%@", @"threeDSSDKTransId=", _requestParams.threeDSSDKTransId];
+      NSString *threeDSServerTransId = [NSString stringWithFormat:@"%@%@", @"threeDSServerTransId=", _requestParams.threeDSServerTransId];
       NSString *threeDSSDKReferenceNumber = [NSString stringWithFormat:@"%@%@", @"threeDSSDKReferenceNumber=", @"3DS_LOA_SDK_BPBT_020100_00233"];
     
       NSString *parameters = [self _joinParametersInString:@[mdOrder, threeDSSDK, language, owner, bindingNotNeeded, threeDSSDKEncData, threeDSSDKEphemPubKey, threeDSSDKAppId, threeDSSDKTransId, threeDSServerTransId, seTokenParam, threeDSSDKReferenceNumber]];
@@ -726,7 +728,7 @@
   }
 
   - (void)didCompleteWithTransactionStatus:(NSString *) transactionStatus {
-    NSString *threeDSServerTransId = [NSString stringWithFormat:@"%@%@", @"threeDSServerTransId=", RequestParams.shared.threeDSServerTransId];
+    NSString *threeDSServerTransId = [NSString stringWithFormat:@"%@%@", @"threeDSServerTransId=", _requestParams.threeDSServerTransId];
 
     NSString *URL = [NSString stringWithFormat:@"%@%@", _url, @"/rest/finish3dsVer2PaymentAnonymous.do"];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:URL]];
