@@ -28,7 +28,7 @@
 		92A7AB072701F97000FC5BC3 /* TextField3DS2Example.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92A7AB062701F97000FC5BC3 /* TextField3DS2Example.swift */; };
 		92E0D90E24AF4EB000F7846E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 92E0D91024AF4EB000F7846E /* Localizable.strings */; };
 		92E1E676283CD6E2002D63C0 /* CardKitCore.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 92E1E675283CD6E2002D63C0 /* CardKitCore.podspec */; };
-		92E1E678283CD755002D63C0 /* CardKitPayment.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 92E1E677283CD755002D63C0 /* CardKitPayment.podspec */; };
+		92E1E67A283CD986002D63C0 /* CardKitPayment.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 92E1E679283CD986002D63C0 /* CardKitPayment.podspec */; };
 		92EC5A19283BCF23005D5FE0 /* CardKitPayment.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92EC5A18283BCF23005D5FE0 /* CardKitPayment.framework */; };
 		92EC5A1A283BCF23005D5FE0 /* CardKitPayment.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 92EC5A18283BCF23005D5FE0 /* CardKitPayment.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D245AB97231C444600369747 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D245AB96231C444600369747 /* AppDelegate.swift */; };
@@ -90,7 +90,7 @@
 		92E0D90F24AF4EB000F7846E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		92E0D91124AF4EC300F7846E /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		92E1E675283CD6E2002D63C0 /* CardKitCore.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CardKitCore.podspec; path = ../CardKitCore.podspec; sourceTree = "<group>"; };
-		92E1E677283CD755002D63C0 /* CardKitPayment.podspec */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = text; path = CardKitPayment.podspec; sourceTree = "<group>"; tabWidth = 2; };
+		92E1E679283CD986002D63C0 /* CardKitPayment.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CardKitPayment.podspec; path = ../CardKitPayment.podspec; sourceTree = "<group>"; };
 		92EC5A18283BCF23005D5FE0 /* CardKitPayment.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CardKitPayment.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1BA8318CD1CEC01F6D40507 /* Pods-SampleAppUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SampleAppUITests.release.xcconfig"; path = "Target Support Files/Pods-SampleAppUITests/Pods-SampleAppUITests.release.xcconfig"; sourceTree = "<group>"; };
 		B616F87CB22C36459150EF5F /* Pods_SampleApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SampleApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -195,7 +195,7 @@
 				9239897125AC517000DB1682 /* Frameworks */,
 				9262A63C24C5CAE600042DDC /* CardKit.podspec */,
 				92E1E675283CD6E2002D63C0 /* CardKitCore.podspec */,
-				92E1E677283CD755002D63C0 /* CardKitPayment.podspec */,
+				92E1E679283CD986002D63C0 /* CardKitPayment.podspec */,
 				9234CC55247D2157009E3034 /* bindings.json */,
 				D245AB95231C444600369747 /* SampleApp */,
 				D245AB94231C444600369747 /* Products */,
@@ -327,7 +327,7 @@
 				D245ABA1231C444700369747 /* LaunchScreen.storyboard in Resources */,
 				92E0D90E24AF4EB000F7846E /* Localizable.strings in Resources */,
 				92E1E676283CD6E2002D63C0 /* CardKitCore.podspec in Resources */,
-				92E1E678283CD755002D63C0 /* CardKitPayment.podspec in Resources */,
+				92E1E67A283CD986002D63C0 /* CardKitPayment.podspec in Resources */,
 				9262A63D24C5CAE600042DDC /* CardKit.podspec in Resources */,
 				D245AB9E231C444700369747 /* Assets.xcassets in Resources */,
 				9234CC56247D2157009E3034 /* bindings.json in Resources */,
