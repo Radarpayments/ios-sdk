@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property NSString * cvc;
 @property NSString * expiryMMYY;
 @property (nullable) NSString * cardholder;
-@property NSString * mdOrder;
+@property (nullable) NSString * mdOrder;
 @property NSString * pubKey;
 @property (nullable) NSString * seTokenTimestamp;
 @end
