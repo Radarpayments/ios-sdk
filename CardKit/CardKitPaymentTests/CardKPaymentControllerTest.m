@@ -478,8 +478,7 @@ typedef NS_ENUM(NSUInteger, ActionTypeInForm) {
         NSError *parseError = nil;
         NSDictionary *responseDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&parseError];
         
-        CardKConfig.shared.mdOrder = responseDictionary[@"orderId"];
-        
+        payment.mdOrder = responseDictionary[@"orderId"];
         handler();
       }
   }];
