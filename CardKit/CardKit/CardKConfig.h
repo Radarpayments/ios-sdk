@@ -33,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property NSString *rootCertificate;
 
 /*! Identifier of order */
-@property NSString *mdOrder;
+@property (nullable) NSString *mdOrder;
 
 /*! Binding list */
 @property NSArray<CardKBinding *> *bindings;
