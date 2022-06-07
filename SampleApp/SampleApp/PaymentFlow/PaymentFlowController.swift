@@ -104,7 +104,7 @@ class PaymentFlowController: UIViewController {
     
     API.registerNewOrder(params: PaymentFlowController.requestParams) {(data, response) in
       PaymentFlowController.requestParams.orderId = data.orderId
-      CardKConfig.shared.mdOrder = data.orderId ?? ""
+      self._paymentFlowController.mdOrder = data.orderId ?? ""
       
       let amountDecimal = NSDecimalNumber (string: PaymentFlowController.requestParams.amount)
       

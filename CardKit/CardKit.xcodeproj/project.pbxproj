@@ -184,7 +184,7 @@
 		921CCC8528328F120070BB72 /* ARes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARes.h; sourceTree = "<group>"; };
 		921CCC8628328F120070BB72 /* CardKPaymentSessionStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardKPaymentSessionStatus.h; sourceTree = "<group>"; };
 		921CCC8828328F120070BB72 /* CardKPaymentController.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = CardKPaymentController.m; sourceTree = "<group>"; tabWidth = 2; };
-		921CCC8928328F130070BB72 /* CardKPaymentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardKPaymentController.h; sourceTree = "<group>"; };
+		921CCC8928328F130070BB72 /* CardKPaymentController.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.c.h; path = CardKPaymentController.h; sourceTree = "<group>"; tabWidth = 2; };
 		921CCC8B28328F130070BB72 /* RequestParams.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RequestParams.h; sourceTree = "<group>"; };
 		921CCC8C28328F130070BB72 /* CardKitPayment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardKitPayment.h; sourceTree = "<group>"; };
 		922A912D2625D5A000B6FC4F /* TestApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TestApp.entitlements; sourceTree = "<group>"; };
@@ -699,7 +699,6 @@
 					920480E7261B034F00026C1F = {
 						CreatedOnToolsVersion = 12.4;
 						LastSwiftMigration = 1240;
-						TestTargetID = 9292CF46255E9B2F00053EC3;
 					};
 					922A91D326270F2300B6FC4F = {
 						CreatedOnToolsVersion = 12.4;
@@ -1006,7 +1005,6 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TestApp.app/TestApp";
 			};
 			name = Debug;
 		};
@@ -1030,7 +1028,6 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "CardKit/PaymentFlow/CardKitTests-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TestApp.app/TestApp";
 			};
 			name = Release;
 		};
