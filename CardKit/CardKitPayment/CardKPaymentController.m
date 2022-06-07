@@ -35,6 +35,7 @@
   TransactionManager *_transactionManager;
   NSBundle *_languageBundle;
   RequestParams *_requestParams;
+  NSString *_mdOrder;
 }
 - (instancetype)init
   {
@@ -774,6 +775,15 @@
 
   - (void)cardKitViewControllerScanCardRequest:(CardKViewController *)controller {
       [self.cardKPaymentDelegate scanCardRequest:controller];
+  }
+
+  - (void)setMdOrder:(NSString *)mdOrder {
+    _mdOrder = mdOrder;
+    CardKConfig.shared.mdOrder = mdOrder;
+  }
+
+  - (NSString *)mdOrder {
+    return _mdOrder;
   }
 
 @end

@@ -28,4 +28,5 @@
   @property BOOL allowedCardScaner;
   @property NSString *headerLabel;
   @property NSString *directoryServerId;
+  @property NSString *mdOrder;
 @end
