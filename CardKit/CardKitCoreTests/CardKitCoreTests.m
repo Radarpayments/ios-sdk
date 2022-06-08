@@ -237,7 +237,7 @@
 
 - (void)testReturnPubKeyFromJSONString {
     NSString *pubKey = @"-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqcKSYD09AJLoqPaQGQ8Xt4KuT5kN5Utj2CM08gSZH1yzoTYejEkpi5ZlmQYNgpgXyBeF/qqhuTcvc1pcL/aBfpJgRrRTbLhMzvtIViv6OqmFaPQcBBcGBG2y8UzCuBgY9bqth4yw2b6jEmVN+wT7oRKcGcOU8SGt5yxi2VHJdb0hSnir+OPu9pA+fcQ4LqjZVhCQyPNk6NOp3hgrXou0KTVbpLg9UJexCvnj2AODK5NGvzqyBI7r86eHqlIM3SydHUT2DC+07+CXxFsCXR29tkKelUpX/itlkOMRM2jKeqVkbYHdVLcFmUFrxvW+N8ihRMK6AL/mbARHxPDiA8xtlwIDAQAB-----END PUBLIC KEY-----";
-    NSString *jsonString = @"{\"keys\":[{\"keyValue\":\"-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAhjH8R0jfvvEJwAHRhJi2Q4fLi1p2z10PaDMIhHbD3fp4OqypWaE7p6n6EHig9qnwC/4U7hCiOCqY6uYtgEoDHfbNA87/X0jV8UI522WjQH7Rgkmgk35r75G5m4cYeF6OvCHmAJ9ltaFsLBdr+pK6vKz/3AzwAc/5a6QcO/vR3PHnhE/qU2FOU3Vd8OYN2qcw4TFvitXY2H6YdTNF4YmlFtj4CqQoPL1u/uI0UpsG3/epWMOk44FBlXoZ7KNmJU29xbuiNEm1SWRJS2URMcUxAdUfhzQ2+Z4F0eSo2/cxwlkNA+gZcXnLbEWIfYYvASKpdXBIzgncMBro424z/KUr3QIDAQAB-----END PUBLIC KEY-----\",\"protocolVersion\":\"RSA\",\"keyExpiration\":1661599747000}]}";
+    NSString *jsonString = @"{\"keys\":[{\"keyValue\":\"-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqcKSYD09AJLoqPaQGQ8Xt4KuT5kN5Utj2CM08gSZH1yzoTYejEkpi5ZlmQYNgpgXyBeF/qqhuTcvc1pcL/aBfpJgRrRTbLhMzvtIViv6OqmFaPQcBBcGBG2y8UzCuBgY9bqth4yw2b6jEmVN+wT7oRKcGcOU8SGt5yxi2VHJdb0hSnir+OPu9pA+fcQ4LqjZVhCQyPNk6NOp3hgrXou0KTVbpLg9UJexCvnj2AODK5NGvzqyBI7r86eHqlIM3SydHUT2DC+07+CXxFsCXR29tkKelUpX/itlkOMRM2jKeqVkbYHdVLcFmUFrxvW+N8ihRMK6AL/mbARHxPDiA8xtlwIDAQAB-----END PUBLIC KEY-----\",\"protocolVersion\":\"RSA\",\"keyExpiration\":1661599747000}]}";
 
     NSString *result = [CKCPubKey fromJSONString: jsonString];
 
