@@ -11,10 +11,10 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface CKCBindingParams: NSObject
+@property NSString * pubKey;
 @property NSString * bindingID;
 @property (nullable) NSString * cvc;
-@property NSString * mdOrder;
-@property NSString * pubKey;
+@property (nullable) NSString * mdOrder;
 @property (nullable) NSString * seTokenTimestamp;
 @end
 

@@ -70,6 +70,13 @@
     XCTAssertNotNil(res.token, @"pointer:%p", res.token);
 }
 
+- (void)testGenerateTokenWithNilMdOrder {
+    bindingParams.mdOrder=nil;
+    CKCTokenResult *res = [CKCToken generateWithBinding:(bindingParams)];
+    
+    XCTAssertNotNil(res.token, @"pointer:%p", res.token);
+}
+
 - (void)testGenerateTokenWithCard {
     CKCTokenResult *res = [CKCToken generateWithCard:cardParams];
 

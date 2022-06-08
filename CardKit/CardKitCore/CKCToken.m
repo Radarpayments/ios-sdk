@@ -196,7 +196,14 @@
 
   NSString *timeStamp = params.seTokenTimestamp ? params.seTokenTimestamp : [self _getTimestamp];
   NSString *uuid = [[NSUUID UUID] UUIDString];
-  NSString *cardData = [NSString stringWithFormat:@"%@/%@/%@/%@/%@", timeStamp, uuid, params.cvc, params.mdOrder, params.bindingID];
+  
+  NSString *cardData = @"";
+
+  if (params.mdOrder != nil) {
+    cardData = [NSString stringWithFormat:@"%@/%@/%@/%@/%@", timeStamp, uuid, params.cvc, params.mdOrder, params.bindingID];;
+  } else {
+    cardData = [NSString stringWithFormat:@"%@/%@/%@/%@", timeStamp, uuid, params.cvc, params.bindingID];
+  }
 
   NSString *seToken = [RSA encryptString:cardData publicKey:params.pubKey];
   

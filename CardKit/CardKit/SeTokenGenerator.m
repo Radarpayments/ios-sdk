@@ -22,10 +22,17 @@
 + (NSString *) generateSeTokenWithBinding:(CardKBinding *) cardKBinding; {
   NSString *timeStamp = [self getTimeStamp];
     NSString *uuid = [[NSUUID UUID] UUIDString];
-    NSString *cardData = [NSString stringWithFormat:@"%@/%@/%@/%@/%@", timeStamp, uuid, cardKBinding.secureCode, CardKConfig.shared.mdOrder, cardKBinding.bindingId];
 
-    NSString *seToken = [RSA encryptString:cardData publicKey:CardKConfig.shared.pubKey];
-    
+    NSString *cardData = @"";
+  
+    if (CardKConfig.shared.mdOrder != nil) {
+      cardData = [NSString stringWithFormat:@"%@/%@/%@/%@/%@", timeStamp, uuid, cardKBinding.secureCode, CardKConfig.shared.mdOrder, cardKBinding.bindingId];
+    } else {
+      cardData = [NSString stringWithFormat:@"%@/%@/%@/%@", timeStamp, uuid, cardKBinding.secureCode, cardKBinding.bindingId];
+    }
+  
+    NSString *seToken = [RSA encryptString:cardData publicKey: CardKConfig.shared.pubKey];
+  
     return seToken;
 }
 
