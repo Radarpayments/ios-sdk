@@ -17,7 +17,7 @@ jobs:
 
       - name: Update Dependencies
         run: pod update ThreeDSSDK --no-repo-update
-	shell: bash
+        shell: bash
 
       - name: Install Dependencies
         run: pod install
