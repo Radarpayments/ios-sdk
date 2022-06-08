@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |spec|
   spec.name         = "CardKit"
-  spec.version      = "0.0.21"
+  spec.version      = "0.0.22"
   spec.summary      = "CardKit SDK."
   spec.homepage     = "https://github.com/Radarpayments/ios-sdk"
   spec.license      = "MIT"
