@@ -56,8 +56,8 @@
 - (void) _runFlowWithBinding {
   [[_app.buttons elementBoundByIndex:1] tap];
 
-  [self _tapWaitingElement:_app.cells.firstMatch];
-
+  [self _tapWaitingElement:_app.cells.staticTexts[@"555555••5599"]];
+  
   XCUIElement *cellWithBindingInfo = [_app.cells elementBoundByIndex:0];
 
   [cellWithBindingInfo tap];
