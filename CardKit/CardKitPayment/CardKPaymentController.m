@@ -20,6 +20,7 @@
 
 #import <CardKitPayment/CardKitPayment-Swift.h>
 #import "ARes.h"
+#import "WebView3DSController.h"
 
 @protocol TransactionManagerDelegate;
 
@@ -36,6 +37,7 @@
   NSBundle *_languageBundle;
   RequestParams *_requestParams;
   NSString *_mdOrder;
+  BOOL _use3ds2sdk;
 }
 - (instancetype)init
   {
@@ -67,6 +69,7 @@
 
       _transactionManager.delegate = self;
       _requestParams = [[RequestParams alloc] init];
+      _use3ds2sdk = true;
     }
     return self;
   }
@@ -260,12 +263,13 @@
     NSString *language = [NSString stringWithFormat:@"%@%@", @"language=", CardKConfig.shared.language];
     NSString *threeDSSDK = [NSString stringWithFormat:@"%@%@", @"threeDSSDK=", @"true"];
     
-    NSString *parameters = @"";
+    NSMutableArray<NSString *> *params = [[NSMutableArray alloc] initWithArray:@[mdOrder, bindingId, language]];
     
     if (CardKConfig.shared.bindingCVCRequired) {
-      parameters = [self _joinParametersInString:@[mdOrder, bindingId, cvc, language, threeDSSDK]];
-    } else {
-      parameters = [self _joinParametersInString:@[mdOrder, bindingId, language, threeDSSDK]];
+      [params addObject:cvc];
+    }
+    if (self.use3ds2sdk) {
+      [params addObject:threeDSSDK];
     }
     
     NSString *URL = [NSString stringWithFormat:@"%@%@", _url, @"/rest/processBindingForm.do"];
@@ -274,7 +278,7 @@
 
     request.HTTPMethod = @"POST";
     
-    NSData *postData = [parameters dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+    NSData *postData = [[self _joinParametersInString:params] dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
     [request setHTTPBody:postData];
 
     NSURLSession *session = [NSURLSession sharedSession];
@@ -298,12 +302,17 @@
       NSString *info = [responseDictionary objectForKey:@"info"];
       NSInteger errorCode = [responseDictionary[@"errorCode"] integerValue];
       NSString *message = errorMessage ? errorMessage : info;
+      NSString * acsUrl = [responseDictionary objectForKey:@"acsUrl"];
+      NSString * paReq = [responseDictionary objectForKey:@"paReq"];
         
       if (errorCode != 0) {
         self->_cardKPaymentError.message = message;
         [self _sendErrorWithCardPaymentError: self->_cardKPaymentError];
       } else if (redirect != nil) {
         self->_cardKPaymentError.message = message;
+        [self _sendErrorWithCardPaymentError: self->_cardKPaymentError];
+      } else if ([responseDictionary objectForKey:@"threeDSMethodURL"] != nil) {
+        self->_cardKPaymentError.message = @"Merchant is not configured to be used without 3DS2SDK";
         [self _sendErrorWithCardPaymentError: self->_cardKPaymentError];
       } else if (is3DSVer2){
         self->_requestParams.threeDSServerTransId = [responseDictionary objectForKey:@"threeDSServerTransId"];
@@ -322,11 +331,28 @@
         self->_requestParams.threeDSSDKTransId = reqParams[@"threeDSSDKTransId"];
 
         [self _processBindingFormRequestStep2];
+      } else if (paReq != nil && acsUrl != nil) {
+        WebView3DSController *web3ds = [[WebView3DSController alloc] init];
+        web3ds.acsUrl = acsUrl;
+        web3ds.mdOrder = self->_mdOrder;
+        web3ds.paReq = paReq;
+        web3ds.termUrl = [responseDictionary objectForKey:@"termUrl"];
+        web3ds.cardKPaymentDelegate = self->_cardKPaymentDelegate;
+        
+        [self.navigationController presentViewController:web3ds animated:true completion:nil];
       }
     });
       
     }];
     [dataTask resume];
+  }
+
+  - (void)setUse3ds2sdk:(BOOL)use3ds2sdk {
+    _use3ds2sdk = use3ds2sdk;
+  }
+
+  - (BOOL)use3ds2sdk {
+    return _use3ds2sdk;
   }
 
   - (void) _processBindingFormRequestStep2 {
@@ -420,11 +446,16 @@
     NSString *mdOrder = [NSString stringWithFormat:@"%@%@", @"MDORDER=", CardKConfig.shared.mdOrder];
     NSString *language = [NSString stringWithFormat:@"%@%@", @"language=", CardKConfig.shared.language];
     NSString *owner = [NSString stringWithFormat:@"%@%@", @"TEXT=", cardOwner];
-    NSString *threeDSSDK = [NSString stringWithFormat:@"%@%@", @"threeDSSDK=", @"true"];
     NSString *seTokenParam = [NSString stringWithFormat:@"%@%@", @"seToken=", [seToken stringByReplacingOccurrencesOfString:@"+" withString:@"%2B"]];
     NSString *bindingNotNeeded = [NSString stringWithFormat:@"%@%@", @"bindingNotNeeded=", allowSaveBinding ? @"false" : @"true"];
 
-    NSString *parameters = [self _joinParametersInString:@[mdOrder, seTokenParam, language, owner, bindingNotNeeded, threeDSSDK]];
+    NSString *parameters = [self _joinParametersInString:@[mdOrder, seTokenParam, language, owner, bindingNotNeeded]];
+    
+    if (self.use3ds2sdk) {
+      NSString *threeDSSDK = [NSString stringWithFormat:@"%@%@", @"threeDSSDK=", @"true"];
+      parameters = [self _joinParametersInString:@[mdOrder, seTokenParam, language, owner, bindingNotNeeded, threeDSSDK]];
+    }
+    
     NSString *URL = [NSString stringWithFormat:@"%@%@", _url, @"/rest/processform.do"];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:URL]];
     request.HTTPMethod = @"POST";
@@ -465,6 +496,14 @@
         self->_transactionManager.pubKey = self->_requestParams.threeDSSDKKey;
        
         [self _initSDK:(CardKCardView *) cardView cardOwner:(NSString *) cardOwner seToken:(NSString *) seToken allowSaveBinding:(BOOL) allowSaveBinding callback: (void (^)(NSDictionary *)) handler];
+      } else if (!is3DSVer2) {
+        WebView3DSController *web3ds = [[WebView3DSController alloc] init];
+        web3ds.acsUrl = [responseDictionary objectForKey:@"acsUrl"];
+        web3ds.mdOrder = self -> _mdOrder;
+        web3ds.paReq = [responseDictionary objectForKey:@"paReq"];
+        web3ds.termUrl = [responseDictionary objectForKey:@"termUrl"];
+        
+        [self.navigationController presentViewController:web3ds animated:true completion:nil];
       }
     });
     }];
@@ -484,7 +523,6 @@
 
   - (void) _processFormRequestStep2:(CardKCardView *) cardView cardOwner:(NSString *) cardOwner seToken:(NSString *) seToken allowSaveBinding:(BOOL) allowSaveBinding callback: (void (^)(NSDictionary *)) handler {
       NSString *mdOrder = [NSString stringWithFormat:@"%@%@", @"MDORDER=", CardKConfig.shared.mdOrder];
-      NSString *threeDSSDK = [NSString stringWithFormat:@"%@%@", @"threeDSSDK=", @"true"];
       NSString *language = [NSString stringWithFormat:@"%@%@", @"language=", CardKConfig.shared.language];
       NSString *owner = [NSString stringWithFormat:@"%@%@", @"TEXT=", cardOwner];
       NSString *bindingNotNeeded = [NSString stringWithFormat:@"%@%@", @"bindingNotNeeded=", allowSaveBinding ? @"false" : @"true"];
@@ -496,6 +534,7 @@
       NSString *threeDSSDKTransId = [NSString stringWithFormat:@"%@%@", @"threeDSSDKTransId=", _requestParams.threeDSSDKTransId];
       NSString *threeDSServerTransId = [NSString stringWithFormat:@"%@%@", @"threeDSServerTransId=", _requestParams.threeDSServerTransId];
       NSString *threeDSSDKReferenceNumber = [NSString stringWithFormat:@"%@%@", @"threeDSSDKReferenceNumber=", @"3DS_LOA_SDK_BPBT_020100_00233"];
+      NSString *threeDSSDK = [NSString stringWithFormat:@"%@%@", @"threeDSSDK=", @"true"];
     
       NSString *parameters = [self _joinParametersInString:@[mdOrder, threeDSSDK, language, owner, bindingNotNeeded, threeDSSDKEncData, threeDSSDKEphemPubKey, threeDSSDKAppId, threeDSSDKTransId, threeDSServerTransId, seTokenParam, threeDSSDKReferenceNumber]];
 

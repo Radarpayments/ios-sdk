@@ -38,6 +38,7 @@ struct SectionItem {
     case threeDS
     case threeDSCustomColors
     case editMode
+    case paymentFlow3ds
     case paymentFlowOTP
     case paymentFlowSSP
     case paymentFlowMSP
@@ -429,6 +430,14 @@ class ViewController: UITableViewController {
     paymentFlowController.amount = amount;
     self.navigationController?.pushViewController(paymentFlowController, animated: true)
   }
+  
+  func _openPaymentFlow3ds(amount: String) {
+    let paymentFlowController = PaymentFlowController();
+    paymentFlowController.amount = amount;
+    paymentFlowController.use3ds2sdk = false;
+    self.navigationController?.pushViewController(paymentFlowController, animated: true)
+  }
+  
   func _version() {}
   
   func _callFunctionByKindOfButton(kind: SectionItem.Kind, language: String) {
@@ -450,6 +459,7 @@ class ViewController: UITableViewController {
       case .paymentView: _openPaymentView()
       case .threeDS: _open3DSView()
       case .threeDSCustomColors: _open3DSViewCustom()
+      case .paymentFlow3ds: _openPaymentFlow3ds(amount: "2000")
       case .paymentFlowOTP: _openPaymentFlow(amount: "2000")
       case .paymentFlowSSP: _openPaymentFlow(amount: "111")
       case .paymentFlowMSP: _openPaymentFlow(amount: "222")
@@ -489,6 +499,7 @@ class ViewController: UITableViewController {
     ]),
     
     Section(title: "Payment Flow", items: [
+      SectionItem(title: "Run 3ds1 (amount: 2000)", kind: .paymentFlow3ds, isShowChevron: true, language: ""),
       SectionItem(title: "One time passcode (amount: 2000)", kind: .paymentFlowOTP, isShowChevron: true, language: ""),
       SectionItem(title: "Single Select (amount: 111)", kind: .paymentFlowSSP, isShowChevron: true, language: ""),
       SectionItem(title: "Multi-Select (amount: 222)", kind: .paymentFlowMSP, isShowChevron: true, language: ""),

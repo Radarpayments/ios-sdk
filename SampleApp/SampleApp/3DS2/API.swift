@@ -13,7 +13,6 @@ struct RequestParams {
   var password: String?
   var amount: String?
   var returnUrl: String?
-  var failUrl: String?
   var email: String?
   
   var orderId: String?
@@ -60,7 +59,6 @@ class API {
         "userName": params.userName ?? "",
         "password": params.password ?? "",
         "returnUrl": params.returnUrl ?? "",
-        "failUrl": params.failUrl ?? "",
         "email": params.email ?? "",
         "clientId": params.clientId ?? "",
       ];

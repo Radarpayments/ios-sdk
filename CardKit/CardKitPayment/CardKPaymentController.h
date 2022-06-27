@@ -29,4 +29,5 @@
   @property NSString *headerLabel;
   @property NSString *directoryServerId;
   @property NSString *mdOrder;
+  @property BOOL use3ds2sdk;
 @end

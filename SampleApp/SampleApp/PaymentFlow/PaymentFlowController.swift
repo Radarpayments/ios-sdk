@@ -25,6 +25,7 @@ class PaymentFlowController: UIViewController {
       }
   }
   
+  var use3ds2sdk: Bool = true;
   var _button: UIButton = UIButton();
 
   init() {
@@ -62,8 +63,7 @@ class PaymentFlowController: UIViewController {
 
     PaymentFlowController.requestParams.userName = "mobile-sdk-api"
     PaymentFlowController.requestParams.password = "vkyvbG0"
-    PaymentFlowController.requestParams.returnUrl = "returnUrl"
-    PaymentFlowController.requestParams.failUrl = "errors.html"
+    PaymentFlowController.requestParams.returnUrl = "https://done.com"
     PaymentFlowController.requestParams.email = "test@test.com"
     PaymentFlowController.requestParams.text = "DE DE"
     PaymentFlowController.requestParams.threeDSSDK = "true"
@@ -101,6 +101,7 @@ class PaymentFlowController: UIViewController {
   func _registerOrder() {
     _paymentFlowController = CardKPaymentController();
     _paymentFlowController.cardKPaymentDelegate = self;
+    _paymentFlowController.use3ds2sdk = use3ds2sdk;
     
     API.registerNewOrder(params: PaymentFlowController.requestParams) {(data, response) in
       PaymentFlowController.requestParams.orderId = data.orderId
