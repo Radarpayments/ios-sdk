@@ -100,16 +100,16 @@
   }
 
   - (void) _sendErrorWithCardPaymentError:(CardKPaymentError *) cardKPaymentError {
-      if (self->_cardKPaymentDelegate != nil) {
-          [self->_cardKPaymentDelegate didErrorPaymentFlow: self->_cardKPaymentError];
+    if (self->_cardKPaymentDelegate != nil) {
+      [self->_cardKPaymentDelegate didErrorPaymentFlow: self->_cardKPaymentError];
     } else {
       [self _showAlertMessage:cardKPaymentError.message];
     }
   }
 
   - (void) _sendSuccessMessage:(NSDictionary *) responseDictionary {
-      if (self.cardKPaymentDelegate != nil) {
-          [self.cardKPaymentDelegate didFinishPaymentFlow:responseDictionary];
+    if (self.cardKPaymentDelegate != nil) {
+      [self.cardKPaymentDelegate didFinishPaymentFlow:responseDictionary];
       
       return;
     }
@@ -268,7 +268,7 @@
     if (CardKConfig.shared.bindingCVCRequired) {
       [params addObject:cvc];
     }
-    if (self.use3ds2sdk) {
+    if (_use3ds2sdk) {
       [params addObject:threeDSSDK];
     }
     
@@ -308,9 +308,8 @@
       if (errorCode != 0) {
         self->_cardKPaymentError.message = message;
         [self _sendErrorWithCardPaymentError: self->_cardKPaymentError];
-      } else if (redirect != nil) {
-        self->_cardKPaymentError.message = message;
-        [self _sendErrorWithCardPaymentError: self->_cardKPaymentError];
+      } else if (redirect != nil && [redirect containsString:@"https://done.com"] && !self->_use3ds2sdk) {
+        [self _sendSuccessMessage:[[NSDictionary alloc] init]];
       } else if ([responseDictionary objectForKey:@"threeDSMethodURL"] != nil) {
         self->_cardKPaymentError.message = @"Merchant is not configured to be used without 3DS2SDK";
         [self _sendErrorWithCardPaymentError: self->_cardKPaymentError];
@@ -486,9 +485,8 @@
       if (errorCode != 0) {
         self->_cardKPaymentError.message = errorMessage;
         [self _sendErrorWithCardPaymentError: self->_cardKPaymentError];
-      } else if (redirect != nil) {
-        self->_cardKPaymentError.message = errorMessage;
-        [self _sendErrorWithCardPaymentError: self->_cardKPaymentError];
+      } else if (redirect != nil && [redirect containsString:@"https://done.com"] && !self->_use3ds2sdk) {
+        [self _sendSuccessMessage:[[NSDictionary alloc] init]];
       } else if (is3DSVer2){
         self->_requestParams.threeDSServerTransId = [responseDictionary objectForKey:@"threeDSServerTransId"];
         self->_requestParams.threeDSSDKKey = [responseDictionary objectForKey:@"threeDSSDKKey"];
