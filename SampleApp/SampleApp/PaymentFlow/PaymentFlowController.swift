@@ -67,8 +67,8 @@ class PaymentFlowController: UIViewController {
     PaymentFlowController.requestParams.email = "test@test.com"
     PaymentFlowController.requestParams.text = "DE DE"
     PaymentFlowController.requestParams.threeDSSDK = "true"
-    PaymentFlowController.requestParams.clientId = "clientId"
-    
+    PaymentFlowController.requestParams.clientId = ProcessInfo.processInfo.environment["CLIENT_ID"] ?? "ClientIdTestIOS"
+  
     _button.setTitle("Start Payement flow", for: .normal);
     _button.frame = CGRect(x: 0, y: 0, width: 200, height: 100);
     _button.center = CGPoint(x: self.view.bounds.size.width / 2, y: self.view.bounds.size.height / 2);
