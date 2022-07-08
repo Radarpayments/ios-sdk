@@ -41,7 +41,9 @@ class ThreeDS2ViewController: UITableViewController, TransactionManagerDelegate,
     ThreeDS2ViewController.logs.add(["title": title, "response": response, "request": request])
     
     if isReload {
-      self.tableView.reloadData()
+      DispatchQueue.main.async {
+        self.tableView.reloadData()
+      }
     }
   }
 
