@@ -62,6 +62,7 @@ typedef NS_ENUM(NSUInteger, ActionTypeInForm) {
   payment.primaryColor = UIColor.systemBlueColor;
   payment.textDoneButtonColor = [UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:1.00];
   payment.headerLabel = @"Custom header label";
+  payment.use3ds2sdk = YES;
 }
 
 - (void)tearDown {
@@ -452,11 +453,10 @@ typedef NS_ENUM(NSUInteger, ActionTypeInForm) {
   NSString *userName = [NSString stringWithFormat:@"%@%@", @"userName=", @"mobile-sdk-api"];
   NSString *password = [NSString stringWithFormat:@"%@%@", @"password=", @"vkyvbG0"];
   NSString *returnUrl = [NSString stringWithFormat:@"%@%@", @"returnUrl=", @"returnUrl"];
-  NSString *failUrl = [NSString stringWithFormat:@"%@%@", @"failUrl=", @"errors.html"];
   NSString *email = [NSString stringWithFormat:@"%@%@", @"email=", @"test@test.com"];
-  NSString *clientId = [NSString stringWithFormat:@"%@%@", @"clientId=", @"clientId"];
+  NSString *clientId = [NSString stringWithFormat:@"%@%@", @"clientId=", @"ClientIdTestIOS"];
   
-  NSString *parameters = [NSString stringWithFormat:@"%@&%@&%@&%@&%@&%@&%@", amountParameter, userName, password, returnUrl, failUrl, email, clientId];
+  NSString *parameters = [NSString stringWithFormat:@"%@&%@&%@&%@&%@&%@", amountParameter, userName, password, returnUrl, email, clientId];
 
   NSData *postData = [parameters dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
   

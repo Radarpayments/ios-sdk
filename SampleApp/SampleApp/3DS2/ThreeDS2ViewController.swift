@@ -41,7 +41,9 @@ class ThreeDS2ViewController: UITableViewController, TransactionManagerDelegate,
     ThreeDS2ViewController.logs.add(["title": title, "response": response, "request": request])
     
     if isReload {
-      self.tableView.reloadData()
+      DispatchQueue.main.async {
+        self.tableView.reloadData()
+      }
     }
   }
 
@@ -205,7 +207,6 @@ class ThreeDS2ViewController: UITableViewController, TransactionManagerDelegate,
     _requestParams.userName = _textFieldUserName.text
     _requestParams.password = _textFieldPassword.text
     _requestParams.returnUrl = "finish.html"
-    _requestParams.failUrl = "errors.html"
     _requestParams.email = "test@test.com"
     _requestParams.text = "DE DE"
     _requestParams.threeDSSDK = "true"
@@ -391,8 +392,6 @@ extension ThreeDS2ViewController {
       "userName": params.userName ?? "",
       "password": params.password ?? "",
       "returnUrl": params.returnUrl ?? "",
-      "failUrl": params.failUrl ?? "",
-      "email": params.email ?? "",
     ];
     
     self.addLog(title: "Register New Order",

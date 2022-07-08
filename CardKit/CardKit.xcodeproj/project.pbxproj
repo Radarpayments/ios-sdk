@@ -33,6 +33,7 @@
 		9234CC4F247BC315009E3034 /* CardKValidation.m in Sources */ = {isa = PBXBuildFile; fileRef = 9234CC4D247BC315009E3034 /* CardKValidation.m */; };
 		9234CC5A247FBCDD009E3034 /* CardKPaymentView.h in Headers */ = {isa = PBXBuildFile; fileRef = 9234CC58247FBCDD009E3034 /* CardKPaymentView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9234CC5B247FBCDD009E3034 /* CardKPaymentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9234CC59247FBCDD009E3034 /* CardKPaymentView.m */; };
+		923FDAB1285C52DF0021C788 /* WebView3DSController.m in Sources */ = {isa = PBXBuildFile; fileRef = 923FDAB0285C52DF0021C788 /* WebView3DSController.m */; };
 		924290D4255D5FF600378C68 /* CKCPubKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 92BD9007255D202E001E1ECF /* CKCPubKey.m */; };
 		924290D5255D5FF600378C68 /* CKCTokenResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 92BD9023255D2315001E1ECF /* CKCTokenResult.m */; };
 		924290D6255D5FF600378C68 /* CKCBindingParams.m in Sources */ = {isa = PBXBuildFile; fileRef = 92BD903F255D24B4001E1ECF /* CKCBindingParams.m */; };
@@ -195,6 +196,8 @@
 		9234CC4D247BC315009E3034 /* CardKValidation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CardKValidation.m; sourceTree = "<group>"; };
 		9234CC58247FBCDD009E3034 /* CardKPaymentView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CardKPaymentView.h; sourceTree = "<group>"; };
 		9234CC59247FBCDD009E3034 /* CardKPaymentView.m */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = CardKPaymentView.m; sourceTree = "<group>"; tabWidth = 2; };
+		923FDAAF285C52B20021C788 /* WebView3DSController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WebView3DSController.h; sourceTree = "<group>"; };
+		923FDAB0285C52DF0021C788 /* WebView3DSController.m */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = WebView3DSController.m; sourceTree = "<group>"; tabWidth = 2; };
 		924290B7255D5FE200378C68 /* CardKitCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CardKitCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9248868C251885FB00CA81D5 /* SeTokenGenerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SeTokenGenerator.h; sourceTree = "<group>"; };
 		9248868D251885FB00CA81D5 /* SeTokenGenerator.m */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = SeTokenGenerator.m; sourceTree = "<group>"; tabWidth = 2; };
@@ -233,7 +236,7 @@
 		92BD9033255D241D001E1ECF /* CKCCardParams.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CKCCardParams.m; sourceTree = "<group>"; };
 		92BD903E255D24B4001E1ECF /* CKCBindingParams.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CKCBindingParams.h; sourceTree = "<group>"; };
 		92BD903F255D24B4001E1ECF /* CKCBindingParams.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CKCBindingParams.m; sourceTree = "<group>"; };
-		92C9AEC728352C780000D878 /* CardKPaymentControllerTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CardKPaymentControllerTest.m; sourceTree = "<group>"; };
+		92C9AEC728352C780000D878 /* CardKPaymentControllerTest.m */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = CardKPaymentControllerTest.m; sourceTree = "<group>"; tabWidth = 2; };
 		92C9AEC928352CDC0000D878 /* PaymentController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PaymentController.m; sourceTree = "<group>"; };
 		92C9AECB28352CED0000D878 /* PaymentController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PaymentController.h; sourceTree = "<group>"; };
 		92D85547255D63DA0002936B /* CardKitCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardKitCore.h; sourceTree = "<group>"; };
@@ -410,6 +413,8 @@
 				921CCC8B28328F130070BB72 /* RequestParams.h */,
 				921CCC8128328F120070BB72 /* RequestParams.m */,
 				92DC600E2834FCA0003485A0 /* TransactionManager.swift */,
+				923FDAAF285C52B20021C788 /* WebView3DSController.h */,
+				923FDAB0285C52DF0021C788 /* WebView3DSController.m */,
 			);
 			path = CardKitPayment;
 			sourceTree = "<group>";
@@ -858,6 +863,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				923FDAB1285C52DF0021C788 /* WebView3DSController.m in Sources */,
 				921CCC9028328F130070BB72 /* ARes.m in Sources */,
 				921CCC8D28328F130070BB72 /* CardKPaymentError.m in Sources */,
 				925BE583283B6A2100E98173 /* CKCPubKey.m in Sources */,
