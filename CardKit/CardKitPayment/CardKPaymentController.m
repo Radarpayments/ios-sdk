@@ -308,7 +308,7 @@
       if (errorCode != 0) {
         self->_cardKPaymentError.message = message;
         [self _sendErrorWithCardPaymentError: self->_cardKPaymentError];
-      } else if (redirect != nil && [redirect containsString:@"https://done.com"] && !self->_use3ds2sdk) {
+      } else if (redirect != nil && [redirect containsString:@"sdk://done"] && !self->_use3ds2sdk) {
         [self _sendSuccessMessage:[[NSDictionary alloc] init]];
       } else if ([responseDictionary objectForKey:@"threeDSMethodURL"] != nil) {
         self->_cardKPaymentError.message = @"Merchant is not configured to be used without 3DS2SDK";
@@ -485,7 +485,7 @@
       if (errorCode != 0) {
         self->_cardKPaymentError.message = errorMessage;
         [self _sendErrorWithCardPaymentError: self->_cardKPaymentError];
-      } else if (redirect != nil && [redirect containsString:@"https://done.com"] && !self->_use3ds2sdk) {
+      } else if (redirect != nil && [redirect containsString:@"sdk://done"] && !self->_use3ds2sdk) {
         [self _sendSuccessMessage:[[NSDictionary alloc] init]];
       } else if (is3DSVer2){
         self->_requestParams.threeDSServerTransId = [responseDictionary objectForKey:@"threeDSServerTransId"];

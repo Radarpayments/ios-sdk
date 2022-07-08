@@ -63,13 +63,12 @@
     return;
   }
   
-  if ([request.URL.absoluteString containsString:@"https://done.com"]) {
+  if ([request.URL.absoluteString containsString:@"sdk://done"]) {
     [self _finishPayment];
     decisionHandler(WKNavigationActionPolicyCancel);
   } else {
     decisionHandler(WKNavigationActionPolicyAllow);
   }
-  
 }
 
 - (void)_finishPayment {

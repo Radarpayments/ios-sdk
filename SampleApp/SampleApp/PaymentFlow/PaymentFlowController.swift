@@ -63,7 +63,7 @@ class PaymentFlowController: UIViewController {
 
     PaymentFlowController.requestParams.userName = "mobile-sdk-api"
     PaymentFlowController.requestParams.password = "vkyvbG0"
-    PaymentFlowController.requestParams.returnUrl = "https://done.com"
+    PaymentFlowController.requestParams.returnUrl = "sdk://done"
     PaymentFlowController.requestParams.email = "test@test.com"
     PaymentFlowController.requestParams.text = "DE DE"
     PaymentFlowController.requestParams.threeDSSDK = "true"
