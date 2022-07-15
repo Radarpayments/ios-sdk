@@ -71,6 +71,8 @@
 		92C9AEC828352C780000D878 /* CardKPaymentControllerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 92C9AEC728352C780000D878 /* CardKPaymentControllerTest.m */; };
 		92C9AECA28352CDC0000D878 /* PaymentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 92C9AEC928352CDC0000D878 /* PaymentController.m */; };
 		92C9AECC283532180000D878 /* CardKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D245AB39231C435E00369747 /* CardKit.framework */; };
+		92D67341287FDFCE0069DBF5 /* CardKApplePayButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 92D67340287FDFCE0069DBF5 /* CardKApplePayButtonView.m */; };
+		92D67342287FF1180069DBF5 /* CardKApplePayButtonView.h in Headers */ = {isa = PBXBuildFile; fileRef = 92D6733F287FDF9E0069DBF5 /* CardKApplePayButtonView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		92D85548255D63DA0002936B /* CardKitCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 92D85547255D63DA0002936B /* CardKitCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		92DC600F2834FCA0003485A0 /* TransactionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92DC600E2834FCA0003485A0 /* TransactionManager.swift */; };
 		92E1E699283CEF13002D63C0 /* CardKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D245AB39231C435E00369747 /* CardKit.framework */; platformFilter = ios; };
@@ -239,6 +241,8 @@
 		92C9AEC728352C780000D878 /* CardKPaymentControllerTest.m */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = CardKPaymentControllerTest.m; sourceTree = "<group>"; tabWidth = 2; };
 		92C9AEC928352CDC0000D878 /* PaymentController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PaymentController.m; sourceTree = "<group>"; };
 		92C9AECB28352CED0000D878 /* PaymentController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PaymentController.h; sourceTree = "<group>"; };
+		92D6733F287FDF9E0069DBF5 /* CardKApplePayButtonView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CardKApplePayButtonView.h; sourceTree = "<group>"; };
+		92D67340287FDFCE0069DBF5 /* CardKApplePayButtonView.m */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = CardKApplePayButtonView.m; sourceTree = "<group>"; tabWidth = 2; };
 		92D85547255D63DA0002936B /* CardKitCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardKitCore.h; sourceTree = "<group>"; };
 		92DC600E2834FCA0003485A0 /* TransactionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionManager.swift; sourceTree = "<group>"; };
 		92E0D90A24AF4B7300F7846E /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -429,6 +433,15 @@
 			path = CardKitPaymentTests;
 			sourceTree = "<group>";
 		};
+		92D6733E287FDF390069DBF5 /* view */ = {
+			isa = PBXGroup;
+			children = (
+				92D6733F287FDF9E0069DBF5 /* CardKApplePayButtonView.h */,
+				92D67340287FDFCE0069DBF5 /* CardKApplePayButtonView.m */,
+			);
+			path = view;
+			sourceTree = "<group>";
+		};
 		D245AB2F231C435E00369747 = {
 			isa = PBXGroup;
 			children = (
@@ -463,6 +476,7 @@
 		D245AB3B231C435E00369747 /* CardKit */ = {
 			isa = PBXGroup;
 			children = (
+				92D6733E287FDF390069DBF5 /* view */,
 				D2D0B369232124120007B3B9 /* Images.xcassets */,
 				D245AB3C231C435E00369747 /* CardKit.h */,
 				D245AB3D231C435E00369747 /* Info.plist */,
@@ -551,6 +565,7 @@
 				9219F465232B8EF100841B98 /* CardKFooterView.h in Headers */,
 				9234CC5A247FBCDD009E3034 /* CardKPaymentView.h in Headers */,
 				D269080D231FA894001CB863 /* CardKTextField.h in Headers */,
+				92D67342287FF1180069DBF5 /* CardKApplePayButtonView.h in Headers */,
 				D2D0B35E2320E3AC0007B3B9 /* CardKBankLogoView.h in Headers */,
 				D245ABBC231C449F00369747 /* CardKViewController.h in Headers */,
 				D245AB4A231C435E00369747 /* CardKit.h in Headers */,
@@ -896,6 +911,7 @@
 				929D7FDD283631850042DBBD /* RSA.m in Sources */,
 				D269080E231FA894001CB863 /* CardKTextField.m in Sources */,
 				9234CC5B247FBCDD009E3034 /* CardKPaymentView.m in Sources */,
+				92D67341287FDFCE0069DBF5 /* CardKApplePayButtonView.m in Sources */,
 				92985C8A246BEE1E009B7392 /* CardKKindPaymentViewController.m in Sources */,
 				D2690812231FB000001CB863 /* CardKCardView.m in Sources */,
 				9248868F251885FB00CA81D5 /* SeTokenGenerator.m in Sources */,

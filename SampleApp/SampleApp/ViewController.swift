@@ -627,7 +627,24 @@ extension ViewController: CardKDelegate {
     
   }
   
-  func willShow(_ paymentView: CardKPaymentView) {
+//  func willShow(_ paymentView: CardKPaymentView) {
+//    let paymentNetworks = [PKPaymentNetwork.amex, .discover, .masterCard, .visa]
+//    let paymentItem = PKPaymentSummaryItem.init(label: "Box", amount: NSDecimalNumber(value: 0.1))
+//    let merchandId = "merchant.test.applepay.id"
+//    paymentView.merchantId = merchandId
+//    paymentView.paymentRequest.currencyCode = "USD"
+//    paymentView.paymentRequest.countryCode = "US"
+//    paymentView.paymentRequest.merchantIdentifier = merchandId
+//    paymentView.paymentRequest.merchantCapabilities = PKMerchantCapability.capability3DS
+//    paymentView.paymentRequest.supportedNetworks = paymentNetworks
+//    paymentView.paymentRequest.paymentSummaryItems = [paymentItem]
+//    paymentView.paymentButtonStyle = .whiteOutline;
+//
+//    paymentView.cardPaybutton.backgroundColor = .systemBlue;
+//    paymentView.cardPaybutton.setTitleColor(.white, for: .normal);
+//    paymentView.cardPaybutton.setTitle("New card", for: .normal);
+//  }
+  func willShowPaymentView(_ paymentView: CardKApplePayButtonView) {
     let paymentNetworks = [PKPaymentNetwork.amex, .discover, .masterCard, .visa]
     let paymentItem = PKPaymentSummaryItem.init(label: "Box", amount: NSDecimalNumber(value: 0.1))
     let merchandId = "merchant.test.applepay.id"
@@ -639,10 +656,6 @@ extension ViewController: CardKDelegate {
     paymentView.paymentRequest.supportedNetworks = paymentNetworks
     paymentView.paymentRequest.paymentSummaryItems = [paymentItem]
     paymentView.paymentButtonStyle = .whiteOutline;
-
-    paymentView.cardPaybutton.backgroundColor = .systemBlue;
-    paymentView.cardPaybutton.setTitleColor(.white, for: .normal);
-    paymentView.cardPaybutton.setTitle("New card", for: .normal);
   }
   
   func didLoad(_ controller: CardKViewController) {

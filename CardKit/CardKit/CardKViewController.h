@@ -17,12 +17,15 @@ NS_ASSUME_NONNULL_BEGIN
 @class CardKViewController;
 @class CardKPaymentView;
 @class CardKBindingViewController;
+@class CardKApplePayButtonView;
 
 @protocol CardKDelegate <NSObject>
 
 - (void)didLoadController:(CardKViewController *) controller;
 
-- (void)willShowPaymentView:(CardKPaymentView *) paymentView;
+
+//- (void)willShowPaymentView:(CardKPaymentView *) paymentView;
+- (void)willShowPaymentView:(CardKApplePayButtonView *) paymentView;
 
 - (void)cardKitViewControllerScanCardRequest:(CardKViewController *)controller;
 
