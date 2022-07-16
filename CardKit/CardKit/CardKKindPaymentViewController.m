@@ -17,6 +17,7 @@
 #import "PaymentSystemProvider.h"
 #import "CardKApplePayButtonView.h"
 #import "DividerView.h"
+#import "BindingCellView.h"
 
 const NSString *CardKSavedCardsCellID = @"savedCards";
 const NSString *CardKPayCardButtonCellID = @"button";
@@ -151,15 +152,7 @@ const NSString *CardKKindPayRows = @"rows";
 - (void)viewDidLayoutSubviews {
   [super viewDidLayoutSubviews];
   
-  NSInteger width = self.tableView.frame.size.width;
   
-  if (self.verticalButtonsRendered) {
-    _applePayButton.frame = CGRectMake(0, 0, width < 500 ? width : 500, 110);
-    _applePayButton.center = CGPointMake(width * 0.5, 150 * 0.5);
-  } else {
-    _applePayButton.frame = CGRectMake(0, 0, width < 500 ? width : 500, 44);
-    _applePayButton.center = CGPointMake(width * 0.5, 100 * 0.5);
-  }
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -173,18 +166,29 @@ const NSString *CardKKindPayRows = @"rows";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
   NSString *cellID = [[_sections[indexPath.section][CardKKindPayRows][indexPath.row] allKeys] firstObject];
   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier: cellID forIndexPath:indexPath];
-
+  
+  NSInteger width = cell.contentView.frame.size.width;
+  NSInteger boundWidth = cell.bounds.size.width;
+  
   if([CardKSavedCardsCellID isEqual:cellID]) {
     CardKBinding *cardKBinding = _sections[indexPath.section][CardKKindPayRows][indexPath.row][CardKSavedCardsCellID];
-
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    [cell.contentView addSubview:cardKBinding];
+    BindingCellView * bindingCellView = [[BindingCellView alloc] init];
+    bindingCellView.binding = cardKBinding;
+    bindingCellView.showShortCardNumber = YES;
+    
+    [cell.contentView addSubview:bindingCellView];
   } else if ([CardKPayCardButtonCellID isEqual:cellID]) {
-    cell.separatorInset = UIEdgeInsetsMake(0.f, cell.bounds.size.width, 0.f, 0.f);
+    _applePayButton.frame = CGRectMake(0, 0, width < 500 ? width : 500, 110);
+    _applePayButton.center = CGPointMake(width * 0.5, 150 * 0.5);
+      
+    cell.separatorInset = UIEdgeInsetsMake(0.f, boundWidth, 0.f, 0.f);
     [cell.contentView addSubview:_applePayButton];
   } else if ([CardKDividerCellID isEqual:cellID]) {
-    _dividerView.frame = cell.contentView.frame;
-    cell.separatorInset = UIEdgeInsetsMake(0.f, cell.bounds.size.width, 0.f, 0.f);
+    _dividerView.frame = CGRectMake(0, 0,  width - 40, 44);
+    _dividerView.center = CGPointMake(width * 0.5, 44 * 0.5);
+
+    cell.separatorInset = UIEdgeInsetsMake(0.f, boundWidth, 0.f, 0.f);
     [cell.contentView addSubview:_dividerView];
   }
    
@@ -215,6 +219,7 @@ const NSString *CardKKindPayRows = @"rows";
   if ([CardKSavedCardsCellID isEqual:cellID]) {
     CardKBindingViewController *cardKBindingViewController = [[CardKBindingViewController alloc] init];
     CardKBinding *cardKBinding = [[CardKBinding alloc] init];
+    
     CardKBinding *selectedCardBinding = _sections[indexPath.section][CardKKindPayRows][indexPath.row][CardKSavedCardsCellID];
     
     cardKBinding.bindingId = selectedCardBinding.bindingId;

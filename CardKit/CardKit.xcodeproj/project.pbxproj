@@ -14,6 +14,8 @@
 		920312EE255D664A006FBED7 /* CKCTokenResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 92BD9022255D2315001E1ECF /* CKCTokenResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		920480EB261B034F00026C1F /* CardKitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 920480EA261B034F00026C1F /* CardKitTests.m */; };
 		920480ED261B034F00026C1F /* CardKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D245AB39231C435E00369747 /* CardKit.framework */; };
+		9205AA9A288312F300EF36A2 /* BindingCellView.h in Headers */ = {isa = PBXBuildFile; fileRef = 9205AA99288312F300EF36A2 /* BindingCellView.h */; };
+		9205AA9C2883130100EF36A2 /* BindingCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9205AA9B2883130100EF36A2 /* BindingCellView.m */; };
 		921394952881FA8800182888 /* DividerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 921394942881FA8800182888 /* DividerView.m */; };
 		921394972881FE0E00182888 /* DividerView.h in Headers */ = {isa = PBXBuildFile; fileRef = 921394962881FB6300182888 /* DividerView.h */; };
 		9219F465232B8EF100841B98 /* CardKFooterView.h in Headers */ = {isa = PBXBuildFile; fileRef = 9219F463232B8EF100841B98 /* CardKFooterView.h */; };
@@ -179,6 +181,8 @@
 		920480E8261B034F00026C1F /* CardKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CardKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		920480EA261B034F00026C1F /* CardKitTests.m */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = CardKitTests.m; sourceTree = "<group>"; tabWidth = 2; };
 		920480EC261B034F00026C1F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9205AA99288312F300EF36A2 /* BindingCellView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BindingCellView.h; sourceTree = "<group>"; };
+		9205AA9B2883130100EF36A2 /* BindingCellView.m */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = BindingCellView.m; sourceTree = "<group>"; tabWidth = 2; };
 		921394942881FA8800182888 /* DividerView.m */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = DividerView.m; sourceTree = "<group>"; tabWidth = 2; };
 		921394962881FB6300182888 /* DividerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DividerView.h; sourceTree = "<group>"; };
 		9219F463232B8EF100841B98 /* CardKFooterView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CardKFooterView.h; sourceTree = "<group>"; };
@@ -444,6 +448,8 @@
 				92D67340287FDFCE0069DBF5 /* CardKApplePayButtonView.m */,
 				921394962881FB6300182888 /* DividerView.h */,
 				921394942881FA8800182888 /* DividerView.m */,
+				9205AA99288312F300EF36A2 /* BindingCellView.h */,
+				9205AA9B2883130100EF36A2 /* BindingCellView.m */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -575,6 +581,7 @@
 				92D67342287FF1180069DBF5 /* CardKApplePayButtonView.h in Headers */,
 				D2D0B35E2320E3AC0007B3B9 /* CardKBankLogoView.h in Headers */,
 				D245ABBC231C449F00369747 /* CardKViewController.h in Headers */,
+				9205AA9A288312F300EF36A2 /* BindingCellView.h in Headers */,
 				D245AB4A231C435E00369747 /* CardKit.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -930,6 +937,7 @@
 				9234CC4F247BC315009E3034 /* CardKValidation.m in Sources */,
 				D245ABBD231C449F00369747 /* CardKViewController.m in Sources */,
 				92A1461B23435C6B002FBCC3 /* CardKConfig.m in Sources */,
+				9205AA9C2883130100EF36A2 /* BindingCellView.m in Sources */,
 				929BA32525591CFC00AB0526 /* TextField.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

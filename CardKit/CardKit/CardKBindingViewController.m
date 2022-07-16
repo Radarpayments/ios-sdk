@@ -9,6 +9,7 @@
 #import "CardKBindingViewController.h"
 #import "CardKConfig.h"
 #import "CardKBinding.h"
+#import "BindingCellView.h"
 #import "CardKTextField.h"
 #import "CardKFooterView.h"
 #import "CardKValidation.h"
@@ -27,6 +28,7 @@ NSString *CardKConfirmChoosedCardFooterID = @"footer";
   NSMutableArray *_sections;
   CardKFooterView *_cardFooterView;
   NSString *_lastAnouncment;
+  BindingCellView * _bindingCellView;
 }
 - (instancetype)init {
   self = [super initWithStyle:UITableViewStyleGrouped];
@@ -52,17 +54,19 @@ NSString *CardKConfirmChoosedCardFooterID = @"footer";
     forControlEvents:UIControlEventTouchUpInside];
 
     _sections = [self _defaultSections];
+    _bindingCellView = [[BindingCellView alloc] init];
+    _bindingCellView.binding = _cardKBinding;
   }
   return self;
 }
 
 - (void)_refreshErrors {
-  _cardFooterView.errorMessages = _cardKBinding.errorMessages;
+  _cardFooterView.errorMessages = _bindingCellView.errorMessages;
   [self _announceError];
 }
 
 - (void)_announceError {
-  NSString *errorMessage = [_cardKBinding.errorMessages firstObject];
+  NSString *errorMessage = [_bindingCellView.errorMessages firstObject];
   if (errorMessage.length > 0 && ![_lastAnouncment isEqualToString:errorMessage]) {
     _lastAnouncment = errorMessage;
     UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, _lastAnouncment);
@@ -74,7 +78,7 @@ NSString *CardKConfirmChoosedCardFooterID = @"footer";
     return YES;
   }
   
-  [_cardKBinding validate];
+  [_bindingCellView validate];
   [self _refreshErrors];
   return _cardFooterView.errorMessages.count == 0;
 }
@@ -131,7 +135,7 @@ NSString *CardKConfirmChoosedCardFooterID = @"footer";
 
 - (void)viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
-  [_cardKBinding focusSecureCode];
+  [_bindingCellView focusSecureCode];
 }
 
 - (void)viewDidLayoutSubviews {
@@ -179,11 +183,11 @@ NSString *CardKConfirmChoosedCardFooterID = @"footer";
   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier: cellID forIndexPath:indexPath];
 
   if ([CardKBindingCardCellID isEqual:cellID] || ([CardKBindingCardCellID isEqual:cellID] && CardKConfig.shared.bindingCVCRequired)) {
-    _cardKBinding.showCVCField = YES;
-    [cell.contentView addSubview:_cardKBinding];
-//    
-//    CGRect r = tableView.readableContentGuide.layoutFrame;
-//    _cardKBinding.frame = CGRectMake(r.origin.x, 0, r.size.width, cell.contentView.bounds.size.height);
+    _bindingCellView.binding = _cardKBinding;
+    _bindingCellView.showCVCField = YES;
+    _bindingCellView.showShortCardNumber = NO;
+    
+    [cell.contentView addSubview:_bindingCellView];
   } else if ([CardKBindingButtonCellID isEqual:cellID]) {
     [cell.contentView addSubview:_button];
   }
