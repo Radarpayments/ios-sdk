@@ -18,13 +18,10 @@
 #import "CardKApplePayButtonView.h"
 #import "DividerView.h"
 #import "BindingCellView.h"
+#import "NewCardCellView.h"
+#import "CardKAllPaymentMethodsController.h"
 
-const NSString *CardKSavedCardsCellID = @"savedCards";
-const NSString *CardKPayCardButtonCellID = @"button";
-const NSString *CardKApplePayButtonCellID = @"applePay";
-const NSString *CardKDividerCellID = @"divider";
-
-const NSString *CardKKindPayRows = @"rows";
+#import "Constants.h"
 
 @implementation CardKKindPaymentViewController {
   UIButton *_button;
@@ -39,6 +36,7 @@ const NSString *CardKKindPayRows = @"rows";
   BOOL _isEditing;
   id<CardKDelegate> _cKitDelegate;
   DividerView *_dividerView;
+  NewCardCellView *_newCardCellView;
 }
 
 - (instancetype)init {
@@ -65,6 +63,11 @@ const NSString *CardKKindPayRows = @"rows";
     _dividerView = [[DividerView alloc] init];
     _dividerView.title = @"Or pay by card";
     
+    _newCardCellView = [[NewCardCellView alloc] init];
+    
+    
+    
+    
     if (CardKConfig.shared.isEditBindingListMode) {
       _editModeButton = [[UIBarButtonItem alloc]
                          initWithTitle:NSLocalizedStringFromTableInBundle(@"edit", nil, _languageBundle, @"Edit")
@@ -73,8 +76,12 @@ const NSString *CardKKindPayRows = @"rows";
                                      action:@selector(_editMode:)];
       
       self.navigationItem.rightBarButtonItem = _editModeButton;
+      
+      [self.navigationItem setBackBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil]];
+
     }
     _isEditing = NO;
+    
   }
   return self;
 }
@@ -119,8 +126,14 @@ const NSString *CardKKindPayRows = @"rows";
   [bindings addObject:@{CardKPayCardButtonCellID: @[]}];
   [bindings addObject:@{CardKDividerCellID: @[]}];
   for (CardKBinding * binding in _currentBindings) {
-    [bindings addObject:@{ CardKSavedCardsCellID: binding}];
+    BindingCellView *cellBinding = [[BindingCellView alloc] init];
+    cellBinding.binding = binding;
+    cellBinding.showShortCardNumber = YES;
+    [bindings addObject:@{ CardKSavedCardsCellID: cellBinding}];
   }
+  
+  [bindings addObject:@{NewCardCellID: @[]}];
+  [bindings addObject:@{AllPaymentMethodsCellID: @[]}];
   
   
   return @[@{CardKKindPayRows: bindings}];
@@ -131,21 +144,22 @@ const NSString *CardKKindPayRows = @"rows";
   
   self.tableView.tag = 40001;
   
-  for (NSString *cellID in @[CardKSavedCardsCellID, CardKPayCardButtonCellID, CardKDividerCellID]) {
+  for (NSString *cellID in @[CardKSavedCardsCellID, CardKPayCardButtonCellID, CardKDividerCellID, NewCardCellID, AllPaymentMethodsCellID]) {
    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:cellID];
   }
   
   CardKTheme *theme = CardKConfig.shared.theme;
-
-  self.tableView.separatorColor = theme.colorSeparatar;
-  self.tableView.backgroundColor = theme.colorTableBackground;
+  self.tableView.backgroundColor = CardKConfig.shared.theme.colorCellBackground;
   self.tableView.sectionFooterHeight = UITableViewAutomaticDimension;
   self.tableView.cellLayoutMarginsFollowReadableWidth = YES;
-
+  [self.tableView setSeparatorStyle: UITableViewCellSeparatorStyleNone];
   UINavigationBar *bar = [self.navigationController navigationBar];
   bar.barTintColor = theme.colorCellBackground;
-
+  [self.navigationItem setBackBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil]];
+  
   _bankLogoView.frame = CGRectMake(self.view.bounds.size.width * 2, 0, 0, 0);
+  
+  self.navigationController.navigationBar.tintColor = CardKConfig.shared.theme.colorLabel;
 }
 
 
@@ -160,7 +174,7 @@ const NSString *CardKKindPayRows = @"rows";
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  return 4;
+  return 6;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -171,12 +185,9 @@ const NSString *CardKKindPayRows = @"rows";
   NSInteger boundWidth = cell.bounds.size.width;
   
   if([CardKSavedCardsCellID isEqual:cellID]) {
-    CardKBinding *cardKBinding = _sections[indexPath.section][CardKKindPayRows][indexPath.row][CardKSavedCardsCellID];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    BindingCellView * bindingCellView = [[BindingCellView alloc] init];
-    bindingCellView.binding = cardKBinding;
-    bindingCellView.showShortCardNumber = YES;
-    
+    BindingCellView *bindingCellView = _sections[indexPath.section][CardKKindPayRows][indexPath.row][CardKSavedCardsCellID];
+    bindingCellView.frame = cell.contentView.frame;
     [cell.contentView addSubview:bindingCellView];
   } else if ([CardKPayCardButtonCellID isEqual:cellID]) {
     _applePayButton.frame = CGRectMake(0, 0, width < 500 ? width : 500, 110);
@@ -185,11 +196,19 @@ const NSString *CardKKindPayRows = @"rows";
     cell.separatorInset = UIEdgeInsetsMake(0.f, boundWidth, 0.f, 0.f);
     [cell.contentView addSubview:_applePayButton];
   } else if ([CardKDividerCellID isEqual:cellID]) {
-    _dividerView.frame = CGRectMake(0, 0,  width - 40, 44);
-    _dividerView.center = CGPointMake(width * 0.5, 44 * 0.5);
+    _dividerView.frame = CGRectMake(0, 0,  width - 40, 56);
+    _dividerView.center = CGPointMake(width * 0.5, 56 * 0.5);
 
     cell.separatorInset = UIEdgeInsetsMake(0.f, boundWidth, 0.f, 0.f);
     [cell.contentView addSubview:_dividerView];
+  } else if ([NewCardCellID isEqual:cellID]) {
+    _newCardCellView.frame = cell.contentView.frame;
+    [cell.contentView addSubview:_newCardCellView];
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+  } else if ([AllPaymentMethodsCellID isEqual:cellID]) {
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    cell.textLabel.text = NSLocalizedStringFromTableInBundle(@"allPaymentMethods", nil, _languageBundle, @"allPaymentMethods");
+    cell.textLabel.font = [UIFont boldSystemFontOfSize:16];
   }
    
   CardKTheme *theme = CardKConfig.shared.theme;
@@ -203,14 +222,21 @@ const NSString *CardKKindPayRows = @"rows";
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
   NSString *cellID = [[_sections[indexPath.section][CardKKindPayRows][indexPath.row] allKeys] firstObject];
-  CGRect r = tableView.readableContentGuide.layoutFrame;
-
-  if ([CardKSavedCardsCellID isEqual:cellID]) {
-    cell.contentView.subviews.firstObject.frame = CGRectMake(r.origin.x, 0, r.size.width - r.origin.x, cell.contentView.bounds.size.height);
+  if([CardKSavedCardsCellID isEqual:cellID]) {
+    BindingCellView *bindingCellView = _sections[indexPath.section][CardKKindPayRows][indexPath.row][CardKSavedCardsCellID];
+    bindingCellView.frame = CGRectMake(20, 0, cell.contentView.frame.size.width - 20, cell.contentView.frame.size.height);
+    [cell.contentView addSubview:bindingCellView];
+    
+  }  else if ([NewCardCellID isEqual:cellID]) {
+    _newCardCellView.frame = CGRectMake(20, 0, cell.contentView.frame.size.width - 20, cell.contentView.frame.size.height);
+    [cell.contentView addSubview:_newCardCellView];
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
   }
-//  if ([CardKDividerCellID isEqual:cellID]) {
-//    cell.contentView.frame = cell.bounds;
-//  }
+
+  CardKTheme *theme = CardKConfig.shared.theme;
+  if (theme.colorCellBackground != nil) {
+   cell.backgroundColor = theme.colorCellBackground;
+  }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -218,28 +244,28 @@ const NSString *CardKKindPayRows = @"rows";
   
   if ([CardKSavedCardsCellID isEqual:cellID]) {
     CardKBindingViewController *cardKBindingViewController = [[CardKBindingViewController alloc] init];
-    CardKBinding *cardKBinding = [[CardKBinding alloc] init];
     
-    CardKBinding *selectedCardBinding = _sections[indexPath.section][CardKKindPayRows][indexPath.row][CardKSavedCardsCellID];
+    BindingCellView *selectedBindingView = _sections[indexPath.section][CardKKindPayRows][indexPath.row][CardKSavedCardsCellID];
     
-    cardKBinding.bindingId = selectedCardBinding.bindingId;
-    cardKBinding.paymentSystem = selectedCardBinding.paymentSystem;
-    cardKBinding.cardNumber = selectedCardBinding.cardNumber;
-    cardKBinding.expireDate = selectedCardBinding.expireDate;
-
-    cardKBindingViewController.cardKBinding = cardKBinding;
+    cardKBindingViewController.cardKBinding = selectedBindingView.binding;
     cardKBindingViewController.bankLogoView = _bankLogoView;
     cardKBindingViewController.cKitDelegate = _cKitDelegate;
     
     [self.navigationController pushViewController:cardKBindingViewController animated:true];
+  } else if ([NewCardCellID isEqual:cellID]) {
+    CardKViewController *controller = [[CardKViewController alloc] init];
+    controller.cKitDelegate = _cKitDelegate;
+    
+    [self.navigationController pushViewController:controller animated:YES];
+  } else if ([AllPaymentMethodsCellID isEqual:cellID]) {
+    CardKAllPaymentMethodsController *controller = [[CardKAllPaymentMethodsController alloc] init];
+    controller.cKitDelegate = _cKitDelegate;
+    
+    [self.navigationController pushViewController:controller animated:YES];
   }
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-  if (section == 0) {
-    return CardKConfig.shared.bindingsSectionTitle;
-  }
-  
   return @"";
 }
 
@@ -266,13 +292,13 @@ const NSString *CardKKindPayRows = @"rows";
     return 100;
   }
 
-  return 44;
+  return 56;
 }
 
 - (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
   NSString *cellID = [[_sections[indexPath.section][CardKKindPayRows][indexPath.row] allKeys] firstObject];
   
-  return [CardKSavedCardsCellID isEqual:cellID];
+  return [CardKSavedCardsCellID isEqual:cellID] || [NewCardCellID isEqual:cellID] || [AllPaymentMethodsCellID isEqual:cellID];
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
