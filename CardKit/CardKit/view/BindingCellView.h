@@ -19,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property BOOL showShortCardNumber;
 @property BOOL showCVCField;
+- (UIImage *) imagePath;
 
 @end
 

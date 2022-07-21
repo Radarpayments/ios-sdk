@@ -31,6 +31,8 @@
   BOOL _showCVCField;
   NSString *_paymentSystem;
   CardKBinding *_binding;
+  CALayer *_bottomLine;
+  UIView *_imageContainerView;
 }
 
 
@@ -65,7 +67,13 @@
     _expireDateLabel = [[UILabel alloc] init];
     _cardNumberLabel = [[UILabel alloc] init];
     
-    [self addSubview:_paymentSystemImageView];
+    _bottomLine = [[CALayer alloc] init];
+    [self.layer addSublayer:_bottomLine];
+
+    _imageContainerView = [[UIView alloc] init];
+    [_imageContainerView addSubview:_paymentSystemImageView];
+    
+    [self addSubview:_imageContainerView];
     [self addSubview:_cardNumberLabel];
     [self addSubview:_expireDateLabel];
   }
@@ -110,7 +118,7 @@
 - (void)layoutSubviews {
   [super layoutSubviews];
   _expireDateLabel.text = _binding.expireDate;
-  
+
   UIFont *font = [self _font];
   _cardNumberLabel.font = font;
   _expireDateLabel.font = font;
@@ -120,18 +128,26 @@
   } else {
    [self _showCardNumberWithCircleBullet];
   }
-  
+
   CGRect bounds = self.bounds;
-  NSInteger leftExpireDate = bounds.size.width - _expireDateLabel.intrinsicContentSize.width - 20;
 
-  _paymentSystemImageView.frame = CGRectMake(0, 0, 35, 26);
-  _paymentSystemImageView.center = CGPointMake(35/2, bounds.size.height / 2);
-  _cardNumberLabel.frame = CGRectMake(CGRectGetMaxX(_paymentSystemImageView.frame) + 15, 0, _cardNumberLabel.intrinsicContentSize.width, bounds.size.height);
 
-  _expireDateLabel.frame = CGRectMake(leftExpireDate, 0, _expireDateLabel.intrinsicContentSize.width, bounds.size.height);
+  _imageContainerView.frame = CGRectMake(0, 0, 36, 24);
+  _imageContainerView.center = CGPointMake(36/2, bounds.size.height / 2);
 
-  _secureCodeTextField.frame = CGRectMake(CGRectGetMaxX(_expireDateLabel.frame) - 3, 0, _secureCodeTextField.intrinsicContentSize.width, bounds.size.height);
+  _paymentSystemImageView.frame = CGRectMake(0, 0, 36, 24);
+  _paymentSystemImageView.center = CGPointMake(36/2, 24/2);
   
+  NSInteger marginRight = CGRectGetMaxX(_paymentSystemImageView.frame) + 15;
+  _cardNumberLabel.frame = CGRectMake(marginRight, 0, _cardNumberLabel.intrinsicContentSize.width, bounds.size.height);
+
+  _expireDateLabel.frame = CGRectMake(CGRectGetMaxX(_cardNumberLabel.frame), 0, _expireDateLabel.intrinsicContentSize.width, bounds.size.height);
+  
+
+  _bottomLine.frame = CGRectMake(marginRight, self.frame.size.height - 1, self.frame.size.width - marginRight + 11, 0.5);
+  [_bottomLine setBackgroundColor: CardKConfig.shared.theme.colorSeparatar.CGColor];
+  
+
   CardKTheme *theme = CardKConfig.shared.theme;
   [_cardNumberLabel setTextColor: theme.colorLabel];
   [_expireDateLabel setTextColor: theme.colorLabel];
@@ -166,10 +182,10 @@ _cardNumberLabel.text = [[NSString alloc] initWithFormat:@"** %@", last4Characte
 
 - (UIFont *)_font {
   if (self.superview.frame.size.width == 320) {
-    return [UIFont fontWithName:@"SF Pro" size: 16];
+    return [UIFont fontWithName:@"SF Pro" size: 15];
   }
   
-  return [UIFont fontWithName:@"SF Pro" size: 17];
+  return [UIFont fontWithName:@"SF Pro" size: 15];
 }
 
 
