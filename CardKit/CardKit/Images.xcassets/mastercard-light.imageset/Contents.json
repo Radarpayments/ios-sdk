@@ -1,23 +1,23 @@
 {
   "images" : [
     {
+      "filename" : "Property=Card Mastercard.png",
       "idiom" : "universal",
-      "filename" : "mastercard-light.png",
       "scale" : "1x"
     },
     {
+      "filename" : "Property=Card Mastercard@2x.png",
       "idiom" : "universal",
-      "filename" : "mastercard-light@2x.png",
       "scale" : "2x"
     },
     {
+      "filename" : "Property=Card Mastercard@3x.png",
       "idiom" : "universal",
-      "filename" : "mastercard-light@3x.png",
       "scale" : "3x"
     }
   ],
   "info" : {
-    "version" : 1,
-    "author" : "xcode"
+    "author" : "xcode",
+    "version" : 1
   }
 }
