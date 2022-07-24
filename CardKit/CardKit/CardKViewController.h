@@ -24,7 +24,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)didLoadController:(CardKViewController *) controller;
 
 
-//- (void)willShowPaymentView:(CardKPaymentView *) paymentView;
 - (void)willShowPaymentView:(CardKApplePayButtonView *) paymentView;
 
 - (void)cardKitViewControllerScanCardRequest:(CardKViewController *)controller;
@@ -55,9 +54,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 /*! Initial checkbox state "save card" */
 @property BOOL isSaveBinding;
-
-/*! Display CardHolder field*/
-@property BOOL displayCardHolderField;
 
 /*!
 @brief Assign card data
