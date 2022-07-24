@@ -20,7 +20,11 @@
   theme.colorTableBackground = UIColor.groupTableViewBackgroundColor;
   theme.colorCellBackground = UIColor.whiteColor;
   theme.imageAppearance = @"dark";
-  theme.colorButtonText = UIColor.systemBlueColor;
+  theme.colorButtonText = UIColor.whiteColor;
+  theme.colorButtonBackground = UIColor.blackColor;
+  theme.colorActiveBorderTextView = [UIColor colorWithRed: 0.07 green: 0.07 blue: 0.07 alpha: 1.00];
+  theme.colorInactiveBorderTextView = [UIColor colorWithRed: 0.86 green: 0.86 blue: 0.86 alpha: 1.00];
+  
 
   return theme;
 }
@@ -35,8 +39,12 @@
   theme.colorCellBackground = [UIColor colorWithRed:0.11f green:0.11f blue:0.12f alpha:1.0f];
   theme.colorSeparatar = [UIColor colorWithRed:0.10f green:0.10f blue:0.11f alpha:1.0f];
   theme.imageAppearance = @"dark";
-  theme.colorButtonText = UIColor.systemBlueColor;
-
+  theme.colorButtonText = UIColor.blackColor;
+  theme.colorButtonBackground = UIColor.whiteColor;
+  
+  theme.colorActiveBorderTextView = [UIColor colorWithRed: 1.00 green: 1.00 blue: 1.00 alpha: 1.00];
+  theme.colorInactiveBorderTextView = [UIColor colorWithRed: 0.86 green: 0.86 blue: 0.86 alpha: 1.00];
+  
   return theme;
 }
 
@@ -50,7 +58,11 @@
   theme.colorCellBackground = UIColor.whiteColor;
   theme.colorSeparatar = [UIColor colorWithRed:0.24f green:0.24f blue:0.26f alpha:0.29f];
   theme.imageAppearance = @"light";
-  theme.colorButtonText = UIColor.systemBlueColor;
+  theme.colorButtonText = UIColor.whiteColor;
+  theme.colorButtonBackground = UIColor.blackColor;
+  
+  theme.colorActiveBorderTextView = [UIColor colorWithRed: 0.07 green: 0.07 blue: 0.07 alpha: 1.00];
+  theme.colorInactiveBorderTextView = [UIColor colorWithRed: 0.86 green: 0.86 blue: 0.86 alpha: 1.00];
   
   return theme;
 }
@@ -64,7 +76,11 @@
   theme.colorCellBackground = nil;
   theme.colorSeparatar = UIColor.separatorColor;
   theme.imageAppearance = nil;
-  theme.colorButtonText = UIColor.systemBlueColor;
+  theme.colorButtonText = UIColor.labelColor;
+  theme.colorButtonBackground = UIColor.labelColor;
+  
+  theme.colorActiveBorderTextView = [UIColor colorWithRed: 0.07 green: 0.07 blue: 0.07 alpha: 1.00];
+  theme.colorInactiveBorderTextView = [UIColor colorWithRed: 0.86 green: 0.86 blue: 0.86 alpha: 1.00];
 
   return theme;
 }

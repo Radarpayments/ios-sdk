@@ -13,7 +13,6 @@
 #import "CardKConfig.h"
 #import "CardKValidation.h"
 
-NSInteger EXPIRE_YEARS_DIFF = 10;
 
 @implementation CardKCardView {
   UIImageView *_paymentSystemImageView;
@@ -113,7 +112,7 @@ NSInteger EXPIRE_YEARS_DIFF = 10;
   
   NSDateComponents *comps = [[NSCalendar currentCalendar] components:NSCalendarUnitYear fromDate:[NSDate date]];
   
-  if (fullYear < comps.year || fullYear >= comps.year + EXPIRE_YEARS_DIFF) {
+  if (fullYear < comps.year || fullYear >= comps.year + 10) {
     return nil;
   }
   
