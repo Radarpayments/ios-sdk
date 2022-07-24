@@ -34,6 +34,8 @@ extern NSString *CardKTextFieldPatternSecureCode;
 @property UIReturnKeyType returnKeyType;
 @property(null_unspecified,nonatomic,copy) UITextContentType textContentType;
 @property BOOL showError;
+@property UIView *leftView;
+@property UIView *rightView;
 
 - (void)showCoverView;
 

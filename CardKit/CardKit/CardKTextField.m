@@ -31,7 +31,6 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
     CardKTheme *theme = CardKConfig.shared.theme;
     
     self.backgroundColor = theme.colorCellBackground;
-//    self.backgroundColor = theme.separatarColor;
     
     CAGradientLayer *mask = [[CAGradientLayer alloc] init];
     
@@ -68,6 +67,7 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
   NSString *_pattern;
   BOOL _showError;
   CoverView *_coverView;
+  CALayer *_bottomLine;
 }
 
 - (instancetype)init {
@@ -102,6 +102,10 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
     
     [self addSubview:_textField];
     _textField.delegate = self;
+      
+    _bottomLine = [[CALayer alloc] init];
+    [self.layer addSublayer:_bottomLine];
+    _bottomLine.backgroundColor = theme.colorInactiveBorderTextView.CGColor;
     
     self.clipsToBounds = true;
   }
@@ -218,10 +222,21 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
 #pragma mark UITextFieldDelegate
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
+  CGSize boundsSize = self.bounds.size;
+  
+  _bottomLine.frame = CGRectMake(0, boundsSize.height - 1, boundsSize.width, 2);
+  _bottomLine.backgroundColor = CardKConfig.shared.theme.colorActiveBorderTextView.CGColor;
+
+
   [self sendActionsForControlEvents:UIControlEventEditingDidBegin];
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
+  CGSize boundsSize = self.bounds.size;
+  
+  _bottomLine.frame = CGRectMake(0, boundsSize.height - 1, boundsSize.width, 1);
+  _bottomLine.backgroundColor = CardKConfig.shared.theme.colorInactiveBorderTextView.CGColor;
+  
   [self sendActionsForControlEvents:UIControlEventEditingDidEnd];
 }
 
@@ -404,6 +419,24 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
   [self sendActionsForControlEvents:UIControlEventValueChanged];
 }
 
+- (UIView *)leftView {
+  return _textField.leftView;
+}
+
+- (void)setLeftView:(UIView *)leftView {
+  _textField.leftView = leftView;
+  _textField.leftViewMode = UITextFieldViewModeAlways;
+}
+
+- (UIView *)rightView {
+  return _textField.rightView;
+}
+
+- (void)setRightView:(UIView *)rightView {
+  _textField.rightView = rightView;
+  _textField.rightViewMode = UITextFieldViewModeWhileEditing;
+}
+
 - (BOOL)resignFirstResponder {
   return [_textField resignFirstResponder];
 }
@@ -427,7 +460,6 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
     textFieldWidth = boundsSize.width;
   }
   
-  
   _textField.frame = CGRectMake(delta, 0, textFieldWidth, boundsSize.height);
 
   CGFloat x = _textField.leftView.bounds.size.width;
@@ -437,7 +469,9 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
     v.frame = CGRectMake(x, 0, width, boundsSize.height);
   }
   
-  _coverView.frame = CGRectMake(0, 10, 6, boundsSize.height - 20);
+  _coverView.frame = CGRectMake(100, 10, 6, boundsSize.height - 20);
+  
+  _bottomLine.frame = CGRectMake(0, boundsSize.height - 1, boundsSize.width, 1);
 
   [_coverView setHidden:NO];
 }
