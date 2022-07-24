@@ -733,7 +733,6 @@
     controller.purchaseButtonTitle = NSLocalizedStringFromTableInBundle(@"doneButton", nil, _languageBundle, @"Submit payment");
     controller.allowSaveBinding = self->_sessionStatus.bindingEnabled;
     controller.isSaveBinding = false;
-    controller.displayCardHolderField = true;
   }
 
   - (void)didRemoveBindings:(nonnull NSArray<CardKBinding *> *)removedBindings {

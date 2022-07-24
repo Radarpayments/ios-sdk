@@ -663,7 +663,6 @@ extension ViewController: CardKDelegate {
     controller.purchaseButtonTitle = "Custom purchase button";
     controller.allowSaveBinding = allowSaveBinding;
     controller.isSaveBinding = isSaveBinding;
-    controller.displayCardHolderField = displayCardholderField;
   }
   
   func cardKitViewController(_ controller: CardKViewController, didCreateSeToken seToken: String, allowSaveBinding: Bool, isNewCard: Bool) {

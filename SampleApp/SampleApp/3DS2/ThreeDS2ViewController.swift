@@ -374,7 +374,6 @@ extension ThreeDS2ViewController: CardKDelegate {
     controller.allowedCardScaner = CardIOUtilities.canReadCardWithCamera();
     controller.purchaseButtonTitle = "Custom purchase button";
 
-    controller.displayCardHolderField = true;
     controller.allowSaveBinding = true;
     controller.isSaveBinding = false;
   }
