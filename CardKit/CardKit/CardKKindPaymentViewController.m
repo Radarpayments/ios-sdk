@@ -64,24 +64,6 @@
     _dividerView.title = @"Or pay by card";
     
     _newCardCellView = [[NewCardCellView alloc] init];
-    
-    
-    
-    
-    if (CardKConfig.shared.isEditBindingListMode) {
-      _editModeButton = [[UIBarButtonItem alloc]
-                         initWithTitle:NSLocalizedStringFromTableInBundle(@"edit", nil, _languageBundle, @"Edit")
-                                     style: UIBarButtonItemStylePlain
-                                     target:self
-                                     action:@selector(_editMode:)];
-      
-      self.navigationItem.rightBarButtonItem = _editModeButton;
-      
-      [self.navigationItem setBackBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil]];
-
-    }
-    _isEditing = NO;
-    
   }
   return self;
 }
@@ -98,26 +80,6 @@
 
 - (id<CardKDelegate>)cKitDelegate {
   return _cKitDelegate;
-}
-
-- (void)_editMode:(UIButton *)button {
-  if (self.tableView.isEditing) {
-    _isEditing = NO;
-    [self.tableView setEditing:NO animated:YES];
-    _editModeButton.title = NSLocalizedStringFromTableInBundle(@"edit", nil, _languageBundle, @"Edit");
-    [self.cKitDelegate didRemoveBindings:_removedBindings];
-    [self _disableRightBarButton];
-  } else {
-    _isEditing = YES;
-    [self.tableView setEditing:YES animated:YES];
-    _editModeButton.title = NSLocalizedStringFromTableInBundle(@"save", nil, _languageBundle, @"Save");
-  }
-}
-
-- (void)_disableRightBarButton {
-  if (!_isEditing && [_currentBindings count] == 0) {
-    self.navigationItem.rightBarButtonItem.enabled = NO;
-  }
 }
 
 - (NSArray *)_defaultSections {
@@ -314,33 +276,6 @@
 
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
   return NO;
-}
-
-- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
-  return UITableViewCellEditingStyleDelete;
-}
-
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-  if (_isEditing && editingStyle == UITableViewCellEditingStyleDelete) {
-    [_removedBindings addObject: _currentBindings[indexPath.row]];
-    [_currentBindings removeObjectAtIndex:indexPath.row];
-    
-  } else if (editingStyle == UITableViewCellEditingStyleDelete){
-    [self.cKitDelegate didRemoveBindings:@[_currentBindings[indexPath.row]]];
-    
-    [_currentBindings removeObjectAtIndex:indexPath.row];
-  }
-  
-  if ([_currentBindings count] != 0) {
-    [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-  } else {
-    _sections = @[@{CardKKindPayRows: @[@{CardKPayCardButtonCellID: @[]}]}];
-    NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:indexPath.section];
-    
-    [self.tableView deleteSections:indexSet withRowAnimation:UITableViewRowAnimationFade];
-  }
-  
-  [self _disableRightBarButton];
 }
 
 - (void)pressedCardPayButton {
