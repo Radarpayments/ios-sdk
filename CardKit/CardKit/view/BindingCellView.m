@@ -141,7 +141,7 @@
   NSInteger marginRight = CGRectGetMaxX(_paymentSystemImageView.frame) + 15;
   _cardNumberLabel.frame = CGRectMake(marginRight, 0, _cardNumberLabel.intrinsicContentSize.width, bounds.size.height);
 
-  _expireDateLabel.frame = CGRectMake(CGRectGetMaxX(_cardNumberLabel.frame), 0, _expireDateLabel.intrinsicContentSize.width, bounds.size.height);
+  _expireDateLabel.frame = CGRectMake(CGRectGetMaxX(_cardNumberLabel.frame) + 10, 0, _expireDateLabel.intrinsicContentSize.width, bounds.size.height);
   
 
   _bottomLine.frame = CGRectMake(marginRight, self.frame.size.height - 1, self.frame.size.width - marginRight + 11, 0.5);
