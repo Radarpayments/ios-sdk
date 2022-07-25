@@ -218,12 +218,37 @@
   UITouch *touch = [touches anyObject];
   CGPoint currentTouchPosition = [touch locationInView:self.tableView];
   NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint: currentTouchPosition];
+  
+  UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"You really want to delete?"
+                                 message:@"The card cannot restored. You'll have to add a ner card"
+                                 preferredStyle:UIAlertControllerStyleAlert];
+   
+  UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Delete" style:UIAlertActionStyleDefault
+     handler:^(UIAlertAction * action) {
+    
+    [self _removeBindingByIndexPath: indexPath];
+  }];
+  
+  UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault
+     handler:^(UIAlertAction * action) {
+   
+  }];
+  
+  [alert addAction:cancelAction];
+  [alert addAction:defaultAction];
+  alert.preferredAction = defaultAction;
+  
+  [self presentViewController:alert animated:YES completion:nil];
+}
+
+- (void) _removeBindingByIndexPath:(NSIndexPath *) indexPath {
   [_removedBindings addObject: _currentBindings[indexPath.row]];
   [_currentBindings removeObjectAtIndex:indexPath.row];
-  
+    
   _sections = [self _defaultSectionsWithoudNewCard];
 
   [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+
 }
 
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
