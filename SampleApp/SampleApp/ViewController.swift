@@ -320,7 +320,7 @@ class ViewController: UITableViewController {
     CardKConfig.shared.mrBinURL = "https://mrbin.io/bins/";
     CardKConfig.shared.bindingsSectionTitle = "Your cards";
     CardKConfig.shared.isEditBindingListMode = true;
-    
+    CardKConfig.shared.pubKey = publicKey;
     let controller = CardKViewController();
     controller.cKitDelegate = self
 

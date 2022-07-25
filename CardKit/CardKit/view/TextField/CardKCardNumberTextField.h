@@ -18,10 +18,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong) NSArray *errorMessages;
 @property BOOL allowedCardScaner;
 @property (strong, readonly) UITapGestureRecognizer *scanCardTapRecognizer;
-- (void)validate;
+- (BOOL)validate;
 - (void)resetLeftImage;
 - (void)setLeftIconImageName:(NSString *) imageName;
-
 @end
 
 NS_ASSUME_NONNULL_END

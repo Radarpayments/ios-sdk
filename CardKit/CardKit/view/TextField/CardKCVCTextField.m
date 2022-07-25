@@ -53,8 +53,7 @@
         [v addTarget:self action:@selector(_editingDidBegin:) forControlEvents:UIControlEventEditingDidBegin];
       }
       
-      
-      [_secureCodeTextField addTarget:self action:@selector(_numberChanged) forControlEvents: UIControlEventValueChanged];
+
       [_secureCodeTextField addTarget:self action:@selector(_relayout) forControlEvents: UIControlEventEditingDidEnd];
       [_secureCodeTextField addTarget:self action:@selector(_relayout) forControlEvents: UIControlEventEditingDidBegin];
       
@@ -73,8 +72,6 @@
     _errorMessagesArray = [errorMessages mutableCopy];
   }
 
- 
-
   - (NSString *)secureCode {
     return [_secureCodeTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
   }
@@ -91,9 +88,10 @@
     NSString *incorrectCvc = NSLocalizedStringFromTableInBundle(@"incorrectCvc", nil, _languageBundle, @"incorrectCvc");
     
     [_errorMessagesArray removeObject:incorrectCvc];
+    _secureCodeTextField.errorMessage = @"";
   }
 
-  - (void)_validateSecureCode {
+- (BOOL)_validateSecureCode {
     BOOL isValid = YES;
     NSString *secureCode = [self secureCode];
     NSString *incorrectCvc = NSLocalizedStringFromTableInBundle(@"incorrectCvc", nil, _languageBundle, @"incorrectCvc");
@@ -106,10 +104,14 @@
     
     _secureCodeTextField.showError = !isValid;
     [self sendActionsForControlEvents:UIControlEventEditingDidEnd];
+    
+    _secureCodeTextField.errorMessage = _errorMessagesArray.firstObject;
+    
+    return isValid;
   }
 
-  - (void)validate {
-    [self _validateSecureCode];
+  - (BOOL)validate {
+    return [self _validateSecureCode];
   }
 
   - (void)_switchToNext:(UIView *)sender {

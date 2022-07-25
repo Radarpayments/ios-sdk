@@ -17,8 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong) NSArray *errorMessages;
 -(nullable NSString *)getMonthFromExpirationDate;
 -(nullable NSString *)getFullYearFromExpirationDate;
--(void)validate;
-
+-(BOOL)validate;
 @end
 
 NS_ASSUME_NONNULL_END

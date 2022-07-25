@@ -201,9 +201,14 @@
         if ([responseDictionary[@"name"] isEqualToString: currentBankName]) {
           return;
         }
-
+        
         currentBankName = responseDictionary[@"name"];
         
+        if ([responseDictionary[@"name"] isEqualToString: @"Your bank"]) {
+          [self _showCardLogo:nil];
+          return;
+        }
+
         [self _showCardLogo:isLightTheme ? logo : logoInvert];
       });
       return;

@@ -125,9 +125,10 @@ NSInteger EXPIRE_YEARS_DIFF = 10;
 - (void)_clearExpireDateErrors {
   NSString *incorrectExpiry = NSLocalizedStringFromTableInBundle(@"incorrectExpiry", nil, _languageBundle, @"incorrectExpiry");
   [_errorMessagesArray removeObject:incorrectExpiry];
+  _expireDateTextField.errorMessage = @"";
 }
 
-- (void)_validateExpireDate {
+- (BOOL)_validateExpireDate {
   BOOL isValid = YES;
   NSString *incorrectExpiry = NSLocalizedStringFromTableInBundle(@"incorrectExpiry", nil, _languageBundle, @"incorrectExpiry");
   [self _clearExpireDateErrors];
@@ -155,10 +156,14 @@ NSInteger EXPIRE_YEARS_DIFF = 10;
   
   _expireDateTextField.showError = !isValid;
   [self sendActionsForControlEvents:UIControlEventEditingDidEnd];
+  
+  _expireDateTextField.errorMessage = _errorMessagesArray.firstObject;
+  
+  return isValid;
 }
 
-- (void)validate {
-  [self _validateExpireDate];
+- (BOOL)validate {
+  return [self _validateExpireDate];
 }
 
 
@@ -191,8 +196,6 @@ NSInteger EXPIRE_YEARS_DIFF = 10;
     [self _clearExpireDateErrors];
   }
 }
-
-
 
 - (void)_editingDidBegin:(UIView *)sender {
   [self _clearErrors:sender];

@@ -75,8 +75,6 @@ if (self) {
   _numberTextField.textContentType = UITextContentTypeCreditCardNumber;
   
   [_numberTextField addTarget:self action:@selector(_numberChanged) forControlEvents: UIControlEventValueChanged];
-  [_numberTextField addTarget:self action:@selector(_relayout) forControlEvents: UIControlEventEditingDidEnd];
-  [_numberTextField addTarget:self action:@selector(_relayout) forControlEvents: UIControlEventEditingDidBegin];
   
   self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 }
@@ -144,9 +142,10 @@ _errorMessagesArray = [errorMessages mutableCopy];
 
   [_errorMessagesArray removeObject:incorrectLength];
   [_errorMessagesArray removeObject:incorrectCardNumber];
+  _numberTextField.errorMessage = @"";
 }
 
-- (void)_validateCardNumber {
+- (BOOL)_validateCardNumber {
   BOOL isValid = YES;
   NSString *cardNumber = [self number];
   NSString *incorrectLength = NSLocalizedStringFromTableInBundle(@"incorrectLength", nil, _languageBundle, @"Incorrect card length");
@@ -166,11 +165,14 @@ _errorMessagesArray = [errorMessages mutableCopy];
   [self sendActionsForControlEvents:UIControlEventEditingDidEnd];
 
   _numberTextField.showError = !isValid;
+  _numberTextField.errorMessage = _errorMessagesArray.firstObject;
+  
+  return isValid;
 }
 
 
-- (void)validate {
-  [self _validateCardNumber];
+- (BOOL)validate {
+  return [self _validateCardNumber];
 }
 
 - (void)_showPaymentSystemProviderIcon {
@@ -211,7 +213,6 @@ self.leftIconImageName = [PaymentSystemProvider imageNameByCardNumber:number com
 - (void)_editingDidBegin:(UIView *)sender {
   CardKTextField * field = (CardKTextField *)sender;
   
-  [self redetIconImageName:@"mastercard"];
   [self _clearErrors:sender];
 
   if (field.showError) {
@@ -225,7 +226,6 @@ self.leftIconImageName = [PaymentSystemProvider imageNameByCardNumber:number com
 - (void)_editingDidEnd:(UIView *)sender {
   CardKTextField * field = (CardKTextField *)sender;
   
-  [self setLeftIconImageName:@"mastercard"];
   [self _clearErrors:sender];
 
   if (field.showError) {
@@ -234,16 +234,6 @@ self.leftIconImageName = [PaymentSystemProvider imageNameByCardNumber:number com
     [self sendActionsForControlEvents:UIControlEventEditingDidEnd];
   }
 
-}
-
-- (void)_relayout {
-dispatch_async(dispatch_get_main_queue(), ^{
-  [self setNeedsLayout];
-  
-  [UIView animateWithDuration:0.3 animations:^{
-    [self layoutIfNeeded];
-  }];
-});
 }
 
 - (void)layoutSubviews {

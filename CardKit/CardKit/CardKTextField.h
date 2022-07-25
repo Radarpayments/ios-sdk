@@ -28,6 +28,7 @@ extern NSString *CardKTextFieldPatternSecureCode;
 @property (strong) NSString *pattern;
 @property (strong) NSString *placeholder;
 @property (strong) NSString *format;
+@property (strong) NSString *errorMessage;
 @property (strong, nullable) NSString *accessibilityLabel;
 @property BOOL secureTextEntry;
 @property UIKeyboardType keyboardType;

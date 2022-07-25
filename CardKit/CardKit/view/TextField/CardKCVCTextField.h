@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong) NSString *secureCode;
 @property (strong) NSArray *errorMessages;
--(void)validate;
+-(BOOL)validate;
 
 @end
 
