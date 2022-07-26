@@ -27,4 +27,17 @@
 "newCard" = "Nueva tarjeta";
 
 "edit" = "Editar";
-"save" = "Salvar";
+"save" = "Guardar";
+
+"payByCard" = "O pagar con tarjeta";
+"addCard" = "Agregar tarjeta nueva";
+"allPaymentPethods" = "Todos los métodos de pago";
+"payment" = "Pago";
+"cardNumber" = "Número de tarjeta";
+"pay" = "Pagar";
+"allCards" = "Todas las tarjetas";
+"removeBindingAlertTitle" = "¿Confirma que desea eliminar esta tarjeta?";
+"removeBindingAlertDescription" = "Si más adelante cambia de opinión, deberá volver a agregarla.";
+"cancel" = "Cancelar";
+"remove" = "Eliminar";
+"paymentMethod" = "Método de pago";

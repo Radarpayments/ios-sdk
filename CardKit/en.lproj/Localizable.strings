@@ -28,3 +28,16 @@
 
 "edit" = "Edit";
 "save" = "Save";
+
+"payByCard" = "Or pay by card";
+"addCard" = "Add new card";
+"allPaymentPethods" = "All payment methods";
+"payment" = "Payment";
+"cardNumber" = "Card number";
+"pay" = "Pay";
+"allCards" = "All cards";
+"removeBindingAlertTitle" = "Are you sure you want to remove this card?";
+"removeBindingAlertDescription" = "If you change your mind later, you'll have to add it again.";
+"cancel" = "Cancel";
+"remove" = "Remove";
+"paymentMethod" = "Payment method";

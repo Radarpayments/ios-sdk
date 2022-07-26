@@ -26,5 +26,18 @@
 "switchViewTitle" = "Enregistrer la carte";
 "newCard" = "Nouvelle carte";
 
-"edit" = "Éditer";
-"save" = "Sauvegarder";
+"edit" = "Modifier";
+"save" = "Enregistrer";
+
+"payByCard" = "Ou payez par carte";
+"addCard" = "Ajouter une nouvelle carte";
+"allPaymentPethods" = "Tous les modes de paiement";
+"payment" = "Paiement";
+"cardNumber" = "Numéro de carte";
+"pay" = "Payer";
+"allCards" = "Toutes les cartes";
+"removeBindingAlertTitle" = "Voulez-vous vraiment supprimer cette carte?";
+"removeBindingAlertDescription" = "Si vous changez d&apos;avis plus tard, vous devrez l&apos;ajouter à nouveau.";
+"cancel" = "Annuler";
+"remove" = "Supprimer";
+"paymentMethod" = "Mode de paiement";
