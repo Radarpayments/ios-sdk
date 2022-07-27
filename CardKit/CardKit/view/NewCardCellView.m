@@ -40,7 +40,7 @@
     _newCardImageView = [[UIImageView alloc] init];
     _newCardImageView.image = _image;
     
-    _newCardLabel.text = [self label];
+    _newCardLabel.text = NSLocalizedStringFromTableInBundle(@"addCard", nil, _languageBundle, @"Add new card");
     _newCardLabel.textColor = CardKConfig.shared.theme.colorLabel;
     
     
@@ -64,8 +64,7 @@
   _newCardImageView.frame = CGRectMake(0, 0, 36, 24);
   _newCardImageView.center = CGPointMake(36/2, 24/2);
   
-  _newCardLabel.frame = CGRectMake(CGRectGetMaxX(_newCardImageView.frame) + 15, 0, 100, bounds.size.height);
-
+  _newCardLabel.frame = CGRectMake(CGRectGetMaxX(_newCardImageView.frame) + 15, 0, _newCardLabel.intrinsicContentSize.width, bounds.size.height);
   CardKTheme *theme = CardKConfig.shared.theme;
   [_newCardLabel setTextColor: theme.colorLabel];
 }
@@ -75,7 +74,7 @@
 }
 
 - (NSString *)label {
-  return NSLocalizedStringFromTableInBundle(@"NewCard", nil, _languageBundle, @"Add new card");
+  return NSLocalizedStringFromTableInBundle(@"addCard", nil, _languageBundle, @"Add new card");
 }
 
 @end

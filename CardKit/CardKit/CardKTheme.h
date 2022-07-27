@@ -36,6 +36,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic, nullable) NSString *imageAppearance;
 
+/*! Bank logo background  */
+@property (strong, nonatomic) UIColor *colorLogoBackground;
+
+/* Inactive button background */
+@property (strong, nonatomic) UIColor *colorInactiveButtonBackground;
+
 /*!
 @brief Default theme
 @return CardKTheme

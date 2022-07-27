@@ -14,36 +14,39 @@
   
   CardKTheme *theme = [[CardKTheme alloc] init];
 
-  theme.colorLabel = UIColor.blackColor;
-  theme.colorPlaceholder = UIColor.grayColor;
-  theme.colorErrorLabel = UIColor.redColor;
-  theme.colorTableBackground = UIColor.groupTableViewBackgroundColor;
-  theme.colorCellBackground = UIColor.whiteColor;
-  theme.imageAppearance = @"dark";
-  theme.colorButtonText = UIColor.whiteColor;
-  theme.colorButtonBackground = UIColor.blackColor;
+  theme.imageAppearance = @"light";
+  theme.colorLabel = [UIColor colorWithRed: 0.07 green: 0.07 blue: 0.07 alpha: 1.00];
+  theme.colorPlaceholder = [UIColor colorWithRed: 0.42 green: 0.42 blue: 0.42 alpha: 1.00];
+  theme.colorErrorLabel = [UIColor colorWithRed: 0.85 green: 0.09 blue: 0.09 alpha: 1.00];
+  theme.colorTableBackground = [UIColor colorWithRed: 1.00 green: 1.00 blue: 1.00 alpha: 1.00];
+  theme.colorCellBackground = [UIColor colorWithRed: 1.00 green: 1.00 blue: 1.00 alpha: 1.00];
+  theme.colorSeparatar = [UIColor colorWithRed: 0.86 green: 0.86 blue: 0.86 alpha: 1.00];
+  theme.colorButtonText = [UIColor colorWithRed: 1.00 green: 1.00 blue: 1.00 alpha: 1.00];
+  theme.colorButtonBackground = [UIColor colorWithRed: 0.00 green: 0.00 blue: 0.00 alpha: 1.00];
+  theme.colorInactiveButtonBackground = [UIColor colorWithRed: 1.00 green: 1.00 blue: 1.00 alpha: 0.24];
   theme.colorActiveBorderTextView = [UIColor colorWithRed: 0.07 green: 0.07 blue: 0.07 alpha: 1.00];
   theme.colorInactiveBorderTextView = [UIColor colorWithRed: 0.86 green: 0.86 blue: 0.86 alpha: 1.00];
+  theme.colorLogoBackground = [UIColor colorWithRed: 0.95 green: 0.95 blue: 0.95 alpha: 1.00];
   
-
   return theme;
 }
 
 + (CardKTheme *)darkTheme {
   CardKTheme *theme = [[CardKTheme alloc] init];
 
-  theme.colorLabel = UIColor.whiteColor;
-  theme.colorErrorLabel = UIColor.redColor;
-  theme.colorPlaceholder = [UIColor colorWithRed:0.39f green:0.39f blue:0.40f alpha:1.0f];
-  theme.colorTableBackground = [UIColor blackColor];
-  theme.colorCellBackground = [UIColor colorWithRed:0.11f green:0.11f blue:0.12f alpha:1.0f];
-  theme.colorSeparatar = [UIColor colorWithRed:0.10f green:0.10f blue:0.11f alpha:1.0f];
   theme.imageAppearance = @"dark";
-  theme.colorButtonText = UIColor.blackColor;
-  theme.colorButtonBackground = UIColor.whiteColor;
-  
-  theme.colorActiveBorderTextView = [UIColor colorWithRed: 1.00 green: 1.00 blue: 1.00 alpha: 1.00];
+  theme.colorLabel = [UIColor colorWithRed: 1.00 green: 1.00 blue: 1.00 alpha: 1.00];
+  theme.colorPlaceholder = [UIColor colorWithRed: 0.42 green: 0.42 blue: 0.42 alpha: 1.00];
+  theme.colorErrorLabel = [UIColor colorWithRed: 0.85 green: 0.09 blue: 0.09 alpha: 1.00];
+  theme.colorTableBackground = [UIColor colorWithRed: 0.07 green: 0.07 blue: 0.07 alpha: 1.00];
+  theme.colorCellBackground = [UIColor colorWithRed: 0.07 green: 0.07 blue: 0.07 alpha: 1.00];
+  theme.colorSeparatar = [UIColor colorWithRed: 0.35 green: 0.35 blue: 0.36 alpha: 1.00];
+  theme.colorButtonText = [UIColor colorWithRed: 0.00 green: 0.00 blue: 0.00 alpha: 1.00];
+  theme.colorButtonBackground = [UIColor colorWithRed: 1.00 green: 1.00 blue: 1.00 alpha: 1.00];
+  theme.colorInactiveButtonBackground = [UIColor colorWithRed: 0.00 green: 0.00 blue: 0.00 alpha: 0.24];
+  theme.colorActiveBorderTextView = [UIColor colorWithRed: 1 green: 1 blue: 1 alpha: 1.00];
   theme.colorInactiveBorderTextView = [UIColor colorWithRed: 0.86 green: 0.86 blue: 0.86 alpha: 1.00];
+  theme.colorLogoBackground = [UIColor colorWithRed: 0.95 green: 0.95 blue: 0.95 alpha: 1.00];
   
   return theme;
 }
@@ -51,39 +54,46 @@
 + (CardKTheme *)lightTheme {
   CardKTheme *theme = [[CardKTheme alloc] init];
     
-  theme.colorLabel = UIColor.blackColor;
-  theme.colorPlaceholder = UIColor.grayColor;
-  theme.colorErrorLabel = UIColor.redColor;
-  theme.colorTableBackground = [UIColor colorWithRed:0.95f green:0.95f blue:0.97f alpha:1.0f];
-  theme.colorCellBackground = UIColor.whiteColor;
-  theme.colorSeparatar = [UIColor colorWithRed:0.24f green:0.24f blue:0.26f alpha:0.29f];
   theme.imageAppearance = @"light";
-  theme.colorButtonText = UIColor.whiteColor;
-  theme.colorButtonBackground = UIColor.blackColor;
-  
+  theme.colorLabel = [UIColor colorWithRed: 0.07 green: 0.07 blue: 0.07 alpha: 1.00];
+  theme.colorPlaceholder = [UIColor colorWithRed: 0.42 green: 0.42 blue: 0.42 alpha: 1.00];
+  theme.colorErrorLabel = [UIColor colorWithRed: 0.85 green: 0.09 blue: 0.09 alpha: 1.00];
+  theme.colorTableBackground = [UIColor colorWithRed: 1.00 green: 1.00 blue: 1.00 alpha: 1.00];
+  theme.colorCellBackground = [UIColor colorWithRed: 1.00 green: 1.00 blue: 1.00 alpha: 1.00];
+  theme.colorSeparatar = [UIColor colorWithRed: 0.86 green: 0.86 blue: 0.86 alpha: 1.00];
+  theme.colorButtonText = [UIColor colorWithRed: 1.00 green: 1.00 blue: 1.00 alpha: 1.00];
+  theme.colorButtonBackground = [UIColor colorWithRed: 0.00 green: 0.00 blue: 0.00 alpha: 1.00];
+  theme.colorInactiveButtonBackground = [UIColor colorWithRed: 1.00 green: 1.00 blue: 1.00 alpha: 0.24];
   theme.colorActiveBorderTextView = [UIColor colorWithRed: 0.07 green: 0.07 blue: 0.07 alpha: 1.00];
   theme.colorInactiveBorderTextView = [UIColor colorWithRed: 0.86 green: 0.86 blue: 0.86 alpha: 1.00];
+  theme.colorLogoBackground = [UIColor colorWithRed: 0.95 green: 0.95 blue: 0.95 alpha: 1.00];
   
   return theme;
 }
 
 + (CardKTheme *)systemTheme {
   CardKTheme *theme = [[CardKTheme alloc] init];
-  theme.colorLabel = UIColor.labelColor;
-  theme.colorPlaceholder = UIColor.placeholderTextColor;
-  theme.colorErrorLabel = UIColor.redColor;
-  theme.colorTableBackground = UIColor.groupTableViewBackgroundColor;
-  theme.colorCellBackground = nil;
-  theme.colorSeparatar = UIColor.separatorColor;
-  theme.imageAppearance = nil;
-  theme.colorButtonText = UIColor.labelColor;
-  theme.colorButtonBackground = UIColor.labelColor;
-  
-  theme.colorActiveBorderTextView = [UIColor colorWithRed: 0.07 green: 0.07 blue: 0.07 alpha: 1.00];
+ 
+ theme.colorLabel = [theme colorWithColorNamed:@"systemColorLabel"];
+  theme.colorPlaceholder = [UIColor colorWithRed: 0.42 green: 0.42 blue: 0.42 alpha: 1.00];
+  theme.colorErrorLabel = [UIColor colorWithRed: 0.85 green: 0.09 blue: 0.09 alpha: 1.00];
+  theme.colorTableBackground = [theme colorWithColorNamed:@"systemColorTableBackground"];
+  theme.colorCellBackground = [theme colorWithColorNamed:@"systemColorTableBackground"];
+  theme.colorSeparatar = [theme colorWithColorNamed:@"systemColorSeparatar"];
+  theme.colorButtonText = [theme colorWithColorNamed:@"systemColorButtonText"];
+  theme.colorButtonBackground = [theme colorWithColorNamed:@"systemColorButtonBackground"];
+  theme.colorInactiveButtonBackground = [UIColor colorWithRed: 0.00 green: 0.00 blue: 0.00 alpha: 0.20];
+  theme.colorActiveBorderTextView = [theme colorWithColorNamed:@"systemActiveBorderTextView"];
   theme.colorInactiveBorderTextView = [UIColor colorWithRed: 0.86 green: 0.86 blue: 0.86 alpha: 1.00];
-
+  theme.colorLogoBackground = [UIColor colorWithRed: 0.95 green: 0.95 blue: 0.95 alpha: 1.00];
+  
   return theme;
 }
 
+- (UIColor *) colorWithColorNamed:(NSString*) colorNamed {
+//  NSBundle *bundle = [[NSBundle alloc] initWithPath:@"Colors.xcassets"];
+  NSBundle *bundle = [NSBundle bundleForClass:[CardKTheme class]];
+  return [UIColor colorNamed:colorNamed inBundle:bundle compatibleWithTraitCollection:nil];
+}
 
 @end

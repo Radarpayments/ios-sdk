@@ -129,11 +129,9 @@ NSString *CardKFooterID = @"footer";
     [_cardNumberCell.scanCardTapRecognizer addTarget:self action:@selector(_scanCard:)];
 
     _expireDateTextField = [[CardKExpireDateTextField alloc] init];
-//    [_expireDateTextField addTarget:self action:@selector(_cardChanged) forControlEvents:UIControlEventValueChanged];
     [_expireDateTextField addTarget:self action:@selector(_switchToSecureCode) forControlEvents:UIControlEventEditingDidEndOnExit];
     
     _cvcTextField = [[CardKCVCTextField alloc] init];
-//    [_cvcTextField addTarget:self action:@selector(_cardChanged) forControlEvents:UIControlEventValueChanged];
 
 
     _doneButton = [[CardKButtonView alloc] init];
@@ -149,6 +147,18 @@ NSString *CardKFooterID = @"footer";
     _switchView = [[CardKSwitchView alloc] init];
     _switchView.tag = 30004;
     _sections = [self _defaultSections];
+    
+  self.tableView.backgroundColor = CardKConfig.shared.theme.colorTableBackground;
+  self.view.backgroundColor = CardKConfig.shared.theme.colorTableBackground;
+    
+    CardKTheme *theme = CardKConfig.shared.theme;
+//    UINavigationBar *bar = [self.navigationController navigationBar];
+//    bar.barTintColor = theme.colorLabel;
+//    [bar setTintColor: theme.colorLabel];
+//    [self.navigationController.navigationItem.backBarButtonItem setTitle:@""];
+//    [self.navigationItem.backBarButtonItem setTitle:@""];
+//    [self.navigationItem.backBarButtonItem setTintColor:theme.colorLabel];
+//    self.navigationController.navigationBar.tintColor = CardKConfig.shared.theme.colorLabel;
   }
   
   return self;
@@ -159,6 +169,7 @@ NSString *CardKFooterID = @"footer";
 }
 
 +(UIViewController *) create:(id<CardKDelegate>)cardKViewControllerDelegate controller:(CardKViewController *) controller {
+  
   
   CardKKindPaymentViewController *cardKKindPaymentViewController = [[CardKKindPaymentViewController alloc] init];
   cardKKindPaymentViewController.cKitDelegate = cardKViewControllerDelegate;
@@ -228,16 +239,12 @@ NSString *CardKFooterID = @"footer";
   [_cKitDelegate didLoadController:self];
   
   CardKTheme *theme = CardKConfig.shared.theme;
-
-  self.tableView.backgroundColor = CardKConfig.shared.theme.colorCellBackground;
+  
   self.tableView.sectionFooterHeight = UITableViewAutomaticDimension;
   [self.tableView setSeparatorStyle: UITableViewCellSeparatorStyleNone];
   self.tableView.cellLayoutMarginsFollowReadableWidth = YES;
   
   self.tableView.tableHeaderView.frame = CGRectMake(20, 0, 40, 40);
-
-  UINavigationBar *bar = [self.navigationController navigationBar];
-  bar.barTintColor = theme.colorCellBackground;
   
   for (NSString *cellID in @[CardKBankLogoCellID, CardKCardCellID, CardKCVCAndExpireDateCellID, CardKButtonCellID, CardKSwitchCellID]) {
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:cellID];
@@ -245,7 +252,7 @@ NSString *CardKFooterID = @"footer";
   
   [self.tableView registerClass:[UITableViewHeaderFooterView class] forHeaderFooterViewReuseIdentifier:CardKFooterID];
   
-  self.title = @"Payment";
+  self.title = NSLocalizedStringFromTableInBundle(@"payment", nil, _languageBundle, "payment");
 }
 
 
@@ -264,6 +271,8 @@ NSString *CardKFooterID = @"footer";
 
 - (void)viewDidLayoutSubviews {
   [super viewDidLayoutSubviews];
+  
+  self.navigationItem.backBarButtonItem.tintColor = CardKConfig.shared.theme.colorLabel;
 }
 
 #pragma mark - Table view data source
@@ -339,6 +348,10 @@ NSString *CardKFooterID = @"footer";
   cell.textLabel.textColor = theme.colorLabel;
 }
 
+
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
+  [super traitCollectionDidChange:previousTraitCollection];
+}
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {

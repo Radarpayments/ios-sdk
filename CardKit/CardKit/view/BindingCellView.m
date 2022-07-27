@@ -145,10 +145,12 @@
   
 
   _bottomLine.frame = CGRectMake(marginRight, self.frame.size.height - 1, self.frame.size.width - marginRight + 11, 0.5);
-  [_bottomLine setBackgroundColor: CardKConfig.shared.theme.colorSeparatar.CGColor];
+  
+  CardKTheme *theme = CardKConfig.shared.theme;
+
+  [_bottomLine setBackgroundColor: theme.colorSeparatar.CGColor];
   
 
-  CardKTheme *theme = CardKConfig.shared.theme;
   [_cardNumberLabel setTextColor: theme.colorLabel];
   [_expireDateLabel setTextColor: theme.colorLabel];
 }
@@ -240,6 +242,10 @@ _cardNumberLabel.text = [[NSString alloc] initWithFormat:@"** %@", last4Characte
 
 - (NSString *)secureCode {
   return _secureCodeTextField.text;
+}
+
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
+  [super traitCollectionDidChange:previousTraitCollection];
 }
 @end
 

@@ -77,6 +77,7 @@
 		92C9AECC283532180000D878 /* CardKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D245AB39231C435E00369747 /* CardKit.framework */; };
 		92CAD532288DD80F00373ADD /* CardKitCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 924290B7255D5FE200378C68 /* CardKitCore.framework */; platformFilter = ios; };
 		92CAD533288DD80F00373ADD /* CardKitCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 924290B7255D5FE200378C68 /* CardKitCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		92CAD53828908CB500373ADD /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 92CAD53728908CB500373ADD /* Colors.xcassets */; };
 		92D67341287FDFCE0069DBF5 /* CardKApplePayButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 92D67340287FDFCE0069DBF5 /* CardKApplePayButtonView.m */; };
 		92D67342287FF1180069DBF5 /* CardKApplePayButtonView.h in Headers */ = {isa = PBXBuildFile; fileRef = 92D6733F287FDF9E0069DBF5 /* CardKApplePayButtonView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		92D85548255D63DA0002936B /* CardKitCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 92D85547255D63DA0002936B /* CardKitCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -279,6 +280,7 @@
 		92C9AEC728352C780000D878 /* CardKPaymentControllerTest.m */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = CardKPaymentControllerTest.m; sourceTree = "<group>"; tabWidth = 2; };
 		92C9AEC928352CDC0000D878 /* PaymentController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PaymentController.m; sourceTree = "<group>"; };
 		92C9AECB28352CED0000D878 /* PaymentController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PaymentController.h; sourceTree = "<group>"; };
+		92CAD53728908CB500373ADD /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		92D6733F287FDF9E0069DBF5 /* CardKApplePayButtonView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CardKApplePayButtonView.h; sourceTree = "<group>"; };
 		92D67340287FDFCE0069DBF5 /* CardKApplePayButtonView.m */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = CardKApplePayButtonView.m; sourceTree = "<group>"; tabWidth = 2; };
 		92D85547255D63DA0002936B /* CardKitCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardKitCore.h; sourceTree = "<group>"; };
@@ -545,8 +547,9 @@
 		D245AB3B231C435E00369747 /* CardKit */ = {
 			isa = PBXGroup;
 			children = (
-				92D6733E287FDF390069DBF5 /* view */,
 				D2D0B369232124120007B3B9 /* Images.xcassets */,
+				92CAD53728908CB500373ADD /* Colors.xcassets */,
+				92D6733E287FDF390069DBF5 /* view */,
 				D245AB3C231C435E00369747 /* CardKit.h */,
 				D245AB3D231C435E00369747 /* Info.plist */,
 				9205AAA32884A49D00EF36A2 /* Constants.h */,
@@ -901,6 +904,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D2D0B3642320F3A60007B3B9 /* banks-info in Resources */,
+				92CAD53828908CB500373ADD /* Colors.xcassets in Resources */,
 				D20CEBCD232F660400F9407C /* Localizable.strings in Resources */,
 				D2D0B36A232124120007B3B9 /* Images.xcassets in Resources */,
 			);
@@ -1523,6 +1527,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
+				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1561,6 +1566,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
+				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;

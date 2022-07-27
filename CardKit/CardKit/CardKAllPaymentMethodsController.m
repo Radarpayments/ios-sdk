@@ -54,7 +54,7 @@
     
     _newCardCellView = [[NewCardCellView alloc] init];
     
-    self.tableView.backgroundColor = CardKConfig.shared.theme.colorCellBackground;
+    self.tableView.backgroundColor = CardKConfig.shared.theme.colorTableBackground;
     [UIBarButtonItem appearance].tintColor = [UIColor redColor];
     if (CardKConfig.shared.isEditBindingListMode) {
       _editModeButton = [[UIBarButtonItem alloc]
@@ -65,8 +65,9 @@
       [_editModeButton setTintColor: CardKConfig.shared.theme.colorLabel];
       
       self.navigationItem.rightBarButtonItem = _editModeButton;
-      [self.navigationItem.backBarButtonItem setTitle:@""];
+     
     }
+//    [self.navigationItem.backBarButtonItem setTitle:@""];
     _isEditing = NO;
   }
   return self;

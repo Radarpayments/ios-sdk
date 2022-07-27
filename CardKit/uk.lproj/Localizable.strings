@@ -31,7 +31,7 @@
 
 "payByCard" = "або сплатити карткою";
 "addCard" = "Додати нову картку";
-"allPaymentPethods" = "Усі способи оплати";
+"allPaymentMethods" = "Усі способи оплати";
 "payment" = "Платіж";
 "cardNumber" = "Номер картки";
 "pay" = "Сплатити";

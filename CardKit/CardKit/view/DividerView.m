@@ -59,7 +59,7 @@
   _titleContainerView.backgroundColor = _theme.colorCellBackground;
   
   _titleLabel.center = CGPointMake(_titleContainerView.frame.size.width / 2, _titleContainerView.frame.size.height / 2 - 1);
-  _titleLabel.textColor = _theme.colorSeparatar;
+  _titleLabel.textColor = _theme.colorPlaceholder;
   _lineView.frame = CGRectMake(0, 0, boundsSize.width, 0.5);
   _lineView.backgroundColor = _theme.colorSeparatar;
   _lineView.center = CGPointMake(boundsSize.width / 2, boundsSize.height / 2);
@@ -73,6 +73,10 @@
 
 - (NSString *)title {
   return _title;
+}
+
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
+  [super traitCollectionDidChange:previousTraitCollection];
 }
 @end
 

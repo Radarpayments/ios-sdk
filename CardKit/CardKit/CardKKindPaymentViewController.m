@@ -61,7 +61,7 @@
     _bankLogoView.title = NSLocalizedStringFromTableInBundle(@"title", nil, _languageBundle, @"Title");
 
     _dividerView = [[DividerView alloc] init];
-    _dividerView.title = @"Or pay by card";
+    _dividerView.title = NSLocalizedStringFromTableInBundle(@"payByCard", nil, _languageBundle, @"payByCard");;
     
     _newCardCellView = [[NewCardCellView alloc] init];
   }
@@ -111,24 +111,23 @@
   }
   
   CardKTheme *theme = CardKConfig.shared.theme;
-  self.tableView.backgroundColor = CardKConfig.shared.theme.colorCellBackground;
+  self.tableView.backgroundColor = CardKConfig.shared.theme.colorTableBackground;
   self.tableView.sectionFooterHeight = UITableViewAutomaticDimension;
   self.tableView.cellLayoutMarginsFollowReadableWidth = YES;
   [self.tableView setSeparatorStyle: UITableViewCellSeparatorStyleNone];
-  UINavigationBar *bar = [self.navigationController navigationBar];
-  bar.barTintColor = theme.colorCellBackground;
-  [self.navigationItem setBackBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil]];
+//  UINavigationBar *bar = [self.navigationController navigationBar];
+//  bar.barTintColor = theme.colorLabel;
+//  [self.navigationItem setBackBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil]];
   
   _bankLogoView.frame = CGRectMake(self.view.bounds.size.width * 2, 0, 0, 0);
   
-  self.navigationController.navigationBar.tintColor = CardKConfig.shared.theme.colorLabel;
+//  self.navigationController.navigationBar.tintColor = CardKConfig.shared.theme.colorLabel;
+//  self.navigationController.
 }
 
 
 - (void)viewDidLayoutSubviews {
   [super viewDidLayoutSubviews];
-  
-  
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -170,6 +169,7 @@
   } else if ([AllPaymentMethodsCellID isEqual:cellID]) {
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.textLabel.text = NSLocalizedStringFromTableInBundle(@"allPaymentMethods", nil, _languageBundle, @"allPaymentMethods");
+    cell.textLabel.textColor = CardKConfig.shared.theme.colorLabel;
     cell.textLabel.font = [UIFont boldSystemFontOfSize:16];
   }
    
@@ -177,6 +177,7 @@
   if (theme.colorCellBackground != nil) {
    cell.backgroundColor = theme.colorCellBackground;
   }
+  
 
   return cell;
 }

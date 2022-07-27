@@ -31,7 +31,7 @@
 
 "payByCard" = "O pagar con tarjeta";
 "addCard" = "Agregar tarjeta nueva";
-"allPaymentPethods" = "Todos los métodos de pago";
+"allPaymentMethods" = "Todos los métodos de pago";
 "payment" = "Pago";
 "cardNumber" = "Número de tarjeta";
 "pay" = "Pagar";

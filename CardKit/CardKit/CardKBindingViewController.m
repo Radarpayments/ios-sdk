@@ -124,8 +124,8 @@ NSString *CardKConfirmChoosedCardFooterID = @"footer";
   self.tableView.sectionFooterHeight = UITableViewAutomaticDimension;
   self.tableView.cellLayoutMarginsFollowReadableWidth = YES;
   
-  UINavigationBar *bar = [self.navigationController navigationBar];
-  bar.barTintColor = theme.colorCellBackground;
+//  UINavigationBar *bar = [self.navigationController navigationBar];
+//  bar.barTintColor = theme.colorCellBackground;
   
   _button.tintColor = theme.colorButtonText;
   _bankLogoView.frame = CGRectMake(0, 0, self.view.bounds.size.width, 80);

@@ -15,10 +15,19 @@
 {
     self = [super init];
     if (self) {
-      [self.titleLabel setTextColor:CardKConfig.shared.theme.colorButtonText];
+      [self setTitleColor:CardKConfig.shared.theme.colorButtonText forState:UIControlStateNormal];
       self.backgroundColor = CardKConfig.shared.theme.colorButtonBackground;
+      
       self.layer.cornerRadius = 8;
     }
     return self;
+}
+
+- (void)didAddSubview:(UIView *)subview {
+
+}
+
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
+  [super traitCollectionDidChange:previousTraitCollection];
 }
 @end

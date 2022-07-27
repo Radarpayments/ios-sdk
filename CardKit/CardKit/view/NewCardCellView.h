@@ -10,8 +10,6 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface NewCardCellView: UIView
-- (UIImage *) imagePath;
-- (NSString *) label;
 @end
 
 NS_ASSUME_NONNULL_END

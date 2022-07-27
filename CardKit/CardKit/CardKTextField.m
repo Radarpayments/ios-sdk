@@ -464,7 +464,7 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
 - (void) _makeActiveBottomLine {
   CGSize boundsSize = self.bounds.size;
   _bottomLine.backgroundColor = CardKConfig.shared.theme.colorActiveBorderTextView.CGColor;
-  _bottomLine.frame = CGRectMake(0, CGRectGetMaxY(_textField.frame) + 1, boundsSize.width, 10);
+  _bottomLine.frame = CGRectMake(0, CGRectGetMaxY(_textField.frame) + 2, boundsSize.width, 2);
 }
 
 - (void) _makeInactiveBottomLine {
@@ -523,5 +523,6 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
   [[self layer] addAnimation:animation forKey:@"position"];
   AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
 }
+
 
 @end
