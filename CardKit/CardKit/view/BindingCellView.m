@@ -168,7 +168,7 @@
   NSRange lastBullet = [displayText rangeOfString:bullet options:NSBackwardsSearch];
   NSRange bulletsRange = NSMakeRange(firstBullet.location,  lastBullet.location - firstBullet.location + 1);
   
-  [attributedString addAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"Menlo-bold" size:fontSize]} range:bulletsRange];
+  [attributedString addAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"SF Pro" size:fontSize]} range:bulletsRange];
   [attributedString addAttribute:NSBaselineOffsetAttributeName value:[NSNumber numberWithFloat:-2.0] range:bulletsRange];
 
   _cardNumberLabel.attributedText = attributedString;

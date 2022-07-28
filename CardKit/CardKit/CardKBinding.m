@@ -17,5 +17,7 @@
 #import "RSA.h"
 
 @implementation CardKBinding
-
+- (NSString *)formatedExpireDate {
+  return [_expireDate stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+}
 @end

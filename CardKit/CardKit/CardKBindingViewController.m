@@ -7,226 +7,240 @@
 //
 
 #import "CardKBindingViewController.h"
+#import "CardKTextField.h"
+#import "CardKCardView.h"
+#import "CardKBankLogoView.h"
+#import "CardKFooterView.h"
 #import "CardKConfig.h"
+#import "CardKSwitchView.h"
+#import "CardKKindPaymentViewController.h"
+#import "SeTokenGenerator.h"
+#import "CardKButtonView.h"
+
+#import "CardKCardNumberTextField.h"
+#import "CardKExpireDateTextField.h"
+#import "CardKCVCTextField.h"
+#import "CKCToken.h"
+
 #import "CardKBinding.h"
 #import "BindingCellView.h"
-#import "CardKTextField.h"
-#import "CardKFooterView.h"
-#import "CardKValidation.h"
-#import "CardKBankLogoView.h"
-#import "SeTokenGenerator.h"
 
-const NSString *CardKBindingCardCellID = @"bindingCard";
-const NSString *CardKBindingButtonCellID = @"button";
-const NSString *CardKConfirmChoosedCardRows = @"rows";
-NSString *CardKConfirmChoosedCardFooterID = @"footer";
+#import "Constants.h"
 
 @implementation CardKBindingViewController {
-  UIButton *_button;
+  CardKBankLogoView *_bankLogoView;
+  CardKCardNumberTextField *_cardNumberCell;
+  CardKExpireDateTextField *_expireDateTextField;
+  CardKCVCTextField *_cvcTextField;
+  UIButton *_doneButton;
+  NSMutableArray *_sections;
   NSBundle *_bundle;
   NSBundle *_languageBundle;
-  NSMutableArray *_sections;
-  CardKFooterView *_cardFooterView;
-  NSString *_lastAnouncment;
-  BindingCellView * _bindingCellView;
 }
 - (instancetype)init {
   self = [super initWithStyle:UITableViewStyleGrouped];
 
   if (self) {
-    _button =  [UIButton buttonWithType:UIButtonTypeSystem];
-    _button.tag = 30007;
-    
-    _bundle = [NSBundle bundleForClass:[CardKBindingViewController class]];
-     
-     NSString *language = CardKConfig.shared.language;
-    
-     if (language != nil) {
-       _languageBundle = [NSBundle bundleWithPath:[_bundle pathForResource:language ofType:@"lproj"]];
-     } else {
-       _languageBundle = _bundle;
-     }
+    _bundle = [NSBundle bundleForClass:[CardKViewController class]];
 
-    [_button
-      setTitle: NSLocalizedStringFromTableInBundle(@"doneButton", nil, _languageBundle, @"Pay")
+    NSString *language = CardKConfig.shared.language;
+    if (language != nil) {
+      _languageBundle = [NSBundle bundleWithPath:[_bundle pathForResource:language ofType:@"lproj"]];
+    } else {
+      _languageBundle = _bundle;
+    }
+
+    _bankLogoView = [[CardKBankLogoView alloc] init];
+
+    _cardNumberCell = [[CardKCardNumberTextField alloc] init];
+    
+    _expireDateTextField = [[CardKExpireDateTextField alloc] init];
+    
+    _cvcTextField = [[CardKCVCTextField alloc] init];
+
+
+    _doneButton = [[CardKButtonView alloc] init];
+    _doneButton.tag = 30005;
+    [_doneButton
+      setTitle: NSLocalizedStringFromTableInBundle(@"doneButton", nil, _languageBundle, "Submit payment button")
       forState: UIControlStateNormal];
-    [_button addTarget:self action:@selector(_buttonPressed:)
+    _doneButton.frame = CGRectMake(0, 0, 200, 44);
+
+    [_doneButton addTarget:self action:@selector(_buttonPressed:)
     forControlEvents:UIControlEventTouchUpInside];
 
     _sections = [self _defaultSections];
-    _bindingCellView = [[BindingCellView alloc] init];
-    _bindingCellView.binding = _cardKBinding;
+    
+  self.tableView.backgroundColor = CardKConfig.shared.theme.colorTableBackground;
+  self.view.backgroundColor = CardKConfig.shared.theme.colorTableBackground;
   }
   return self;
 }
 
-- (void)_refreshErrors {
-  _cardFooterView.errorMessages = _bindingCellView.errorMessages;
-  [self _announceError];
+- (void)viewWillAppear:(BOOL)animated {
+  [super viewWillAppear:YES];
 }
 
-- (void)_announceError {
-  NSString *errorMessage = [_bindingCellView.errorMessages firstObject];
-  if (errorMessage.length > 0 && ![_lastAnouncment isEqualToString:errorMessage]) {
-    _lastAnouncment = errorMessage;
-    UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, _lastAnouncment);
-  }
-}
 
-- (BOOL)_isFormValid {
-  if (!CardKConfig.shared.bindingCVCRequired) {
-    return YES;
-  }
+- (NSMutableArray *)_defaultSections {
+  NSArray *sections = @[
+//    @{CardKRows: @[CardKBankLogoCellID]},
+    @{CardKSectionTitle: NSLocalizedStringFromTableInBundle(@"card", nil, _languageBundle, @"Card section title"), CardKRows: @[CardKCardCellID]},
+    @{CardKSectionTitle: NSLocalizedStringFromTableInBundle(@"cardholder", nil, _languageBundle, @"Cardholder section title"), CardKRows: @[CardKCVCAndExpireDateCellID]},
+    @{CardKRows: @[CardKButtonCellID]},
+  ];
   
-  [_bindingCellView validate];
-  [self _refreshErrors];
-  return _cardFooterView.errorMessages.count == 0;
-}
-
-- (void)_buttonPressed:(UIButton *)button {
-  if (![self _isFormValid]) {
-    [self _animateError];
-    _lastAnouncment = nil;
-    [self _announceError];
-    return;
-  }
+  NSMutableArray *defaultSections = [[NSMutableArray alloc] initWithCapacity:3];
   
-  NSString *seToken = [SeTokenGenerator generateSeTokenWithBinding:_cardKBinding];
+  [defaultSections setArray:sections];
 
-  [_cKitDelegate bindingViewController:self didCreateSeToken:seToken allowSaveBinding:NO isNewCard: NO];
+  return defaultSections;
 }
 
 - (void)_animateError {
-  [_button animateError];
+  [_doneButton animateError];
 }
 
-- (NSMutableArray *)_defaultSections {
-  NSMutableArray *defaultSections = [[NSMutableArray alloc] initWithArray: @[
-    @{CardKConfirmChoosedCardRows: @[CardKBindingCardCellID]},
-    @{CardKConfirmChoosedCardRows: @[CardKBindingButtonCellID] },
-  ] copyItems:YES];
-  
-  return defaultSections;
+
+- (void)setAllowedCardScaner:(BOOL)allowedCardScaner {
+  _cardNumberCell.allowedCardScaner = allowedCardScaner;
+
+}
+
+- (void)_cardChanged {
+  NSString *number = _cardNumberCell.number;
+  [_bankLogoView fetchBankInfo: CardKConfig.shared.mrBinApiURL cardNumber: number];
 }
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-
-  for (NSString *cellID in @[CardKBindingCardCellID, CardKBindingButtonCellID]) {
-   [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:cellID];
-  }
+  [_cKitDelegate didLoadController:self];
   
   CardKTheme *theme = CardKConfig.shared.theme;
-
-  self.tableView.tableHeaderView = _bankLogoView;
-  self.tableView.separatorColor = theme.colorSeparatar;
-  self.tableView.backgroundColor = theme.colorTableBackground;
+  
   self.tableView.sectionFooterHeight = UITableViewAutomaticDimension;
+  [self.tableView setSeparatorStyle: UITableViewCellSeparatorStyleNone];
   self.tableView.cellLayoutMarginsFollowReadableWidth = YES;
   
-//  UINavigationBar *bar = [self.navigationController navigationBar];
-//  bar.barTintColor = theme.colorCellBackground;
+  self.tableView.tableHeaderView.frame = CGRectMake(20, 0, 40, 40);
   
-  _button.tintColor = theme.colorButtonText;
-  _bankLogoView.frame = CGRectMake(0, 0, self.view.bounds.size.width, 80);
-  _bankLogoView.title = @"";
-  [_bankLogoView fetchBankInfo: CardKConfig.shared.mrBinApiURL cardNumber: [self _getKnowsCardDigit]];
+  for (NSString *cellID in @[CardKBankLogoCellID, CardKCardCellID, CardKCVCAndExpireDateCellID, CardKButtonCellID, CardKSwitchCellID]) {
+    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:cellID];
+  }
+  
+  [self.tableView registerClass:[UITableViewHeaderFooterView class] forHeaderFooterViewReuseIdentifier:CardKFooterID];
+  
+  self.title = NSLocalizedStringFromTableInBundle(@"payment", nil, _languageBundle, "payment");
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-  [super viewWillAppear:animated];
-  [_bindingCellView focusSecureCode];
+
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+  [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+  [self.tableView reloadData];
+}
+
+- (NSString *)purchaseButtonTitle {
+  return _doneButton.currentTitle;
+}
+
+- (void)setPurchaseButtonTitle:(NSString *)purchaseButtonTitle {
+  [_doneButton setTitle:purchaseButtonTitle forState:UIControlStateNormal];
 }
 
 - (void)viewDidLayoutSubviews {
   [super viewDidLayoutSubviews];
   
-  CGRect bounds = _button.superview.bounds;
-  _button.center = CGPointMake(bounds.size.width * 0.5, bounds.size.height * 0.5);
-  
-  _button.frame = CGRectMake(0, 0, self.view.bounds.size.width, 40);
+  self.navigationItem.backBarButtonItem.tintColor = CardKConfig.shared.theme.colorLabel;
 }
 
-- (NSString *) _getKnowsCardDigit {
-  NSArray *digits = [_cardKBinding.cardNumber componentsSeparatedByString:@"X"];
-  
-  return digits[0];
-}
+#pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
   return _sections.count;
 }
 
-- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-  UITableViewHeaderFooterView *view = [tableView dequeueReusableHeaderFooterViewWithIdentifier: CardKConfirmChoosedCardFooterID];
-  if (view == nil) {
-    view = [[UITableViewHeaderFooterView alloc] initWithReuseIdentifier: CardKConfirmChoosedCardFooterID];
-  }
-
-  if (section == 0) {
-    if (_cardFooterView == nil) {
-      _cardFooterView = [[CardKFooterView alloc] initWithFrame:view.contentView.bounds];
-    }
-    
-    [view.contentView addSubview:_cardFooterView];
-  }
-  
-  return view;
-}
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  return  [_sections[section][CardKConfirmChoosedCardRows] count];
+  return [_sections[section][CardKRows] count];
 }
+
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-  NSString *cellID = _sections[indexPath.section][CardKConfirmChoosedCardRows][indexPath.row];
-  UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier: cellID forIndexPath:indexPath];
-
-  if ([CardKBindingCardCellID isEqual:cellID] || ([CardKBindingCardCellID isEqual:cellID] && CardKConfig.shared.bindingCVCRequired)) {
-    _bindingCellView.binding = _cardKBinding;
-    _bindingCellView.showCVCField = YES;
-    _bindingCellView.showShortCardNumber = NO;
-    
-    [cell.contentView addSubview:_bindingCellView];
-  } else if ([CardKBindingButtonCellID isEqual:cellID]) {
-    [cell.contentView addSubview:_button];
-  }
-
   CardKTheme *theme = CardKConfig.shared.theme;
-  if (theme.colorCellBackground != nil) {
-   cell.backgroundColor = theme.colorCellBackground;
-  }
+  NSString *cellID = _sections[indexPath.section][CardKRows][indexPath.row] ?: @"unknown";
+  UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID forIndexPath:indexPath];
 
+  if (theme.colorCellBackground != nil) {
+    cell.backgroundColor = theme.colorCellBackground;
+  }
+  
+  cell.textLabel.textColor = theme.colorLabel;
   return cell;
 }
 
-- (void)tableView:(UITableView *)tableView willDisplayFooterView:(nonnull UIView *)view forSection:(NSInteger)section {
-    CGRect r = tableView.readableContentGuide.layoutFrame;
-    UITableViewHeaderFooterView * v = (UITableViewHeaderFooterView *)view;
-    v.contentView.subviews.firstObject.frame = CGRectMake(r.origin.x, 0, v.contentView.bounds.size.width, v.contentView.bounds.size.height);
-}
-
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-  CGRect r = tableView.readableContentGuide.layoutFrame;
-
-  cell.contentView.subviews.firstObject.frame = CGRectMake(r.origin.x, 0, r.size.width - r.origin.x, cell.contentView.bounds.size.height);
+  CardKTheme *theme = CardKConfig.shared.theme;
+  
+  NSString *cellID = _sections[indexPath.section][CardKRows][indexPath.row] ?: @"unknown";
+  if ([CardKBankLogoCellID isEqual:cellID]) {
+      _bankLogoView.frame = CGRectMake(20, 0, 40, 40);
+      _bankLogoView.title = @"";
+      
+      [cell.contentView addSubview:_bankLogoView];
+  } else if ([CardKCardCellID isEqual:cellID]) {
+    _cardNumberCell.frame = CGRectMake(20, 0, cell.contentView.bounds.size.width - 40, cell.contentView.bounds.size.height);
+    
+    [cell.contentView addSubview:_cardNumberCell];
+  } else if ([CardKCVCAndExpireDateCellID isEqual:cellID]) {
+    NSInteger width = cell.contentView.bounds.size.width;
+    NSInteger height = cell.contentView.bounds.size.height;
+    
+    UIView *expireView = [[UIView alloc] initWithFrame:CGRectMake(20, 0, width / 2 - 40, height)];
+    
+    [expireView addSubview:_expireDateTextField];
+    _expireDateTextField.frame = CGRectMake(0, 0, expireView.frame.size.width, height);
+    [cell.contentView addSubview:expireView];
+    
+    UIView *cvcView = [[UIView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(expireView.frame) + 20, 0, width / 2 - 20, height)];
+    _cvcTextField.frame = CGRectMake(0, 0, cvcView.frame.size.width, height);
+    [cvcView addSubview:_cvcTextField];
+    [cell.contentView addSubview:cvcView];
+  } else if ([CardKButtonCellID isEqual:cellID]) {
+    _doneButton.frame = CGRectMake(20, 0, cell.contentView.bounds.size.width - 40, cell.contentView.bounds.size.height);
+    [cell.contentView addSubview:_doneButton];
+  }
+  
+  if (theme.colorCellBackground != nil) {
+    cell.backgroundColor = theme.colorCellBackground;
+  }
+  
+  cell.textLabel.textColor = theme.colorLabel;
 }
 
-- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
-    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
-    [self.tableView reloadData];
+
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
+  [super traitCollectionDidChange:previousTraitCollection];
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-  return @" ";
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+  NSString *cellID = _sections[indexPath.section][CardKRows][indexPath.row];
+  if ([CardKButtonCellID isEqual:cellID]) {
+    return 50;
+  } else if ([CardKSwitchCellID isEqual:cellID]) {
+    return 40;
+  } else if ([CardKBankLogoCellID isEqual:cellID]) {
+    return 40;
+  }
+  
+  return 70;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-  return 38;
+  return 0;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-  return 38;
+    return 0;
 }
 
 - (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -241,5 +255,54 @@ NSString *CardKConfirmChoosedCardFooterID = @"footer";
   return NO;
 }
 
+- (void)_switchToExpireDate {
+  [_expireDateTextField becomeFirstResponder];
+}
 
+- (void)_switchToSecureCode {
+  [_cvcTextField becomeFirstResponder];
+}
+
+- (BOOL)_isFormValid {
+  if (CardKConfig.shared.bindingCVCRequired) {
+    return [_cvcTextField validate];
+  }
+  return YES;
+}
+
+- (void)_buttonPressed:(UIButton *)button {
+  if (![self _isFormValid]) {
+    [self _animateError];
+    return;
+  }
+  
+  CardKBinding *ckcBinding = self.cardKBinding;
+  
+  CKCBindingParams *ckcBindingParams = [[CKCBindingParams alloc] init];
+
+  if (CardKConfig.shared.bindingCVCRequired) {
+    ckcBindingParams.cvc = _cvcTextField.secureCode;
+  }
+  
+  ckcBindingParams.bindingID = ckcBinding.bindingId;
+  ckcBindingParams.mdOrder = CardKConfig.shared.mdOrder;
+  ckcBindingParams.pubKey = CardKConfig.shared.pubKey;
+
+  CKCTokenResult *seToken = [CKCToken generateWithBinding:ckcBindingParams];
+  [_cKitDelegate bindingViewController:self didCreateSeToken:seToken.token allowSaveBinding:NO isNewCard: NO];
+}
+
+- (void)setCardKBinding:(CardKBinding *)cardKBinding {
+  _cardNumberCell.binding = cardKBinding;
+  _expireDateTextField.binding = cardKBinding;
+  if (!CardKConfig.shared.bindingCVCRequired) {
+    _cvcTextField.binding = cardKBinding;;
+  } else {
+    [_cvcTextField becomeFirstResponder];
+  }
+}
+
+- (CardKBinding *)cardKBinding {
+  return _cardNumberCell.binding;
+}
 @end

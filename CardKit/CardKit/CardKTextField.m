@@ -103,7 +103,7 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
     _textField.leftViewMode = UITextFieldViewModeAlways;
     _textField.autocapitalizationType = UITextAutocapitalizationTypeAllCharacters;
     
-    [_textField addSubview:_patternLabel];
+//    [_textField addSubview:_patternLabel];
     [_textField addSubview:_formatLabel];
     
     [self addSubview:_textField];
@@ -523,6 +523,5 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
   [[self layer] addAnimation:animation forKey:@"position"];
   AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
 }
-
 
 @end

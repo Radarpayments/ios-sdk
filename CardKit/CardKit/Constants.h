@@ -13,4 +13,13 @@ extern NSString* const CardKApplePayButtonCellID;
 extern NSString* const CardKDividerCellID;
 extern NSString* const NewCardCellID;
 extern NSString* const AllPaymentMethodsCellID;
-extern NSString* const CardKKindPayRows;
+extern NSString* const CardKRows;
+
+
+extern NSString* const CardKCardCellID;
+extern NSString* const CardKBankLogoCellID;
+extern NSString* const CardKCVCAndExpireDateCellID;
+extern NSString* const CardKSwitchCellID;
+extern NSString* const CardKButtonCellID;
+extern NSString* const CardKSectionTitle;
+extern NSString* const CardKFooterID;

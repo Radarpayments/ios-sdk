@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "CardKTheme.h"
+#import "CardKBinding.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -18,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 -(nullable NSString *)getMonthFromExpirationDate;
 -(nullable NSString *)getFullYearFromExpirationDate;
 -(BOOL)validate;
+@property (nonatomic, strong) CardKBinding *binding;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -126,7 +126,7 @@
   
   [bindings addObject:@{NewCardCellID: @[]}];
   
-  return @[@{CardKKindPayRows: bindings}];
+  return @[@{CardKRows: bindings}];
 }
 
 - (NSArray *)_defaultSectionsWithoudNewCard {
@@ -139,7 +139,7 @@
     [bindings addObject:@{ CardKSavedCardsCellID: cellBinding}];
   }
   
-  return @[@{CardKKindPayRows: bindings}];
+  return @[@{CardKRows: bindings}];
 }
 
 
@@ -176,7 +176,7 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-  NSString *cellID = [[_sections[indexPath.section][CardKKindPayRows][indexPath.row] allKeys] firstObject];
+  NSString *cellID = [[_sections[indexPath.section][CardKRows][indexPath.row] allKeys] firstObject];
   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier: cellID forIndexPath:indexPath];
   
   if([CardKSavedCardsCellID isEqual:cellID]) {
@@ -196,7 +196,7 @@
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
     cell.editingAccessoryView = button;
-    BindingCellView *bindingCellView = _sections[indexPath.section][CardKKindPayRows][indexPath.row][CardKSavedCardsCellID];
+    BindingCellView *bindingCellView = _sections[indexPath.section][CardKRows][indexPath.row][CardKSavedCardsCellID];
     bindingCellView.frame = bindingCellView.frame = CGRectMake(20, 0, cell.contentView.frame.size.width - 20, cell.contentView.frame.size.height);
     [cell.contentView addSubview:bindingCellView];
   }  else if ([NewCardCellID isEqual:cellID]) {
@@ -262,9 +262,9 @@
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-  NSString *cellID = [[_sections[indexPath.section][CardKKindPayRows][indexPath.row] allKeys] firstObject];
+  NSString *cellID = [[_sections[indexPath.section][CardKRows][indexPath.row] allKeys] firstObject];
   if([CardKSavedCardsCellID isEqual:cellID]) {
-    BindingCellView *bindingCellView = _sections[indexPath.section][CardKKindPayRows][indexPath.row][CardKSavedCardsCellID];
+    BindingCellView *bindingCellView = _sections[indexPath.section][CardKRows][indexPath.row][CardKSavedCardsCellID];
     bindingCellView.frame = CGRectMake(20, 0, cell.contentView.frame.size.width - 20, cell.contentView.frame.size.height);
     [cell.contentView addSubview:bindingCellView];
   }  else if ([NewCardCellID isEqual:cellID]) {
@@ -280,12 +280,12 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-  NSString *cellID = [[_sections[indexPath.section][CardKKindPayRows][indexPath.row] allKeys] firstObject];
+  NSString *cellID = [[_sections[indexPath.section][CardKRows][indexPath.row] allKeys] firstObject];
   
   if ([CardKSavedCardsCellID isEqual:cellID]) {
     CardKBindingViewController *cardKBindingViewController = [[CardKBindingViewController alloc] init];
     
-    BindingCellView *selectedBindingView = _sections[indexPath.section][CardKKindPayRows][indexPath.row][CardKSavedCardsCellID];
+    BindingCellView *selectedBindingView = _sections[indexPath.section][CardKRows][indexPath.row][CardKSavedCardsCellID];
     
     cardKBindingViewController.cardKBinding = selectedBindingView.binding;
     cardKBindingViewController.cKitDelegate = _cKitDelegate;
@@ -334,7 +334,7 @@
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-  NSString *cellID = [[_sections[indexPath.section][CardKKindPayRows][indexPath.row] allKeys] firstObject];
+  NSString *cellID = [[_sections[indexPath.section][CardKRows][indexPath.row] allKeys] firstObject];
 
   if (CardKConfig.shared.isEditBindingListMode && [CardKSavedCardsCellID isEqual:cellID]) {
     return YES;

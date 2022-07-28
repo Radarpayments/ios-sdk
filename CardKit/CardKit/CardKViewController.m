@@ -21,15 +21,7 @@
 #import "CardKExpireDateTextField.h"
 #import "CardKCVCTextField.h"
 #import "CKCToken.h"
-
-const NSString *CardKCardCellID = @"card";
-const NSString *CardKBankLogoCellID = @"bankLogo";
-const NSString *CardKCVCAndExpireDateCellID = @"cvcAndExpireDate";
-const NSString *CardKSwitchCellID = @"switch";
-const NSString *CardKButtonCellID = @"button";
-const NSString *CardKRows = @"rows";
-const NSString *CardKSectionTitle = @"title";
-NSString *CardKFooterID = @"footer";
+#import "Constants.h"
 
 @interface ScanViewWrapper: UIView
 
@@ -95,16 +87,11 @@ NSString *CardKFooterID = @"footer";
   CardKCardNumberTextField *_cardNumberCell;
   CardKExpireDateTextField *_expireDateTextField;
   CardKCVCTextField *_cvcTextField;
-  CardKTextField *_ownerTextField;
   UIButton *_doneButton;
   NSMutableArray *_sections;
-  CardKFooterView *_cardFooterView;
-  CardKFooterView *_ownerFooterView;
   NSBundle *_bundle;
   NSBundle *_languageBundle;
-  NSMutableArray *_ownerErrors;
   CardKSwitchView *_switchView;
-  BOOL _displayCardHolderField;
 }
 
 
@@ -118,8 +105,6 @@ NSString *CardKFooterID = @"footer";
     } else {
       _languageBundle = _bundle;
     }
-
-    _ownerErrors = [[NSMutableArray alloc] init];
 
     _bankLogoView = [[CardKBankLogoView alloc] init];
 
@@ -253,6 +238,9 @@ NSString *CardKFooterID = @"footer";
   [self.tableView registerClass:[UITableViewHeaderFooterView class] forHeaderFooterViewReuseIdentifier:CardKFooterID];
   
   self.title = NSLocalizedStringFromTableInBundle(@"payment", nil, _languageBundle, "payment");
+  
+  
+  [_cardNumberCell becomeFirstResponder];
 }
 
 

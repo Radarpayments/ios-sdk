@@ -17,6 +17,7 @@
     NSMutableArray *_errorMessagesArray;
     NSBundle *_bundle;
     NSBundle *_languageBundle;
+    CardKBinding *_binding;
   }
 
   - (instancetype)init {
@@ -181,5 +182,18 @@
     return YES;
   }
 
+- (void)setBinding:(CardKBinding *)binding {
+  _binding = binding;
+  _secureCodeTextField.secureTextEntry = YES;
+  _secureCodeTextField.text = @"xxx";
+  _secureCodeTextField.enabled = NO;
+}
+
+- (CardKBinding *)binding {
+  return _binding;
+}
+- (BOOL)becomeFirstResponder {
+  return [_secureCodeTextField becomeFirstResponder];
+}
   @end
 

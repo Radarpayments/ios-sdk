@@ -13,6 +13,7 @@
 #import "Luhn.h"
 #import "CardKConfig.h"
 #import "CardKValidation.h"
+#import "CardKBinding.h"
 
 @implementation CardKCardNumberTextField {
   CardKTextField *_numberTextField;
@@ -23,6 +24,7 @@
   NSString *_leftIconImageName;
   UIViewAnimationOptions _leftIconAnimationOptions;
   UIImageView *_paymentSystemImageView;
+  CardKBinding *_binding;
 }
 
 - (instancetype)init {
@@ -249,6 +251,21 @@ self.leftIconImageName = [PaymentSystemProvider imageNameByCardNumber:number com
 - (BOOL)resignFirstResponder {
   [_numberTextField resignFirstResponder];
   return YES;
+}
+
+- (void)setBinding:(CardKBinding *)binding {
+  _binding = binding;
+  _numberTextField.secureTextEntry = YES;
+  _numberTextField.text = binding.cardNumber;
+  _numberTextField.enabled = NO;
+}
+
+- (CardKBinding *)binding {
+  return _binding;
+}
+
+- (BOOL)becomeFirstResponder {
+  return [_numberTextField becomeFirstResponder];
 }
 
 @end

@@ -19,6 +19,7 @@ NSInteger EXPIRE_YEARS_DIFF = 10;
   NSMutableArray *_errorMessagesArray;
   NSBundle *_bundle;
   NSBundle *_languageBundle;
+  CardKBinding *_binding;
 }
 
 - (instancetype)init {
@@ -224,6 +225,21 @@ NSInteger EXPIRE_YEARS_DIFF = 10;
 - (BOOL)resignFirstResponder {
   [_expireDateTextField resignFirstResponder];
   return YES;
+}
+
+- (void)setBinding:(CardKBinding *)binding {
+  _binding = binding;
+  _expireDateTextField.secureTextEntry = YES;
+  _expireDateTextField.text = @"xxxx";
+  _expireDateTextField.enabled = NO;
+}
+
+- (CardKBinding *)binding {
+  return _binding;
+}
+
+- (BOOL)becomeFirstResponder {
+  return [_expireDateTextField becomeFirstResponder];
 }
 
 @end

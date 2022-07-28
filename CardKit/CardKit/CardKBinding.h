@@ -19,6 +19,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property UIImage *imagePath;
 @property (strong) NSString *secureCode;
 
+- (NSString *) formatedExpireDate;
+
 @end
 
 NS_ASSUME_NONNULL_END
