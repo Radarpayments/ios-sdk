@@ -183,43 +183,44 @@
   } else {
     tw.frame = twFrame;
   }
-  
-  
-//
-//    if (tw.contentSize.height >  bounds.size.height)
-//    CGRect twFrame = CGRectMake(0, bounds.size.height - tw.contentSize.height, self.view.frame.size.width, tw.contentSize.height + 44);
-//
-//    if (animate) {
-//     [UIView animateWithDuration:0.3 animations:^{
-//       tw.frame = twFrame;
-//     }];
-//    } else {
-//      tw.frame = twFrame;
-//    }
-
 }
 
 
 - (void)_hideTableViewTap:(UITapGestureRecognizer *)recognizer {
-  [self _hideTableView];
+  [self _hideTableViewWithDismiss:YES callback:nil];
 }
 
-- (void) _hideTableView {
+- (void) _hideTableViewWithDismiss:(BOOL) dismiss callback:(nullable void(^)(void)) callback {
   UITableView *tw = tableView;
   CGRect bounds = self.view.bounds;
+  NSInteger speed = 0.3;
+  
+  if (callback) {
+    speed = 0.2;
+  }
   
   [UIView animateWithDuration:0.3 animations:^{
     tw.frame = CGRectMake(0, CGRectGetMaxY(self.view.frame), bounds.size.width, tw.contentSize.height + 44);
     
-    [self dismissViewControllerAnimated:YES completion:nil];
+    if (dismiss) {
+      [self dismissViewControllerAnimated:YES completion:nil];
+    }
+    
+  } completion:^(BOOL finished) {
+    if (callback) {
+      callback();
+    }
   }];
 }
 
 - (void)viewDidLayoutSubviews {
   [super viewDidLayoutSubviews];
   [[self navigationController] setNavigationBarHidden:YES animated:YES];
-  
   [self _setUpTableViewWithAnimate: YES];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+  [super viewDidAppear:animated];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -308,7 +309,7 @@
   NSString *cellID = [[_sections[indexPath.section][CardKRows][indexPath.row] allKeys] firstObject];
   
   if ([CardKCloseIconCellID isEqual:cellID]) {
-    [self _hideTableView];
+    [self _hideTableViewWithDismiss:YES callback:nil];
   } else if ([CardKSavedCardsCellID isEqual:cellID]) {
     CardKBindingViewController *cardKBindingViewController = [[CardKBindingViewController alloc] init];
     
@@ -318,18 +319,26 @@
     cardKBindingViewController.bankLogoView = _bankLogoView;
     cardKBindingViewController.cKitDelegate = _cKitDelegate;
     
-    [self.navigationController pushViewController:cardKBindingViewController animated:true];
+    [self _hideTableViewWithDismiss:NO callback:^{
+      [self.navigationController pushViewController:cardKBindingViewController animated:YES];
+    }];
   } else if ([NewCardCellID isEqual:cellID]) {
     CardKViewController *controller = [[CardKViewController alloc] init];
     controller.cKitDelegate = _cKitDelegate;
     
-    [self.navigationController pushViewController:controller animated:YES];
+    [self _hideTableViewWithDismiss:NO callback:^{
+      [self.navigationController pushViewController:controller animated:YES];
+    }];
   } else if ([AllPaymentMethodsCellID isEqual:cellID]) {
     CardKAllPaymentMethodsController *controller = [[CardKAllPaymentMethodsController alloc] init];
     controller.cKitDelegate = _cKitDelegate;
     
-    [self.navigationController pushViewController:controller animated:YES];
+    [self _hideTableViewWithDismiss:NO callback:^{
+      [self.navigationController pushViewController:controller animated:YES];
+    }];
   }
+  
+  [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
