@@ -81,8 +81,6 @@
     tableView.dataSource = self;
     tableView.clipsToBounds = YES;
     
-    
-  
     _closeView = [[UIImageView alloc] init];
     _closeView.image = [CardKitImageProvider namedImage:@"close" inBundle:_bundle compatibleWithTraitCollection:self.traitCollection];
     
@@ -149,13 +147,6 @@
   
   CardKTheme *theme = CardKConfig.shared.theme;
   
-  CAShapeLayer * maskLayer = [CAShapeLayer layer];
-
-  maskLayer.path = [UIBezierPath bezierPathWithRoundedRect: self.view.bounds byRoundingCorners: UIRectCornerTopLeft | UIRectCornerTopRight cornerRadii: (CGSize){13.0, 13.0}].CGPath;
-
-  tableView.layer.masksToBounds = YES;
-  tableView.layer.mask = maskLayer;
-
   tableView.backgroundColor = theme.colorBottomSheetBackground;
   tableView.sectionFooterHeight = UITableViewAutomaticDimension;
   tableView.cellLayoutMarginsFollowReadableWidth = YES;
@@ -164,12 +155,48 @@
   _bankLogoView.frame = CGRectMake(self.view.bounds.size.width * 2, 0, 0, 0);
 }
 
-- (void) _setUpTableView {
+- (void) _setUpTableViewWithAnimate: (BOOL) animate {
   UITableView *tw = tableView;
   CGRect bounds = self.view.bounds;
-  [UIView animateWithDuration:0.3 animations:^{
-    tw.frame = CGRectMake(0, bounds.size.height - tw.contentSize.height - 44, tw.bounds.size.width, tw.contentSize.height + 44);
-  }];
+  
+  CAShapeLayer * maskLayer = [CAShapeLayer layer];
+
+  maskLayer.path = [UIBezierPath bezierPathWithRoundedRect: self.view.bounds byRoundingCorners: UIRectCornerTopLeft | UIRectCornerTopRight cornerRadii: (CGSize){13.0, 13.0}].CGPath;
+
+  tableView.layer.masksToBounds = YES;
+  tableView.layer.mask = maskLayer;
+  
+  NSInteger yPostion = bounds.size.height - tw.contentSize.height - 44;
+  NSInteger height = tw.contentSize.height + 44;
+
+  if (yPostion <= 0) {
+    yPostion =  0;
+    height = tw.contentSize.height + 20;
+  }
+  
+  CGRect twFrame = CGRectMake(0, yPostion, self.view.frame.size.width, height);
+
+  if (animate) {
+   [UIView animateWithDuration:0.3 animations:^{
+     tw.frame = twFrame;
+   }];
+  } else {
+    tw.frame = twFrame;
+  }
+  
+  
+//
+//    if (tw.contentSize.height >  bounds.size.height)
+//    CGRect twFrame = CGRectMake(0, bounds.size.height - tw.contentSize.height, self.view.frame.size.width, tw.contentSize.height + 44);
+//
+//    if (animate) {
+//     [UIView animateWithDuration:0.3 animations:^{
+//       tw.frame = twFrame;
+//     }];
+//    } else {
+//      tw.frame = twFrame;
+//    }
+
 }
 
 
@@ -192,7 +219,7 @@
   [super viewDidLayoutSubviews];
   [[self navigationController] setNavigationBarHidden:YES animated:YES];
   
-  [self _setUpTableView];
+  [self _setUpTableViewWithAnimate: YES];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -327,9 +354,9 @@
   NSString *cellID = [[_sections[indexPath.section][CardKRows][indexPath.row] allKeys] firstObject];
 
   if ([CardKPayCardButtonCellID isEqual:cellID] && self.verticalButtonsRendered) {
-    return 150;
+    return 70;
   } else if ([CardKPayCardButtonCellID isEqual:cellID]) {
-    return 100;
+    return 70;
   }
 
   return 56;
@@ -369,6 +396,7 @@
 
 - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
   [super traitCollectionDidChange:previousTraitCollection];
+  self.view.frame = self.view.bounds;
   _closeView.image = [CardKitImageProvider namedImage:@"close" inBundle:_bundle compatibleWithTraitCollection:self.traitCollection];
   [tableView reloadData];
 }
