@@ -28,6 +28,9 @@
   theme.colorInactiveBorderTextView = [UIColor colorWithRed: 0.86 green: 0.86 blue: 0.86 alpha: 1.00];
   theme.colorLogoBackground = [UIColor colorWithRed: 0.95 green: 0.95 blue: 0.95 alpha: 1.00];
   
+  theme.colorBottomSheetBackground = [UIColor colorWithRed: 0.98 green: 0.98 blue: 0.98 alpha: 1.00];
+
+  
   return theme;
 }
 
@@ -47,6 +50,9 @@
   theme.colorActiveBorderTextView = [UIColor colorWithRed: 1 green: 1 blue: 1 alpha: 1.00];
   theme.colorInactiveBorderTextView = [UIColor colorWithRed: 0.86 green: 0.86 blue: 0.86 alpha: 1.00];
   theme.colorLogoBackground = [UIColor colorWithRed: 0.95 green: 0.95 blue: 0.95 alpha: 1.00];
+  
+  theme.colorBottomSheetBackground = [UIColor colorWithRed: 0.11 green: 0.11 blue: 0.12 alpha: 1.00];
+
   
   return theme;
 }
@@ -68,6 +74,9 @@
   theme.colorInactiveBorderTextView = [UIColor colorWithRed: 0.86 green: 0.86 blue: 0.86 alpha: 1.00];
   theme.colorLogoBackground = [UIColor colorWithRed: 0.95 green: 0.95 blue: 0.95 alpha: 1.00];
   
+  theme.colorBottomSheetBackground = [UIColor colorWithRed: 0.98 green: 0.98 blue: 0.98 alpha: 1.00];
+
+  
   return theme;
 }
 
@@ -87,6 +96,8 @@
   theme.colorInactiveBorderTextView = [UIColor colorWithRed: 0.86 green: 0.86 blue: 0.86 alpha: 1.00];
   theme.colorLogoBackground = [UIColor colorWithRed: 0.95 green: 0.95 blue: 0.95 alpha: 1.00];
   
+  theme.colorBottomSheetBackground = [theme colorWithColorNamed:@"systemBottomSheetBackground"];
+
   return theme;
 }
 

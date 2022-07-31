@@ -56,7 +56,7 @@
   [_titleLabel sizeToFit];
   _titleContainerView.frame =  CGRectMake(0, 0, _titleLabel.frame.size.width + 20, _titleLabel.frame.size.height + 5);
   _titleContainerView.center = CGPointMake(boundsSize.width / 2, boundsSize.height / 2);
-  _titleContainerView.backgroundColor = _theme.colorCellBackground;
+  _titleContainerView.backgroundColor = _theme.colorBottomSheetBackground;
   
   _titleLabel.center = CGPointMake(_titleContainerView.frame.size.width / 2, _titleContainerView.frame.size.height / 2 - 1);
   _titleLabel.textColor = _theme.colorPlaceholder;

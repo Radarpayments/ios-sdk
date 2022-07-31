@@ -81,6 +81,7 @@
     tableView.dataSource = self;
     tableView.clipsToBounds = YES;
     
+    
   
     _closeView = [[UIImageView alloc] init];
     _closeView.image = [CardKitImageProvider namedImage:@"close" inBundle:_bundle compatibleWithTraitCollection:self.traitCollection];
@@ -94,6 +95,7 @@
     
     [self.view addSubview:_dimmedView];
     [self.view addSubview:tableView];
+    
     self.accessibilityNavigationStyle = UIAccessibilityNavigationStyleCombined;
   }
   return self;
@@ -129,7 +131,6 @@
   [bindings addObject:@{NewCardCellID: @[]}];
   [bindings addObject:@{AllPaymentMethodsCellID: @[]}];
   
-  
   return @[@{CardKRows: bindings}];
 }
 
@@ -138,10 +139,7 @@
 
   tableView.tag = 40001;
   
-  
-  
   _dimmedView.frame = self.view.bounds;
- 
   
   tableView.frame = CGRectMake(0, CGRectGetMaxY(self.view.frame), self.view.bounds.size.width, tableView.contentSize.height + 44);
 
@@ -150,13 +148,20 @@
   }
   
   CardKTheme *theme = CardKConfig.shared.theme;
-  tableView.backgroundColor = theme.colorTableBackground;
+  
+  CAShapeLayer * maskLayer = [CAShapeLayer layer];
+
+  maskLayer.path = [UIBezierPath bezierPathWithRoundedRect: self.view.bounds byRoundingCorners: UIRectCornerTopLeft | UIRectCornerTopRight cornerRadii: (CGSize){13.0, 13.0}].CGPath;
+
+  tableView.layer.masksToBounds = YES;
+  tableView.layer.mask = maskLayer;
+
+  tableView.backgroundColor = theme.colorBottomSheetBackground;
   tableView.sectionFooterHeight = UITableViewAutomaticDimension;
   tableView.cellLayoutMarginsFollowReadableWidth = YES;
   [tableView setSeparatorStyle: UITableViewCellSeparatorStyleNone];
   
   _bankLogoView.frame = CGRectMake(self.view.bounds.size.width * 2, 0, 0, 0);
-  
 }
 
 - (void) _setUpTableView {
@@ -237,8 +242,8 @@
   }
    
   CardKTheme *theme = CardKConfig.shared.theme;
-  if (theme.colorCellBackground != nil) {
-   cell.backgroundColor = theme.colorCellBackground;
+  if (theme.colorBottomSheetBackground != nil) {
+   cell.backgroundColor = theme.colorBottomSheetBackground;
   }
   
 
@@ -267,8 +272,8 @@
   }
 
   CardKTheme *theme = CardKConfig.shared.theme;
-  if (theme.colorCellBackground != nil) {
-   cell.backgroundColor = theme.colorCellBackground;
+  if (theme.colorBottomSheetBackground != nil) {
+   cell.backgroundColor = theme.colorBottomSheetBackground;
   }
 }
 

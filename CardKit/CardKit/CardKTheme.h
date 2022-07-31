@@ -42,6 +42,10 @@ NS_ASSUME_NONNULL_BEGIN
 /* Inactive button background */
 @property (strong, nonatomic) UIColor *colorInactiveButtonBackground;
 
+
+/* Bottom sheet background */
+@property (strong, nonatomic) UIColor *colorBottomSheetBackground;
+
 /*!
 @brief Default theme
 @return CardKTheme
