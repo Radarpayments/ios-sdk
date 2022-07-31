@@ -8,6 +8,7 @@
 
 #import "NewCardCellView.h"
 #import "CardKConfig.h"
+#import "CardKitImageProvider.h"
 
 @implementation NewCardCellView {
   UIImageView * _newCardImageView;
@@ -70,7 +71,7 @@
 }
 
 - (UIImage *)imagePath {
-  return [UIImage imageNamed:@"add-card" inBundle:_bundle compatibleWithTraitCollection:self.traitCollection];
+  return [CardKitImageProvider namedImage:@"add-card" inBundle:_bundle compatibleWithTraitCollection:self.traitCollection];
 }
 
 - (NSString *)label {
