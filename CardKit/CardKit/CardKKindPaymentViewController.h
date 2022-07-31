@@ -12,7 +12,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CardKKindPaymentViewController: UITableViewController<CardKPaymentViewDelegate>
+@interface CardKKindPaymentViewController: UIViewController<CardKPaymentViewDelegate, UIViewControllerTransitioningDelegate, UIViewControllerAnimatedTransitioning, UITableViewDelegate, UITableViewDataSource>
 
 /*! Controller delegate */
 @property (weak, nonatomic) id<CardKDelegate> cKitDelegate;

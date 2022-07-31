@@ -50,6 +50,7 @@
 		9245F8D725B19A130065AF9E /* Luhn.h in Headers */ = {isa = PBXBuildFile; fileRef = 92BD8F92255D1AE9001E1ECF /* Luhn.h */; };
 		9248868E251885FB00CA81D5 /* SeTokenGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 9248868C251885FB00CA81D5 /* SeTokenGenerator.h */; };
 		9248868F251885FB00CA81D5 /* SeTokenGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 9248868D251885FB00CA81D5 /* SeTokenGenerator.m */; };
+		92533B98289652E000C51867 /* CardKitImageProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 92533B97289652E000C51867 /* CardKitImageProvider.m */; };
 		925BE583283B6A2100E98173 /* CKCPubKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 92BD9007255D202E001E1ECF /* CKCPubKey.m */; };
 		9291BF9626315D3B00F6ECF1 /* CKCToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 92BD900F255D204A001E1ECF /* CKCToken.m */; };
 		9291BFA526315D8500F6ECF1 /* CKCTokenResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 92BD9023255D2315001E1ECF /* CKCTokenResult.m */; };
@@ -242,6 +243,8 @@
 		924290B7255D5FE200378C68 /* CardKitCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CardKitCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9248868C251885FB00CA81D5 /* SeTokenGenerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SeTokenGenerator.h; sourceTree = "<group>"; };
 		9248868D251885FB00CA81D5 /* SeTokenGenerator.m */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = SeTokenGenerator.m; sourceTree = "<group>"; tabWidth = 2; };
+		92533B96289652CE00C51867 /* CardKitImageProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CardKitImageProvider.h; sourceTree = "<group>"; };
+		92533B97289652E000C51867 /* CardKitImageProvider.m */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = CardKitImageProvider.m; sourceTree = "<group>"; tabWidth = 2; };
 		9292CF47255E9B2F00053EC3 /* TestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9292CF49255E9B2F00053EC3 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		9292CF4A255E9B2F00053EC3 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -496,6 +499,8 @@
 				9205AA9E2883617600EF36A2 /* NewCardCellView.m */,
 				92DF14472889D9C400381DA8 /* CardKButtonView.h */,
 				92DF14482889D9DD00381DA8 /* CardKButtonView.m */,
+				92533B96289652CE00C51867 /* CardKitImageProvider.h */,
+				92533B97289652E000C51867 /* CardKitImageProvider.m */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -1010,6 +1015,7 @@
 				92A1461B23435C6B002FBCC3 /* CardKConfig.m in Sources */,
 				9205AA9C2883130100EF36A2 /* BindingCellView.m in Sources */,
 				929BA32525591CFC00AB0526 /* TextField.m in Sources */,
+				92533B98289652E000C51867 /* CardKitImageProvider.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

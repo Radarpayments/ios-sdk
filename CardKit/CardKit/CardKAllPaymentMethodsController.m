@@ -54,20 +54,27 @@
     
     _newCardCellView = [[NewCardCellView alloc] init];
     
+    CardKTheme *theme = CardKConfig.shared.theme;
     self.tableView.backgroundColor = CardKConfig.shared.theme.colorTableBackground;
-    [UIBarButtonItem appearance].tintColor = [UIColor redColor];
+    
+    [UIBarButtonItem appearance].tintColor = theme.colorLabel;
+    
     if (CardKConfig.shared.isEditBindingListMode) {
       _editModeButton = [[UIBarButtonItem alloc]
                          initWithTitle:NSLocalizedStringFromTableInBundle(@"edit", nil, _languageBundle, @"Edit")
                                      style: UIBarButtonItemStylePlain
                                      target:self
                                      action:@selector(_editMode:)];
+      
       [_editModeButton setTintColor: CardKConfig.shared.theme.colorLabel];
       
       self.navigationItem.rightBarButtonItem = _editModeButton;
      
     }
-//    [self.navigationItem.backBarButtonItem setTitle:@""];
+    
+    self.navigationItem.leftBarButtonItem.title = @"";
+    self.title = NSLocalizedStringFromTableInBundle(@"paymentMethod", nil, _languageBundle, @"paymentMethods");
+    
     _isEditing = NO;
   }
   return self;
@@ -158,12 +165,11 @@
   
   self.tableView.sectionFooterHeight = UITableViewAutomaticDimension;
   self.tableView.cellLayoutMarginsFollowReadableWidth = YES;
-
-  self.title = @"Payment Methods";
 }
 
 - (void)viewDidLayoutSubviews {
   [super viewDidLayoutSubviews];
+  [[self navigationController] setNavigationBarHidden:NO animated:YES];
 }
 
 

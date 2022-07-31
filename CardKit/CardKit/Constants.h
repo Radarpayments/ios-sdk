@@ -23,3 +23,5 @@ extern NSString* const CardKSwitchCellID;
 extern NSString* const CardKButtonCellID;
 extern NSString* const CardKSectionTitle;
 extern NSString* const CardKFooterID;
+
+extern NSString* const CardKCloseIconCellID;

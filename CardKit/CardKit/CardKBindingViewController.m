@@ -150,6 +150,7 @@
 - (void)viewDidLayoutSubviews {
   [super viewDidLayoutSubviews];
   
+  [[self navigationController] setNavigationBarHidden:NO animated:YES];
   self.navigationItem.backBarButtonItem.tintColor = CardKConfig.shared.theme.colorLabel;
 }
 

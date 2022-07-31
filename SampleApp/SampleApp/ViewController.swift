@@ -258,6 +258,7 @@ class ViewController: UITableViewController {
     
     let controller = CardKViewController();
     controller.cKitDelegate = self
+    
 
     let createdUiController = CardKViewController.create(self, controller: controller);
     
@@ -326,7 +327,10 @@ class ViewController: UITableViewController {
 
     let createdUiController = CardKViewController.create(self, controller: controller);
     
-    self.navigationController?.pushViewController(createdUiController, animated: true);
+    let navController = UINavigationController(rootViewController: createdUiController);
+    navController.modalPresentationStyle = .overCurrentContext;
+
+    self.present(navController, animated: false)
   }
 
   func _openDarkUINavigation() {

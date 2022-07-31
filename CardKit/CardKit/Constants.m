@@ -14,6 +14,7 @@ NSString* const CardKDividerCellID = @"divider";
 NSString* const NewCardCellID = @"newCard";
 NSString* const AllPaymentMethodsCellID = @"allPaymentMethods";
 NSString* const CardKRows = @"rows";
+NSString* const CardKCloseIconCellID = @"close";
 
 
 //----

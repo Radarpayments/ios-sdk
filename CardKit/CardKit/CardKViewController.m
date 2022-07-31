@@ -136,7 +136,7 @@
   self.tableView.backgroundColor = CardKConfig.shared.theme.colorTableBackground;
   self.view.backgroundColor = CardKConfig.shared.theme.colorTableBackground;
     
-    CardKTheme *theme = CardKConfig.shared.theme;
+//    CardKTheme *theme = CardKConfig.shared.theme;
 //    UINavigationBar *bar = [self.navigationController navigationBar];
 //    bar.barTintColor = theme.colorLabel;
 //    [bar setTintColor: theme.colorLabel];
@@ -158,10 +158,11 @@
   
   CardKKindPaymentViewController *cardKKindPaymentViewController = [[CardKKindPaymentViewController alloc] init];
   cardKKindPaymentViewController.cKitDelegate = cardKViewControllerDelegate;
+  cardKKindPaymentViewController.modalPresentationStyle = UIModalPresentationCustom;
   
-  if ([CardKConfig.shared.bindings count] == 0) {
-    return controller;
-  }
+//  if ([CardKConfig.shared.bindings count] == 0) {
+//    return controller;
+//  }
   
   return cardKKindPaymentViewController;
 }
@@ -260,6 +261,7 @@
 - (void)viewDidLayoutSubviews {
   [super viewDidLayoutSubviews];
   
+  [[self navigationController] setNavigationBarHidden:NO animated:YES];
   self.navigationItem.backBarButtonItem.tintColor = CardKConfig.shared.theme.colorLabel;
 }
 
