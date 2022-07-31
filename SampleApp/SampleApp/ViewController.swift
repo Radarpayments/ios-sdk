@@ -258,6 +258,7 @@ class ViewController: UITableViewController {
     
     let controller = CardKViewController();
     controller.cKitDelegate = self
+    
 
     let createdUiController = CardKViewController.create(self, controller: controller);
     
@@ -312,7 +313,7 @@ class ViewController: UITableViewController {
   func _openEditBindingsMode() {
     CardKConfig.shared.theme = CardKTheme.light();
     CardKConfig.shared.language = "";
-    CardKConfig.shared.bindingCVCRequired = false;
+    CardKConfig.shared.bindingCVCRequired = true;
     CardKConfig.shared.bindings = self._fetchBindingCards();
     CardKConfig.shared.isTestMod = true;
     CardKConfig.shared.mdOrder = "mdOrder";
@@ -320,13 +321,16 @@ class ViewController: UITableViewController {
     CardKConfig.shared.mrBinURL = "https://mrbin.io/bins/";
     CardKConfig.shared.bindingsSectionTitle = "Your cards";
     CardKConfig.shared.isEditBindingListMode = true;
-    
+    CardKConfig.shared.pubKey = publicKey;
     let controller = CardKViewController();
     controller.cKitDelegate = self
 
     let createdUiController = CardKViewController.create(self, controller: controller);
     
-    self.navigationController?.pushViewController(createdUiController, animated: true);
+    let navController = UINavigationController(rootViewController: createdUiController);
+    navController.modalPresentationStyle = .overCurrentContext;
+
+    self.present(navController, animated: false)
   }
 
   func _openDarkUINavigation() {
@@ -627,7 +631,7 @@ extension ViewController: CardKDelegate {
     
   }
   
-  func willShow(_ paymentView: CardKPaymentView) {
+  func willShowPaymentView(_ paymentView: CardKApplePayButtonView) {
     let paymentNetworks = [PKPaymentNetwork.amex, .discover, .masterCard, .visa]
     let paymentItem = PKPaymentSummaryItem.init(label: "Box", amount: NSDecimalNumber(value: 0.1))
     let merchandId = "merchant.test.applepay.id"
@@ -639,18 +643,13 @@ extension ViewController: CardKDelegate {
     paymentView.paymentRequest.supportedNetworks = paymentNetworks
     paymentView.paymentRequest.paymentSummaryItems = [paymentItem]
     paymentView.paymentButtonStyle = .whiteOutline;
-
-    paymentView.cardPaybutton.backgroundColor = .systemBlue;
-    paymentView.cardPaybutton.setTitleColor(.white, for: .normal);
-    paymentView.cardPaybutton.setTitle("New card", for: .normal);
   }
   
   func didLoad(_ controller: CardKViewController) {
     controller.allowedCardScaner = CardIOUtilities.canReadCardWithCamera();
-    controller.purchaseButtonTitle = "Custom purchase button";
+//    controller.purchaseButtonTitle = "Custom purchase button";
     controller.allowSaveBinding = allowSaveBinding;
     controller.isSaveBinding = isSaveBinding;
-    controller.displayCardHolderField = displayCardholderField;
   }
   
   func cardKitViewController(_ controller: CardKViewController, didCreateSeToken seToken: String, allowSaveBinding: Bool, isNewCard: Bool) {

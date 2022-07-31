@@ -22,3 +22,16 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 NS_ASSUME_NONNULL_END
+
+//- (void)_buttonPressed:(UIButton *)button {
+//  if (![self _isFormValid]) {
+//    [self _animateError];
+//    _lastAnouncment = nil;
+//    [self _announceError];
+//    return;
+//  }
+//  
+//  NSString *seToken = [SeTokenGenerator generateSeTokenWithBinding:_cardKBinding];
+//
+//  [_cKitDelegate bindingViewController:self didCreateSeToken:seToken allowSaveBinding:NO isNewCard: NO];
+//}

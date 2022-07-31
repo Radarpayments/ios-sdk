@@ -71,7 +71,26 @@ extension SampleCardKPaymentView: CardKDelegate {
   
   }
   
-  func willShow(_ paymentView: CardKPaymentView) {
+//  func willShow(_ paymentView: CardKPaymentView) {
+//    let paymentNetworks = [PKPaymentNetwork.amex, .discover, .masterCard, .visa]
+//    let paymentItem = PKPaymentSummaryItem.init(label: "Box", amount: NSDecimalNumber(value: 0.1))
+//    let merchandId = "merchant.test.applepay.id";
+//    paymentView.merchantId = merchandId
+//    paymentView.paymentRequest.currencyCode = "USD"
+//    paymentView.paymentRequest.countryCode = "US"
+//    paymentView.paymentRequest.merchantIdentifier = merchandId
+//    paymentView.paymentRequest.merchantCapabilities = PKMerchantCapability.capability3DS
+//    paymentView.paymentRequest.supportedNetworks = paymentNetworks
+//    paymentView.paymentRequest.paymentSummaryItems = [paymentItem]
+//    paymentView.paymentButtonStyle = .black;
+//    paymentView.paymentButtonType = .buy;
+//
+//    paymentView.cardPaybutton.backgroundColor = .white;
+//    paymentView.cardPaybutton.setTitleColor(.black, for: .normal);
+//    paymentView.cardPaybutton.setTitle("Custom title", for: .normal);
+//  }
+ 
+  func willShowPaymentView(_ paymentView: CardKApplePayButtonView) {
     let paymentNetworks = [PKPaymentNetwork.amex, .discover, .masterCard, .visa]
     let paymentItem = PKPaymentSummaryItem.init(label: "Box", amount: NSDecimalNumber(value: 0.1))
     let merchandId = "merchant.test.applepay.id";
@@ -84,17 +103,12 @@ extension SampleCardKPaymentView: CardKDelegate {
     paymentView.paymentRequest.paymentSummaryItems = [paymentItem]
     paymentView.paymentButtonStyle = .black;
     paymentView.paymentButtonType = .buy;
-    
-    paymentView.cardPaybutton.backgroundColor = .white;
-    paymentView.cardPaybutton.setTitleColor(.black, for: .normal);
-    paymentView.cardPaybutton.setTitle("Custom title", for: .normal);
   }
   
   func didLoad(_ controller: CardKViewController) {
     controller.allowedCardScaner = CardIOUtilities.canReadCardWithCamera();
     controller.purchaseButtonTitle = "Custom purchase button";
 
-    controller.displayCardHolderField = true;
     controller.allowSaveBinding = true;
     controller.isSaveBinding = false;
   }

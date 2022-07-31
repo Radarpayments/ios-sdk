@@ -28,3 +28,16 @@
 
 "edit" = "Bearbeiten";
 "save" = "Speichern";
+
+"payByCard" = "Oder zahlen Sie mit Karte";
+"addCard" = "Neue Karte hinzufügen";
+"allPaymentMethods" = "Alle Zahlungsmethoden";
+"payment" = "Zahlung";
+"cardNumber" = "Kartennummer";
+"pay" = "Pay";
+"allCards" = "Alle Karten";
+"removeBindingAlertTitle" = "Sind Sie sicher, dass Sie diese Karte entfernen wollen?";
+"removeBindingAlertDescription" = "Wenn Sie es sich später anders überlegen, müssen Sie sie wieder hinzufügen.";
+"cancel" = "Abbrechen";
+"remove" = "Entfernen";
+"paymentMethod" = "Zahlungsmethode";
