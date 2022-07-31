@@ -37,12 +37,6 @@
      }
     
     [cKitDelegate willShowPaymentView:self];
-    
-    _applePayButton = [[PKPaymentButton alloc] initWithPaymentButtonType: _paymentButtonType paymentButtonStyle: _paymentButtonStyle];
-    
-    [_applePayButton addTarget:self action:@selector(_applePayButtonPressed:)
-    forControlEvents:UIControlEventTouchUpInside];
-    [self addSubview: _applePayButton];
 
     _cKitDelegate = cKitDelegate;
   }
@@ -50,7 +44,33 @@
 }
 
 - (void)layoutSubviews {
-    [self _renderButtonsVertical];
+  [super layoutSubviews];
+  
+  [self _renderButtonsVertical];
+}
+
+- (void) _changeButtonColor {
+  NSString *themeMode = CardKConfig.shared.theme.imageAppearance;
+  PKPaymentButtonStyle style = PKPaymentButtonStyleBlack;
+  
+  if (themeMode && [themeMode  isEqual: @"light"]) {
+    style = PKPaymentButtonStyleBlack;
+  } else if (themeMode && [themeMode  isEqual: @"dark"]) {
+    style = PKPaymentButtonStyleWhite;
+  }
+  
+  if (@available(iOS 12.0, *) ) {
+    if (self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark && !themeMode) {
+      style = PKPaymentButtonStyleWhite;
+    }
+  }
+  
+  _applePayButton = [[PKPaymentButton alloc] initWithPaymentButtonType: _paymentButtonType paymentButtonStyle: style];
+  
+  [_applePayButton addTarget:self action:@selector(_applePayButtonPressed:)
+  forControlEvents:UIControlEventTouchUpInside];
+  
+  [self addSubview: _applePayButton];
 }
 
 - (void) _renderButtonsVertical {
@@ -111,5 +131,10 @@
   completion(PKPaymentAuthorizationStatusSuccess);
 }
 
+
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
+  [super traitCollectionDidChange:previousTraitCollection];
+  [self _changeButtonColor];
+}
 @end
 
