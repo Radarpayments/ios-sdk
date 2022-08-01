@@ -158,11 +158,7 @@
   
   CardKKindPaymentViewController *cardKKindPaymentViewController = [[CardKKindPaymentViewController alloc] init];
   cardKKindPaymentViewController.cKitDelegate = cardKViewControllerDelegate;
-  cardKKindPaymentViewController.modalPresentationStyle = UIModalPresentationCustom;
-  
-//  if ([CardKConfig.shared.bindings count] == 0) {
-//    return controller;
-//  }
+
   
   return cardKKindPaymentViewController;
 }

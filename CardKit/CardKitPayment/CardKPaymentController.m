@@ -13,6 +13,7 @@
 #import <CardKit/CardKConfig.h>
 #import <CardKit/CardKPaymentView.h>
 #import <CardKit/CardKBindingViewController.h>
+#import <CardKit/CardKApplePayButtonView.h>
 
 #import "CardKPaymentController.h"
 #import "CardKPaymentSessionStatus.h"
@@ -54,7 +55,6 @@
       }
       
       _theme = CardKConfig.shared.theme;
-      self.view.backgroundColor = CardKConfig.shared.theme.colorTableBackground;
       
       _spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
       [self.view addSubview:_spinner];
@@ -740,24 +740,14 @@
       [self _unbindСardAnon: removedBinding];
     }
   }
-
-  - (void)willShowPaymentView:(nonnull CardKPaymentView *)paymentView {
-    paymentView.paymentRequest = _cardKPaymentView.paymentRequest;
-    paymentView.paymentButtonType =_cardKPaymentView.paymentButtonType;
-    paymentView.paymentButtonStyle =_cardKPaymentView.paymentButtonStyle;
-    
-    if (_cardKPaymentView.cardPaybutton == nil) {
-      return;
-    }
-    
-    paymentView.cardPaybutton.backgroundColor = _cardKPaymentView.cardPaybutton.backgroundColor;
-    paymentView.cardPaybutton.tintColor = _cardKPaymentView.cardPaybutton.tintColor;
-    [paymentView.cardPaybutton setTitleColor:_cardKPaymentView.cardPaybutton.currentTitleColor forState:UIControlStateNormal];
-    
-    if (![_cardKPaymentView.cardPaybutton.titleLabel.text isEqual:@""] || _cardKPaymentView.cardPaybutton.titleLabel != nil) {
-      NSString * title = _cardKPaymentView.cardPaybutton.titleLabel.text;
-      [paymentView.cardPaybutton setTitle:title forState:UIControlStateNormal];
-    }
+  - (void)willShowPaymentView:(CardKApplePayButtonView *) paymentView {
+      paymentView.paymentRequest = _cardKPaymentView.paymentRequest;
+      paymentView.paymentButtonType =_cardKPaymentView.paymentButtonType;
+      paymentView.paymentButtonStyle =_cardKPaymentView.paymentButtonStyle;
+      
+      if (_cardKPaymentView.cardPaybutton == nil) {
+        return;
+      }
   }
 
   - (void)didCancel {
