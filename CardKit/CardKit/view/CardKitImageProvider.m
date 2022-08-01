@@ -26,11 +26,11 @@
 }
 
 + (UIImage *)namedImage:(NSString *)imageName inBundle: (NSBundle *)bundle compatibleWithTraitCollection:(UITraitCollection *) traitCollection {
-    NSString *imageAppearance = CardKConfig.shared.theme.imageAppearance;
+  NSString *imageAppearance = CardKConfig.shared.theme.imageAppearance;
 
-    if (imageAppearance == nil) {
-      imageAppearance = [CardKitImageProvider getImageAppearanceWithTraitCollection: traitCollection];
-    }
+  if (imageAppearance == nil) {
+    imageAppearance = [CardKitImageProvider getImageAppearanceWithTraitCollection: traitCollection];
+  }
 
   NSString *imageNameWithAppearance = [NSString stringWithFormat:@"%@-%@", imageName, imageAppearance];
   

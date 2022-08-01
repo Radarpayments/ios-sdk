@@ -1,17 +1,50 @@
 {
   "images" : [
     {
-      "filename" : "Property=Add Card.png",
+      "filename" : "add-card.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "Property=Add Card@2x.png",
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "add-card.dark.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "add-card@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "Property=Add Card@3x.png",
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "add-card@2x.dark.png",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "add-card@3x.png",
+      "idiom" : "universal",
+      "scale" : "3x"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "add-card@3x.dark.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

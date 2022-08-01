@@ -68,6 +68,8 @@
   _newCardLabel.frame = CGRectMake(CGRectGetMaxX(_newCardImageView.frame) + 15, 0, _newCardLabel.intrinsicContentSize.width, bounds.size.height);
   CardKTheme *theme = CardKConfig.shared.theme;
   [_newCardLabel setTextColor: theme.colorLabel];
+  _image = [self imagePath];
+  _newCardImageView.image = _image;
 }
 
 - (UIImage *)imagePath {
