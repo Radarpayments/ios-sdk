@@ -138,6 +138,8 @@
   tableView.tag = 40001;
   
   _dimmedView.frame = self.view.bounds;
+  _dimmedView.backgroundColor = [UIColor blackColor];
+  _dimmedView.layer.opacity = 0;
   
   tableView.frame = CGRectMake(0, CGRectGetMaxY(self.view.frame), self.view.bounds.size.width, tableView.contentSize.height + 44);
 
@@ -179,9 +181,11 @@
   if (animate) {
    [UIView animateWithDuration:0.3 animations:^{
      tw.frame = twFrame;
+     self->_dimmedView.layer.opacity = 0.4;
    }];
   } else {
     tw.frame = twFrame;
+    self->_dimmedView.layer.opacity = 0.4;
   }
 }
 
@@ -201,14 +205,14 @@
   
   [UIView animateWithDuration:0.3 animations:^{
     tw.frame = CGRectMake(0, CGRectGetMaxY(self.view.frame), bounds.size.width, tw.contentSize.height + 44);
-    
-    if (dismiss) {
-      [self dismissViewControllerAnimated:YES completion:nil];
-    }
+    self->_dimmedView.layer.opacity = 0;
     
   } completion:^(BOOL finished) {
     if (callback) {
       callback();
+    }
+    if (dismiss) {
+      [self dismissViewControllerAnimated:NO completion:nil];
     }
   }];
 }

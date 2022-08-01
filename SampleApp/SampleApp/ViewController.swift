@@ -426,7 +426,7 @@ class ViewController: UITableViewController {
     
     if #available(iOS 13.0, *) {
       navController.modalPresentationStyle = .overCurrentContext;
-      self.present(navController, animated: true)
+      self.present(navController, animated: false)
       return;
     }
     
@@ -439,7 +439,7 @@ class ViewController: UITableViewController {
 //     action: #selector(_close(sender:))
 //    )
 //    createdUiController.navigationItem.leftBarButtonItem = closeBarButtonItem
-    self.present(navController, animated: true)
+    self.present(navController, animated: false)
     
   }
   override func viewDidLoad() {
