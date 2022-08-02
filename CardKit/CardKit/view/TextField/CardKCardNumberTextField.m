@@ -24,6 +24,7 @@
   NSString *_leftIconImageName;
   UIViewAnimationOptions _leftIconAnimationOptions;
   UIImageView *_paymentSystemImageView;
+  UIImageView *_scanImageView;
   CardKBinding *_binding;
 }
 
@@ -49,14 +50,13 @@ if (self) {
   _paymentSystemImageView.contentMode = UIViewContentModeCenter;
   _leftIconAnimationOptions = UIViewAnimationOptionTransitionCrossDissolve;
   self.leftIconImageName = [PaymentSystemProvider imageNameNoBgByCardNumber:@""];
-
-  _scanCardTapRecognizer = [[UITapGestureRecognizer alloc] init];
-  [_paymentSystemImageView addGestureRecognizer:_scanCardTapRecognizer];
-  [_paymentSystemImageView setTintColor: theme.colorLabel];
-  _paymentSystemImageView.layer.opacity = 0;
-
   
-
+  
+  
+  _scanImageView = [[UIImageView alloc] init];
+  _scanImageView.contentMode = UIViewContentModeCenter;
+  [_scanImageView setTintColor: theme.colorLabel];
+  
   _numberTextField = [[CardKTextField alloc] init];
   
   _numberTextField.tag = 30000;
@@ -64,7 +64,6 @@ if (self) {
   _numberTextField.placeholder = NSLocalizedStringFromTableInBundle(@"Card Number", nil, _languageBundle, @"Card number placeholder");
   _numberTextField.accessibilityLabel = nil;
   
-  [_numberTextField setLeftView:_paymentSystemImageView];
   
   for (CardKTextField *v in @[_numberTextField]) {
     [self addSubview:v];
@@ -80,6 +79,9 @@ if (self) {
   [_numberTextField addTarget:self action:@selector(_numberChanged) forControlEvents: UIControlEventValueChanged];
   
   self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+  
+  [_numberTextField setLeftView:_paymentSystemImageView];
+  [_numberTextField setRightView:_scanImageView];
 }
 
 return self;
@@ -127,7 +129,10 @@ _errorMessagesArray = [errorMessages mutableCopy];
 - (void)setAllowedCardScaner:(BOOL)allowedCardScaner {
   _allowedCardScaner = allowedCardScaner;
   _paymentSystemImageView.userInteractionEnabled = allowedCardScaner;
-  [self _showPaymentSystemProviderIcon];
+  _scanImageView.image = [PaymentSystemProvider namedImage:@"scan-card" inBundle:_bundle compatibleWithTraitCollection:self.traitCollection];
+    
+  _scanCardTapRecognizer = [[UITapGestureRecognizer alloc] init];
+  [_scanImageView addGestureRecognizer:_scanCardTapRecognizer];
 }
 
 - (BOOL)allowedCardScaner {
@@ -253,6 +258,10 @@ _errorMessagesArray = [errorMessages mutableCopy];
 
   CGFloat width = bounds.size.width;
   _numberTextField.frame = CGRectMake(0, 0, width, height);
+    
+  if (_allowedCardScaner) {
+    _scanImageView.center = CGPointMake(20, 20);
+  }
 }
 
 - (BOOL)resignFirstResponder {

@@ -38,6 +38,7 @@ extern NSString *CardKTextFieldPatternSecureCode;
 @property UIView *leftView;
 @property UIView *rightView;
 
+@property (strong) UITapGestureRecognizer *rightViewRecognizer;
 - (void)showCoverView;
 
 @end

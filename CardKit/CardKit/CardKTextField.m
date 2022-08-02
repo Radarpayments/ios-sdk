@@ -69,6 +69,8 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
   BOOL _showError;
   CoverView *_coverView;
   CALayer *_bottomLine;
+  UITapGestureRecognizer *_rightViewGesture;
+  UIView *_rightImageView;
 }
 
 - (instancetype)init {
@@ -105,12 +107,15 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
     
 //    [_textField addSubview:_patternLabel];
     [_textField addSubview:_formatLabel];
-    
     [self addSubview:_textField];
     [self addSubview:_errorMessageLabel];
     
+    _rightImageView = [[UIView alloc] init];
+    _rightImageView.backgroundColor = theme.colorCellBackground;
+    [self addSubview:_rightImageView];
+    
     _textField.delegate = self;
-      
+    
     _bottomLine = [[CALayer alloc] init];
     [self.layer addSublayer:_bottomLine];
     _bottomLine.backgroundColor = theme.colorInactiveBorderTextView.CGColor;
@@ -424,12 +429,22 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
 }
 
 - (UIView *)rightView {
-  return _textField.rightView;
+  return _rightImageView;
 }
 
 - (void)setRightView:(UIView *)rightView {
-  _textField.rightView = rightView;
-  _textField.rightViewMode = UITextFieldViewModeWhileEditing;
+  [_rightImageView addSubview:rightView];
+}
+
+
+- (void)setRightViewRecognizer:(UITapGestureRecognizer *)rightViewRecognizer {
+  [_rightImageView addGestureRecognizer:rightViewRecognizer];
+  
+  _rightViewGesture = rightViewRecognizer;
+}
+
+- (UITapGestureRecognizer *)rightViewRecognizer {
+  return _rightViewGesture;
 }
 
 - (BOOL)resignFirstResponder {
@@ -459,6 +474,9 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
   _errorMessageLabel.frame = CGRectMake(0, CGRectGetMaxY(_bottomLine.frame) + 10, boundsSize.width, 15);
 
   [_coverView setHidden:NO];
+  
+  _rightImageView.frame = CGRectMake(CGRectGetMaxX(_textField.frame) - 40, 0, 40, 40);
+
 }
 
 - (void) _makeActiveBottomLine {
