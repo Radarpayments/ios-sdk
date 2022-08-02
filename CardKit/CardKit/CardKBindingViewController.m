@@ -10,7 +10,6 @@
 #import "CardKTextField.h"
 #import "CardKCardView.h"
 #import "CardKBankLogoView.h"
-#import "CardKFooterView.h"
 #import "CardKConfig.h"
 #import "CardKSwitchView.h"
 #import "CardKKindPaymentViewController.h"

@@ -13,13 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property CardKBinding *binding;
 
-@property (strong) NSArray *errorMessages;
--(void)validate;
--(void)focusSecureCode;
-
 @property BOOL showShortCardNumber;
 @property BOOL showCVCField;
-- (UIImage *) imagePath;
 
 @end
 

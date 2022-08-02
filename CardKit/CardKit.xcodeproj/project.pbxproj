@@ -21,8 +21,6 @@
 		9205AAA52884A4BE00EF36A2 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 9205AAA42884A4BE00EF36A2 /* Constants.m */; };
 		921394952881FA8800182888 /* DividerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 921394942881FA8800182888 /* DividerView.m */; };
 		921394972881FE0E00182888 /* DividerView.h in Headers */ = {isa = PBXBuildFile; fileRef = 921394962881FB6300182888 /* DividerView.h */; };
-		9219F465232B8EF100841B98 /* CardKFooterView.h in Headers */ = {isa = PBXBuildFile; fileRef = 9219F463232B8EF100841B98 /* CardKFooterView.h */; };
-		9219F466232B8EF100841B98 /* CardKFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9219F464232B8EF100841B98 /* CardKFooterView.m */; };
 		921CCC8D28328F130070BB72 /* CardKPaymentError.m in Sources */ = {isa = PBXBuildFile; fileRef = 921CCC7F28328F120070BB72 /* CardKPaymentError.m */; };
 		921CCC8E28328F130070BB72 /* CardKPaymentError.h in Headers */ = {isa = PBXBuildFile; fileRef = 921CCC8028328F120070BB72 /* CardKPaymentError.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		921CCC8F28328F130070BB72 /* RequestParams.m in Sources */ = {isa = PBXBuildFile; fileRef = 921CCC8128328F120070BB72 /* RequestParams.m */; };
@@ -217,8 +215,6 @@
 		9205AAA42884A4BE00EF36A2 /* Constants.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
 		921394942881FA8800182888 /* DividerView.m */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = DividerView.m; sourceTree = "<group>"; tabWidth = 2; };
 		921394962881FB6300182888 /* DividerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DividerView.h; sourceTree = "<group>"; };
-		9219F463232B8EF100841B98 /* CardKFooterView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CardKFooterView.h; sourceTree = "<group>"; };
-		9219F464232B8EF100841B98 /* CardKFooterView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CardKFooterView.m; sourceTree = "<group>"; };
 		921CCC7F28328F120070BB72 /* CardKPaymentError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CardKPaymentError.m; sourceTree = "<group>"; };
 		921CCC8028328F120070BB72 /* CardKPaymentError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardKPaymentError.h; sourceTree = "<group>"; };
 		921CCC8128328F120070BB72 /* RequestParams.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RequestParams.m; sourceTree = "<group>"; };
@@ -499,8 +495,6 @@
 				9205AA9E2883617600EF36A2 /* NewCardCellView.m */,
 				92DF14472889D9C400381DA8 /* CardKButtonView.h */,
 				92DF14482889D9DD00381DA8 /* CardKButtonView.m */,
-				92533B96289652CE00C51867 /* CardKitImageProvider.h */,
-				92533B97289652E000C51867 /* CardKitImageProvider.m */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -573,8 +567,8 @@
 				D2D0B35D2320E3AC0007B3B9 /* CardKBankLogoView.m */,
 				D2D0B365232122620007B3B9 /* PaymentSystemProvider.h */,
 				D2D0B366232122620007B3B9 /* PaymentSystemProvider.m */,
-				9219F463232B8EF100841B98 /* CardKFooterView.h */,
-				9219F464232B8EF100841B98 /* CardKFooterView.m */,
+				92533B96289652CE00C51867 /* CardKitImageProvider.h */,
+				92533B97289652E000C51867 /* CardKitImageProvider.m */,
 				92A1461823435C6B002FBCC3 /* CardKConfig.h */,
 				92A1461923435C6B002FBCC3 /* CardKConfig.m */,
 				92985C83246A96F4009B7392 /* CardKSwitchView.h */,
@@ -643,7 +637,6 @@
 				9248868E251885FB00CA81D5 /* SeTokenGenerator.h in Headers */,
 				D2690811231FB000001CB863 /* CardKCardView.h in Headers */,
 				92A1461A23435C6B002FBCC3 /* CardKConfig.h in Headers */,
-				9219F465232B8EF100841B98 /* CardKFooterView.h in Headers */,
 				9234CC5A247FBCDD009E3034 /* CardKPaymentView.h in Headers */,
 				D269080D231FA894001CB863 /* CardKTextField.h in Headers */,
 				92D67342287FF1180069DBF5 /* CardKApplePayButtonView.h in Headers */,
@@ -993,7 +986,6 @@
 				9205AAA128849DA900EF36A2 /* CardKAllPaymentMethodsController.m in Sources */,
 				92985C86246A96F4009B7392 /* CardKSwitchView.m in Sources */,
 				D2D0B35F2320E3AC0007B3B9 /* CardKBankLogoView.m in Sources */,
-				9219F466232B8EF100841B98 /* CardKFooterView.m in Sources */,
 				92E247F7247676A900C2EF6C /* CardKBindingViewController.m in Sources */,
 				9205AAA52884A4BE00EF36A2 /* Constants.m in Sources */,
 				D269080E231FA894001CB863 /* CardKTextField.m in Sources */,

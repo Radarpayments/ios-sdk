@@ -11,7 +11,6 @@
 #import "CardKConfig.h"
 
 #import "CardKTextField.h"
-#import "CardKFooterView.h"
 #import "CardKValidation.h"
 #import "CardKBankLogoView.h"
 #import "RSA.h"

@@ -12,7 +12,6 @@
 #import "CardKConfig.h"
 
 #import "CardKTextField.h"
-#import "CardKFooterView.h"
 #import "CardKValidation.h"
 #import "CardKBankLogoView.h"
 #import "RSA.h"
@@ -23,7 +22,6 @@
   UILabel *_cardNumberLabel;
   UILabel *_expireDateLabel;
   UIImage *_image;
-  CardKFooterView *_secureCodeFooterView;
   CardKTextField *_secureCodeTextField;
   NSMutableArray *_secureCodeErrors;
   NSString *_lastAnouncment;
@@ -91,11 +89,11 @@
   return _showCVCField;
 }
 
-- (void)focusSecureCode {
-  if (CardKConfig.shared.bindingCVCRequired) {
-    [_secureCodeTextField becomeFirstResponder];
-  }
-}
+//- (void)focusSecureCode {
+//  if (CardKConfig.shared.bindingCVCRequired) {
+//    [_secureCodeTextField becomeFirstResponder];
+//  }
+//}
 
 - (void)setImagePath:(UIImage *)imagePath {
   
@@ -188,52 +186,6 @@ _cardNumberLabel.text = [[NSString alloc] initWithFormat:@"** %@", last4Characte
   }
   
   return [UIFont fontWithName:@"SF Pro" size: 15];
-}
-
-
-- (void)_refreshErrors {
-  _secureCodeFooterView.errorMessages = _secureCodeErrors;
-  [self _announceError];
-}
-- (void)_announceError {
-  NSString *errorMessage = [_secureCodeErrors firstObject];
-  if (errorMessage.length > 0 && ![_lastAnouncment isEqualToString:errorMessage]) {
-    _lastAnouncment = errorMessage;
-    UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, _lastAnouncment);
-  }
-}
-
-- (void)_clearSecureCodeErrors {
-  [_secureCodeErrors removeAllObjects];
-  _secureCodeTextField.showError = NO;
-  [self _refreshErrors];
-}
-
-- (void)_validateSecureCode {
-  BOOL isValid = YES;
-  NSString *secureCode = _secureCodeTextField.text;
-  NSString *incorrectCvc = NSLocalizedStringFromTableInBundle(@"incorrectCvc", nil, _languageBundle, @"incorrectCvc");
-  [self _clearSecureCodeErrors];
-  
-  if (![CardKValidation isValidSecureCode:secureCode]) {
-    [_secureCodeErrors addObject:incorrectCvc];
-    isValid = NO;
-  }
-  
-  _secureCodeTextField.showError = !isValid;
-}
-
-- (void)validate {
-  [self _clearSecureCodeErrors];
-  [self _validateSecureCode];
-}
-
-- (NSArray *)errorMessages {
-  return [_secureCodeErrors copy];
-}
-
-- (void)setErrorMessages:(NSArray *)errorMessages{
-  _secureCodeErrors = [errorMessages mutableCopy];
 }
 
 - (void)setSecureCode:(NSString *)secureCode {
