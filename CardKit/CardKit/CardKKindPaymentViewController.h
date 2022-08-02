@@ -7,12 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "CardKViewController.h"
-#import "CardKPaymentView.h"
+#import <CardKit/CardKPaymentView.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CardKKindPaymentViewController: UIViewController<CardKPaymentViewDelegate, UIViewControllerTransitioningDelegate, UIViewControllerAnimatedTransitioning, UITableViewDelegate, UITableViewDataSource>
+@interface CardKKindPaymentViewController: UIViewController<CardKPaymentViewDelegate, UIViewControllerAnimatedTransitioning, UITableViewDelegate, UITableViewDataSource>
 
 /*! Controller delegate */
 @property (weak, nonatomic) id<CardKDelegate> cKitDelegate;

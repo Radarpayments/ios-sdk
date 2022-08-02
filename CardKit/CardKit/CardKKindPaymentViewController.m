@@ -95,6 +95,10 @@
     [self.view addSubview:tableView];
     
     self.accessibilityNavigationStyle = UIAccessibilityNavigationStyleCombined;
+    
+    CardKTheme *theme = CardKConfig.shared.theme;
+    [UIBarButtonItem appearance].tintColor = theme.colorLabel;
+    self.navigationItem.leftBarButtonItem.title = @"";
   }
   return self;
 }
@@ -354,6 +358,7 @@
    [tableView reloadData];
 }
 
+
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
   return 38;
 }
@@ -365,13 +370,13 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
   NSString *cellID = [[_sections[indexPath.section][CardKRows][indexPath.row] allKeys] firstObject];
-
+  
   if ([CardKPayCardButtonCellID isEqual:cellID] && self.verticalButtonsRendered) {
     return 70;
   } else if ([CardKPayCardButtonCellID isEqual:cellID]) {
     return 70;
   }
-
+  
   return 56;
 }
 
@@ -383,7 +388,7 @@
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
   NSString *cellID = [[_sections[indexPath.section][CardKRows][indexPath.row] allKeys] firstObject];
-
+  
   if (CardKConfig.shared.isEditBindingListMode && [CardKSavedCardsCellID isEqual:cellID]) {
     return YES;
   } else {
@@ -413,6 +418,5 @@
   _closeView.image = [CardKitImageProvider namedImage:@"close" inBundle:_bundle compatibleWithTraitCollection:self.traitCollection];
   [tableView reloadData];
 }
-
 
 @end
