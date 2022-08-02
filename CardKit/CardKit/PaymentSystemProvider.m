@@ -97,6 +97,17 @@ NSString * __getImageAppearanceWithTraitCollection(UITraitCollection *traitColle
   return imageName;
 }
 
++ (NSString *)imageNameNoBgByCardNumber:(nullable NSString *) number {
+  if (number == nil) {
+    return @"";
+  }
+  
+  NSString *systemName = __systemNameByCardNumber(number);
+  
+  NSString *imageName = [NSString stringWithFormat:@"%@-no-bg", systemName];
+  return imageName;
+}
+
 + (NSString *)imageNameByPaymentSystem:(NSString *) paymentSysten compatibleWithTraitCollection:(UITraitCollection *) traitCollection {
   NSString *systemName = [paymentSysten lowercaseString];
   NSString *imageAppearance = CardKConfig.shared.theme.imageAppearance;

@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "Property=Card Mastercard.png",
+      "filename" : "Property18.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "Property=Card Mastercard@2x.png",
+      "filename" : "Property18@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "Property=Card Mastercard@3x.png",
+      "filename" : "Property18@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

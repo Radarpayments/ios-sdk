@@ -48,11 +48,12 @@ if (self) {
   _paymentSystemImageView = [[UIImageView alloc] init];
   _paymentSystemImageView.contentMode = UIViewContentModeCenter;
   _leftIconAnimationOptions = UIViewAnimationOptionTransitionCrossDissolve;
-  self.leftIconImageName = [PaymentSystemProvider imageNameByCardNumber:_allowedCardScaner ? nil : @"" compatibleWithTraitCollection: self.traitCollection];
+  self.leftIconImageName = [PaymentSystemProvider imageNameNoBgByCardNumber:@""];
 
   _scanCardTapRecognizer = [[UITapGestureRecognizer alloc] init];
   [_paymentSystemImageView addGestureRecognizer:_scanCardTapRecognizer];
   [_paymentSystemImageView setTintColor: theme.colorLabel];
+  _paymentSystemImageView.layer.opacity = 0;
 
   
 
@@ -91,10 +92,16 @@ return self;
   }
   _leftIconImageName = name;
   UIImage *image = [PaymentSystemProvider namedImage:_leftIconImageName inBundle:_bundle compatibleWithTraitCollection:self.traitCollection];
+
   UIImageView *imageView = _paymentSystemImageView;
-  [UIView transitionWithView:imageView duration:0.3 options:_leftIconAnimationOptions animations:^{
-    [imageView setImage:image];
-  } completion:nil];
+  [imageView setImage:image];
+  CGRect frame = imageView.frame;
+  frame.origin.x = 0;
+
+  [UIView animateWithDuration:0.3 animations:^{
+    imageView.layer.opacity = 1;
+    imageView.frame = frame;
+  }];
 }
 
 - (void)redetIconImageName:(NSString *)name {
@@ -178,12 +185,12 @@ _errorMessagesArray = [errorMessages mutableCopy];
 }
 
 - (void)_showPaymentSystemProviderIcon {
-NSString *number = self.number ?: @"";
-if (_allowedCardScaner && number.length == 0) {
-  number = nil;
-}
+  NSString *number = self.number ?: @"";
+  if (_allowedCardScaner && number.length == 0) {
+    number = nil;
+  }
 
-self.leftIconImageName = [PaymentSystemProvider imageNameByCardNumber:number compatibleWithTraitCollection:self.traitCollection];
+  self.leftIconImageName = [PaymentSystemProvider imageNameNoBgByCardNumber:number];
 }
 
 - (void)_numberChanged {
