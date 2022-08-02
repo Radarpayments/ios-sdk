@@ -49,6 +49,7 @@
 		9248868E251885FB00CA81D5 /* SeTokenGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 9248868C251885FB00CA81D5 /* SeTokenGenerator.h */; };
 		9248868F251885FB00CA81D5 /* SeTokenGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 9248868D251885FB00CA81D5 /* SeTokenGenerator.m */; };
 		92533B98289652E000C51867 /* CardKitImageProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 92533B97289652E000C51867 /* CardKitImageProvider.m */; };
+		92533B9A289908A400C51867 /* VerifyCompaniesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 92533B99289908A400C51867 /* VerifyCompaniesView.m */; };
 		925BE583283B6A2100E98173 /* CKCPubKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 92BD9007255D202E001E1ECF /* CKCPubKey.m */; };
 		9291BF9626315D3B00F6ECF1 /* CKCToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 92BD900F255D204A001E1ECF /* CKCToken.m */; };
 		9291BFA526315D8500F6ECF1 /* CKCTokenResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 92BD9023255D2315001E1ECF /* CKCTokenResult.m */; };
@@ -241,6 +242,8 @@
 		9248868D251885FB00CA81D5 /* SeTokenGenerator.m */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = SeTokenGenerator.m; sourceTree = "<group>"; tabWidth = 2; };
 		92533B96289652CE00C51867 /* CardKitImageProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CardKitImageProvider.h; sourceTree = "<group>"; };
 		92533B97289652E000C51867 /* CardKitImageProvider.m */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = CardKitImageProvider.m; sourceTree = "<group>"; tabWidth = 2; };
+		92533B99289908A400C51867 /* VerifyCompaniesView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VerifyCompaniesView.m; sourceTree = "<group>"; };
+		92533B9B2899097300C51867 /* VerifyCompaniesView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VerifyCompaniesView.h; sourceTree = "<group>"; };
 		9292CF47255E9B2F00053EC3 /* TestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9292CF49255E9B2F00053EC3 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		9292CF4A255E9B2F00053EC3 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -495,6 +498,8 @@
 				9205AA9E2883617600EF36A2 /* NewCardCellView.m */,
 				92DF14472889D9C400381DA8 /* CardKButtonView.h */,
 				92DF14482889D9DD00381DA8 /* CardKButtonView.m */,
+				92533B9B2899097300C51867 /* VerifyCompaniesView.h */,
+				92533B99289908A400C51867 /* VerifyCompaniesView.m */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -989,6 +994,7 @@
 				92E247F7247676A900C2EF6C /* CardKBindingViewController.m in Sources */,
 				9205AAA52884A4BE00EF36A2 /* Constants.m in Sources */,
 				D269080E231FA894001CB863 /* CardKTextField.m in Sources */,
+				92533B9A289908A400C51867 /* VerifyCompaniesView.m in Sources */,
 				921394952881FA8800182888 /* DividerView.m in Sources */,
 				9234CC5B247FBCDD009E3034 /* CardKPaymentView.m in Sources */,
 				92D67341287FDFCE0069DBF5 /* CardKApplePayButtonView.m in Sources */,

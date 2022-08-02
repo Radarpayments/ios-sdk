@@ -59,8 +59,6 @@
     _secureCodeTextField.secureTextEntry = YES;
     _secureCodeTextField.accessibilityLabel = NSLocalizedStringFromTableInBundle(@"cvc", nil, _languageBundle, @"CVC accessibility");
     _secureCodeTextField.keyboardType = UIKeyboardTypeNumberPad;
-    [_secureCodeTextField addTarget:self action:@selector(_clearSecureCodeErrors) forControlEvents:UIControlEventEditingDidBegin];
-    [_secureCodeTextField addTarget:self action:@selector(_clearSecureCodeErrors) forControlEvents:UIControlEventValueChanged];
     
     _expireDateLabel = [[UILabel alloc] init];
     _cardNumberLabel = [[UILabel alloc] init];

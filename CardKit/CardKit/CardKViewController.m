@@ -21,6 +21,7 @@
 #import "CardKCVCTextField.h"
 #import "CKCToken.h"
 #import "Constants.h"
+#import "VerifyCompaniesView.h"
 
 @interface ScanViewWrapper: UIView
 
@@ -91,6 +92,7 @@
   NSBundle *_bundle;
   NSBundle *_languageBundle;
   CardKSwitchView *_switchView;
+  VerifyCompaniesView *_verifyCompanies;
 }
 
 
@@ -134,6 +136,8 @@
     
     self.tableView.backgroundColor = CardKConfig.shared.theme.colorTableBackground;
     self.view.backgroundColor = CardKConfig.shared.theme.colorTableBackground;
+    
+    _verifyCompanies = [[VerifyCompaniesView alloc] init];
   }
   
   return self;
@@ -215,7 +219,8 @@
   self.tableView.sectionFooterHeight = UITableViewAutomaticDimension;
   [self.tableView setSeparatorStyle: UITableViewCellSeparatorStyleNone];
   self.tableView.cellLayoutMarginsFollowReadableWidth = YES;
-  
+  self.tableView.tableFooterView = _verifyCompanies;
+  self.tableView.tableFooterView.frame = CGRectMake(20, 0, 40, 40);
   self.tableView.tableHeaderView.frame = CGRectMake(20, 0, 40, 40);
   
   for (NSString *cellID in @[CardKBankLogoCellID, CardKCardCellID, CardKCVCAndExpireDateCellID, CardKButtonCellID, CardKSwitchCellID]) {
@@ -251,6 +256,9 @@
   
   [[self navigationController] setNavigationBarHidden:NO animated:YES];
   self.navigationItem.backBarButtonItem.tintColor = CardKConfig.shared.theme.colorLabel;
+  
+  
+  
 }
 
 #pragma mark - Table view data source
