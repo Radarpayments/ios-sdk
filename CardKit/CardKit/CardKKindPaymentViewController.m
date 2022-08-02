@@ -72,7 +72,7 @@
     _bankLogoView.title = NSLocalizedStringFromTableInBundle(@"title", nil, _languageBundle, @"Title");
 
     _dividerView = [[DividerView alloc] init];
-    _dividerView.title = NSLocalizedStringFromTableInBundle(@"payByCard", nil, _languageBundle, @"payByCard");;
+    _dividerView.title = NSLocalizedStringFromTableInBundle(@"payByCard", nil, _languageBundle, @"payByCard");
     
     _newCardCellView = [[NewCardCellView alloc] init];
     
@@ -98,7 +98,10 @@
     
     CardKTheme *theme = CardKConfig.shared.theme;
     [UIBarButtonItem appearance].tintColor = theme.colorLabel;
-    self.navigationItem.leftBarButtonItem.title = @"";
+
+    if (@available(iOS 11.0, *)) {
+      self.navigationItem.backButtonTitle = @"";
+    }
   }
   return self;
 }
@@ -356,6 +359,12 @@
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
    [tableView reloadData];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+  [super viewWillAppear:YES];
+  [self.navigationController.navigationBar setTitleTextAttributes:
+   @{NSForegroundColorAttributeName:CardKConfig.shared.theme.colorLabel}];
 }
 
 

@@ -132,17 +132,8 @@
     _switchView.tag = 30004;
     _sections = [self _defaultSections];
     
-  self.tableView.backgroundColor = CardKConfig.shared.theme.colorTableBackground;
-  self.view.backgroundColor = CardKConfig.shared.theme.colorTableBackground;
-    
-//    CardKTheme *theme = CardKConfig.shared.theme;
-//    UINavigationBar *bar = [self.navigationController navigationBar];
-//    bar.barTintColor = theme.colorLabel;
-//    [bar setTintColor: theme.colorLabel];
-//    [self.navigationController.navigationItem.backBarButtonItem setTitle:@""];
-//    [self.navigationItem.backBarButtonItem setTitle:@""];
-//    [self.navigationItem.backBarButtonItem setTintColor:theme.colorLabel];
-//    self.navigationController.navigationBar.tintColor = CardKConfig.shared.theme.colorLabel;
+    self.tableView.backgroundColor = CardKConfig.shared.theme.colorTableBackground;
+    self.view.backgroundColor = CardKConfig.shared.theme.colorTableBackground;
   }
   
   return self;
@@ -237,6 +228,8 @@
   
   
   [_cardNumberCell becomeFirstResponder];
+  [self.navigationController.navigationBar setTitleTextAttributes:
+   @{NSForegroundColorAttributeName:theme.colorLabel}];
 }
 
 
