@@ -23,8 +23,10 @@
 
 #import "CardKBinding.h"
 #import "BindingCellView.h"
+#import "VerifyCompaniesView.h"
 
 #import "Constants.h"
+
 
 @implementation CardKBindingViewController {
   CardKBankLogoView *_bankLogoView;
@@ -35,6 +37,7 @@
   NSMutableArray *_sections;
   NSBundle *_bundle;
   NSBundle *_languageBundle;
+  VerifyCompaniesView *_verifyCompanies;
 }
 - (instancetype)init {
   self = [super initWithStyle:UITableViewStyleGrouped];
@@ -115,8 +118,6 @@
   [super viewDidLoad];
   [_cKitDelegate didLoadController:self];
   
-  CardKTheme *theme = CardKConfig.shared.theme;
-  
   self.tableView.sectionFooterHeight = UITableViewAutomaticDimension;
   [self.tableView setSeparatorStyle: UITableViewCellSeparatorStyleNone];
   self.tableView.cellLayoutMarginsFollowReadableWidth = YES;
@@ -130,6 +131,8 @@
   [self.tableView registerClass:[UITableViewHeaderFooterView class] forHeaderFooterViewReuseIdentifier:CardKFooterID];
   
   self.title = NSLocalizedStringFromTableInBundle(@"payment", nil, _languageBundle, "payment");
+  _verifyCompanies = [[VerifyCompaniesView alloc] init];
+  self.tableView.tableFooterView = _verifyCompanies;
 }
 
 

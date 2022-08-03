@@ -242,7 +242,7 @@
 		9248868D251885FB00CA81D5 /* SeTokenGenerator.m */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = SeTokenGenerator.m; sourceTree = "<group>"; tabWidth = 2; };
 		92533B96289652CE00C51867 /* CardKitImageProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CardKitImageProvider.h; sourceTree = "<group>"; };
 		92533B97289652E000C51867 /* CardKitImageProvider.m */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = CardKitImageProvider.m; sourceTree = "<group>"; tabWidth = 2; };
-		92533B99289908A400C51867 /* VerifyCompaniesView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VerifyCompaniesView.m; sourceTree = "<group>"; };
+		92533B99289908A400C51867 /* VerifyCompaniesView.m */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = VerifyCompaniesView.m; sourceTree = "<group>"; tabWidth = 2; };
 		92533B9B2899097300C51867 /* VerifyCompaniesView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VerifyCompaniesView.h; sourceTree = "<group>"; };
 		9292CF47255E9B2F00053EC3 /* TestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9292CF49255E9B2F00053EC3 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };

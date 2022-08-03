@@ -136,8 +136,6 @@
     
     self.tableView.backgroundColor = CardKConfig.shared.theme.colorTableBackground;
     self.view.backgroundColor = CardKConfig.shared.theme.colorTableBackground;
-    
-    _verifyCompanies = [[VerifyCompaniesView alloc] init];
   }
   
   return self;
@@ -219,8 +217,7 @@
   self.tableView.sectionFooterHeight = UITableViewAutomaticDimension;
   [self.tableView setSeparatorStyle: UITableViewCellSeparatorStyleNone];
   self.tableView.cellLayoutMarginsFollowReadableWidth = YES;
-  self.tableView.tableFooterView = _verifyCompanies;
-  self.tableView.tableFooterView.frame = CGRectMake(20, 0, 40, 40);
+
   self.tableView.tableHeaderView.frame = CGRectMake(20, 0, 40, 40);
   
   for (NSString *cellID in @[CardKBankLogoCellID, CardKCardCellID, CardKCVCAndExpireDateCellID, CardKButtonCellID, CardKSwitchCellID]) {
@@ -235,6 +232,9 @@
   [_cardNumberCell becomeFirstResponder];
   [self.navigationController.navigationBar setTitleTextAttributes:
    @{NSForegroundColorAttributeName:theme.colorLabel}];
+  
+  _verifyCompanies = [[VerifyCompaniesView alloc] init];
+  self.tableView.tableFooterView = _verifyCompanies;
 }
 
 
@@ -256,9 +256,6 @@
   
   [[self navigationController] setNavigationBarHidden:NO animated:YES];
   self.navigationItem.backBarButtonItem.tintColor = CardKConfig.shared.theme.colorLabel;
-  
-  
-  
 }
 
 #pragma mark - Table view data source
@@ -270,7 +267,6 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
   return [_sections[section][CardKRows] count];
 }
-
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
   CardKTheme *theme = CardKConfig.shared.theme;
@@ -337,6 +333,9 @@
 
 - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
   [super traitCollectionDidChange:previousTraitCollection];
+    
+//  CGRect footer = self.tableView.tableFooterView.frame;
+//  self.tableView.tableFooterView.frame = CGRectMake(0, footer.origin.y + 100, footer.size.width, 40);
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
