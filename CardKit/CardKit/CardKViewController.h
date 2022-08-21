@@ -11,6 +11,7 @@
 #import "CardKTheme.h"
 #import "CardKBinding.h"
 #import "CardKCardView.h"
+#import "CardKCard.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -64,15 +65,11 @@ NS_ASSUME_NONNULL_BEGIN
 */
 - (void)setCardNumber:(nullable NSString *)number holderName:(nullable NSString *)holderName expirationDate:(nullable NSString *)date cvc:(nullable NSString *)cvc bindingId:(nullable NSString *)bindingId;
 
+
 /*!
 @brief Get card data
 */
-- (CardKCardView *)getCardKView;
-
-/*!
-@brief Get cardholder name
-*/
-- (NSString *)getCardOwner;
+- (CardKCard *) getCard;
 
 /*!
 @brief Show scan card

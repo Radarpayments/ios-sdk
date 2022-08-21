@@ -7,7 +7,7 @@
 //
 
 #import "CardKConfig.h"
-#import "CKCToken.h"
+#import <CardKitCore/CardKitCore.h>
 
 static CardKConfig *__instance = nil;
 

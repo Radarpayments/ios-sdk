@@ -14,7 +14,7 @@
 #import "CardKTextField.h"
 #import "CardKValidation.h"
 #import "CardKBankLogoView.h"
-#import "RSA.h"
+#import <CardKitCore/CardKitCore.h>
 
 @implementation BindingCellView {
   UIImageView * _paymentSystemImageView;

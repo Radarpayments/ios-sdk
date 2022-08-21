@@ -5,11 +5,10 @@
 //  Created by Yury Korolev on 9/4/19.
 //  Copyright © 2019 AnjLab. All rights reserved.
 //
-
+#import <CardKitCore/CardKitCore.h>
 #import "CardKCardView.h"
 #import "CardKTextField.h"
 #import "PaymentSystemProvider.h"
-#import "Luhn.h"
 #import "CardKConfig.h"
 #import "CardKValidation.h"
 

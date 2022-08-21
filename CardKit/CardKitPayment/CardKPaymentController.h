@@ -18,7 +18,7 @@
 - (void)scanCardRequest:(CardKViewController *)controller;
 @end
 
-@interface CardKPaymentController: UIViewController
+@interface CardKPaymentController: NSObject
   @property (weak, nonatomic) id<CardKPaymentDelegate> cardKPaymentDelegate;
 
   @property CardKPaymentView* cardKPaymentView;
@@ -30,4 +30,6 @@
   @property NSString *directoryServerId;
   @property NSString *mdOrder;
   @property BOOL use3ds2sdk;
+- (void) presentViewController:(UINavigationController *)navController uiController: (UIViewController *) uiController;
+
 @end

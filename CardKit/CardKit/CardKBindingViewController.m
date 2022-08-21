@@ -13,13 +13,12 @@
 #import "CardKConfig.h"
 #import "CardKSwitchView.h"
 #import "CardKKindPaymentViewController.h"
-#import "SeTokenGenerator.h"
 #import "CardKButtonView.h"
 
 #import "CardKCardNumberTextField.h"
 #import "CardKExpireDateTextField.h"
 #import "CardKCVCTextField.h"
-#import "CKCToken.h"
+#import <CardKitCore/CKCToken.h>
 
 #import "CardKBinding.h"
 #import "BindingCellView.h"
@@ -86,7 +85,6 @@
 
 - (NSMutableArray *)_defaultSections {
   NSArray *sections = @[
-//    @{CardKRows: @[CardKBankLogoCellID]},
     @{CardKSectionTitle: NSLocalizedStringFromTableInBundle(@"card", nil, _languageBundle, @"Card section title"), CardKRows: @[CardKCardCellID]},
     @{CardKSectionTitle: NSLocalizedStringFromTableInBundle(@"cardholder", nil, _languageBundle, @"Cardholder section title"), CardKRows: @[CardKCVCAndExpireDateCellID]},
     @{CardKRows: @[CardKButtonCellID]},
@@ -166,6 +164,11 @@
   return [_sections[section][CardKRows] count];
 }
 
+- (void)_centeredViewForIpad: (UIView *) view center:(CGPoint) center {
+  if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) {
+    view.center = center;
+  }
+}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
   CardKTheme *theme = CardKConfig.shared.theme;
@@ -184,31 +187,58 @@
   CardKTheme *theme = CardKConfig.shared.theme;
   
   NSString *cellID = _sections[indexPath.section][CardKRows][indexPath.row] ?: @"unknown";
+  
+  CGSize size = self.view.bounds.size;
+  CGPoint center = CGPointMake(cell.frame.size.width / 2, cell.contentView.frame.size.height / 2);
+  
+  
+  if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad && size.width > 468) {
+    cell.contentView.frame = CGRectMake(0, 0, 468, cell.contentView.frame.size.height);
+  }
+  
+  
+  NSInteger width = cell.contentView.bounds.size.width;
+  NSInteger height = cell.contentView.bounds.size.height;
+  
   if ([CardKBankLogoCellID isEqual:cellID]) {
-      _bankLogoView.frame = CGRectMake(20, 0, 40, 40);
-      _bankLogoView.title = @"";
+    UIView *mainContainer  = [[UIView alloc] initWithFrame:CGRectMake(0, 0, width, height)];
+    _bankLogoView.frame = CGRectMake(20, 0, 40, 40);
+    _bankLogoView.title = @"";
+    
+    [mainContainer addSubview:_bankLogoView];
       
-      [cell.contentView addSubview:_bankLogoView];
+    [self _centeredViewForIpad:mainContainer center:center];
+    [cell.contentView addSubview:mainContainer];
   } else if ([CardKCardCellID isEqual:cellID]) {
+    UIView *cardNumberCellContainer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, width, height)];
     _cardNumberCell.frame = CGRectMake(20, 0, cell.contentView.bounds.size.width - 40, cell.contentView.bounds.size.height);
     
-    [cell.contentView addSubview:_cardNumberCell];
+    [cardNumberCellContainer addSubview:_cardNumberCell];
+    
+    [self _centeredViewForIpad:_cardNumberCell center:center];
+    
+    [cell.contentView addSubview:cardNumberCellContainer];
   } else if ([CardKCVCAndExpireDateCellID isEqual:cellID]) {
-    NSInteger width = cell.contentView.bounds.size.width;
-    NSInteger height = cell.contentView.bounds.size.height;
+    UIView *mainContainer  = [[UIView alloc] initWithFrame:CGRectMake(0, 0, width, height)];
     
     UIView *expireView = [[UIView alloc] initWithFrame:CGRectMake(20, 0, width / 2 - 40, height)];
     
     [expireView addSubview:_expireDateTextField];
     _expireDateTextField.frame = CGRectMake(0, 0, expireView.frame.size.width, height);
-    [cell.contentView addSubview:expireView];
+    [mainContainer addSubview:expireView];
     
     UIView *cvcView = [[UIView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(expireView.frame) + 20, 0, width / 2 - 20, height)];
     _cvcTextField.frame = CGRectMake(0, 0, cvcView.frame.size.width, height);
     [cvcView addSubview:_cvcTextField];
-    [cell.contentView addSubview:cvcView];
+    [mainContainer addSubview:cvcView];
+    
+    [self _centeredViewForIpad:mainContainer center:center];
+
+    [cell.contentView addSubview:mainContainer];
   } else if ([CardKButtonCellID isEqual:cellID]) {
-    _doneButton.frame = CGRectMake(20, 0, cell.contentView.bounds.size.width - 40, cell.contentView.bounds.size.height);
+    _doneButton.frame = CGRectMake(20, 0, width - 40, height);
+    [self _centeredViewForIpad:_doneButton center:center];
+
     [cell.contentView addSubview:_doneButton];
   }
   
@@ -292,6 +322,8 @@
   ckcBindingParams.pubKey = CardKConfig.shared.pubKey;
 
   CKCTokenResult *seToken = [CKCToken generateWithBinding:ckcBindingParams];
+  self.cardKBinding.secureCode = _cvcTextField.secureCode;
+  
   [_cKitDelegate bindingViewController:self didCreateSeToken:seToken.token allowSaveBinding:NO isNewCard: NO];
 }
 

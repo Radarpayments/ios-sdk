@@ -7,8 +7,9 @@
 //
 
 #import "CardKTextField.h"
-#import "Luhn.h"
 #import <AudioToolbox/AudioServices.h>
+#import <CardKitCore/CardKitCore.h>
+
 #import "CardKConfig.h"
 #import "TextField.h"
 NSString *CardKTextFieldPatternCardNumber = @"XXXXXXXXXXXXXXXX";

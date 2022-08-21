@@ -13,15 +13,18 @@
 #import "CardKConfig.h"
 #import "CardKSwitchView.h"
 #import "CardKKindPaymentViewController.h"
-#import "SeTokenGenerator.h"
 #import "CardKButtonView.h"
 
 #import "CardKCardNumberTextField.h"
 #import "CardKExpireDateTextField.h"
 #import "CardKCVCTextField.h"
-#import "CKCToken.h"
+
 #import "Constants.h"
 #import "VerifyCompaniesView.h"
+#import "CardKCard.h"
+
+#import <CardKitCore/CardKitCore.h>
+
 
 @interface ScanViewWrapper: UIView
 
@@ -139,6 +142,10 @@
   }
   
   return self;
+}
+
+- (void) viewWillLayoutSubviews {
+  [super viewWillLayoutSubviews];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -268,58 +275,71 @@
   return [_sections[section][CardKRows] count];
 }
 
+- (void)_centeredViewForIpad: (UIView *) view center:(CGPoint) center {
+  if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) {
+    view.center = center;
+  }
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
   CardKTheme *theme = CardKConfig.shared.theme;
   NSString *cellID = _sections[indexPath.section][CardKRows][indexPath.row] ?: @"unknown";
   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID forIndexPath:indexPath];
+  CGSize size = self.view.bounds.size;
+  CGPoint center = CGPointMake(cell.frame.size.width / 2, cell.contentView.frame.size.height / 2);
 
-  if ([CardKSwitchCellID isEqual:cellID]) {
-    _switchView.frame = cell.contentView.bounds;
-    cell.accessoryView = [_switchView getSwitch];
-    [cell.contentView addSubview:_switchView];
-  }
-  if (theme.colorCellBackground != nil) {
-    cell.backgroundColor = theme.colorCellBackground;
+  
+  if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad && size.width > 468) {
+    cell.contentView.frame = CGRectMake(0, 0, 468, cell.contentView.frame.size.height);
   }
   
-  cell.textLabel.textColor = theme.colorLabel;
-  return cell;
-}
+  NSInteger width = cell.contentView.bounds.size.width;
+  NSInteger height = cell.contentView.bounds.size.height;
 
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-  CardKTheme *theme = CardKConfig.shared.theme;
-  
-  NSString *cellID = _sections[indexPath.section][CardKRows][indexPath.row] ?: @"unknown";
   if ([CardKBankLogoCellID isEqual:cellID]) {
-      _bankLogoView.frame = CGRectMake(20, 0, 40, 40);
-      _bankLogoView.title = @"";
+    UIView *mainContainer  = [[UIView alloc] initWithFrame:CGRectMake(0, 0, width, height)];
+    _bankLogoView.frame = CGRectMake(20, 0, 40, 40);
+    _bankLogoView.title = @"";
+    
+    [mainContainer addSubview:_bankLogoView];
       
-      [cell.contentView addSubview:_bankLogoView];
+    [self _centeredViewForIpad:mainContainer center:center];
+    [cell.contentView addSubview:mainContainer];
   } else if ([CardKCardCellID isEqual:cellID]) {
-    _cardNumberCell.frame = CGRectMake(20, 0, cell.contentView.bounds.size.width - 40, cell.contentView.bounds.size.height);
+    UIView *cardNumberCellContainer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, width, height)];
+    _cardNumberCell.frame = CGRectMake(20, 0, width - 40, height);
+    [cardNumberCellContainer addSubview:_cardNumberCell];
     
-    [cell.contentView addSubview:_cardNumberCell];
+    [self _centeredViewForIpad:_cardNumberCell center:center];
+
+    [cell.contentView addSubview:cardNumberCellContainer];
   } else if ([CardKCVCAndExpireDateCellID isEqual:cellID]) {
-    NSInteger width = cell.contentView.bounds.size.width;
-    NSInteger height = cell.contentView.bounds.size.height;
-    
+    UIView *mainContainer  = [[UIView alloc] initWithFrame:CGRectMake(0, 0, width, height)];
     UIView *expireView = [[UIView alloc] initWithFrame:CGRectMake(20, 0, width / 2 - 40, height)];
     
     [expireView addSubview:_expireDateTextField];
     _expireDateTextField.frame = CGRectMake(0, 0, expireView.frame.size.width, height);
-    [cell.contentView addSubview:expireView];
+    [mainContainer addSubview:expireView];
     
     UIView *cvcView = [[UIView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(expireView.frame) + 20, 0, width / 2 - 20, height)];
     _cvcTextField.frame = CGRectMake(0, 0, cvcView.frame.size.width, height);
     [cvcView addSubview:_cvcTextField];
-    [cell.contentView addSubview:cvcView];
+    [mainContainer addSubview:cvcView];
+    
+    [self _centeredViewForIpad:mainContainer center:center];
+
+    [cell.contentView addSubview:mainContainer];
   } else if ([CardKButtonCellID isEqual:cellID]) {
-    _doneButton.frame = CGRectMake(20, 0, cell.contentView.bounds.size.width - 40, cell.contentView.bounds.size.height);
+    _doneButton.frame = CGRectMake(20, 0, width - 40, height);
+    [self _centeredViewForIpad:_doneButton center:center];
+
     [cell.contentView addSubview:_doneButton];
   } else if ([CardKSwitchCellID isEqual:cellID]) {
-    _switchView.frame = CGRectMake(20, 0, cell.contentView.bounds.size.width - 40, cell.contentView.bounds.size.height);
+    _switchView.frame = CGRectMake(20, 0, width - 40, height);
     
     cell.accessoryView = [_switchView getSwitch];
+    [self _centeredViewForIpad:_switchView center:center];
+
     [cell.contentView addSubview:_switchView];
   }
   
@@ -327,15 +347,14 @@
     cell.backgroundColor = theme.colorCellBackground;
   }
   
+
   cell.textLabel.textColor = theme.colorLabel;
+  return cell;
 }
 
 
 - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
   [super traitCollectionDidChange:previousTraitCollection];
-    
-//  CGRect footer = self.tableView.tableFooterView.frame;
-//  self.tableView.tableFooterView.frame = CGRectMake(0, footer.origin.y + 100, footer.size.width, 40);
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -415,12 +434,14 @@
   [_cKitDelegate cardKitViewControllerScanCardRequest:self];
 }
 
-- (CardKCardView *)getCardKView {
-  return [[CardKCardView alloc] init];
-}
+- (CardKCard *)getCard {
+  CardKCard *card = [[CardKCard alloc] init];
+  
+  card.cardNumber = _cardNumberCell.number;
+  card.secureCode = _cvcTextField.secureCode;
+  card.expireDate = _expireDateTextField.expirationDate;
 
-- (NSString *)getCardOwner {
-    return @"";
+  return card;
 }
 
 - (void)setCardNumber:(nullable NSString *)number holderName:(nullable NSString *)holderName expirationDate:(nullable NSString *)date cvc:(nullable NSString *)cvc bindingId:(nullable NSString *)bindingId {

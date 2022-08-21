@@ -13,7 +13,7 @@
 #import "CardKTextField.h"
 #import "CardKValidation.h"
 #import "CardKBankLogoView.h"
-#import "RSA.h"
+#import <CardKitCore/CardKitCore.h>
 
 @implementation CardKBinding
 - (NSString *)formatedExpireDate {

@@ -162,9 +162,8 @@
   self.tableView.backgroundColor = CardKConfig.shared.theme.colorCellBackground;
   [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
   self.tableView.allowsSelectionDuringEditing = YES;
-  
   self.tableView.sectionFooterHeight = UITableViewAutomaticDimension;
-  self.tableView.cellLayoutMarginsFollowReadableWidth = YES;
+  self.tableView.cellLayoutMarginsFollowReadableWidth = NO;
 }
 
 - (void)viewDidLayoutSubviews {
@@ -278,7 +277,7 @@
     [cell.contentView addSubview:_newCardCellView];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
   }
-
+  
   CardKTheme *theme = CardKConfig.shared.theme;
   if (theme.colorCellBackground != nil) {
    cell.backgroundColor = theme.colorCellBackground;

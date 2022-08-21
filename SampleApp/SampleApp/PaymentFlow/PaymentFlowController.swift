@@ -34,7 +34,9 @@ class PaymentFlowController: UIViewController {
     _paymentFlowController = CardKPaymentController();
     _paymentFlowController.cardKPaymentDelegate = self;
 
-    navController = UINavigationController(rootViewController: _paymentFlowController)
+    
+//    navController = UINavigationController(rootViewController: _paymentFlowController)
+//    navController
     self.view.addSubview(_button)
   }
   
@@ -81,16 +83,18 @@ class PaymentFlowController: UIViewController {
   }
   
   func _fetchRootCert() {
-    let request: URLRequest = URLRequest(url: URL(string: "https://dummy3dsdev.intabia.ru/acs2/secret/cert")!)
+//    let request: URLRequest = URLRequest(url: URL(string: "https://dummy3dsdev.intabia.ru/acs2/secret/cert")!)
+//
+//    URLSession.shared.dataTask(with: request as URLRequest, completionHandler: { (data, response, error) -> Void in
+//      guard let data = data else { return }
+//
+//      CardKConfig.shared.rootCertificate = String(data: data, encoding: .utf8) ?? ""
+//      DispatchQueue.main.async {
+//        self._registerOrder()
+//      }
+//    }).resume()
     
-    URLSession.shared.dataTask(with: request as URLRequest, completionHandler: { (data, response, error) -> Void in
-      guard let data = data else { return }
-      
-      CardKConfig.shared.rootCertificate = String(data: data, encoding: .utf8) ?? ""
-      DispatchQueue.main.async {
-        self._registerOrder()
-      }
-    }).resume()
+    self._registerOrder()
   }
   
   func _fetchPubKey() {
@@ -99,16 +103,11 @@ class PaymentFlowController: UIViewController {
   }
 
   func _registerOrder() {
-    _paymentFlowController = CardKPaymentController();
-    _paymentFlowController.cardKPaymentDelegate = self;
-    _paymentFlowController.use3ds2sdk = use3ds2sdk;
-    
     API.registerNewOrder(params: PaymentFlowController.requestParams) {(data, response) in
       PaymentFlowController.requestParams.orderId = data.orderId
-      self._paymentFlowController.mdOrder = data.orderId ?? ""
-      
+//
       let amountDecimal = NSDecimalNumber (string: PaymentFlowController.requestParams.amount)
-      
+//
       DispatchQueue.main.async {
         let paymentRequest = PKPaymentRequest();
         paymentRequest.currencyCode = "USD";
@@ -132,6 +131,10 @@ class PaymentFlowController: UIViewController {
         cardKPaymentView.cardPaybutton = cardPayButton;
         cardKPaymentView.paymentRequest.merchantIdentifier = "merchant.cardkit";
         
+        self._paymentFlowController = CardKPaymentController();
+        self._paymentFlowController.cardKPaymentDelegate = self;
+        self._paymentFlowController.use3ds2sdk = self.use3ds2sdk;
+        self._paymentFlowController.mdOrder = data.orderId ?? ""
         self._paymentFlowController.directoryServerId = "directoryServerId"
         self._paymentFlowController.url = self.url;
         self._paymentFlowController.cardKPaymentView = cardKPaymentView;
@@ -145,10 +148,8 @@ class PaymentFlowController: UIViewController {
           self._paymentFlowController.textDoneButtonColor = .white
         }
         
-        self.navController = UINavigationController(rootViewController: self._paymentFlowController)
-        
-        self.navController.modalPresentationStyle = .overCurrentContext
-        self.present(self.navController, animated: false, completion: nil)
+        self.navigationController?.modalPresentationStyle = .overCurrentContext
+        self._paymentFlowController.presentViewController(self.navigationController, uiController: self);
       }
     }
   }
@@ -167,13 +168,13 @@ extension PaymentFlowController: CardKPaymentDelegate {
       self.dismiss(animated: true, completion: nil)
     }))
     
-    self.navController.present(alert, animated: true, completion: nil)
+    self.navigationController?.present(alert, animated: true, completion: nil)
   }
   
   func didErrorPaymentFlow(_ paymentError: CardKPaymentError!) {
     let alert = UIAlertController(title: "Error", message: paymentError.message, preferredStyle: .alert)
     alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-    self.navController.present(alert, animated: true, completion: nil)
+    self.navigationController?.present(alert, animated: true, completion: nil)
   }
   
   func didCancelPaymentFlow() {
@@ -182,7 +183,7 @@ extension PaymentFlowController: CardKPaymentDelegate {
       self.dismiss(animated: true, completion: nil)
     }))
     
-    self.navController.present(alert, animated: true, completion: nil)
+    self.navigationController?.present(alert, animated: true, completion: nil)
   }
   
   func scanCardRequest(_ controller: CardKViewController) {

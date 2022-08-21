@@ -7,10 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CardKitCore/CardKitCore.h>
+
 #import "CardKCardNumberTextField.h"
 #import "CardKTextField.h"
 #import "PaymentSystemProvider.h"
-#import "Luhn.h"
 #import "CardKConfig.h"
 #import "CardKValidation.h"
 #import "CardKBinding.h"
@@ -97,7 +98,8 @@ return self;
 
   UIImageView *imageView = _paymentSystemImageView;
   [imageView setImage:image];
-  CGRect frame = imageView.frame;
+  imageView.frame =  CGRectMake(0, 0, image.size.width, image.size.height);
+  CGRect frame = CGRectMake(0, 0, image.size.width, image.size.height);
   frame.origin.x = 0;
 
   [UIView animateWithDuration:0.3 animations:^{
