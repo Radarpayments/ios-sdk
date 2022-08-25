@@ -431,14 +431,6 @@ class ViewController: UITableViewController {
     }
     
     navController.modalPresentationStyle = .overCurrentContext
-//
-//    let closeBarButtonItem = UIBarButtonItem(
-//     title: "Close",
-//     style: .done,
-//     target: self,
-//     action: #selector(_close(sender:))
-//    )
-//    createdUiController.navigationItem.leftBarButtonItem = closeBarButtonItem
     self.present(navController, animated: false)
     
   }

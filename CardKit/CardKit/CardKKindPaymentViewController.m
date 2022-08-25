@@ -112,8 +112,6 @@
 - (void)setCKitDelegate:(id<CardKDelegate>)cKitDelegate {
   _applePayButton = [[CardKApplePayButtonView alloc] initWithDelegate: cKitDelegate];
   
-  _applePayButton.paymentButtonStyle = PKPaymentButtonStyleWhiteOutline;
-  
   _applePayButton.cardKPaymentViewDelegate = self;
   _applePayButton.controller = self;
   _cKitDelegate = cKitDelegate;
@@ -158,6 +156,7 @@
   tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 //  tableView.cellLayoutMarginsFollowReadableWidth = NO;
 //  [tableView setSeparatorStyle: UITableViewCellSeparatorStyleNone];
+  
   
   [tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
   tableView.allowsSelectionDuringEditing = NO;
@@ -348,6 +347,11 @@
     _dividerView.frame = CGRectMake(0, 0,  width - CGRectGetMinX(cell.contentView.frame) - 40, 56);
     _dividerView.center = CGPointMake(width * 0.5, 56 * 0.5);
     [cell.contentView addSubview:_dividerView];
+  } else if ([CardKPayCardButtonCellID isEqual:cellID]) {
+    _applePayButton.frame = CGRectMake(0, 0, width < 500 ? width : 500, 110);
+    _applePayButton.center = CGPointMake(width * 0.5, 150 * 0.5);
+    
+    [cell.contentView addSubview:_applePayButton];
   } else if ([CardKSavedCardsCellID isEqual:cellID]) {
     BindingCellView *bindingCellView = _sections[indexPath.section][CardKRows][indexPath.row][CardKSavedCardsCellID];
     bindingCellView.frame = CGRectMake(20, 0, cell.contentView.frame.size.width - 20, cell.contentView.frame.size.height);
@@ -418,6 +422,9 @@
 - (void)viewDidAppear:(BOOL)animated {
   [super viewDidAppear:animated];
   
+  
+  self.navigationController.toolbar.hidden = YES;
+  
 }
 
 - (void)viewWillLayoutSubviews {
@@ -442,6 +449,7 @@
     maskLayer.path = [UIBezierPath bezierPathWithRoundedRect: self.view.bounds byRoundingCorners: UIRectCornerTopLeft | UIRectCornerTopRight cornerRadii: (CGSize){13.0, 13.0}].CGPath;
     tableView.layer.masksToBounds = YES;
     tableView.layer.mask = maskLayer;
+    tableView.scrollEnabled = NO;
   }
 
   [self _setUpTableViewWithAnimate: YES];

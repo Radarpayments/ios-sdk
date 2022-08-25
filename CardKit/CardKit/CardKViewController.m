@@ -146,6 +146,11 @@
 
 - (void) viewWillLayoutSubviews {
   [super viewWillLayoutSubviews];
+  if (self.view.frame.size.height > 400) {
+    _verifyCompanies.frame = CGRectMake(0, self.view.frame.size.height - 200, self.view.frame.size.width, 50);
+  } else {
+    _verifyCompanies.frame = CGRectMake(0, CGRectGetMaxY(self.tableView.frame), self.view.frame.size.width, 50);
+  }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -240,8 +245,9 @@
   [self.navigationController.navigationBar setTitleTextAttributes:
    @{NSForegroundColorAttributeName:theme.colorLabel}];
   
-  _verifyCompanies = [[VerifyCompaniesView alloc] init];
-  self.tableView.tableFooterView = _verifyCompanies;
+    _verifyCompanies = [[VerifyCompaniesView alloc] init];
+
+    [self.view addSubview:_verifyCompanies];
 }
 
 

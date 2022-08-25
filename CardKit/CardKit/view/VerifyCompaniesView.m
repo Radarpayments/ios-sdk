@@ -73,12 +73,21 @@
   [super layoutSubviews];
   
   NSInteger index = 0;
+  
   for (UIImageView *_image in [self _images]) {
-    _image.frame = CGRectMake(index * 50, 0, 40, 40);
+    NSInteger offset = _image.image.size.width;
+
+    if (offset < 60) {
+      offset = 60;
+    }
+    
+    _image.frame = CGRectMake(index * offset, 0, _image.image.size.width, _image.image.size.height);
     index++;
   }
   
-  _imagesContainer.frame = CGRectMake(0, 0, 50 * 5, 40);
-  _imagesContainer.center = CGPointMake(self.bounds.size.width / 2, 40 / 2);
+  
+  NSInteger lastX = CGRectGetMaxX([[[self _images] lastObject] frame]);
+  _imagesContainer.frame = CGRectMake(0, 0, lastX, self.bounds.size.height);
+  _imagesContainer.center = CGPointMake(self.bounds.size.width / 2, self.bounds.size.height / 2);
 }
 @end
