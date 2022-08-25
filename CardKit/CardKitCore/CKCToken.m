@@ -163,7 +163,7 @@
     [errors addObject:@{@"field": CKCFieldBindingID, @"error": CKCErrorRequired}];
   }
   
-  if (params.mdOrder.length == 0) {
+  if (params.mdOrder.length == 0 && params.mdOrder != nil) {
     [errors addObject:@{@"field": CKCFieldMdOrder, @"error": CKCErrorRequired}];
   }
   
