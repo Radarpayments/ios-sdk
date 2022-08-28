@@ -120,7 +120,7 @@
     self->_cardKPaymentError.message = self->_sessionStatus.redirect;
       [self->_cardKPaymentDelegate didErrorPaymentFlow: self->_cardKPaymentError];
   
-    [_navController popViewControllerAnimated:YES];
+    [_navController dismissViewControllerAnimated:YES completion:nil];
   }
 
 - (void)presentViewController:(UINavigationController *)navController  uiController: (UIViewController *) uiController {
@@ -137,18 +137,18 @@
   _kindPaymentController = [CardKViewController create:self controller:cardKViewController];
   
   
-    UINavigationController * testNavController = [[UINavigationController alloc] initWithRootViewController:_kindPaymentController];
+  _sdkNavigationController = [[UINavigationController alloc] initWithRootViewController:_kindPaymentController];
 
-  testNavController.modalPresentationStyle = UIModalPresentationOverCurrentContext;
+  _sdkNavigationController.modalPresentationStyle = UIModalPresentationOverCurrentContext;
   
-  [_navController presentViewController:testNavController animated:NO completion:nil];
+  [_navController presentViewController:_sdkNavigationController animated:NO completion:nil];
 }
 
   - (void) _showAlertMessage:(NSString *) message {
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"" message:message preferredStyle:UIAlertControllerStyleAlert];
     [alert addAction:[UIAlertAction actionWithTitle:@"Ok" style:UIAlertActionStyleDefault handler:nil]];
 
-    [_navController presentViewController:alert animated:YES completion:nil];
+    [_sdkNavigationController presentViewController:alert animated:YES completion:nil];
   }
 
   - (void) _getFinishSessionStatusRequest {
@@ -329,7 +329,7 @@
         web3ds.termUrl = [responseDictionary objectForKey:@"termUrl"];
         web3ds.cardKPaymentDelegate = self->_cardKPaymentDelegate;
         
-        [self->_navController presentViewController:web3ds animated:true completion:nil];
+        [self->_sdkNavigationController presentViewController:web3ds animated:true completion:nil];
       }
     });
       
@@ -491,7 +491,7 @@
         web3ds.paReq = [responseDictionary objectForKey:@"paReq"];
         web3ds.termUrl = [responseDictionary objectForKey:@"termUrl"];
         
-        [self->_navController presentViewController:web3ds animated:true completion:nil];
+        [self->_sdkNavigationController presentViewController:web3ds animated:true completion:nil];
       }
     });
     }];

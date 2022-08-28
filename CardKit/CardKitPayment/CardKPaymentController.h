@@ -30,6 +30,8 @@
   @property NSString *directoryServerId;
   @property NSString *mdOrder;
   @property BOOL use3ds2sdk;
+  @property (readonly) UINavigationController *sdkNavigationController;
+
 - (void) presentViewController:(UINavigationController *)navController uiController: (UIViewController *) uiController;
 
 @end

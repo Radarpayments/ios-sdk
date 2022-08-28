@@ -166,13 +166,13 @@ extension PaymentFlowController: CardKPaymentDelegate {
       self.dismiss(animated: true, completion: nil)
     }))
     
-    self.navigationController?.present(alert, animated: true, completion: nil)
+    self._paymentFlowController.sdkNavigationController.present(alert, animated: true, completion: nil)
   }
   
   func didErrorPaymentFlow(_ paymentError: CardKPaymentError!) {
     let alert = UIAlertController(title: "Error", message: paymentError.message, preferredStyle: .alert)
     alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-    self.navigationController?.present(alert, animated: true, completion: nil)
+    self._paymentFlowController.sdkNavigationController.present(alert, animated: true, completion: nil)
   }
   
   func didCancelPaymentFlow() {
@@ -181,7 +181,7 @@ extension PaymentFlowController: CardKPaymentDelegate {
       self.dismiss(animated: true, completion: nil)
     }))
     
-    self.navigationController?.present(alert, animated: true, completion: nil)
+    self._paymentFlowController.sdkNavigationController.present(alert, animated: true, completion: nil)
   }
   
   func scanCardRequest(_ controller: CardKViewController) {
