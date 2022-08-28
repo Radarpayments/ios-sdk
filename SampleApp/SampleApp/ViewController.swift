@@ -24,10 +24,6 @@ struct SectionItem {
   
   enum Kind {
     case version
-    case lightTheme
-    case darkTheme
-    case systemTheme
-    case customTheme
     case navLightTheme
     case navNewCardWithoutSaveCard
     case navNewCardWithoutCardholder
@@ -82,93 +78,6 @@ class ViewController: UITableViewController {
     allowSaveBinding = true
     isSaveBinding = false
     displayCardholderField = true
-  }
-  
-  func _openController() {
-    CardKConfig.shared.language = "";
-    CardKConfig.shared.theme = CardKTheme.light();
-    CardKConfig.shared.bindingCVCRequired = true;
-    CardKConfig.shared.bindings = self._fetchBindingCards();
-    CardKConfig.shared.isTestMod = true;
-    CardKConfig.shared.mdOrder = "ae0adc7d-ef2d-7a2c-96c5-e8f61917ef58";
-    CardKConfig.shared.mrBinApiURL = "https://mrbin.io/bins/display";
-    CardKConfig.shared.mrBinURL = "https://mrbin.io/bins/";
-    CardKConfig.shared.bindingsSectionTitle = "Your cards";
-    CardKConfig.shared.pubKey = publicKey;
-    CardKConfig.shared.isEditBindingListMode = false;
-    
-    
-    CardIOUtilities.preloadCardIO()
-  }
-
-  func _openDark() {
-    CardKConfig.shared.theme = CardKTheme.dark();
-    CardKConfig.shared.language = "";
-    CardKConfig.shared.bindingCVCRequired = true;
-    CardKConfig.shared.bindings = self._fetchBindingCards();
-    CardKConfig.shared.isTestMod = true;
-    CardKConfig.shared.mdOrder = "mdOrder";
-    CardKConfig.shared.mrBinApiURL = "https://mrbin.io/bins/display";
-    CardKConfig.shared.mrBinURL = "https://mrbin.io/bins/";
-    CardKConfig.shared.bindingsSectionTitle = "Your cards";
-    CardKConfig.shared.isEditBindingListMode = false;
-
-    let controller = CardKViewController();
-    controller.cKitDelegate = self
-    
-    _presentController(controller: controller);
-    
-    CardIOUtilities.preloadCardIO()
-  }
-
-  func _openSystemTheme() {
-    CardKConfig.shared.language = "";
-    CardKConfig.shared.bindingCVCRequired = true;
-    CardKConfig.shared.bindings = self._fetchBindingCards();
-    CardKConfig.shared.isTestMod = true;
-    CardKConfig.shared.mdOrder = "mdOrder";
-    CardKConfig.shared.mrBinApiURL = "https://mrbin.io/bins/display";
-    CardKConfig.shared.mrBinURL = "https://mrbin.io/bins/";
-    CardKConfig.shared.bindingsSectionTitle = "Your cards";
-    CardKConfig.shared.isEditBindingListMode = false;
-    
-    if #available(iOS 13.0, *) {
-      CardKConfig.shared.theme = CardKTheme.system();
-    } else {
-      CardKConfig.shared.theme = CardKTheme.default();
-    };
-
-    let controller = CardKViewController();
-    controller.cKitDelegate = self;
-
-    _presentController(controller: controller);
-    CardIOUtilities.preloadCardIO()
-  }
-  
-  func _openCustomTheme() {
-    let theme = CardKTheme();
-  
-    theme.colorLabel = UIColor.black;
-    theme.colorPlaceholder = UIColor.gray;
-    theme.colorErrorLabel = UIColor.red;
-    theme.colorTableBackground = UIColor.lightGray;
-    theme.colorCellBackground = UIColor.white;
-    theme.colorSeparatar = UIColor.darkGray;
-    theme.colorButtonText = UIColor.orange;
-    
-    CardKConfig.shared.theme = theme;
-    CardKConfig.shared.language = "";
-    CardKConfig.shared.bindingCVCRequired = true;
-    CardKConfig.shared.bindings = self._fetchBindingCards();
-    CardKConfig.shared.isTestMod = true;
-    CardKConfig.shared.mdOrder = "mdOrder";
-    CardKConfig.shared.bindingsSectionTitle = "Your cards";
-    CardKConfig.shared.isEditBindingListMode = false;
-    
-    let controller = CardKViewController();
-    controller.cKitDelegate = self
-    _presentController(controller: controller);
-    CardIOUtilities.preloadCardIO()
   }
   
   func _openLightUINavigation() {
@@ -337,10 +246,10 @@ class ViewController: UITableViewController {
 
     switch kind {
       case .version: _version()
-      case .lightTheme: _openController()
-      case .darkTheme: _openDark()
-      case .systemTheme: _openSystemTheme()
-      case .customTheme: _openCustomTheme()
+//      case .lightTheme: _openController()
+//      case .darkTheme: _openDark()
+//      case .systemTheme: _openSystemTheme()
+//      case .customTheme: _openCustomTheme()
       case .navLightTheme: _openLightUINavigation()
       case .editMode: _openEditBindingsMode()
       case .navNewCardWithoutSaveCard: _openNewCardFormWithoutSaveCard()
@@ -368,13 +277,6 @@ class ViewController: UITableViewController {
       SectionItem(title: "CardKit: v\(CardKConfig.getVersion())", kind: .version, isShowChevron: false, language: ""),
       SectionItem(title: "CardKitCore: v0.0.20", kind: .version, isShowChevron: false, language: ""),
       SectionItem(title: "3DSSDK: v\(Ecom3DS2Service().getVersion())", kind: .version, isShowChevron: false, language: ""),
-    ]),
-    
-    Section(title: "Modal", items: [
-      SectionItem(title: "Open Light with bindings", kind: .lightTheme, isShowChevron: true, language: ""),
-      SectionItem(title: "Dark Light", kind: .darkTheme, isShowChevron: true, language: ""),
-      SectionItem(title: "System theme", kind: .systemTheme, isShowChevron: true, language: ""),
-      SectionItem(title: "Custom theme", kind: .customTheme, isShowChevron: true, language: ""),
     ]),
     
     Section(title: "Navigation", items: [

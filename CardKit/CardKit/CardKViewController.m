@@ -406,7 +406,7 @@
 }
 
 - (BOOL)_isFormValid {
-  return [_cardNumberCell validate] || [_cvcTextField validate] || [_expireDateTextField validate];
+  return [_cardNumberCell validate] && [_cvcTextField validate] && [_expireDateTextField validate];
 }
 
 - (void)_buttonPressed:(UIButton *)button {

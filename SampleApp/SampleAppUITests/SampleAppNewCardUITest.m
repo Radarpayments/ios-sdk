@@ -14,12 +14,23 @@
 
 @implementation SampleAppNewCardUITest {
   XCUIApplication *_app;
+  NSString *_newCardString;
+  NSString *_cardNumberString;
+  NSString *_expireDateString;
+  NSString *_cvcString;
+  NSString *_buttonTitleString;
 }
 
 - (void)setUp {
   self.continueAfterFailure = NO;
-
   _app = [[XCUIApplication alloc] initWithBundleIdentifier:@"com.rbs.demo"];
+  
+  _newCardString =  @"Add new card";
+  _cardNumberString = @"Number";
+  _expireDateString =  @"MM/YY";
+  _cvcString =  @"CVC";
+  _buttonTitleString =  @"Submit payment";
+
   [_app launch];
 }
 
@@ -27,27 +38,24 @@
 }
 
 - (void)pressOnCell {
-  [_app.cells.staticTexts[@"Open Light with bindings"].firstMatch tap];
+  [_app.cells.staticTexts[@"Light theme with bindings"].firstMatch tap];
 }
 
 - (void)testFillNewCardForm {
   [self pressOnCell];
   
-  [_app.buttons[@"New card"] tap];
+  [_app.cells.staticTexts[_newCardString].firstMatch tap];
 
-  [_app.textFields[@"Number"] tap];
-  [_app.textFields[@"Number"] typeText:@"22222222222222222"];
+  [_app.textFields[_cardNumberString] tap];
+  [_app.textFields[_cardNumberString] typeText:@"22222222222222222"];
   
-  [_app.textFields[@"MM/YY"] tap];
-  [_app.textFields[@"MM/YY"] typeText:@"1224"];
+  [_app.textFields[_expireDateString] tap];
+  [_app.textFields[_expireDateString] typeText:@"1224"];
   
-  [_app.secureTextFields[@"CVC"] tap];
-  [_app.secureTextFields[@"CVC"] typeText:@"123"];
+  [_app.secureTextFields[_cvcString] tap];
+  [_app.secureTextFields[_cvcString] typeText:@"123"];
   
-  [_app.textFields[@"NAME"].firstMatch tap];
-  [_app.textFields[@"NAME"] typeText:@"ALEX KOROTKOV"];
-  
-  [_app.buttons[@"Custom purchase button"] tap];
+  [_app.buttons[_buttonTitleString] tap];
   
   XCTAssertTrue([_app.alerts.element.label isEqualToString:@"SeToken"]);
 }
@@ -55,43 +63,38 @@
 - (void)testFillNewCardFormWithIncorrectLengthCardNumber {
   [self pressOnCell];
   
-  [_app.buttons[@"New card"] tap];
+  [_app.cells.staticTexts[_newCardString].firstMatch tap];
 
-  [_app.textFields[@"Number"] tap];
-  [_app.textFields[@"Number"] typeText:@"1234"];
+  [_app.textFields[_cardNumberString] tap];
+  [_app.textFields[_cardNumberString] typeText:@"1234"];
   
-  [_app.textFields[@"MM/YY"] tap];
-  [_app.textFields[@"MM/YY"] typeText:@"1224"];
+  [_app.textFields[_expireDateString] tap];
+  [_app.textFields[_expireDateString] typeText:@"1224"];
   
-  [_app.secureTextFields[@"CVC"] tap];
-  [_app.secureTextFields[@"CVC"] typeText:@"123"];
+  [_app.secureTextFields[_cvcString] tap];
+  [_app.secureTextFields[_cvcString] typeText:@"123"];
   
-  [_app.textFields[@"NAME"].firstMatch tap];
-  [_app.textFields[@"NAME"] typeText:@"ALEX KOROTKOV"];
+  [_app.buttons[_buttonTitleString] tap];
   
-  [_app.buttons[@"Custom purchase button"] tap];
-  
-  XCTAssertTrue(_app.staticTexts[@"Card number length should be 16-19 digits"].exists);
+             
+  XCTAssertTrue([_app.staticTexts elementMatchingType:XCUIElementTypeAny identifier:@"Card number length should be 16-19 digits"]);
 }
 
 - (void)testFillNewCardFormWithIncorrectCardNumber {
   [self pressOnCell];
   
-  [_app.buttons[@"New card"] tap];
+  [_app.cells.staticTexts[_newCardString].firstMatch tap];
 
-  [_app.textFields[@"Number"] tap];
-  [_app.textFields[@"Number"] typeText:@"1234567891011121334"];
+  [_app.textFields[_cardNumberString] tap];
+  [_app.textFields[_cardNumberString] typeText:@"2222222222222222222222222"];
   
-  [_app.textFields[@"MM/YY"] tap];
-  [_app.textFields[@"MM/YY"] typeText:@"1224"];
+  [_app.textFields[_expireDateString] tap];
+  [_app.textFields[_expireDateString] typeText:@"1230"];
   
-  [_app.secureTextFields[@"CVC"] tap];
-  [_app.secureTextFields[@"CVC"] typeText:@"123"];
+  [_app.secureTextFields[_cvcString] tap];
+  [_app.secureTextFields[_cvcString] typeText:@"123"];
   
-  [_app.textFields[@"NAME"].firstMatch tap];
-  [_app.textFields[@"NAME"] typeText:@"ALEX KOROTKOV"];
-  
-  [_app.buttons[@"Custom purchase button"] tap];
+  [_app.buttons[_buttonTitleString] tap];
   
   XCTAssertTrue(_app.staticTexts[@"The card number is incorrect"].exists);
 }
@@ -99,21 +102,16 @@
 - (void)testFillNewCardFormWithIncorrectExpireDate {
   [self pressOnCell];
   
-  [_app.buttons[@"New card"] tap];
-
-  [_app.textFields[@"Number"] tap];
-  [_app.textFields[@"Number"] typeText:@"22222222222222222"];
+  [_app.textFields[_cardNumberString] tap];
+  [_app.textFields[_cardNumberString] typeText:@"22222222222222222"];
   
-  [_app.textFields[@"MM/YY"] tap];
-  [_app.textFields[@"MM/YY"] typeText:@"1220"];
+  [_app.textFields[_expireDateString] tap];
+  [_app.textFields[_expireDateString] typeText:@"1220"];
   
-  [_app.secureTextFields[@"CVC"] tap];
-  [_app.secureTextFields[@"CVC"] typeText:@"123"];
+  [_app.secureTextFields[_cvcString] tap];
+  [_app.secureTextFields[_cvcString] typeText:@"123"];
   
-  [_app.textFields[@"NAME"].firstMatch tap];
-  [_app.textFields[@"NAME"] typeText:@"ALEX KOROTKOV"];
-  
-  [_app.buttons[@"Custom purchase button"] tap];
+  [_app.buttons[_buttonTitleString] tap];
   
   XCTAssertTrue(_app.staticTexts[@"Card expiry date is incorrect"].exists);
 }
@@ -121,63 +119,36 @@
 - (void)testFillNewCardFormWithIncorrectCVC {
   [self pressOnCell];
   
-  [_app.buttons[@"New card"] tap];
-
-  [_app.textFields[@"Number"] tap];
-  [_app.textFields[@"Number"] typeText:@"22222222222222222"];
+  [_app.textFields[_cardNumberString] tap];
+  [_app.textFields[_cardNumberString] typeText:@"22222222222222222"];
   
-  [_app.textFields[@"MM/YY"] tap];
-  [_app.textFields[@"MM/YY"] typeText:@"1224"];
+  [_app.textFields[_expireDateString] tap];
+  [_app.textFields[_expireDateString] typeText:@"1230"];
   
-  [_app.secureTextFields[@"CVC"] tap];
-  [_app.secureTextFields[@"CVC"] typeText:@""];
+  [_app.secureTextFields[_cvcString] tap];
+  [_app.secureTextFields[_cvcString] typeText:@""];
   
-  [_app.textFields[@"NAME"].firstMatch tap];
-  [_app.textFields[@"NAME"] typeText:@"ALEX KOROTKOV"];
-  
-  [_app.buttons[@"Custom purchase button"] tap];
+  [_app.buttons[_buttonTitleString] tap];
   
   XCTAssertTrue(_app.staticTexts[@"CVC2/CVV2 is incorrect"].exists);
 }
 
-- (void)testFillNewCardFormWithIncorrectCardholder {
-  [self pressOnCell];
-  
-  [_app.buttons[@"New card"] tap];
-
-  [_app.textFields[@"Number"] tap];
-  [_app.textFields[@"Number"] typeText:@"22222222222222222"];
-  
-  [_app.textFields[@"MM/YY"] tap];
-  [_app.textFields[@"MM/YY"] typeText:@"1224"];
-  
-  [_app.secureTextFields[@"CVC"] tap];
-  [_app.secureTextFields[@"CVC"] typeText:@"123"];
-  
-  [_app.textFields[@"NAME"].firstMatch tap];
-  [_app.textFields[@"NAME"] typeText:@""];
-  
-  [_app.buttons[@"Custom purchase button"] tap];
-  
-  XCTAssertTrue(_app.staticTexts[@"The card holder is incorrect"].exists);
-}
 
 - (void)testFillNewCardAndMarkSaveCard {
   [self pressOnCell];
   
-  [_app.buttons[@"New card"] tap];
+  [_app.cells.staticTexts[_newCardString].firstMatch tap];
 
-  [_app.textFields[@"Number"] tap];
-  [_app.textFields[@"Number"] typeText:@"22222222222222222"];
+  [_app.textFields[_cardNumberString] tap];
+  [_app.textFields[_cardNumberString] typeText:@"22222222222222222"];
   
-  [_app.textFields[@"MM/YY"] tap];
-  [_app.textFields[@"MM/YY"] typeText:@"1224"];
+  [_app.textFields[_expireDateString] tap];
+  [_app.textFields[_expireDateString] typeText:@"1224"];
   
-  [_app.secureTextFields[@"CVC"] tap];
-  [_app.secureTextFields[@"CVC"] typeText:@"123"];
+  [_app.secureTextFields[_cvcString] tap];
+  [_app.secureTextFields[_cvcString] typeText:@"123"];
   
-  [_app.textFields[@"NAME"].firstMatch tap];
-  [_app.textFields[@"NAME"] typeText:@"ALEX KOROTKOV"];
+  [_app.buttons[_buttonTitleString] tap];
   
   [_app.switches.firstMatch tap];
   
