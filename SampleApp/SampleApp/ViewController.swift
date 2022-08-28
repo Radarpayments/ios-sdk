@@ -246,10 +246,6 @@ class ViewController: UITableViewController {
 
     switch kind {
       case .version: _version()
-//      case .lightTheme: _openController()
-//      case .darkTheme: _openDark()
-//      case .systemTheme: _openSystemTheme()
-//      case .customTheme: _openCustomTheme()
       case .navLightTheme: _openLightUINavigation()
       case .editMode: _openEditBindingsMode()
       case .navNewCardWithoutSaveCard: _openNewCardFormWithoutSaveCard()

@@ -83,18 +83,16 @@ class PaymentFlowController: UIViewController {
   }
   
   func _fetchRootCert() {
-//    let request: URLRequest = URLRequest(url: URL(string: "https://dummy3dsdev.intabia.ru/acs2/secret/cert")!)
-//
-//    URLSession.shared.dataTask(with: request as URLRequest, completionHandler: { (data, response, error) -> Void in
-//      guard let data = data else { return }
-//
-//      CardKConfig.shared.rootCertificate = String(data: data, encoding: .utf8) ?? ""
-//      DispatchQueue.main.async {
-//        self._registerOrder()
-//      }
-//    }).resume()
-    
-    self._registerOrder()
+    let request: URLRequest = URLRequest(url: URL(string: "https://dummy3dsdev.intabia.ru/acs2/secret/cert")!)
+
+    URLSession.shared.dataTask(with: request as URLRequest, completionHandler: { (data, response, error) -> Void in
+      guard let data = data else { return }
+
+      CardKConfig.shared.rootCertificate = String(data: data, encoding: .utf8) ?? ""
+      DispatchQueue.main.async {
+        self._registerOrder()
+      }
+    }).resume()
   }
   
   func _fetchPubKey() {
@@ -105,9 +103,9 @@ class PaymentFlowController: UIViewController {
   func _registerOrder() {
     API.registerNewOrder(params: PaymentFlowController.requestParams) {(data, response) in
       PaymentFlowController.requestParams.orderId = data.orderId
-//
+      
       let amountDecimal = NSDecimalNumber (string: PaymentFlowController.requestParams.amount)
-//
+      
       DispatchQueue.main.async {
         let paymentRequest = PKPaymentRequest();
         paymentRequest.currencyCode = "USD";
