@@ -130,13 +130,23 @@
   
   self.title = NSLocalizedStringFromTableInBundle(@"payment", nil, _languageBundle, "payment");
   _verifyCompanies = [[VerifyCompaniesView alloc] init];
-  self.tableView.tableFooterView = _verifyCompanies;
+  [self.view addSubview:_verifyCompanies];
 }
 
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
   [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
   [self.tableView reloadData];
+}
+
+- (void) viewWillLayoutSubviews {
+  [super viewWillLayoutSubviews];
+  
+  if (self.view.frame.size.height > self.view.frame.size.width) {
+    _verifyCompanies.frame = CGRectMake(0, self.view.frame.size.height - 200, self.view.frame.size.width, 50);
+  } else {
+    _verifyCompanies.frame = CGRectMake(0, CGRectGetMaxY(self.tableView.frame), self.view.frame.size.width, 50);
+  }
 }
 
 - (NSString *)purchaseButtonTitle {

@@ -358,7 +358,6 @@
     [cell.contentView addSubview:bindingCellView];
   }  else if ([NewCardCellID isEqual:cellID]) {
     _newCardCellView.frame = CGRectMake(20, 0, frame.size.width - 20, frame.size.height);
-//    [cell.contentView addSubview:_newCardCellView];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
   }
   
