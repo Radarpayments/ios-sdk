@@ -490,6 +490,7 @@
         web3ds.mdOrder = self -> _mdOrder;
         web3ds.paReq = [responseDictionary objectForKey:@"paReq"];
         web3ds.termUrl = [responseDictionary objectForKey:@"termUrl"];
+        web3ds.cardKPaymentDelegate = self->_cardKPaymentDelegate;
         
         [self->_sdkNavigationController presentViewController:web3ds animated:true completion:nil];
       }
