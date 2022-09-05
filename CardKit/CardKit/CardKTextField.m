@@ -99,6 +99,8 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
     
     _errorMessageLabel = [[UILabel alloc] init];
     _errorMessageLabel.font = [_errorMessageLabel.font fontWithSize:13];
+    _errorMessageLabel.tag = 5000;
+    _errorMessageLabel.isAccessibilityElement = YES;
     
     _errorMessageLabel.textColor = CardKConfig.shared.theme.colorErrorLabel;
     

@@ -77,7 +77,7 @@
   [_app.buttons[_buttonTitleString] tap];
   
              
-  XCTAssertTrue([_app.staticTexts elementMatchingType:XCUIElementTypeAny identifier:@"Card number length should be 16-19 digits"]);
+  XCTAssertTrue(_app.staticTexts[@"Card number length should be 16-19 digits"].exists);
 }
 
 - (void)testFillNewCardFormWithIncorrectCardNumber {
@@ -86,8 +86,8 @@
   [_app.cells.staticTexts[_newCardString].firstMatch tap];
 
   [_app.textFields[_cardNumberString] tap];
-  [_app.textFields[_cardNumberString] typeText:@"2222222222222222222222222"];
-  
+  [_app.textFields[_cardNumberString] typeText:@"12211"];
+
   [_app.textFields[_expireDateString] tap];
   [_app.textFields[_expireDateString] typeText:@"1230"];
   
@@ -96,11 +96,14 @@
   
   [_app.buttons[_buttonTitleString] tap];
   
-  XCTAssertTrue(_app.staticTexts[@"The card number is incorrect"].exists);
+  
+  XCTAssertTrue(_app.staticTexts[@"Card number length should be 16-19 digits"].exists);
 }
 
 - (void)testFillNewCardFormWithIncorrectExpireDate {
   [self pressOnCell];
+  
+  [_app.cells.staticTexts[_newCardString].firstMatch tap];
   
   [_app.textFields[_cardNumberString] tap];
   [_app.textFields[_cardNumberString] typeText:@"22222222222222222"];
@@ -118,6 +121,8 @@
 
 - (void)testFillNewCardFormWithIncorrectCVC {
   [self pressOnCell];
+  
+  [_app.cells.staticTexts[_newCardString].firstMatch tap];
   
   [_app.textFields[_cardNumberString] tap];
   [_app.textFields[_cardNumberString] typeText:@"22222222222222222"];
@@ -148,43 +153,13 @@
   [_app.secureTextFields[_cvcString] tap];
   [_app.secureTextFields[_cvcString] typeText:@"123"];
   
-  [_app.buttons[_buttonTitleString] tap];
-  
   [_app.switches.firstMatch tap];
   
-  [_app.buttons[@"Custom purchase button"] tap];
+  [_app.buttons[_buttonTitleString] tap];
  
   XCUIElement *element = [_app.alerts.element.staticTexts elementBoundByIndex:1];
   
   XCTAssertTrue([element.label containsString:@"allowSaveCard = true"]);
-}
-
-- (void) testStaticTextWichAreSetInClientApp {
-  [self pressOnCell];
-    
-  BOOL isExistBindingSectionText = _app.staticTexts[@"Your cards"].exists;
-  BOOL isExistNewCardButtonText = _app.buttons[@"New card"].exists;
-  
-  [_app.buttons[@"New card"] tap];
-  
-  BOOL isExistPurchaseButtonText = _app.buttons[@"Custom purchase button"].exists;
-  
-  XCTAssertTrue(isExistBindingSectionText);
-  XCTAssertTrue(isExistNewCardButtonText);
-  XCTAssertTrue(isExistPurchaseButtonText);
-}
-
-- (void) testOnExistSaveCardSwitch {
-  [_app.cells.staticTexts[@"The New Card form without save card"] tap];
-  
-  XCTAssertFalse(_app.staticTexts[@"Save card"].exists);
-}
-
-- (void) testOnExistCardholderTextField {
-  [_app.cells.staticTexts[@"The New Card form without card holder"] tap];
-  
-  XCTAssertTrue(_app.switches.firstMatch.value);
-  XCTAssertFalse(_app.staticTexts[@"Cardholder"].exists);
 }
 
 

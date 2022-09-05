@@ -94,6 +94,7 @@ class ViewController: UITableViewController {
     
     let controller = CardKViewController();
     controller.cKitDelegate = self
+    
     _presentController(controller: controller);
   }
   
@@ -447,9 +448,9 @@ extension ViewController: CardKDelegate {
     paymentView.paymentButtonStyle = .whiteOutline;
   }
   
+  
   func didLoad(_ controller: CardKViewController) {
     controller.allowedCardScaner = CardIOUtilities.canReadCardWithCamera();
-//    controller.purchaseButtonTitle = "Custom purchase button";
     controller.allowSaveBinding = allowSaveBinding;
     controller.isSaveBinding = isSaveBinding;
   }

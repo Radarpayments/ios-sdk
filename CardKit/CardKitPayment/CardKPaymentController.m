@@ -437,12 +437,13 @@
     NSString *language = [NSString stringWithFormat:@"%@%@", @"language=", CardKConfig.shared.language];
     NSString *seTokenParam = [NSString stringWithFormat:@"%@%@", @"seToken=", [seToken stringByReplacingOccurrencesOfString:@"+" withString:@"%2B"]];
     NSString *bindingNotNeeded = [NSString stringWithFormat:@"%@%@", @"bindingNotNeeded=", allowSaveBinding ? @"false" : @"true"];
+    NSString *cardHolder = [NSString stringWithFormat:@"%@%@", @"TEXT=", @"CARDHOLDER NAME"];
 
-    NSString *parameters = [self _joinParametersInString:@[mdOrder, seTokenParam, language, bindingNotNeeded]];
+    NSString *parameters = [self _joinParametersInString:@[mdOrder, seTokenParam, language, bindingNotNeeded, cardHolder]];
     
     if (self.use3ds2sdk) {
       NSString *threeDSSDK = [NSString stringWithFormat:@"%@%@", @"threeDSSDK=", @"true"];
-      parameters = [self _joinParametersInString:@[mdOrder, seTokenParam, language, bindingNotNeeded, threeDSSDK]];
+      parameters = [self _joinParametersInString:@[mdOrder, seTokenParam, language, bindingNotNeeded, cardHolder, threeDSSDK]];
     }
     
     NSString *URL = [NSString stringWithFormat:@"%@%@", _url, @"/rest/processform.do"];

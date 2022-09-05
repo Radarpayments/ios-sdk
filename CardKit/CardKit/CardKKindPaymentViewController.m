@@ -381,23 +381,17 @@
     cardKBindingViewController.bankLogoView = _bankLogoView;
     cardKBindingViewController.cKitDelegate = _cKitDelegate;
     
-//    [self _hideTableViewWithDismiss:NO callback:^{
-      [self.navigationController pushViewController:cardKBindingViewController animated:YES];
-//    }];
+    [self.navigationController pushViewController:cardKBindingViewController animated:YES];
   } else if ([NewCardCellID isEqual:cellID]) {
-    CardKViewController *controller = [[CardKViewController alloc] init];
+    CardKViewController *controller = [CardKViewController alloc];
     controller.cKitDelegate = _cKitDelegate;
-    
-//    [self _hideTableViewWithDismiss:NO callback:^{
-      [self.navigationController pushViewController:controller animated:YES];
-//    }];
+    controller = [controller init];
+    [self.navigationController pushViewController:controller animated:YES];
   } else if ([AllPaymentMethodsCellID isEqual:cellID]) {
     CardKAllPaymentMethodsController *controller = [[CardKAllPaymentMethodsController alloc] init];
     controller.cKitDelegate = _cKitDelegate;
     
-//    [self _hideTableViewWithDismiss:NO callback:^{
-      [self.navigationController pushViewController:controller animated:YES];
-//    }];
+    [self.navigationController pushViewController:controller animated:YES];
   }
   
   [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -501,12 +495,6 @@
   return NO;
 }
 
-- (void)pressedCardPayButton {
-  CardKViewController *controller = [[CardKViewController alloc] init];
-  controller.cKitDelegate = _cKitDelegate;
-  
-  [self.navigationController pushViewController:controller animated:YES];
-}
 
 - (void)pressedApplePayButton:(PKPaymentAuthorizationViewController *) authController {
   [self.navigationController presentViewController:authController animated:YES completion:nil];
