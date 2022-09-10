@@ -101,7 +101,7 @@ class ViewController: UITableViewController {
   func _openNewCardFormWithoutSaveCard() {
     allowSaveBinding = false;
     
-    CardKConfig.shared.bindings = [];
+    CardKConfig.shared.bindings = self._fetchBindingCards();
     CardKConfig.shared.theme = CardKTheme.light();
     CardKConfig.shared.language = "";
     CardKConfig.shared.isTestMod = true;
@@ -110,6 +110,7 @@ class ViewController: UITableViewController {
     CardKConfig.shared.mrBinURL = "https://mrbin.io/bins/";
     CardKConfig.shared.bindingsSectionTitle = "Your cards";
     CardKConfig.shared.isEditBindingListMode = false;
+    CardKConfig.shared.bindingCVCRequired = false;
     
     
     let controller = CardKViewController();
@@ -150,6 +151,7 @@ class ViewController: UITableViewController {
     CardKConfig.shared.mrBinURL = "https://mrbin.io/bins/";
     CardKConfig.shared.bindingsSectionTitle = "Your cards";
     CardKConfig.shared.isEditBindingListMode = true;
+    CardKConfig.shared.bindingCVCRequired = false;
     CardKConfig.shared.pubKey = publicKey;
     let controller = CardKViewController();
     controller.cKitDelegate = self

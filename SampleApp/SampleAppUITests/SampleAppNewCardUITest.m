@@ -87,7 +87,7 @@
 
   [_app.textFields[_cardNumberString] tap];
   [_app.textFields[_cardNumberString] typeText:@"12211"];
-
+//
   [_app.textFields[_expireDateString] tap];
   [_app.textFields[_expireDateString] typeText:@"1230"];
   

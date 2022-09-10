@@ -161,7 +161,7 @@
   
   self.tableView.backgroundColor = CardKConfig.shared.theme.colorCellBackground;
   [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
-  self.tableView.allowsSelectionDuringEditing = YES;
+  self.tableView.allowsSelectionDuringEditing = NO;
   self.tableView.sectionFooterHeight = UITableViewAutomaticDimension;
   self.tableView.cellLayoutMarginsFollowReadableWidth = NO;
 }
@@ -198,6 +198,7 @@
 
     [button addTarget:self action:@selector(removeBinding:event:)  forControlEvents:UIControlEventTouchUpInside];
     button.tag = indexPath.row;
+    button.isAccessibilityElement = YES;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
     cell.editingAccessoryView = button;
@@ -225,8 +226,10 @@
   CGPoint currentTouchPosition = [touch locationInView:self.tableView];
   NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint: currentTouchPosition];
   
-  UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"You really want to delete?"
-                                 message:@"The card cannot restored. You'll have to add a ner card"
+  NSString *alertTitle =NSLocalizedStringFromTableInBundle(@"removeBindingAlertTitle", nil, _languageBundle, nil);
+  NSString *alertDescription =NSLocalizedStringFromTableInBundle(@"removeBindingAlertDescription", nil, _languageBundle, nil);
+  UIAlertController* alert = [UIAlertController alertControllerWithTitle:alertTitle
+                                 message:alertDescription
                                  preferredStyle:UIAlertControllerStyleAlert];
    
   UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Delete" style:UIAlertActionStyleDefault

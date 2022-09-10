@@ -176,13 +176,13 @@
     
     PaymentController *PaymentController = navController.viewControllers.firstObject;
     
-    CardKKindPaymentViewController *kindPaymentViewController =  PaymentController.childViewControllers.firstObject;
+//    CardKKindPaymentViewController *kindPaymentViewController =  PaymentController.childViewControllers.firstObject;
     
     UITableView *tableView = (UITableView *)[navController.view viewWithTag:40001];
     
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
     
-    [kindPaymentViewController tableView:tableView didSelectRowAtIndexPath:indexPath];
+//    [kindPaymentViewController tableView:tableView didSelectRowAtIndexPath:indexPath];
     
     double delayInSeconds = 3.0;
 
@@ -216,13 +216,13 @@
     
     PaymentController *PaymentController = navController.viewControllers.firstObject;
     
-    CardKKindPaymentViewController *kindPaymentViewController =  PaymentController.childViewControllers.firstObject;
+//    CardKKindPaymentViewController *kindPaymentViewController =  PaymentController.childViewControllers.firstObject;
     
     UITableView *tableView = (UITableView *)[navController.view viewWithTag:40001];
     
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:1];
 
-    [kindPaymentViewController tableView:tableView commitEditingStyle:UITableViewCellEditingStyleDelete forRowAtIndexPath:indexPath];
+//    [kindPaymentViewController tableView:tableView commitEditingStyle:UITableViewCellEditingStyleDelete forRowAtIndexPath:indexPath];
   }
 
   - (void)_unbindСardAnon:(CardKBinding *) binding {

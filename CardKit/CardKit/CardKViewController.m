@@ -90,7 +90,7 @@
   CardKCardNumberTextField *_cardNumberCell;
   CardKExpireDateTextField *_expireDateTextField;
   CardKCVCTextField *_cvcTextField;
-  UIButton *_doneButton;
+  CardKButtonView *_doneButton;
   NSMutableArray *_sections;
   NSBundle *_bundle;
   NSBundle *_languageBundle;
