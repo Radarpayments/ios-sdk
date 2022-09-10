@@ -115,7 +115,7 @@
     _cardNumberCell = [[CardKCardNumberTextField alloc] init];
     [_cardNumberCell addTarget:self action:@selector(_cardChanged) forControlEvents:UIControlEventValueChanged];
     [_cardNumberCell addTarget:self action:@selector(_switchToExpireDate) forControlEvents:UIControlEventEditingDidEndOnExit];
-    [_cardNumberCell.scanCardTapRecognizer addTarget:self action:@selector(_scanCard:)];
+
 
     _expireDateTextField = [[CardKExpireDateTextField alloc] init];
     [_expireDateTextField addTarget:self action:@selector(_switchToSecureCode) forControlEvents:UIControlEventEditingDidEndOnExit];
@@ -189,7 +189,10 @@
 
 - (void)setAllowedCardScaner:(BOOL)allowedCardScaner {
   _cardNumberCell.allowedCardScaner = allowedCardScaner;
-
+  
+  if (allowedCardScaner) {
+    [_cardNumberCell.scanCardTapRecognizer addTarget:self action:@selector(_scanCard:)];
+  }
 }
 
 - (BOOL)allowedCardScaner {

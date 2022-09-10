@@ -62,7 +62,7 @@ if (self) {
   
   _numberTextField.tag = 30000;
   _numberTextField.pattern = CardKTextFieldPatternCardNumber;
-  _numberTextField.placeholder = NSLocalizedStringFromTableInBundle(@"Card Number", nil, _languageBundle, @"Card number placeholder");
+  _numberTextField.placeholder = NSLocalizedStringFromTableInBundle(@"cardNumber", nil, _languageBundle, @"Card number placeholder");
   _numberTextField.accessibilityLabel = nil;
   
   
@@ -130,11 +130,17 @@ _errorMessagesArray = [errorMessages mutableCopy];
 
 - (void)setAllowedCardScaner:(BOOL)allowedCardScaner {
   _allowedCardScaner = allowedCardScaner;
-  _paymentSystemImageView.userInteractionEnabled = allowedCardScaner;
+  
+  if (!allowedCardScaner) {
+    return;
+  }
+
   _scanImageView.image = [PaymentSystemProvider namedImage:@"scan-card" inBundle:_bundle compatibleWithTraitCollection:self.traitCollection];
     
   _scanCardTapRecognizer = [[UITapGestureRecognizer alloc] init];
   [_scanImageView addGestureRecognizer:_scanCardTapRecognizer];
+  _scanImageView.userInteractionEnabled = YES;
+  _numberTextField.rightViewRecognizer = _scanCardTapRecognizer;
 }
 
 - (BOOL)allowedCardScaner {

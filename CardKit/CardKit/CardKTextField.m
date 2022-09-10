@@ -437,12 +437,13 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
 
 - (void)setRightView:(UIView *)rightView {
   [_rightImageView addSubview:rightView];
+
 }
 
 
 - (void)setRightViewRecognizer:(UITapGestureRecognizer *)rightViewRecognizer {
   [_rightImageView addGestureRecognizer:rightViewRecognizer];
-  
+  _rightImageView.userInteractionEnabled = YES;
   _rightViewGesture = rightViewRecognizer;
 }
 
