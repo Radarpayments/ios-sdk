@@ -41,7 +41,7 @@
   }
   
   _newCardString =  @"Add new card";
-  _cardNumberString = @"Number";
+  _cardNumberString = @"Card number";
   _expireDateString =  @"MM/YY";
   _cvcString =  @"CVC";
   _buttonTitleString =  @"Submit payment";

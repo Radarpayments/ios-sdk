@@ -26,10 +26,11 @@
   _app = [[XCUIApplication alloc] initWithBundleIdentifier:@"com.rbs.demo"];
   
   _newCardString =  @"Add new card";
-  _cardNumberString = @"Number";
+  _cardNumberString = @"Card number";
   _expireDateString =  @"MM/YY";
   _cvcString =  @"CVC";
   _buttonTitleString =  @"Submit payment";
+  _cardNumberString = @"Card number";
 
   [_app launch];
 }

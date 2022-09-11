@@ -719,7 +719,6 @@
 
   - (void)didLoadController:(nonnull CardKViewController *)controller {
     controller.allowedCardScaner = self.allowedCardScaner;
-    controller.purchaseButtonTitle = NSLocalizedStringFromTableInBundle(@"doneButton", nil, _languageBundle, @"Submit payment");
     controller.allowSaveBinding = self->_sessionStatus.bindingEnabled;
     controller.isSaveBinding = false;
   }
