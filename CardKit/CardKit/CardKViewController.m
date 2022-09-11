@@ -346,7 +346,6 @@
   } else if ([CardKSwitchCellID isEqual:cellID]) {
     _switchView.frame = CGRectMake(20, 0, width - 40, height);
     
-    cell.accessoryView = [_switchView getSwitch];
     [self _centeredViewForIpad:_switchView center:center];
 
     [cell.contentView addSubview:_switchView];

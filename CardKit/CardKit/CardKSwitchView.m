@@ -70,6 +70,7 @@
   CGSize boundsSize = self.bounds.size;
 
   _titleLabel.frame = CGRectMake(0, 0, boundsSize.width - 50, 44);
+  _toggle.frame = CGRectMake(boundsSize.width - 50, 0, 50, 44);
   
   if (@available(iOS 11.0, *)) {
     _titleLabel.frame = CGRectMake(self.safeAreaInsets.left, 0, boundsSize.width - 50, 44);
