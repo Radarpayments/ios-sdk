@@ -43,6 +43,7 @@ typedef NS_ENUM(NSUInteger, ActionTypeInForm) {
 @implementation CardKPaymentControllerTest {
   int actionTypeInForm;
   PaymentController *payment;
+  UIViewController *uiViewController;
 }
 
 - (void)setUp {
@@ -335,25 +336,6 @@ typedef NS_ENUM(NSUInteger, ActionTypeInForm) {
       payment.getFinishedPaymentInfoExpectation] timeout:100];
 }
 
-- (void)testUnbindCard {
-  CardKConfig.shared.isEditBindingListMode = YES;
-  payment.unbindCard = YES;
-  payment.moveChoosePaymentMethodControllerExpectation = [self expectationWithDescription:@"moveChoosePaymentMethodControllerExpectation"];
-  
-  payment.unbindCardExpectation = [self expectationWithDescription:@"unbindCardExpectation"];
-
-
-  [self _registerOrderWithAmount: @"333" callback:^() {
-    dispatch_async(dispatch_get_main_queue(), ^{
-      [self _runCardKPaymentFlow];
-    });
-  }];
-
-  [self waitForExpectations:@[
-      payment.moveChoosePaymentMethodControllerExpectation,
-      payment.unbindCardExpectation
-  ] timeout:100];
-}
 
 - (void)_fillOTPForm {
   UIWindow *window = UIApplication.sharedApplication.windows[1];
@@ -478,7 +460,7 @@ typedef NS_ENUM(NSUInteger, ActionTypeInForm) {
         NSError *parseError = nil;
         NSDictionary *responseDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&parseError];
         
-        payment.mdOrder = responseDictionary[@"orderId"];
+        self->payment.mdOrder = responseDictionary[@"orderId"];
         handler();
       }
   }];
@@ -486,7 +468,9 @@ typedef NS_ENUM(NSUInteger, ActionTypeInForm) {
 };
 
 - (void)_runCardKPaymentFlow {
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:self->payment];
-    UIApplication.sharedApplication.windows.firstObject.rootViewController = navController;
+      UINavigationController *navController = [[UINavigationController alloc] init];
+  uiViewController = [[UIViewController alloc] init];
+  [payment presentViewController:navController];
+  UIApplication.sharedApplication.windows.firstObject.rootViewController = navController;
 }
 @end

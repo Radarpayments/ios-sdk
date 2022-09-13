@@ -74,6 +74,7 @@
     _dividerView.title = NSLocalizedStringFromTableInBundle(@"payByCard", nil, _languageBundle, @"payByCard");
     
     _newCardCellView = [[NewCardCellView alloc] init];
+    _newCardCellView.tag = 20000;
     
     tableView = [[UITableView alloc] init];
     tableView.delegate = self;
@@ -316,6 +317,7 @@
     [cell.contentView addSubview:_dividerView];
   } else if ([NewCardCellID isEqual:cellID]) {
     _newCardCellView.frame = cell.contentView.frame;
+    cell.tag = 20000;
     [cell.contentView addSubview:_newCardCellView];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
   } else if ([AllPaymentMethodsCellID isEqual:cellID]) {
@@ -323,6 +325,7 @@
     cell.textLabel.text = NSLocalizedStringFromTableInBundle(@"allPaymentMethods", nil, _languageBundle, @"allPaymentMethods");
     cell.textLabel.textColor = CardKConfig.shared.theme.colorLabel;
     cell.textLabel.font = [UIFont boldSystemFontOfSize:16];
+    cell.tag = 40002;
   }
   
   CardKTheme *theme = CardKConfig.shared.theme;

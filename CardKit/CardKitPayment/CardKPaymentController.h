@@ -32,6 +32,6 @@
   @property BOOL use3ds2sdk;
   @property (readonly) UINavigationController *sdkNavigationController;
 
-- (void) presentViewController:(UINavigationController *)navController uiController: (UIViewController *) uiController;
+- (void) presentViewController:(UINavigationController *)navController;
 
 @end

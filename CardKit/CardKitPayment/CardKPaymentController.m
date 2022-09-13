@@ -123,7 +123,7 @@
     [_navController dismissViewControllerAnimated:YES completion:nil];
   }
 
-- (void)presentViewController:(UINavigationController *)navController  uiController: (UIViewController *) uiController {
+- (void)presentViewController:(UINavigationController *)navController {
     _navController = navController;
   
     [self _getSessionStatusRequest];

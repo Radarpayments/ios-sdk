@@ -53,6 +53,7 @@
     _sections = [self _defaultSections];
     
     _newCardCellView = [[NewCardCellView alloc] init];
+    _newCardCellView.tag = 20000;
     
     CardKTheme *theme = CardKConfig.shared.theme;
     self.tableView.backgroundColor = CardKConfig.shared.theme.colorTableBackground;
@@ -69,7 +70,7 @@
       [_editModeButton setTintColor: CardKConfig.shared.theme.colorLabel];
       
       self.navigationItem.rightBarButtonItem = _editModeButton;
-     
+      self.navigationItem.rightBarButtonItem.tag = 20005;
     }
     
     self.navigationItem.leftBarButtonItem.title = @"";
@@ -195,6 +196,7 @@
     
     UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 24, 24)];
     [button addSubview:imageView];
+    button.tag = 20006;
 
     [button addTarget:self action:@selector(removeBinding:event:)  forControlEvents:UIControlEventTouchUpInside];
     button.tag = indexPath.row;

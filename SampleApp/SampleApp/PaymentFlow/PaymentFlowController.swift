@@ -147,7 +147,7 @@ class PaymentFlowController: UIViewController {
         }
         
         self.navigationController?.modalPresentationStyle = .overCurrentContext
-        self._paymentFlowController.presentViewController(self.navigationController, uiController: self);
+        self._paymentFlowController.presentViewController(self.navigationController);
       }
     }
   }
