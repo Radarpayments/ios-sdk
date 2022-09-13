@@ -250,7 +250,7 @@
   
   [self _pressConfirmButton];
  
-  [self _sleep:5];
+  [self _sleep:25];
   
   XCTAssertFalse([textDescritionBeforeError isEqualToString:[self _textDescrition]]);
 }
