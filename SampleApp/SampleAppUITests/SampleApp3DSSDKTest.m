@@ -218,7 +218,7 @@
 }
 
 - (NSString *) _textDescrition {
-  return [_app.staticTexts elementBoundByIndex:3].label;
+  return [_app.staticTexts elementBoundByIndex:4].label;
 }
 
 - (void) testRunThreeDSSDKFlowWithBinding {
@@ -245,12 +245,16 @@
   [self _runPassCodeFlow];
   
   [self _fillTextFieldIncorrectCode];
+
+  NSString *textDescritionBeforeError = [_app.staticTexts elementBoundByIndex:8].label;;
   
-  NSString *textDescritionBeforeError = [self _textDescrition];
-  
+  NSLog(@"textDescritionBeforeError - %@", textDescritionBeforeError);
+
   [self _pressConfirmButton];
- 
-  [self _sleep:25];
+  
+  [self _sleep:5];
+  
+  NSLog(@"_textDescrition - %@", [self _textDescrition]);
   
   XCTAssertFalse([textDescritionBeforeError isEqualToString:[self _textDescrition]]);
 }
