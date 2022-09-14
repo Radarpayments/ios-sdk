@@ -18,12 +18,12 @@ Pod::Spec.new do |spec|
   spec.resources =  "CardKit/banks-info", "CardKit/**/*.lproj/*.strings", "CardKit/CardKit/Images.xcassets"
 
   spec.exclude_files = "CardKit/Carthage/*.{h,m}", "CardKit/Carthage/**/**/*.lproj/*.strings"
-  spec.source_files = 'CardKit/CardKit/*.{h,m}'
+  spec.source_files = "CardKit/CardKit/*.{h,m}", "CardKit/CardKit/view/*.{h,m}", "CardKit/CardKit/view/TextField/*.{h,m}"
 
   spec.subspec 'CardKitCore' do |subspec|
     subspec.exclude_files = 'CardKit/CardKitCore/CardKitCore.{h,m}'
     subspec.source_files = 'CardKit/CardKitCore/*.{h,m}'
   end
-  
+
   spec.ios.deployment_target  = '10.0'
 end
