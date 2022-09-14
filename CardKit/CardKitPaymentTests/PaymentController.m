@@ -23,7 +23,7 @@
 
 
 
-@interface CardKPaymentController (Test)
+@interface CardKPaymentManager (Test)
 - (void)_sePayment;
 - (void)_sendError;
 
@@ -48,7 +48,7 @@
 - (void) _processBindingFormRequestStep2;
 @end
 
-@implementation PaymentController: CardKPaymentController
+@implementation PaymentController: CardKPaymentManager
 - (void) _getSessionStatusRequest {
   [super _getSessionStatusRequest];
 }

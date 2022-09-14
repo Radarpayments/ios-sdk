@@ -11,15 +11,15 @@
 
 #import "CardKPaymentError.h"
 
-@protocol CardKPaymentDelegate <NSObject>
+@protocol CardKPaymentManagerDelegate <NSObject>
 - (void)didFinishPaymentFlow:(NSDictionary *) paymentInfo;
 - (void)didErrorPaymentFlow:(CardKPaymentError *) paymentError;
 - (void)didCancelPaymentFlow;
 - (void)scanCardRequest:(CardKViewController *)controller;
 @end
 
-@interface CardKPaymentController: NSObject
-  @property (weak, nonatomic) id<CardKPaymentDelegate> cardKPaymentDelegate;
+@interface CardKPaymentManager: NSObject
+  @property (weak, nonatomic) id<CardKPaymentManagerDelegate> cardKPaymentDelegate;
 
   @property CardKPaymentView* cardKPaymentView;
   @property NSString* url;

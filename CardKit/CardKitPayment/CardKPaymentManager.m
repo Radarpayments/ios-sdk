@@ -16,7 +16,7 @@
 #import <CardKit/CardKApplePayButtonView.h>
 #import <CardKit/CardKCard.h>
 
-#import "CardKPaymentController.h"
+#import "CardKPaymentManager.h"
 #import "CardKPaymentSessionStatus.h"
 #import "RequestParams.h"
 
@@ -26,10 +26,10 @@
 
 @protocol TransactionManagerDelegate;
 
-@interface CardKPaymentController () <TransactionManagerDelegate, CardKDelegate>
+@interface CardKPaymentManager () <TransactionManagerDelegate, CardKDelegate>
 @end
 
-@implementation CardKPaymentController {
+@implementation CardKPaymentManager {
   UIActivityIndicatorView *_spinner;
   CardKTheme *_theme;
   CardKBinding *_cardKBinding;
@@ -47,7 +47,7 @@
   {
     self = [super init];
     if (self) {
-      NSBundle * bundle = [NSBundle bundleForClass:[CardKPaymentController class]];
+      NSBundle * bundle = [NSBundle bundleForClass:[CardKPaymentManager class]];
       
       NSString *language = CardKConfig.shared.language;
       

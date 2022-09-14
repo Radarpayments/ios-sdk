@@ -15,7 +15,7 @@ class PaymentFlowController: UIViewController {
   let url = "https://ecommerce.radarpayments.com/payment";
   
   static var requestParams: RequestParams = RequestParams();
-  var _paymentFlowController: CardKPaymentController!;
+  var _paymentFlowManager: CardKPaymentManager!;
   var amount: String {
       get {
         return PaymentFlowController.requestParams.amount ?? ""
@@ -31,12 +31,9 @@ class PaymentFlowController: UIViewController {
   init() {
     super.init(nibName: nil, bundle: nil)
 
-    _paymentFlowController = CardKPaymentController();
-    _paymentFlowController.cardKPaymentDelegate = self;
+    _paymentFlowManager = CardKPaymentManager();
+    _paymentFlowManager.cardKPaymentDelegate = self;
 
-    
-//    navController = UINavigationController(rootViewController: _paymentFlowController)
-//    navController
     self.view.addSubview(_button)
   }
   
@@ -129,31 +126,31 @@ class PaymentFlowController: UIViewController {
         cardKPaymentView.cardPaybutton = cardPayButton;
         cardKPaymentView.paymentRequest.merchantIdentifier = "merchant.cardkit";
         
-        self._paymentFlowController = CardKPaymentController();
-        self._paymentFlowController.cardKPaymentDelegate = self;
-        self._paymentFlowController.use3ds2sdk = self.use3ds2sdk;
-        self._paymentFlowController.mdOrder = data.orderId ?? ""
-        self._paymentFlowController.directoryServerId = "directoryServerId"
-        self._paymentFlowController.url = self.url;
-        self._paymentFlowController.cardKPaymentView = cardKPaymentView;
-        self._paymentFlowController.allowedCardScaner = CardIOUtilities.canReadCardWithCamera();
-        self._paymentFlowController.headerLabel = "Custom header label";
+        self._paymentFlowManager = CardKPaymentManager();
+        self._paymentFlowManager.cardKPaymentDelegate = self;
+        self._paymentFlowManager.use3ds2sdk = self.use3ds2sdk;
+        self._paymentFlowManager.mdOrder = data.orderId ?? ""
+        self._paymentFlowManager.directoryServerId = "directoryServerId"
+        self._paymentFlowManager.url = self.url;
+        self._paymentFlowManager.cardKPaymentView = cardKPaymentView;
+        self._paymentFlowManager.allowedCardScaner = CardIOUtilities.canReadCardWithCamera();
+        self._paymentFlowManager.headerLabel = "Custom header label";
       
-        self._paymentFlowController.textDoneButtonColor = .white
-        self._paymentFlowController.primaryColor = .systemBlue
+        self._paymentFlowManager.textDoneButtonColor = .white
+        self._paymentFlowManager.primaryColor = .systemBlue
         
         if #available(iOS 13.0, *) {
-          self._paymentFlowController.textDoneButtonColor = .white
+          self._paymentFlowManager.textDoneButtonColor = .white
         }
         
         self.navigationController?.modalPresentationStyle = .overCurrentContext
-        self._paymentFlowController.presentViewController(self.navigationController);
+        self._paymentFlowManager.presentViewController(self.navigationController);
       }
     }
   }
 }
 
-extension PaymentFlowController: CardKPaymentDelegate {
+extension PaymentFlowController: CardKPaymentManagerDelegate {
   func didFinishPaymentFlow(_ paymentInfo: [AnyHashable : Any]!) {
     print("didFinishPaymentFlow")
     var message = ""
@@ -166,13 +163,13 @@ extension PaymentFlowController: CardKPaymentDelegate {
       self.dismiss(animated: true, completion: nil)
     }))
     
-    self._paymentFlowController.sdkNavigationController.present(alert, animated: true, completion: nil)
+    self._paymentFlowManager.sdkNavigationController.present(alert, animated: true, completion: nil)
   }
   
   func didErrorPaymentFlow(_ paymentError: CardKPaymentError!) {
     let alert = UIAlertController(title: "Error", message: paymentError.message, preferredStyle: .alert)
     alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-    self._paymentFlowController.sdkNavigationController.present(alert, animated: true, completion: nil)
+    self._paymentFlowManager.sdkNavigationController.present(alert, animated: true, completion: nil)
   }
   
   func didCancelPaymentFlow() {
@@ -181,7 +178,7 @@ extension PaymentFlowController: CardKPaymentDelegate {
       self.dismiss(animated: true, completion: nil)
     }))
     
-    self._paymentFlowController.sdkNavigationController.present(alert, animated: true, completion: nil)
+    self._paymentFlowManager.sdkNavigationController.present(alert, animated: true, completion: nil)
   }
   
   func scanCardRequest(_ controller: CardKViewController) {

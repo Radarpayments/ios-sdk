@@ -20,7 +20,7 @@
 @end
 
 
-@interface PaymentController: CardKPaymentController
+@interface PaymentController: CardKPaymentManager
   @property (weak, nonatomic, nullable) id<PaymentControllerDelegate> delegate;
   @property (weak, nonatomic, nullable) id<CardKDelegate> cKitDelegate;
   @property BOOL doUseNewCard;

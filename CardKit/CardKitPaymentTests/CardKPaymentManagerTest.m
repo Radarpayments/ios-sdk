@@ -10,7 +10,7 @@
 #import "PaymentController.h"
 #import "CardKConfig.h"
 
-@interface CardKPaymentControllerTest: XCTestCase<PaymentControllerDelegate>
+@interface CardKPaymentManagerTest: XCTestCase<CardKPaymentManagerDelegate>
 
 @end
 
@@ -40,7 +40,7 @@ typedef NS_ENUM(NSUInteger, ActionTypeInForm) {
   ActionTypeFillOTPFormWithIncorrectCode = 4
 };
 
-@implementation CardKPaymentControllerTest {
+@implementation CardKPaymentManagerTest {
   int actionTypeInForm;
   PaymentController *payment;
   UIViewController *uiViewController;

@@ -7,7 +7,7 @@
 #import <Foundation/Foundation.h>
 #import <WebKit/WebKit.h>
 #import <UIKit/UIKit.h>
-#import "CardKPaymentController.h"
+#import "CardKPaymentManager.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property NSString *mdOrder;
 @property NSString *paReq;
 @property NSString *termUrl;
-@property (weak, nonatomic) id<CardKPaymentDelegate> cardKPaymentDelegate;
+@property (weak, nonatomic) id<CardKPaymentManagerDelegate> cardKPaymentDelegate;
 
 @end
 
