@@ -7,8 +7,9 @@
 //
 
 #import "CardKTextField.h"
-#import "Luhn.h"
 #import <AudioToolbox/AudioServices.h>
+#import <CardKitCore/CardKitCore.h>
+
 #import "CardKConfig.h"
 #import "TextField.h"
 NSString *CardKTextFieldPatternCardNumber = @"XXXXXXXXXXXXXXXX";
@@ -31,7 +32,6 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
     CardKTheme *theme = CardKConfig.shared.theme;
     
     self.backgroundColor = theme.colorCellBackground;
-//    self.backgroundColor = theme.separatarColor;
     
     CAGradientLayer *mask = [[CAGradientLayer alloc] init];
     
@@ -64,10 +64,14 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
   UILabel *_patternLabel;
   UILabel *_formatLabel;
   TextField *_textField;
+  UILabel *_errorMessageLabel;
   
   NSString *_pattern;
   BOOL _showError;
   CoverView *_coverView;
+  CALayer *_bottomLine;
+  UITapGestureRecognizer *_rightViewGesture;
+  UIView *_rightImageView;
 }
 
 - (instancetype)init {
@@ -93,15 +97,31 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
     _textField.textColor = theme.colorLabel;
     _measureLabel.font = font;
     
+    _errorMessageLabel = [[UILabel alloc] init];
+    _errorMessageLabel.font = [_errorMessageLabel.font fontWithSize:13];
+    _errorMessageLabel.tag = 5000;
+    _errorMessageLabel.isAccessibilityElement = YES;
+    
+    _errorMessageLabel.textColor = CardKConfig.shared.theme.colorErrorLabel;
+    
     _textField.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 8, 10)];
     _textField.leftViewMode = UITextFieldViewModeAlways;
     _textField.autocapitalizationType = UITextAutocapitalizationTypeAllCharacters;
     
-    [_textField addSubview:_patternLabel];
+//    [_textField addSubview:_patternLabel];
     [_textField addSubview:_formatLabel];
-    
     [self addSubview:_textField];
+    [self addSubview:_errorMessageLabel];
+    
+    _rightImageView = [[UIView alloc] init];
+    _rightImageView.backgroundColor = theme.colorCellBackground;
+    [self addSubview:_rightImageView];
+    
     _textField.delegate = self;
+    
+    _bottomLine = [[CALayer alloc] init];
+    [self.layer addSublayer:_bottomLine];
+    _bottomLine.backgroundColor = theme.colorInactiveBorderTextView.CGColor;
     
     self.clipsToBounds = true;
   }
@@ -135,21 +155,12 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
   CardKTheme *theme = CardKConfig.shared.theme;
   
   _showError = showError;
-  NSString *placeholder = _textField.placeholder;
   
   if (!showError) {
-    _textField.textColor = theme.colorLabel;
-    [self setPlaceholder:placeholder];
-    _patternLabel.textColor = theme.colorPlaceholder;
     return;
-    
   }
-  _textField.textColor = theme.colorErrorLabel;
-  _textField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:placeholder attributes:@{
-    NSForegroundColorAttributeName: [theme.colorErrorLabel colorWithAlphaComponent:0.5],
-    NSFontAttributeName: [self _font]
-  }];
-  _patternLabel.textColor = [theme.colorErrorLabel colorWithAlphaComponent:0.5];
+
+  _bottomLine.backgroundColor = theme.colorErrorLabel.CGColor;
 }
 
 - (BOOL)showError {
@@ -218,10 +229,15 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
 #pragma mark UITextFieldDelegate
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
+  
+  [self _makeActiveBottomLine];
+
   [self sendActionsForControlEvents:UIControlEventEditingDidBegin];
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
+  [self _makeInactiveBottomLine];
+  
   [self sendActionsForControlEvents:UIControlEventEditingDidEnd];
 }
 
@@ -404,6 +420,37 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
   [self sendActionsForControlEvents:UIControlEventValueChanged];
 }
 
+- (UIView *)leftView {
+  return _textField.leftView;
+}
+
+- (void)setLeftView:(UIView *)leftView {
+  _textField.leftView = leftView;
+  _textField.leftViewMode = UITextFieldViewModeAlways;
+  
+  [self _renderLabels];
+}
+
+- (UIView *)rightView {
+  return _rightImageView;
+}
+
+- (void)setRightView:(UIView *)rightView {
+  [_rightImageView addSubview:rightView];
+
+}
+
+
+- (void)setRightViewRecognizer:(UITapGestureRecognizer *)rightViewRecognizer {
+  [_rightImageView addGestureRecognizer:rightViewRecognizer];
+  _rightImageView.userInteractionEnabled = YES;
+  _rightViewGesture = rightViewRecognizer;
+}
+
+- (UITapGestureRecognizer *)rightViewRecognizer {
+  return _rightViewGesture;
+}
+
 - (BOOL)resignFirstResponder {
   return [_textField resignFirstResponder];
 }
@@ -412,14 +459,9 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
   [super layoutSubviews];
   
   CGSize boundsSize = self.bounds.size;
-  CGSize intrinsicContentSize = self.intrinsicContentSize;
-  
-  if (_textField.text.length == 0) {
-    intrinsicContentSize = boundsSize;
-  }
+  CGSize intrinsicContentSize = [self _getIntrinsicContentSize];
   
   CGFloat textFieldWidth = intrinsicContentSize.width;
-  
   CGFloat delta = boundsSize.width - intrinsicContentSize.width;
   
   if (delta > -2) {
@@ -427,19 +469,62 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
     textFieldWidth = boundsSize.width;
   }
   
-  
-  _textField.frame = CGRectMake(delta, 0, textFieldWidth, boundsSize.height);
+  _textField.frame = CGRectMake(delta, 0, textFieldWidth, 40);
 
-  CGFloat x = _textField.leftView.bounds.size.width;
+  _bottomLine.frame = CGRectMake(0, CGRectGetMaxY(_textField.frame) + 1, boundsSize.width, 1);
+  
+  [self _renderLabels];
+  
+  _errorMessageLabel.frame = CGRectMake(0, CGRectGetMaxY(_bottomLine.frame) + 10, boundsSize.width, 15);
+
+  [_coverView setHidden:NO];
+  
+  _rightImageView.frame = CGRectMake(CGRectGetMaxX(_textField.frame) - 40, 0, 40, 40);
+
+}
+
+- (void) _makeActiveBottomLine {
+  CGSize boundsSize = self.bounds.size;
+  _bottomLine.backgroundColor = CardKConfig.shared.theme.colorActiveBorderTextView.CGColor;
+  _bottomLine.frame = CGRectMake(0, CGRectGetMaxY(_textField.frame) + 2, boundsSize.width, 2);
+}
+
+- (void) _makeInactiveBottomLine {
+  CGSize boundsSize = self.bounds.size;
+  _bottomLine.backgroundColor = CardKConfig.shared.theme.colorInactiveBorderTextView.CGColor;
+  _bottomLine.frame = CGRectMake(0, CGRectGetMaxY(_textField.frame) + 1, boundsSize.width, 1);
+}
+
+- (void)setErrorMessage:(NSString *)errorMessage {
+  _errorMessageLabel.text = errorMessage;
+}
+
+- (NSString *)errorMessage {
+  return _errorMessageLabel.text;
+}
+
+- (CGSize) _getIntrinsicContentSize {
+  CGSize intrinsicContentSize = self.intrinsicContentSize;
+  
+  if (_textField.text.length == 0) {
+    intrinsicContentSize = self.bounds.size;
+  }
+  
+  return intrinsicContentSize;
+}
+
+- (void) _renderLabels {
+  CGSize boundsSize = self.bounds.size;
+  CGFloat textFieldWidth = [self _getIntrinsicContentSize].width;
+  
+  CGFloat x = CGRectGetMaxX(_textField.leftView.bounds);
   
   CGFloat width = textFieldWidth - x - _textField.leftView.bounds.size.width;
   for (UIView *v in @[_formatLabel, _patternLabel]) {
-    v.frame = CGRectMake(x, 0, width, boundsSize.height);
+    v.frame = CGRectMake(x, 0, width, _textField.frame.size.height);
   }
   
   _coverView.frame = CGRectMake(0, 10, 6, boundsSize.height - 20);
-
-  [_coverView setHidden:NO];
 }
 
 @end

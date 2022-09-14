@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |spec|
   spec.name         = "CardKitPayment"
-  spec.version      = "0.0.23"
+  spec.version      = "2.0.0"
   spec.summary      = "CardKitCore SDK."
   spec.homepage     = "https://github.com/Radarpayments/ios-sdk"
   spec.license      = "MIT"
@@ -17,7 +17,7 @@ Pod::Spec.new do |spec|
 
   spec.source_files = 'CardKit/CardKitPayment/*.{h,m,swift}'
   spec.exclude_files = "CardKit/Carthage/*.{h,m}", "CardKit/Carthage/**/**/*.lproj/*.strings"
-  
+
   spec.dependency 'CardKit'
   spec.dependency 'ThreeDSSDK'
 

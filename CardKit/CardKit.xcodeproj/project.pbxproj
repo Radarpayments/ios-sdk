@@ -7,15 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		920312C3255D6562006FBED7 /* info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 920312C2255D6562006FBED7 /* info.plist */; };
 		920312D3255D6621006FBED7 /* CKCToken.h in Headers */ = {isa = PBXBuildFile; fileRef = 92BD900E255D204A001E1ECF /* CKCToken.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		920312DC255D662A006FBED7 /* CKCCardParams.h in Headers */ = {isa = PBXBuildFile; fileRef = 92BD9032255D241D001E1ECF /* CKCCardParams.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		920312E5255D6631006FBED7 /* CKCBindingParams.h in Headers */ = {isa = PBXBuildFile; fileRef = 92BD903E255D24B4001E1ECF /* CKCBindingParams.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		920312EE255D664A006FBED7 /* CKCTokenResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 92BD9022255D2315001E1ECF /* CKCTokenResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		920480EB261B034F00026C1F /* CardKitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 920480EA261B034F00026C1F /* CardKitTests.m */; };
 		920480ED261B034F00026C1F /* CardKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D245AB39231C435E00369747 /* CardKit.framework */; };
-		9219F465232B8EF100841B98 /* CardKFooterView.h in Headers */ = {isa = PBXBuildFile; fileRef = 9219F463232B8EF100841B98 /* CardKFooterView.h */; };
-		9219F466232B8EF100841B98 /* CardKFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9219F464232B8EF100841B98 /* CardKFooterView.m */; };
+		9205AA9A288312F300EF36A2 /* BindingCellView.h in Headers */ = {isa = PBXBuildFile; fileRef = 9205AA99288312F300EF36A2 /* BindingCellView.h */; };
+		9205AA9C2883130100EF36A2 /* BindingCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9205AA9B2883130100EF36A2 /* BindingCellView.m */; };
+		9205AA9F2883617600EF36A2 /* NewCardCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9205AA9E2883617600EF36A2 /* NewCardCellView.m */; };
+		9205AAA128849DA900EF36A2 /* CardKAllPaymentMethodsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9205AAA028849DA900EF36A2 /* CardKAllPaymentMethodsController.m */; };
+		9205AAA52884A4BE00EF36A2 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 9205AAA42884A4BE00EF36A2 /* Constants.m */; };
+		921394952881FA8800182888 /* DividerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 921394942881FA8800182888 /* DividerView.m */; };
+		921394972881FE0E00182888 /* DividerView.h in Headers */ = {isa = PBXBuildFile; fileRef = 921394962881FB6300182888 /* DividerView.h */; };
 		921CCC8D28328F130070BB72 /* CardKPaymentError.m in Sources */ = {isa = PBXBuildFile; fileRef = 921CCC7F28328F120070BB72 /* CardKPaymentError.m */; };
 		921CCC8E28328F130070BB72 /* CardKPaymentError.h in Headers */ = {isa = PBXBuildFile; fileRef = 921CCC8028328F120070BB72 /* CardKPaymentError.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		921CCC8F28328F130070BB72 /* RequestParams.m in Sources */ = {isa = PBXBuildFile; fileRef = 921CCC8128328F120070BB72 /* RequestParams.m */; };
@@ -40,13 +44,13 @@
 		924290D7255D5FF600378C68 /* CKCToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 92BD900F255D204A001E1ECF /* CKCToken.m */; };
 		924290D8255D5FF600378C68 /* Luhn.m in Sources */ = {isa = PBXBuildFile; fileRef = 92BD8F91255D1AE8001E1ECF /* Luhn.m */; };
 		924290DA255D5FF600378C68 /* CKCCardParams.m in Sources */ = {isa = PBXBuildFile; fileRef = 92BD9033255D241D001E1ECF /* CKCCardParams.m */; };
-		9245F8D125B19A0D0065AF9E /* Luhn.m in Sources */ = {isa = PBXBuildFile; fileRef = 92BD8F91255D1AE8001E1ECF /* Luhn.m */; };
-		9245F8D725B19A130065AF9E /* Luhn.h in Headers */ = {isa = PBXBuildFile; fileRef = 92BD8F92255D1AE9001E1ECF /* Luhn.h */; };
-		9248868E251885FB00CA81D5 /* SeTokenGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 9248868C251885FB00CA81D5 /* SeTokenGenerator.h */; };
-		9248868F251885FB00CA81D5 /* SeTokenGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 9248868D251885FB00CA81D5 /* SeTokenGenerator.m */; };
-		925BE583283B6A2100E98173 /* CKCPubKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 92BD9007255D202E001E1ECF /* CKCPubKey.m */; };
-		9291BF9626315D3B00F6ECF1 /* CKCToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 92BD900F255D204A001E1ECF /* CKCToken.m */; };
-		9291BFA526315D8500F6ECF1 /* CKCTokenResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 92BD9023255D2315001E1ECF /* CKCTokenResult.m */; };
+		9245F8D725B19A130065AF9E /* Luhn.h in Headers */ = {isa = PBXBuildFile; fileRef = 92BD8F92255D1AE9001E1ECF /* Luhn.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		92533B98289652E000C51867 /* CardKitImageProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 92533B97289652E000C51867 /* CardKitImageProvider.m */; };
+		92533B9A289908A400C51867 /* VerifyCompaniesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 92533B99289908A400C51867 /* VerifyCompaniesView.m */; };
+		92626F2F289CEF3500DAB222 /* RSA.h in Headers */ = {isa = PBXBuildFile; fileRef = 92BD8FA8255D1B3A001E1ECF /* RSA.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		92626F30289CF35E00DAB222 /* CardKitCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 924290B7255D5FE200378C68 /* CardKitCore.framework */; platformFilter = ios; };
+		92626F33289CF36700DAB222 /* CardKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D245AB39231C435E00369747 /* CardKit.framework */; platformFilter = ios; };
+		92626F36289CF36D00DAB222 /* ThreeDSSDK.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92E1E6B3283D1A2B002D63C0 /* ThreeDSSDK.xcframework */; };
 		9292CED5255E611F00053EC3 /* CKCPubKey.h in Headers */ = {isa = PBXBuildFile; fileRef = 92BD9006255D202E001E1ECF /* CKCPubKey.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9292CF4B255E9B2F00053EC3 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9292CF4A255E9B2F00053EC3 /* AppDelegate.m */; };
 		9292CF51255E9B2F00053EC3 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9292CF50255E9B2F00053EC3 /* ViewController.m */; };
@@ -63,18 +67,23 @@
 		929BA32425591CFC00AB0526 /* TextField.h in Headers */ = {isa = PBXBuildFile; fileRef = 929BA32225591CFC00AB0526 /* TextField.h */; };
 		929BA32525591CFC00AB0526 /* TextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 929BA32325591CFC00AB0526 /* TextField.m */; };
 		929D7FDB28362EDF0042DBBD /* RSA.m in Sources */ = {isa = PBXBuildFile; fileRef = 92BD8FA9255D1B3A001E1ECF /* RSA.m */; };
-		929D7FDC28362F6A0042DBBD /* Luhn.h in Headers */ = {isa = PBXBuildFile; fileRef = 92BD8F92255D1AE9001E1ECF /* Luhn.h */; };
-		929D7FDD283631850042DBBD /* RSA.m in Sources */ = {isa = PBXBuildFile; fileRef = 92BD8FA9255D1B3A001E1ECF /* RSA.m */; };
 		92A1461A23435C6B002FBCC3 /* CardKConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 92A1461823435C6B002FBCC3 /* CardKConfig.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		92A1461B23435C6B002FBCC3 /* CardKConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 92A1461923435C6B002FBCC3 /* CardKConfig.m */; };
 		92B718AD26569B5200D33E83 /* CardKValidation.m in Sources */ = {isa = PBXBuildFile; fileRef = 9234CC4D247BC315009E3034 /* CardKValidation.m */; };
+		92C67F13289A596100174871 /* CardKCard.m in Sources */ = {isa = PBXBuildFile; fileRef = 92C67F12289A596100174871 /* CardKCard.m */; };
+		92C67F16289A5BCB00174871 /* CardKCard.h in Headers */ = {isa = PBXBuildFile; fileRef = 92C67F14289A596B00174871 /* CardKCard.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		92C9AEC828352C780000D878 /* CardKPaymentControllerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 92C9AEC728352C780000D878 /* CardKPaymentControllerTest.m */; };
 		92C9AECA28352CDC0000D878 /* PaymentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 92C9AEC928352CDC0000D878 /* PaymentController.m */; };
 		92C9AECC283532180000D878 /* CardKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D245AB39231C435E00369747 /* CardKit.framework */; };
+		92CAD53828908CB500373ADD /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 92CAD53728908CB500373ADD /* Colors.xcassets */; };
+		92D67341287FDFCE0069DBF5 /* CardKApplePayButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 92D67340287FDFCE0069DBF5 /* CardKApplePayButtonView.m */; };
+		92D67342287FF1180069DBF5 /* CardKApplePayButtonView.h in Headers */ = {isa = PBXBuildFile; fileRef = 92D6733F287FDF9E0069DBF5 /* CardKApplePayButtonView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		92D85548255D63DA0002936B /* CardKitCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 92D85547255D63DA0002936B /* CardKitCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		92DC600F2834FCA0003485A0 /* TransactionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92DC600E2834FCA0003485A0 /* TransactionManager.swift */; };
-		92E1E699283CEF13002D63C0 /* CardKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D245AB39231C435E00369747 /* CardKit.framework */; platformFilter = ios; };
-		92E1E6B4283D1A2B002D63C0 /* ThreeDSSDK.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92E1E6B3283D1A2B002D63C0 /* ThreeDSSDK.xcframework */; };
+		92DF14492889D9DD00381DA8 /* CardKButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 92DF14482889D9DD00381DA8 /* CardKButtonView.m */; };
+		92DF14502889EBCD00381DA8 /* CardKCardNumberTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 92DF144F2889EBCD00381DA8 /* CardKCardNumberTextField.m */; };
+		92DF1454288B341100381DA8 /* CardKExpireDateTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 92DF1453288B341100381DA8 /* CardKExpireDateTextField.m */; };
+		92DF1458288B3A7700381DA8 /* CardKCVCTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 92DF1457288B3A7700381DA8 /* CardKCVCTextField.m */; };
 		92E247F22475481700C2EF6C /* CardKBinding.h in Headers */ = {isa = PBXBuildFile; fileRef = 92E247F02475481700C2EF6C /* CardKBinding.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		92E247F32475481700C2EF6C /* CardKBinding.m in Sources */ = {isa = PBXBuildFile; fileRef = 92E247F12475481700C2EF6C /* CardKBinding.m */; };
 		92E247F6247676A900C2EF6C /* CardKBindingViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 92E247F4247676A900C2EF6C /* CardKBindingViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -147,6 +156,13 @@
 			remoteGlobalIDString = 92992A7C283289CD0031AFFF;
 			remoteInfo = CardKitPayment;
 		};
+		92CAD534288DD80F00373ADD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D245AB30231C435E00369747 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 924290B6255D5FE200378C68;
+			remoteInfo = CardKitCore;
+		};
 		92EC5A08283BB116005D5FE0 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D245AB30231C435E00369747 /* Project object */;
@@ -171,12 +187,19 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		920312C2255D6562006FBED7 /* info.plist */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = text.plist.xml; path = info.plist; sourceTree = "<group>"; tabWidth = 2; };
 		920480E8261B034F00026C1F /* CardKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CardKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		920480EA261B034F00026C1F /* CardKitTests.m */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = CardKitTests.m; sourceTree = "<group>"; tabWidth = 2; };
 		920480EC261B034F00026C1F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		9219F463232B8EF100841B98 /* CardKFooterView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CardKFooterView.h; sourceTree = "<group>"; };
-		9219F464232B8EF100841B98 /* CardKFooterView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CardKFooterView.m; sourceTree = "<group>"; };
+		9205AA99288312F300EF36A2 /* BindingCellView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BindingCellView.h; sourceTree = "<group>"; };
+		9205AA9B2883130100EF36A2 /* BindingCellView.m */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = BindingCellView.m; sourceTree = "<group>"; tabWidth = 2; };
+		9205AA9D2883615E00EF36A2 /* NewCardCellView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NewCardCellView.h; sourceTree = "<group>"; };
+		9205AA9E2883617600EF36A2 /* NewCardCellView.m */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = NewCardCellView.m; sourceTree = "<group>"; tabWidth = 2; };
+		9205AAA028849DA900EF36A2 /* CardKAllPaymentMethodsController.m */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = CardKAllPaymentMethodsController.m; sourceTree = "<group>"; tabWidth = 2; };
+		9205AAA228849DBC00EF36A2 /* CardKAllPaymentMethodsController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CardKAllPaymentMethodsController.h; sourceTree = "<group>"; };
+		9205AAA32884A49D00EF36A2 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
+		9205AAA42884A4BE00EF36A2 /* Constants.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
+		921394942881FA8800182888 /* DividerView.m */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = DividerView.m; sourceTree = "<group>"; tabWidth = 2; };
+		921394962881FB6300182888 /* DividerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DividerView.h; sourceTree = "<group>"; };
 		921CCC7F28328F120070BB72 /* CardKPaymentError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CardKPaymentError.m; sourceTree = "<group>"; };
 		921CCC8028328F120070BB72 /* CardKPaymentError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardKPaymentError.h; sourceTree = "<group>"; };
 		921CCC8128328F120070BB72 /* RequestParams.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RequestParams.m; sourceTree = "<group>"; };
@@ -199,8 +222,11 @@
 		923FDAAF285C52B20021C788 /* WebView3DSController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WebView3DSController.h; sourceTree = "<group>"; };
 		923FDAB0285C52DF0021C788 /* WebView3DSController.m */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = WebView3DSController.m; sourceTree = "<group>"; tabWidth = 2; };
 		924290B7255D5FE200378C68 /* CardKitCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CardKitCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		9248868C251885FB00CA81D5 /* SeTokenGenerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SeTokenGenerator.h; sourceTree = "<group>"; };
-		9248868D251885FB00CA81D5 /* SeTokenGenerator.m */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = SeTokenGenerator.m; sourceTree = "<group>"; tabWidth = 2; };
+		92533B96289652CE00C51867 /* CardKitImageProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CardKitImageProvider.h; sourceTree = "<group>"; };
+		92533B97289652E000C51867 /* CardKitImageProvider.m */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = CardKitImageProvider.m; sourceTree = "<group>"; tabWidth = 2; };
+		92533B99289908A400C51867 /* VerifyCompaniesView.m */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = VerifyCompaniesView.m; sourceTree = "<group>"; tabWidth = 2; };
+		92533B9B2899097300C51867 /* VerifyCompaniesView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VerifyCompaniesView.h; sourceTree = "<group>"; };
+		92626F3A289CF97900DAB222 /* info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = info.plist; sourceTree = "<group>"; };
 		9292CF47255E9B2F00053EC3 /* TestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9292CF49255E9B2F00053EC3 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		9292CF4A255E9B2F00053EC3 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -236,11 +262,24 @@
 		92BD9033255D241D001E1ECF /* CKCCardParams.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CKCCardParams.m; sourceTree = "<group>"; };
 		92BD903E255D24B4001E1ECF /* CKCBindingParams.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CKCBindingParams.h; sourceTree = "<group>"; };
 		92BD903F255D24B4001E1ECF /* CKCBindingParams.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CKCBindingParams.m; sourceTree = "<group>"; };
+		92C67F12289A596100174871 /* CardKCard.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CardKCard.m; sourceTree = "<group>"; };
+		92C67F14289A596B00174871 /* CardKCard.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CardKCard.h; sourceTree = "<group>"; };
 		92C9AEC728352C780000D878 /* CardKPaymentControllerTest.m */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = CardKPaymentControllerTest.m; sourceTree = "<group>"; tabWidth = 2; };
 		92C9AEC928352CDC0000D878 /* PaymentController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PaymentController.m; sourceTree = "<group>"; };
 		92C9AECB28352CED0000D878 /* PaymentController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PaymentController.h; sourceTree = "<group>"; };
+		92CAD53728908CB500373ADD /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
+		92D6733F287FDF9E0069DBF5 /* CardKApplePayButtonView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CardKApplePayButtonView.h; sourceTree = "<group>"; };
+		92D67340287FDFCE0069DBF5 /* CardKApplePayButtonView.m */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = CardKApplePayButtonView.m; sourceTree = "<group>"; tabWidth = 2; };
 		92D85547255D63DA0002936B /* CardKitCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardKitCore.h; sourceTree = "<group>"; };
 		92DC600E2834FCA0003485A0 /* TransactionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionManager.swift; sourceTree = "<group>"; };
+		92DF14472889D9C400381DA8 /* CardKButtonView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CardKButtonView.h; sourceTree = "<group>"; };
+		92DF14482889D9DD00381DA8 /* CardKButtonView.m */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = CardKButtonView.m; sourceTree = "<group>"; tabWidth = 2; };
+		92DF144E2889EBC000381DA8 /* CardKCardNumberTextField.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CardKCardNumberTextField.h; sourceTree = "<group>"; };
+		92DF144F2889EBCD00381DA8 /* CardKCardNumberTextField.m */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = CardKCardNumberTextField.m; sourceTree = "<group>"; tabWidth = 2; };
+		92DF1453288B341100381DA8 /* CardKExpireDateTextField.m */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = CardKExpireDateTextField.m; sourceTree = "<group>"; tabWidth = 2; };
+		92DF1455288B342000381DA8 /* CardKExpireDateTextField.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CardKExpireDateTextField.h; sourceTree = "<group>"; };
+		92DF1456288B3A6100381DA8 /* CardKCVCTextField.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CardKCVCTextField.h; sourceTree = "<group>"; };
+		92DF1457288B3A7700381DA8 /* CardKCVCTextField.m */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = CardKCVCTextField.m; sourceTree = "<group>"; tabWidth = 2; };
 		92E0D90A24AF4B7300F7846E /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		92E1E6B3283D1A2B002D63C0 /* ThreeDSSDK.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = ThreeDSSDK.xcframework; path = ../Pods/ThreeDSSDK/ThreeDSSDK.xcframework; sourceTree = "<group>"; };
 		92E247F02475481700C2EF6C /* CardKBinding.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CardKBinding.h; sourceTree = "<group>"; };
@@ -258,13 +297,13 @@
 		D245ABBA231C449F00369747 /* CardKViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CardKViewController.h; sourceTree = "<group>"; };
 		D245ABBB231C449F00369747 /* CardKViewController.m */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = CardKViewController.m; sourceTree = "<group>"; tabWidth = 2; };
 		D245ABC6231C529D00369747 /* CardKTheme.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CardKTheme.h; sourceTree = "<group>"; };
-		D245ABC7231C529D00369747 /* CardKTheme.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CardKTheme.m; sourceTree = "<group>"; };
+		D245ABC7231C529D00369747 /* CardKTheme.m */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = CardKTheme.m; sourceTree = "<group>"; tabWidth = 2; };
 		D269080B231FA894001CB863 /* CardKTextField.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CardKTextField.h; sourceTree = "<group>"; };
-		D269080C231FA894001CB863 /* CardKTextField.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CardKTextField.m; sourceTree = "<group>"; };
+		D269080C231FA894001CB863 /* CardKTextField.m */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = CardKTextField.m; sourceTree = "<group>"; tabWidth = 2; };
 		D269080F231FB000001CB863 /* CardKCardView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CardKCardView.h; sourceTree = "<group>"; };
 		D2690810231FB000001CB863 /* CardKCardView.m */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = CardKCardView.m; sourceTree = "<group>"; tabWidth = 2; };
 		D2D0B35C2320E3AC0007B3B9 /* CardKBankLogoView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CardKBankLogoView.h; sourceTree = "<group>"; };
-		D2D0B35D2320E3AC0007B3B9 /* CardKBankLogoView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CardKBankLogoView.m; sourceTree = "<group>"; };
+		D2D0B35D2320E3AC0007B3B9 /* CardKBankLogoView.m */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = CardKBankLogoView.m; sourceTree = "<group>"; tabWidth = 2; };
 		D2D0B3632320F3A60007B3B9 /* banks-info */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "banks-info"; sourceTree = "<group>"; };
 		D2D0B365232122620007B3B9 /* PaymentSystemProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PaymentSystemProvider.h; sourceTree = "<group>"; };
 		D2D0B366232122620007B3B9 /* PaymentSystemProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PaymentSystemProvider.m; sourceTree = "<group>"; };
@@ -307,8 +346,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				92E1E6B4283D1A2B002D63C0 /* ThreeDSSDK.xcframework in Frameworks */,
-				92E1E699283CEF13002D63C0 /* CardKit.framework in Frameworks */,
+				92626F36289CF36D00DAB222 /* ThreeDSSDK.xcframework in Frameworks */,
+				92626F33289CF36700DAB222 /* CardKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -325,6 +364,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				92626F30289CF35E00DAB222 /* CardKitCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -352,6 +392,7 @@
 		924290B8255D5FE200378C68 /* CardKitCore */ = {
 			isa = PBXGroup;
 			children = (
+				92626F3A289CF97900DAB222 /* info.plist */,
 				92D85547255D63DA0002936B /* CardKitCore.h */,
 				92BD8F92255D1AE9001E1ECF /* Luhn.h */,
 				92BD8F91255D1AE8001E1ECF /* Luhn.m */,
@@ -367,7 +408,6 @@
 				92BD9033255D241D001E1ECF /* CKCCardParams.m */,
 				92BD903E255D24B4001E1ECF /* CKCBindingParams.h */,
 				92BD903F255D24B4001E1ECF /* CKCBindingParams.m */,
-				920312C2255D6562006FBED7 /* info.plist */,
 			);
 			path = CardKitCore;
 			sourceTree = "<group>";
@@ -429,6 +469,39 @@
 			path = CardKitPaymentTests;
 			sourceTree = "<group>";
 		};
+		92D6733E287FDF390069DBF5 /* view */ = {
+			isa = PBXGroup;
+			children = (
+				92DF144D2889EB7800381DA8 /* TextField */,
+				92D6733F287FDF9E0069DBF5 /* CardKApplePayButtonView.h */,
+				92D67340287FDFCE0069DBF5 /* CardKApplePayButtonView.m */,
+				921394962881FB6300182888 /* DividerView.h */,
+				921394942881FA8800182888 /* DividerView.m */,
+				9205AA99288312F300EF36A2 /* BindingCellView.h */,
+				9205AA9B2883130100EF36A2 /* BindingCellView.m */,
+				9205AA9D2883615E00EF36A2 /* NewCardCellView.h */,
+				9205AA9E2883617600EF36A2 /* NewCardCellView.m */,
+				92DF14472889D9C400381DA8 /* CardKButtonView.h */,
+				92DF14482889D9DD00381DA8 /* CardKButtonView.m */,
+				92533B9B2899097300C51867 /* VerifyCompaniesView.h */,
+				92533B99289908A400C51867 /* VerifyCompaniesView.m */,
+			);
+			path = view;
+			sourceTree = "<group>";
+		};
+		92DF144D2889EB7800381DA8 /* TextField */ = {
+			isa = PBXGroup;
+			children = (
+				92DF144E2889EBC000381DA8 /* CardKCardNumberTextField.h */,
+				92DF144F2889EBCD00381DA8 /* CardKCardNumberTextField.m */,
+				92DF1455288B342000381DA8 /* CardKExpireDateTextField.h */,
+				92DF1453288B341100381DA8 /* CardKExpireDateTextField.m */,
+				92DF1456288B3A6100381DA8 /* CardKCVCTextField.h */,
+				92DF1457288B3A7700381DA8 /* CardKCVCTextField.m */,
+			);
+			path = TextField;
+			sourceTree = "<group>";
+		};
 		D245AB2F231C435E00369747 = {
 			isa = PBXGroup;
 			children = (
@@ -464,8 +537,12 @@
 			isa = PBXGroup;
 			children = (
 				D2D0B369232124120007B3B9 /* Images.xcassets */,
+				92CAD53728908CB500373ADD /* Colors.xcassets */,
+				92D6733E287FDF390069DBF5 /* view */,
 				D245AB3C231C435E00369747 /* CardKit.h */,
 				D245AB3D231C435E00369747 /* Info.plist */,
+				9205AAA32884A49D00EF36A2 /* Constants.h */,
+				9205AAA42884A4BE00EF36A2 /* Constants.m */,
 				D245ABBA231C449F00369747 /* CardKViewController.h */,
 				D245ABBB231C449F00369747 /* CardKViewController.m */,
 				D245ABC6231C529D00369747 /* CardKTheme.h */,
@@ -480,20 +557,22 @@
 				D2D0B35D2320E3AC0007B3B9 /* CardKBankLogoView.m */,
 				D2D0B365232122620007B3B9 /* PaymentSystemProvider.h */,
 				D2D0B366232122620007B3B9 /* PaymentSystemProvider.m */,
-				9219F463232B8EF100841B98 /* CardKFooterView.h */,
-				9219F464232B8EF100841B98 /* CardKFooterView.m */,
+				92533B96289652CE00C51867 /* CardKitImageProvider.h */,
+				92533B97289652E000C51867 /* CardKitImageProvider.m */,
 				92A1461823435C6B002FBCC3 /* CardKConfig.h */,
 				92A1461923435C6B002FBCC3 /* CardKConfig.m */,
 				92985C83246A96F4009B7392 /* CardKSwitchView.h */,
 				92985C84246A96F4009B7392 /* CardKSwitchView.m */,
 				92985C87246BEE1E009B7392 /* CardKKindPaymentViewController.h */,
 				92985C88246BEE1E009B7392 /* CardKKindPaymentViewController.m */,
+				9205AAA228849DBC00EF36A2 /* CardKAllPaymentMethodsController.h */,
+				9205AAA028849DA900EF36A2 /* CardKAllPaymentMethodsController.m */,
 				92E247F02475481700C2EF6C /* CardKBinding.h */,
 				92E247F12475481700C2EF6C /* CardKBinding.m */,
+				92C67F14289A596B00174871 /* CardKCard.h */,
+				92C67F12289A596100174871 /* CardKCard.m */,
 				92E247F4247676A900C2EF6C /* CardKBindingViewController.h */,
 				92E247F5247676A900C2EF6C /* CardKBindingViewController.m */,
-				9248868C251885FB00CA81D5 /* SeTokenGenerator.h */,
-				9248868D251885FB00CA81D5 /* SeTokenGenerator.m */,
 				9234CC4C247BC315009E3034 /* CardKValidation.h */,
 				9234CC4D247BC315009E3034 /* CardKValidation.m */,
 				9234CC58247FBCDD009E3034 /* CardKPaymentView.h */,
@@ -510,6 +589,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				920312E5255D6631006FBED7 /* CKCBindingParams.h in Headers */,
+				92626F2F289CEF3500DAB222 /* RSA.h in Headers */,
 				920312D3255D6621006FBED7 /* CKCToken.h in Headers */,
 				920312EE255D664A006FBED7 /* CKCTokenResult.h in Headers */,
 				920312DC255D662A006FBED7 /* CKCCardParams.h in Headers */,
@@ -537,6 +617,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				92E247F6247676A900C2EF6C /* CardKBindingViewController.h in Headers */,
+				921394972881FE0E00182888 /* DividerView.h in Headers */,
 				92985C85246A96F4009B7392 /* CardKSwitchView.h in Headers */,
 				9234CC4E247BC315009E3034 /* CardKValidation.h in Headers */,
 				92E247F22475481700C2EF6C /* CardKBinding.h in Headers */,
@@ -544,15 +625,15 @@
 				92985C89246BEE1E009B7392 /* CardKKindPaymentViewController.h in Headers */,
 				D2D0B367232122620007B3B9 /* PaymentSystemProvider.h in Headers */,
 				929BA32425591CFC00AB0526 /* TextField.h in Headers */,
-				9248868E251885FB00CA81D5 /* SeTokenGenerator.h in Headers */,
-				929D7FDC28362F6A0042DBBD /* Luhn.h in Headers */,
 				D2690811231FB000001CB863 /* CardKCardView.h in Headers */,
 				92A1461A23435C6B002FBCC3 /* CardKConfig.h in Headers */,
-				9219F465232B8EF100841B98 /* CardKFooterView.h in Headers */,
 				9234CC5A247FBCDD009E3034 /* CardKPaymentView.h in Headers */,
 				D269080D231FA894001CB863 /* CardKTextField.h in Headers */,
+				92D67342287FF1180069DBF5 /* CardKApplePayButtonView.h in Headers */,
 				D2D0B35E2320E3AC0007B3B9 /* CardKBankLogoView.h in Headers */,
+				92C67F16289A5BCB00174871 /* CardKCard.h in Headers */,
 				D245ABBC231C449F00369747 /* CardKViewController.h in Headers */,
+				9205AA9A288312F300EF36A2 /* BindingCellView.h in Headers */,
 				D245AB4A231C435E00369747 /* CardKit.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -685,6 +766,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				92CAD535288DD80F00373ADD /* PBXTargetDependency */,
 			);
 			name = CardKit;
 			productName = CardKit;
@@ -778,7 +860,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				920312C3255D6562006FBED7 /* info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -810,6 +891,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D2D0B3642320F3A60007B3B9 /* banks-info in Resources */,
+				92CAD53828908CB500373ADD /* Colors.xcassets in Resources */,
 				D20CEBCD232F660400F9407C /* Localizable.strings in Resources */,
 				D2D0B36A232124120007B3B9 /* Images.xcassets in Resources */,
 			);
@@ -866,7 +948,6 @@
 				923FDAB1285C52DF0021C788 /* WebView3DSController.m in Sources */,
 				921CCC9028328F130070BB72 /* ARes.m in Sources */,
 				921CCC8D28328F130070BB72 /* CardKPaymentError.m in Sources */,
-				925BE583283B6A2100E98173 /* CKCPubKey.m in Sources */,
 				92DC600F2834FCA0003485A0 /* TransactionManager.swift in Sources */,
 				921CCC8F28328F130070BB72 /* RequestParams.m in Sources */,
 				921CCC9628328F130070BB72 /* CardKPaymentController.m in Sources */,
@@ -887,26 +968,33 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				92DF1454288B341100381DA8 /* CardKExpireDateTextField.m in Sources */,
+				92C67F13289A596100174871 /* CardKCard.m in Sources */,
 				D2D0B368232122620007B3B9 /* PaymentSystemProvider.m in Sources */,
-				9291BF9626315D3B00F6ECF1 /* CKCToken.m in Sources */,
+				9205AAA128849DA900EF36A2 /* CardKAllPaymentMethodsController.m in Sources */,
 				92985C86246A96F4009B7392 /* CardKSwitchView.m in Sources */,
 				D2D0B35F2320E3AC0007B3B9 /* CardKBankLogoView.m in Sources */,
-				9219F466232B8EF100841B98 /* CardKFooterView.m in Sources */,
 				92E247F7247676A900C2EF6C /* CardKBindingViewController.m in Sources */,
-				929D7FDD283631850042DBBD /* RSA.m in Sources */,
+				9205AAA52884A4BE00EF36A2 /* Constants.m in Sources */,
 				D269080E231FA894001CB863 /* CardKTextField.m in Sources */,
+				92533B9A289908A400C51867 /* VerifyCompaniesView.m in Sources */,
+				921394952881FA8800182888 /* DividerView.m in Sources */,
 				9234CC5B247FBCDD009E3034 /* CardKPaymentView.m in Sources */,
+				92D67341287FDFCE0069DBF5 /* CardKApplePayButtonView.m in Sources */,
+				9205AA9F2883617600EF36A2 /* NewCardCellView.m in Sources */,
+				92DF14502889EBCD00381DA8 /* CardKCardNumberTextField.m in Sources */,
 				92985C8A246BEE1E009B7392 /* CardKKindPaymentViewController.m in Sources */,
 				D2690812231FB000001CB863 /* CardKCardView.m in Sources */,
-				9248868F251885FB00CA81D5 /* SeTokenGenerator.m in Sources */,
-				9245F8D125B19A0D0065AF9E /* Luhn.m in Sources */,
-				9291BFA526315D8500F6ECF1 /* CKCTokenResult.m in Sources */,
+				92DF14492889D9DD00381DA8 /* CardKButtonView.m in Sources */,
+				92DF1458288B3A7700381DA8 /* CardKCVCTextField.m in Sources */,
 				D245ABC9231C529D00369747 /* CardKTheme.m in Sources */,
 				92E247F32475481700C2EF6C /* CardKBinding.m in Sources */,
 				9234CC4F247BC315009E3034 /* CardKValidation.m in Sources */,
 				D245ABBD231C449F00369747 /* CardKViewController.m in Sources */,
 				92A1461B23435C6B002FBCC3 /* CardKConfig.m in Sources */,
+				9205AA9C2883130100EF36A2 /* BindingCellView.m in Sources */,
 				929BA32525591CFC00AB0526 /* TextField.m in Sources */,
+				92533B98289652E000C51867 /* CardKitImageProvider.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -948,6 +1036,12 @@
 			isa = PBXTargetDependency;
 			target = 92992A7C283289CD0031AFFF /* CardKitPayment */;
 			targetProxy = 92992A90283289CE0031AFFF /* PBXContainerItemProxy */;
+		};
+		92CAD535288DD80F00373ADD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			platformFilter = ios;
+			target = 924290B6255D5FE200378C68 /* CardKitCore */;
+			targetProxy = 92CAD534288DD80F00373ADD /* PBXContainerItemProxy */;
 		};
 		92EC5A09283BB116005D5FE0 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1080,14 +1174,17 @@
 		924290C9255D5FE300378C68 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = NO;
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = VYZR66642P;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_BITCODE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CardKitCore/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -1096,9 +1193,10 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.23;
+				MARKETING_VERSION = 2.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.rbs.CardKitCore;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SUPPORTS_MACCATALYST = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1108,14 +1206,17 @@
 		924290CA255D5FE300378C68 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = NO;
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Manual;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_BITCODE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CardKitCore/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -1124,9 +1225,10 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.23;
+				MARKETING_VERSION = 2.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.rbs.CardKitCore;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SUPPORTS_MACCATALYST = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1185,6 +1287,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -1202,7 +1305,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.23;
+				MARKETING_VERSION = 2.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.rbs.CardKitPayment;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -1220,10 +1323,11 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = VYZR66642P;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -1237,9 +1341,10 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.23;
+				MARKETING_VERSION = 2.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.rbs.CardKitPayment;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1321,7 +1426,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -1385,7 +1490,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -1418,7 +1523,8 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = VYZR66642P;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -1437,7 +1543,7 @@
 					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "";
-				MARKETING_VERSION = 0.0.23;
+				MARKETING_VERSION = 2.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.rbs.CardKit;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -1454,8 +1560,9 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				DEFINES_MODULE = YES;
+				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1475,9 +1582,10 @@
 					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "";
-				MARKETING_VERSION = 0.0.23;
+				MARKETING_VERSION = 2.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.rbs.CardKit;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_VERSION = 5.0;

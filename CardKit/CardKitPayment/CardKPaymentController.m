@@ -13,6 +13,8 @@
 #import <CardKit/CardKConfig.h>
 #import <CardKit/CardKPaymentView.h>
 #import <CardKit/CardKBindingViewController.h>
+#import <CardKit/CardKApplePayButtonView.h>
+#import <CardKit/CardKCard.h>
 
 #import "CardKPaymentController.h"
 #import "CardKPaymentSessionStatus.h"
@@ -38,12 +40,14 @@
   RequestParams *_requestParams;
   NSString *_mdOrder;
   BOOL _use3ds2sdk;
+  UIViewController *_kindPaymentController;
+  UINavigationController *_navController;
 }
 - (instancetype)init
   {
     self = [super init];
     if (self) {
-      NSBundle * bundle = [NSBundle bundleForClass:[CardKViewController class]];
+      NSBundle * bundle = [NSBundle bundleForClass:[CardKPaymentController class]];
       
       NSString *language = CardKConfig.shared.language;
       
@@ -54,10 +58,8 @@
       }
       
       _theme = CardKConfig.shared.theme;
-      self.view.backgroundColor = CardKConfig.shared.theme.colorTableBackground;
       
       _spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-      [self.view addSubview:_spinner];
       _spinner.color = _theme.colorPlaceholder;
       
       [_spinner startAnimating];
@@ -82,19 +84,6 @@
     return _transactionManager.directoryServerId;
   }
 
-  - (void)viewDidLayoutSubviews {
-    [super viewDidLayoutSubviews];
-
-    _spinner.frame = CGRectMake(0, 0, 100, 100);
-    _spinner.center = CGPointMake(self.view.bounds.size.width / 2, self.view.bounds.size.height / 2);
-  }
-
-  - (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear: animated];
-
-    [self _getSessionStatusRequest];
-  }
-
   - (NSString *) _joinParametersInString:(NSArray<NSString *> *) parameters {
     return [parameters componentsJoinedByString:@"&"];
   }
@@ -116,7 +105,7 @@
     
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Payment successfully completed" message:@"Payment successfully completed" preferredStyle:UIAlertControllerStyleAlert];
     [alert addAction:[UIAlertAction actionWithTitle:@"Ok" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
-      [self.navigationController presentViewController:alert animated:YES completion:nil];
+      [self->_navController presentViewController:alert animated:YES completion:nil];
     }]];
   }
 
@@ -131,30 +120,35 @@
     self->_cardKPaymentError.message = self->_sessionStatus.redirect;
       [self->_cardKPaymentDelegate didErrorPaymentFlow: self->_cardKPaymentError];
   
-    [self.navigationController popViewControllerAnimated:YES];
+    [_navController dismissViewControllerAnimated:YES completion:nil];
   }
 
-  - (void)_moveChoosePaymentMethodController {
-    CardKViewController *cardKViewController = [[CardKViewController alloc] init];
-      
-    cardKViewController.cKitDelegate = self;
-      
-    UIViewController *kindPaymentController = [CardKViewController create:self controller:cardKViewController];
-    
-    self.navigationItem.rightBarButtonItem = kindPaymentController.navigationItem.rightBarButtonItem;
-    
-    [self addChildViewController:kindPaymentController];
-    kindPaymentController.view.frame = self.view.frame;
-    [self.view addSubview:kindPaymentController.view];
-    
-    [self->_spinner stopAnimating];
+- (void)presentViewController:(UINavigationController *)navController {
+    _navController = navController;
+  
+    [self _getSessionStatusRequest];
   }
+
+- (void)_moveChoosePaymentMethodController {
+  CardKConfig.shared.bindings = _sessionStatus.bindingItems;
+  CardKConfig.shared.bindingCVCRequired = !_sessionStatus.cvcNotRequired;
+  CardKViewController *cardKViewController = [[CardKViewController alloc] init];
+  cardKViewController.cKitDelegate = self;
+  _kindPaymentController = [CardKViewController create:self controller:cardKViewController];
+  
+  
+  _sdkNavigationController = [[UINavigationController alloc] initWithRootViewController:_kindPaymentController];
+
+  _sdkNavigationController.modalPresentationStyle = UIModalPresentationOverCurrentContext;
+  
+  [_navController presentViewController:_sdkNavigationController animated:NO completion:nil];
+}
 
   - (void) _showAlertMessage:(NSString *) message {
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"" message:message preferredStyle:UIAlertControllerStyleAlert];
     [alert addAction:[UIAlertAction actionWithTitle:@"Ok" style:UIAlertActionStyleDefault handler:nil]];
 
-    [self.navigationController presentViewController:alert animated:YES completion:nil];
+    [_sdkNavigationController presentViewController:alert animated:YES completion:nil];
   }
 
   - (void) _getFinishSessionStatusRequest {
@@ -212,7 +206,7 @@
     return bindings;
   }
 
-  - (void) _getSessionStatusRequest {
+- (void) _getSessionStatusRequest {
     NSString *mdOrder = [NSString stringWithFormat:@"%@%@", @"MDORDER=", CardKConfig.shared.mdOrder];
     NSString *URL = [NSString stringWithFormat:@"%@%@?%@", _url, @"/rest/getSessionStatus.do", mdOrder];
 
@@ -242,10 +236,7 @@
         self->_sessionStatus.bindingEnabled = (BOOL)[responseDictionary[@"bindingEnabled"] boolValue];
         self->_sessionStatus.cvcNotRequired = (BOOL)[responseDictionary[@"cvcNotRequired"] boolValue];
         self-> _sessionStatus.redirect = [responseDictionary objectForKey:@"redirect"];
-        
-        CardKConfig.shared.bindings = [[NSArray alloc] initWithArray:self->_sessionStatus.bindingItems];
-        CardKConfig.shared.bindingCVCRequired = !self->_sessionStatus.cvcNotRequired;
-        
+  
         if (self->_sessionStatus.redirect != nil) {
           [self _sendRedirectError];
         } else {
@@ -338,7 +329,7 @@
         web3ds.termUrl = [responseDictionary objectForKey:@"termUrl"];
         web3ds.cardKPaymentDelegate = self->_cardKPaymentDelegate;
         
-        [self.navigationController presentViewController:web3ds animated:true completion:nil];
+        [self->_sdkNavigationController presentViewController:web3ds animated:true completion:nil];
       }
     });
       
@@ -424,7 +415,7 @@
     [dataTask resume];
   }
 
-  - (void)_initSDK:(CardKCardView *) cardView cardOwner:(NSString *) cardOwner seToken:(NSString *) seToken allowSaveBinding:(BOOL) allowSaveBinding callback: (void (^)(NSDictionary *)) handler {
+  - (void)_initSDK:(CardKCard *) cardView seToken:(NSString *) seToken allowSaveBinding:(BOOL) allowSaveBinding callback: (void (^)(NSDictionary *)) handler {
     dispatch_async(dispatch_get_main_queue(), ^{
       self->_transactionManager.headerLabel = self.headerLabel;
       [self->_transactionManager setUpUICustomizationWithPrimaryColor:self.primaryColor textDoneButtonColor:self.textDoneButtonColor error:nil];
@@ -437,22 +428,22 @@
       self->_requestParams.threeDSSDKAppId = reqParams[@"threeDSSDKAppId"];
       self->_requestParams.threeDSSDKTransId = reqParams[@"threeDSSDKTransId"];
 
-      [self _processFormRequestStep2:(CardKCardView *) cardView cardOwner:(NSString *) cardOwner seToken:(NSString *) seToken allowSaveBinding:(BOOL) allowSaveBinding callback: (void (^)(NSDictionary *)) handler];
+      [self _processFormRequestStep2:(CardKCard *) cardView seToken:(NSString *) seToken allowSaveBinding:(BOOL) allowSaveBinding callback: (void (^)(NSDictionary *)) handler];
     });
   }
 
-  - (void) _processFormRequest:(CardKCardView *) cardView cardOwner:(NSString *) cardOwner seToken:(NSString *) seToken allowSaveBinding:(BOOL) allowSaveBinding callback: (void (^)(NSDictionary *)) handler {
+  - (void) _processFormRequest:(CardKCard *) cardView seToken:(NSString *) seToken allowSaveBinding:(BOOL) allowSaveBinding callback: (void (^)(NSDictionary *)) handler {
     NSString *mdOrder = [NSString stringWithFormat:@"%@%@", @"MDORDER=", CardKConfig.shared.mdOrder];
     NSString *language = [NSString stringWithFormat:@"%@%@", @"language=", CardKConfig.shared.language];
-    NSString *owner = [NSString stringWithFormat:@"%@%@", @"TEXT=", cardOwner];
     NSString *seTokenParam = [NSString stringWithFormat:@"%@%@", @"seToken=", [seToken stringByReplacingOccurrencesOfString:@"+" withString:@"%2B"]];
     NSString *bindingNotNeeded = [NSString stringWithFormat:@"%@%@", @"bindingNotNeeded=", allowSaveBinding ? @"false" : @"true"];
+    NSString *cardHolder = [NSString stringWithFormat:@"%@%@", @"TEXT=", @"CARDHOLDER NAME"];
 
-    NSString *parameters = [self _joinParametersInString:@[mdOrder, seTokenParam, language, owner, bindingNotNeeded]];
+    NSString *parameters = [self _joinParametersInString:@[mdOrder, seTokenParam, language, bindingNotNeeded, cardHolder]];
     
     if (self.use3ds2sdk) {
       NSString *threeDSSDK = [NSString stringWithFormat:@"%@%@", @"threeDSSDK=", @"true"];
-      parameters = [self _joinParametersInString:@[mdOrder, seTokenParam, language, owner, bindingNotNeeded, threeDSSDK]];
+      parameters = [self _joinParametersInString:@[mdOrder, seTokenParam, language, bindingNotNeeded, cardHolder, threeDSSDK]];
     }
     
     NSString *URL = [NSString stringWithFormat:@"%@%@", _url, @"/rest/processform.do"];
@@ -493,15 +484,16 @@
 
         self->_transactionManager.pubKey = self->_requestParams.threeDSSDKKey;
        
-        [self _initSDK:(CardKCardView *) cardView cardOwner:(NSString *) cardOwner seToken:(NSString *) seToken allowSaveBinding:(BOOL) allowSaveBinding callback: (void (^)(NSDictionary *)) handler];
+        [self _initSDK:(CardKCard *) cardView seToken:(NSString *) seToken allowSaveBinding:(BOOL) allowSaveBinding callback: (void (^)(NSDictionary *)) handler];
       } else if (!is3DSVer2) {
         WebView3DSController *web3ds = [[WebView3DSController alloc] init];
         web3ds.acsUrl = [responseDictionary objectForKey:@"acsUrl"];
         web3ds.mdOrder = self -> _mdOrder;
         web3ds.paReq = [responseDictionary objectForKey:@"paReq"];
         web3ds.termUrl = [responseDictionary objectForKey:@"termUrl"];
+        web3ds.cardKPaymentDelegate = self->_cardKPaymentDelegate;
         
-        [self.navigationController presentViewController:web3ds animated:true completion:nil];
+        [self->_sdkNavigationController presentViewController:web3ds animated:true completion:nil];
       }
     });
     }];
@@ -519,10 +511,9 @@
     [self->_transactionManager handleResponseWithARes:aRes];
   }
 
-  - (void) _processFormRequestStep2:(CardKCardView *) cardView cardOwner:(NSString *) cardOwner seToken:(NSString *) seToken allowSaveBinding:(BOOL) allowSaveBinding callback: (void (^)(NSDictionary *)) handler {
+  - (void) _processFormRequestStep2:(CardKCard *) cardView seToken:(NSString *) seToken allowSaveBinding:(BOOL) allowSaveBinding callback: (void (^)(NSDictionary *)) handler {
       NSString *mdOrder = [NSString stringWithFormat:@"%@%@", @"MDORDER=", CardKConfig.shared.mdOrder];
       NSString *language = [NSString stringWithFormat:@"%@%@", @"language=", CardKConfig.shared.language];
-      NSString *owner = [NSString stringWithFormat:@"%@%@", @"TEXT=", cardOwner];
       NSString *bindingNotNeeded = [NSString stringWithFormat:@"%@%@", @"bindingNotNeeded=", allowSaveBinding ? @"false" : @"true"];
       NSString *seTokenParam = [NSString stringWithFormat:@"%@%@", @"seToken=", [seToken stringByReplacingOccurrencesOfString:@"+" withString:@"%2B"]];
     
@@ -534,7 +525,7 @@
       NSString *threeDSSDKReferenceNumber = [NSString stringWithFormat:@"%@%@", @"threeDSSDKReferenceNumber=", @"3DS_LOA_SDK_BPBT_020100_00233"];
       NSString *threeDSSDK = [NSString stringWithFormat:@"%@%@", @"threeDSSDK=", @"true"];
     
-      NSString *parameters = [self _joinParametersInString:@[mdOrder, threeDSSDK, language, owner, bindingNotNeeded, threeDSSDKEncData, threeDSSDKEphemPubKey, threeDSSDKAppId, threeDSSDKTransId, threeDSServerTransId, seTokenParam, threeDSSDKReferenceNumber]];
+      NSString *parameters = [self _joinParametersInString:@[mdOrder, threeDSSDK, language, bindingNotNeeded, threeDSSDKEncData, threeDSSDKEphemPubKey, threeDSSDKAppId, threeDSSDKTransId, threeDSServerTransId, seTokenParam, threeDSSDKReferenceNumber]];
 
       NSData *postData = [parameters dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
       NSString *URL = [NSString stringWithFormat:@"%@%@", _url, @"/rest/processform.do"];
@@ -716,9 +707,7 @@
   }
 
   - (void)cardKitViewController:(nonnull CardKViewController *)controller didCreateSeToken:(nonnull NSString *)seToken allowSaveBinding:(BOOL)allowSaveBinding isNewCard:(BOOL)isNewCard {
-    [self _processFormRequest: [controller getCardKView]
-                 cardOwner:[controller getCardOwner]
-                  seToken:seToken
+    [self _processFormRequest: [controller getCard] seToken:seToken
        allowSaveBinding: allowSaveBinding
                   callback:^(NSDictionary * sessionStatus) {}];
   }
@@ -730,10 +719,8 @@
 
   - (void)didLoadController:(nonnull CardKViewController *)controller {
     controller.allowedCardScaner = self.allowedCardScaner;
-    controller.purchaseButtonTitle = NSLocalizedStringFromTableInBundle(@"doneButton", nil, _languageBundle, @"Submit payment");
     controller.allowSaveBinding = self->_sessionStatus.bindingEnabled;
     controller.isSaveBinding = false;
-    controller.displayCardHolderField = true;
   }
 
   - (void)didRemoveBindings:(nonnull NSArray<CardKBinding *> *)removedBindings {
@@ -742,23 +729,15 @@
     }
   }
 
-  - (void)willShowPaymentView:(nonnull CardKPaymentView *)paymentView {
-    paymentView.paymentRequest = _cardKPaymentView.paymentRequest;
-    paymentView.paymentButtonType =_cardKPaymentView.paymentButtonType;
-    paymentView.paymentButtonStyle =_cardKPaymentView.paymentButtonStyle;
-    
-    if (_cardKPaymentView.cardPaybutton == nil) {
-      return;
-    }
-    
-    paymentView.cardPaybutton.backgroundColor = _cardKPaymentView.cardPaybutton.backgroundColor;
-    paymentView.cardPaybutton.tintColor = _cardKPaymentView.cardPaybutton.tintColor;
-    [paymentView.cardPaybutton setTitleColor:_cardKPaymentView.cardPaybutton.currentTitleColor forState:UIControlStateNormal];
-    
-    if (![_cardKPaymentView.cardPaybutton.titleLabel.text isEqual:@""] || _cardKPaymentView.cardPaybutton.titleLabel != nil) {
-      NSString * title = _cardKPaymentView.cardPaybutton.titleLabel.text;
-      [paymentView.cardPaybutton setTitle:title forState:UIControlStateNormal];
-    }
+
+  - (void)willShowPaymentView:(CardKApplePayButtonView *) paymentView {
+      paymentView.paymentRequest = _cardKPaymentView.paymentRequest;
+      paymentView.paymentButtonType =_cardKPaymentView.paymentButtonType;
+      paymentView.paymentButtonStyle =_cardKPaymentView.paymentButtonStyle;
+      
+      if (_cardKPaymentView.cardPaybutton == nil) {
+        return;
+      }
   }
 
   - (void)didCancel {

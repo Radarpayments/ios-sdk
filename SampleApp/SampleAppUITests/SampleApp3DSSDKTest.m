@@ -16,6 +16,12 @@
   XCUIApplication *_app;
   NSBundle *_bundle;
   NSBundle *_languageBundle;
+  
+  NSString *_newCardString;
+  NSString *_cardNumberString;
+  NSString *_expireDateString;
+  NSString *_cvcString;
+  NSString *_buttonTitleString;
 }
 
 - (void)setUp {
@@ -33,6 +39,12 @@
   } else {
     _languageBundle = _bundle;
   }
+  
+  _newCardString =  @"Add new card";
+  _cardNumberString = @"Card number";
+  _expireDateString =  @"MM/YY";
+  _cvcString =  @"CVC";
+  _buttonTitleString =  @"Submit payment";
 }
 
 - (void)tearDown {
@@ -41,67 +53,56 @@
 - (void) _runFlowWithBindingWithCVC:(NSString *) cvc {
   [[_app.buttons elementBoundByIndex:1] tap];
   
-  [self _tapWaitingElement:_app.cells.firstMatch];
+  [self _tapWaitingElement:_app.cells.staticTexts[@"** 5599"]];
 
-  XCUIElement *cellWithBindingInfo = [_app.cells elementBoundByIndex:0];
 
-  [cellWithBindingInfo tap];
-  [cellWithBindingInfo typeText:cvc];
-
-  XCUIElement *cell = [_app.cells elementBoundByIndex:1];
-
-  [cell tap];
+  [_app.secureTextFields[_cvcString] tap];
+  [_app.secureTextFields[_cvcString] typeText:cvc];
+  
+  [_app.buttons[_buttonTitleString] tap];
 }
 
 - (void) _runFlowWithBinding {
   [[_app.buttons elementBoundByIndex:1] tap];
 
-  [self _tapWaitingElement:_app.cells.staticTexts[@"555555••5599"]];
+  [self _tapWaitingElement:_app.cells.staticTexts[@"** 5599"]];
   
-  XCUIElement *cellWithBindingInfo = [_app.cells elementBoundByIndex:0];
+  [_app.secureTextFields[_cvcString] tap];
+  [_app.secureTextFields[_cvcString] typeText:@"123"];
 
-  [cellWithBindingInfo tap];
-  [cellWithBindingInfo typeText:@"123"];
-
-  XCUIElement *cell = [_app.cells elementBoundByIndex:1];
-
-  [cell tap];
+  [_app.buttons[_buttonTitleString] tap];
 }
 
 - (void) _fillNewCardForm {
-  [self _tapWaitingElement:_app.buttons[@"New card"]];
+  sleep(5);
+  [_app.cells.staticTexts[_newCardString].firstMatch tap];
 
-  [_app.textFields[@"Number"] tap];
-  [_app.textFields[@"Number"] typeText:@"5555555555555599"];
+  [_app.textFields[_cardNumberString] tap];
+  [_app.textFields[_cardNumberString] typeText:@"5555555555555599"];
 
-  [_app.textFields[@"MM/YY"] tap];
-  [_app.textFields[@"MM/YY"] typeText:@"1224"];
+  [_app.textFields[_expireDateString] tap];
+  [_app.textFields[_expireDateString] typeText:@"1224"];
 
-  [_app.secureTextFields[@"CVC"] tap];
-  [_app.secureTextFields[@"CVC"] typeText:@"123"];
+  [_app.secureTextFields[_cvcString] tap];
+  [_app.secureTextFields[_cvcString] typeText:@"123"];
 
-  [_app.textFields[@"NAME"].firstMatch tap];
-  [_app.textFields[@"NAME"] typeText:@"ALEX KOROTKOV"];
-
-  [_app.buttons.allElementsBoundByIndex.lastObject tap];
+  [_app.buttons[_buttonTitleString] tap];
 }
 
 - (void) _fillNewCardFormWithIncorrectCVC {
-  [self _tapWaitingElement:_app.buttons[@"New card"]];
+  sleep(5);
+  [_app.cells.staticTexts[_newCardString].firstMatch tap];
+  
+  [_app.textFields[_cardNumberString] tap];
+  [_app.textFields[_cardNumberString] typeText:@"5555555555555599"];
 
-  [_app.textFields[@"Number"] tap];
-  [_app.textFields[@"Number"] typeText:@"5555555555555599"];
+  [_app.textFields[_expireDateString] tap];
+  [_app.textFields[_expireDateString] typeText:@"1224"];
 
-  [_app.textFields[@"MM/YY"] tap];
-  [_app.textFields[@"MM/YY"] typeText:@"1224"];
+  [_app.secureTextFields[_cvcString] tap];
+  [_app.secureTextFields[_cvcString] typeText:@"666"];
 
-  [_app.secureTextFields[@"CVC"] tap];
-  [_app.secureTextFields[@"CVC"] typeText:@"666"];
-
-  [_app.textFields[@"NAME"].firstMatch tap];
-  [_app.textFields[@"NAME"] typeText:@"ALEX KOROTKOV"];
-
-  [_app.buttons.allElementsBoundByIndex.lastObject tap];
+  [_app.buttons[_buttonTitleString] tap];
 }
 
 - (void) _openKindPaymentController {
@@ -217,7 +218,7 @@
 }
 
 - (NSString *) _textDescrition {
-  return [_app.staticTexts elementBoundByIndex:3].label;
+  return [_app.staticTexts elementBoundByIndex:4].label;
 }
 
 - (void) testRunThreeDSSDKFlowWithBinding {
@@ -244,12 +245,16 @@
   [self _runPassCodeFlow];
   
   [self _fillTextFieldIncorrectCode];
+
+  NSString *textDescritionBeforeError = [_app.staticTexts elementBoundByIndex:8].label;;
   
-  NSString *textDescritionBeforeError = [self _textDescrition];
-  
+  NSLog(@"textDescritionBeforeError - %@", textDescritionBeforeError);
+
   [self _pressConfirmButton];
- 
+  
   [self _sleep:5];
+  
+  NSLog(@"_textDescrition - %@", [self _textDescrition]);
   
   XCTAssertFalse([textDescritionBeforeError isEqualToString:[self _textDescrition]]);
 }

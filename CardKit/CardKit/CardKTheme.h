@@ -27,7 +27,24 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) UIColor *colorSeparatar;
 /*! Color text button */
 @property (strong, nonatomic) UIColor *colorButtonText;
+/*! Background button */
+@property (strong, nonatomic) UIColor *colorButtonBackground;
+/*! Active TextField bottom line  */
+@property (strong, nonatomic) UIColor *colorActiveBorderTextView;
+/*! Inactive TextField bottom line  */
+@property (strong, nonatomic) UIColor *colorInactiveBorderTextView;
+
 @property (strong, nonatomic, nullable) NSString *imageAppearance;
+
+/*! Bank logo background  */
+@property (strong, nonatomic) UIColor *colorLogoBackground;
+
+/* Inactive button background */
+@property (strong, nonatomic) UIColor *colorInactiveButtonBackground;
+
+
+/* Bottom sheet background */
+@property (strong, nonatomic) UIColor *colorBottomSheetBackground;
 
 /*!
 @brief Default theme
@@ -49,7 +66,6 @@ NS_ASSUME_NONNULL_BEGIN
 @return CardKTheme
  */
 + (CardKTheme *)systemTheme API_AVAILABLE(ios(13.0));
-//+ (CardKTheme *)shared;
 /*!
 @brief Set theme
  */

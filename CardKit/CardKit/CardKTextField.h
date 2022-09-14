@@ -28,13 +28,17 @@ extern NSString *CardKTextFieldPatternSecureCode;
 @property (strong) NSString *pattern;
 @property (strong) NSString *placeholder;
 @property (strong) NSString *format;
+@property (strong) NSString *errorMessage;
 @property (strong, nullable) NSString *accessibilityLabel;
 @property BOOL secureTextEntry;
 @property UIKeyboardType keyboardType;
 @property UIReturnKeyType returnKeyType;
 @property(null_unspecified,nonatomic,copy) UITextContentType textContentType;
 @property BOOL showError;
+@property UIView *leftView;
+@property UIView *rightView;
 
+@property (strong) UITapGestureRecognizer *rightViewRecognizer;
 - (void)showCoverView;
 
 @end

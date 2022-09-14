@@ -163,7 +163,7 @@
     [errors addObject:@{@"field": CKCFieldBindingID, @"error": CKCErrorRequired}];
   }
   
-  if (params.mdOrder.length == 0) {
+  if (params.mdOrder.length == 0 && params.mdOrder != nil) {
     [errors addObject:@{@"field": CKCFieldMdOrder, @"error": CKCErrorRequired}];
   }
   
@@ -235,7 +235,7 @@
   NSDictionary *validatedSecureCode = [self _validateSecureCode: params.cvc];
   NSDictionary *validatedExpireDate = [self _validateExpireDate: params.expiryMMYY];
   NSDictionary *validatedCardNumber = [self _validateCardNumber: params.pan];
-  NSDictionary *validatedCarHolder = [self _validateOwner: params.cardholder];
+//  NSDictionary *validatedCarHolder = [self _validateOwner: params.cardholder];
 
   if (validatedSecureCode != nil) {
     [errors addObject:validatedSecureCode];
@@ -249,9 +249,9 @@
     [errors addObject:validatedCardNumber];
   }
   
-  if (validatedCarHolder != nil) {
-    [errors addObject:validatedCarHolder];
-  }
+//  if (validatedCarHolder != nil) {
+//    [errors addObject:validatedCarHolder];
+//  }
   
   if (errors.count > 0) {
     tokenResult.errors = errors;

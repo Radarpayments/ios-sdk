@@ -355,7 +355,7 @@ extension ThreeDS2ViewController: CardKDelegate {
     _sePayment()
   }
   
-  func willShow(_ paymentView: CardKPaymentView) {
+  func willShowPaymentView(_ paymentView: CardKApplePayButtonView) {
     let paymentNetworks = [PKPaymentNetwork.amex, .discover, .masterCard, .visa]
     let paymentItem = PKPaymentSummaryItem.init(label: "Box", amount: NSDecimalNumber(value: 0.1))
     let merchandId = "merchant.cardkit";
@@ -374,7 +374,6 @@ extension ThreeDS2ViewController: CardKDelegate {
     controller.allowedCardScaner = CardIOUtilities.canReadCardWithCamera();
     controller.purchaseButtonTitle = "Custom purchase button";
 
-    controller.displayCardHolderField = true;
     controller.allowSaveBinding = true;
     controller.isSaveBinding = false;
   }

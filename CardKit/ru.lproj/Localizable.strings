@@ -28,3 +28,16 @@
 
 "edit" = "Изменить";
 "save" = "Сохранить";
+
+"payByCard" = "Или оплатить картой";
+"addCard" = "Добавить карту";
+"allPaymentMethods" = "Все способы оплаты";
+"payment" = "Оплата";
+"cardNumber" = "Номер карты";
+"pay" = "Оплатить";
+"allCards" = "Все карты";
+"removeBindingAlertTitle" = "Вы точно хотите удалить эту карту?";
+"removeBindingAlertDescription" = "Чтобы снова использовать эту карту, нужно будет добавить ее еще раз.";
+"cancel" = "Отмена";
+"remove" = "Удалить";
+"paymentMethod" = "Способ оплаты";

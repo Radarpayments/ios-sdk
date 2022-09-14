@@ -11,18 +11,21 @@
 #import "CardKTheme.h"
 #import "CardKBinding.h"
 #import "CardKCardView.h"
+#import "CardKCard.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @class CardKViewController;
 @class CardKPaymentView;
 @class CardKBindingViewController;
+@class CardKApplePayButtonView;
 
 @protocol CardKDelegate <NSObject>
 
 - (void)didLoadController:(CardKViewController *) controller;
 
-- (void)willShowPaymentView:(CardKPaymentView *) paymentView;
+
+- (void)willShowPaymentView:(CardKApplePayButtonView *) paymentView;
 
 - (void)cardKitViewControllerScanCardRequest:(CardKViewController *)controller;
 
@@ -53,9 +56,6 @@ NS_ASSUME_NONNULL_BEGIN
 /*! Initial checkbox state "save card" */
 @property BOOL isSaveBinding;
 
-/*! Display CardHolder field*/
-@property BOOL displayCardHolderField;
-
 /*!
 @brief Assign card data
 @param number Card number.
@@ -65,15 +65,11 @@ NS_ASSUME_NONNULL_BEGIN
 */
 - (void)setCardNumber:(nullable NSString *)number holderName:(nullable NSString *)holderName expirationDate:(nullable NSString *)date cvc:(nullable NSString *)cvc bindingId:(nullable NSString *)bindingId;
 
+
 /*!
 @brief Get card data
 */
-- (CardKCardView *)getCardKView;
-
-/*!
-@brief Get cardholder name
-*/
-- (NSString *)getCardOwner;
+- (CardKCard *) getCard;
 
 /*!
 @brief Show scan card

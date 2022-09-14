@@ -83,30 +83,6 @@
     XCTAssertNotNil(res.token, @"pointer:%p", res.token);
 }
 
-- (void)testGenerateTokenWithCardWithoutCardholder {
-    cardParams.cardholder=@"";
-    CKCTokenResult *res = [CKCToken generateWithCard:cardParams];
-    NSDictionary *expectedResponse = @{@"field": CKCFieldCardholder, @"error": CKCErrorRequired};
-    
-    XCTAssertEqualObjects(res.errors[0], expectedResponse);
-}
-
-- (void)testGenerateTokenWithCardWithNilCardholder {
-    cardParams.cardholder=nil;
-    CKCTokenResult *res = [CKCToken generateWithCard:cardParams];
-    NSDictionary *expectedResponse = @{@"field": CKCFieldCardholder, @"error": CKCErrorRequired};
-
-    XCTAssertEqualObjects(res.errors[0], expectedResponse);
-}
-
-- (void)testGenerateTokenWithCardWithNumbersCardholder {
-    cardParams.cardholder=@"1223324";
-    CKCTokenResult *res = [CKCToken generateWithCard:cardParams];
-    NSDictionary *expectedResponse = @{@"field": CKCFieldCardholder, @"error": CKCErrorInvalidFormat};
-    
-    XCTAssertEqualObjects(res.errors[0], expectedResponse);
-}
-
 - (void)testGenerateTokenWithCardWithoutExpiryMMYY {
     cardParams.expiryMMYY=@"";
     CKCTokenResult *res = [CKCToken generateWithCard:cardParams];
