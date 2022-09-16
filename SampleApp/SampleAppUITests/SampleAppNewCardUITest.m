@@ -101,7 +101,7 @@
   XCTAssertTrue(_app.staticTexts[@"Card number length should be 16-19 digits"].exists);
 }
 
-- (void)testFillNewCardFormWithIncorrectExpireDate {
+- (void)testFillNewCardFormWithExpiredExpireDate {
   [self pressOnCell];
   
   [_app.cells.staticTexts[_newCardString].firstMatch tap];
@@ -117,7 +117,7 @@
   
   [_app.buttons[_buttonTitleString] tap];
   
-  XCTAssertTrue(_app.staticTexts[@"Card expiry date is incorrect"].exists);
+  XCTAssertTrue([_app.alerts.element.label isEqualToString:@"SeToken"]);
 }
 
 - (void)testFillNewCardFormWithIncorrectCVC {

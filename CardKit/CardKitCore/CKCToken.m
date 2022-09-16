@@ -35,9 +35,6 @@
   
   NSDateComponents *comps = [[NSCalendar currentCalendar] components:NSCalendarUnitYear fromDate:[NSDate date]];
   
-  if (fullYear < comps.year || fullYear >= comps.year + 10) {
-    return nil;
-  }
   
   return fullYearStr;
 }
@@ -105,19 +102,6 @@
 
   if (month == nil || year == nil) {
     return @{@"field": CKCFieldExpiryMMYY, @"error": CKCErrorInvalidFormat};
-  } else {
-    NSCalendar *calendar = [NSCalendar currentCalendar];
-    
-    NSDateComponents *comps = [[NSDateComponents alloc] init];
-    comps.day = 1;
-    comps.month = [month integerValue] + 1;
-    comps.year = [year integerValue];
-    
-    NSDate *expDate = [calendar dateFromComponents:comps];
-    
-    if ([[NSDate date] compare:expDate] != NSOrderedAscending) {
-      return @{@"field": CKCFieldExpiryMMYY, @"error": CKCErrorInvalidFormat};
-    }
   }
   
   return nil;
@@ -235,7 +219,6 @@
   NSDictionary *validatedSecureCode = [self _validateSecureCode: params.cvc];
   NSDictionary *validatedExpireDate = [self _validateExpireDate: params.expiryMMYY];
   NSDictionary *validatedCardNumber = [self _validateCardNumber: params.pan];
-//  NSDictionary *validatedCarHolder = [self _validateOwner: params.cardholder];
 
   if (validatedSecureCode != nil) {
     [errors addObject:validatedSecureCode];
@@ -248,10 +231,6 @@
   if (validatedCardNumber != nil) {
     [errors addObject:validatedCardNumber];
   }
-  
-//  if (validatedCarHolder != nil) {
-//    [errors addObject:validatedCarHolder];
-//  }
   
   if (errors.count > 0) {
     tokenResult.errors = errors;

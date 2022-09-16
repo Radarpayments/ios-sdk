@@ -111,10 +111,6 @@
   
   NSDateComponents *comps = [[NSCalendar currentCalendar] components:NSCalendarUnitYear fromDate:[NSDate date]];
   
-  if (fullYear < comps.year || fullYear >= comps.year + 10) {
-    return nil;
-  }
-  
   return fullYearStr;
 }
 

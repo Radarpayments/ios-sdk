@@ -107,6 +107,13 @@
     XCTAssertEqualObjects(res.errors[0], expectedResponse);
 }
 
+- (void)testGenerateTokenWithCardWithcExpiredExpiryMMYY {
+    cardParams.expiryMMYY=@"12/20";
+    CKCTokenResult *res = [CKCToken generateWithCard:cardParams];
+
+    XCTAssertTrue([res.token isKindOfClass:[NSString class]]);
+}
+
 - (void)testGenerateTokenWithCardWithNilPan {
     cardParams.pan=nil;
     CKCTokenResult *res = [CKCToken generateWithCard:cardParams];

@@ -73,14 +73,7 @@ NSInteger EXPIRE_YEARS_DIFF = 10;
   }
   NSString *year = [text substringFromIndex:2];
   NSString *fullYearStr = [NSString stringWithFormat:@"20%@", year];
-  
-  NSInteger fullYear = [fullYearStr integerValue];
-  
-  NSDateComponents *comps = [[NSCalendar currentCalendar] components:NSCalendarUnitYear fromDate:[NSDate date]];
-  
-  if (fullYear < comps.year || fullYear >= comps.year + EXPIRE_YEARS_DIFF) {
-    return nil;
-  }
+
   
   return fullYearStr;
 }
@@ -139,20 +132,6 @@ NSInteger EXPIRE_YEARS_DIFF = 10;
   if (month == nil || year == nil) {
     [_errorMessagesArray addObject:incorrectExpiry];
     isValid = NO;
-  } else {
-    NSCalendar *calendar = [NSCalendar currentCalendar];
-    
-    NSDateComponents *comps = [[NSDateComponents alloc] init];
-    comps.day = 1;
-    comps.month = [month integerValue] + 1;
-    comps.year = [year integerValue];
-    
-    NSDate *expDate = [calendar dateFromComponents:comps];
-    
-    if ([[NSDate date] compare:expDate] != NSOrderedAscending) {
-      [_errorMessagesArray addObject:incorrectExpiry];
-      isValid = NO;
-    }
   }
   
   _expireDateTextField.showError = !isValid;
