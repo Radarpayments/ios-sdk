@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name = "ThreeDSSDK"
-  spec.version = "2.0.0"
+  spec.version = "2.0.1"
   spec.summary = "ThreeDSSDK."
   spec.homepage = "https://github.com/Radarpayments/ios-sdk"
   spec.license = "MIT"
