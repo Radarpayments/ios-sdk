@@ -58,8 +58,7 @@ class PaymentFlowController: UIViewController {
     CardKConfig.shared.isTestMod = true;
     CardKConfig.shared.mrBinApiURL = "https://mrbin.io/bins/display";
     CardKConfig.shared.mrBinURL = "https://mrbin.io/bins/";
-    CardKConfig.shared.isEditBindingListMode = true
-
+    CardKConfig.shared.isEditBindingListMode = true;
     PaymentFlowController.requestParams.userName = "mobile-sdk-api"
     PaymentFlowController.requestParams.password = "vkyvbG0"
     PaymentFlowController.requestParams.returnUrl = "sdk://done"
@@ -94,7 +93,7 @@ class PaymentFlowController: UIViewController {
   
   func _fetchPubKey() {
     let urlString = String("\(self.url)/se/keys.do")
-    CardKConfig.fetchKeys(urlString)
+    CardKConfig.fetchKeys(urlString);
   }
 
   func _registerOrder() {

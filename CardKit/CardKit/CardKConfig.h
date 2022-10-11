@@ -9,12 +9,12 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import <PassKit/PassKit.h>
-#import "CardKTheme.h"
-#import "CardKBinding.h"
+#import <CardKTheme.h>
+#import <CardKBinding.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CardKConfig : NSObject
+@interface CardKConfig : NSObject<NSURLSessionDelegate>
 
 @property (strong, nonatomic) CardKTheme *theme;
 @property (nullable, strong, nonatomic) NSString *language;
@@ -54,6 +54,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property NSString *bindingsSectionTitle;
 
 @property (nullable) NSString *seTokenTimestamp;
+
+@property (nullable) NSString *bundlePathToTrustCert;
 
 + (void) fetchKeys:(NSString *)url;
 

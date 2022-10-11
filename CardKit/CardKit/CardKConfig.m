@@ -48,8 +48,14 @@ static CardKConfig *__instance = nil;
   NSString *URL = [[NSString alloc] initWithString:url];
 
   NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:URL]];
+  
 
   NSURLSession *session = [NSURLSession sharedSession];
+  
+  if (__instance.bundlePathToTrustCert) {
+    NSURLSessionConfiguration *sessionConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
+    session = [NSURLSession sessionWithConfiguration:sessionConfig delegate:__instance delegateQueue:nil];
+  }
   
   NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
       NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
@@ -64,6 +70,7 @@ static CardKConfig *__instance = nil;
         __instance.pubKey = keyValue;
       }
   }];
+  
   [dataTask resume];
 }
 
@@ -73,6 +80,33 @@ static CardKConfig *__instance = nil;
 
 + (NSString *) getVersion {
   return [[[NSBundle bundleForClass: CardKConfig.self] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+}
+
+- (void)URLSession:(NSURLSession *)session didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition, NSURLCredential * _Nullable))completionHandler {
+  SecTrustRef serverTrust = challenge.protectionSpace.serverTrust;
+  NSData *localCertificate = [NSData dataWithContentsOfFile:__instance.bundlePathToTrustCert];
+
+  CFDataRef cfLocalCertificate = (__bridge CFDataRef) localCertificate;
+  SecCertificateRef anchorCert = SecCertificateCreateWithData(nil, cfLocalCertificate);
+  NSArray* anchors = @[(__bridge id)anchorCert];
+
+  OSStatus osStatus = SecTrustSetAnchorCertificates(serverTrust, (__bridge CFArrayRef) anchors);
+
+  if (osStatus != errSecSuccess) {
+    completionHandler(NSURLSessionAuthChallengeCancelAuthenticationChallenge, NULL);
+    return;
+  }
+
+  SecTrustResultType result;
+  SecTrustEvaluate(serverTrust, &result);
+  BOOL isRemoteCertValid = (result == kSecTrustResultUnspecified || result == kSecTrustResultProceed);
+
+  if (isRemoteCertValid) {
+      NSURLCredential *credential = [NSURLCredential credentialForTrust:serverTrust];
+      completionHandler(NSURLSessionAuthChallengeUseCredential, credential);
+  } else {
+      completionHandler(NSURLSessionAuthChallengeCancelAuthenticationChallenge, NULL);
+  }
 }
 
 @end
