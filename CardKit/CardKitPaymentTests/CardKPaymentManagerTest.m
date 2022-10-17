@@ -47,7 +47,7 @@ typedef NS_ENUM(NSUInteger, ActionTypeInForm) {
 }
 
 - (void)setUp {
-  NSString *url = @"https://ecommerce.radarpayments.com/payment";
+  NSString *url = @"https://dev.bpcbt.com/payment";
   CardKConfig.shared.language = @"en";
   CardKConfig.shared.bindingCVCRequired = YES;
   CardKConfig.shared.bindings = @[];
@@ -442,7 +442,7 @@ typedef NS_ENUM(NSUInteger, ActionTypeInForm) {
 
   NSData *postData = [parameters dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
   
-  NSString *url = @"https://ecommerce.radarpayments.com/payment";
+  NSString *url = @"https://dev.bpcbt.com/payment";
   
   NSString *URL = [NSString stringWithFormat:@"%@%@", url, @"/rest/register.do"];
 

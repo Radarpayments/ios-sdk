@@ -12,7 +12,7 @@ import CardKitPayment
 class PaymentFlowController: UIViewController {
   var sampleAppCardIO: SampleAppCardIO? = nil
   var navController: UINavigationController!
-  let url = "https://ecommerce.radarpayments.com/payment";
+  let url = "https://dev.bpcbt.com/payment";
   
   static var requestParams: RequestParams = RequestParams();
   var _paymentFlowManager: CardKPaymentManager!;

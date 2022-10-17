@@ -46,7 +46,7 @@ struct ResponseParams: Codable {
   }
 }
 
-var url = "https://ecommerce.radarpayments.com/payment";
+var url = "https://dev.bpcbt.com/payment";
 
 class API {
     static func registerNewOrder(params: RequestParams, completionHandler: @escaping (ResponseParams, Data) -> Void) {
