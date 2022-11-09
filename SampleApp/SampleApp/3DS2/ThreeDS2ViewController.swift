@@ -245,7 +245,6 @@ class ThreeDS2ViewController: UITableViewController, TransactionManagerDelegate,
         
         do {
           try self._transactionManager.initializeSdk()
-//          self._transactionManager.showProgressDialog()
           self._requestParams.authParams = try self._transactionManager.getAuthRequestParameters()
           self._sePaymentStep2()
         } catch {

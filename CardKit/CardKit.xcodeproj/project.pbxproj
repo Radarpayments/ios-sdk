@@ -50,7 +50,6 @@
 		92626F2F289CEF3500DAB222 /* RSA.h in Headers */ = {isa = PBXBuildFile; fileRef = 92BD8FA8255D1B3A001E1ECF /* RSA.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		92626F30289CF35E00DAB222 /* CardKitCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 924290B7255D5FE200378C68 /* CardKitCore.framework */; platformFilter = ios; };
 		92626F33289CF36700DAB222 /* CardKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D245AB39231C435E00369747 /* CardKit.framework */; platformFilter = ios; };
-		92626F36289CF36D00DAB222 /* ThreeDSSDK.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92E1E6B3283D1A2B002D63C0 /* ThreeDSSDK.xcframework */; };
 		9292CED5255E611F00053EC3 /* CKCPubKey.h in Headers */ = {isa = PBXBuildFile; fileRef = 92BD9006255D202E001E1ECF /* CKCPubKey.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9292CF4B255E9B2F00053EC3 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9292CF4A255E9B2F00053EC3 /* AppDelegate.m */; };
 		9292CF51255E9B2F00053EC3 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9292CF50255E9B2F00053EC3 /* ViewController.m */; };
@@ -84,6 +83,7 @@
 		92DF14502889EBCD00381DA8 /* CardKCardNumberTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 92DF144F2889EBCD00381DA8 /* CardKCardNumberTextField.m */; };
 		92DF1454288B341100381DA8 /* CardKExpireDateTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 92DF1453288B341100381DA8 /* CardKExpireDateTextField.m */; };
 		92DF1458288B3A7700381DA8 /* CardKCVCTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 92DF1457288B3A7700381DA8 /* CardKCVCTextField.m */; };
+		92E0687A291B904500F85B80 /* ThreeDSSDK.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92E1E6B3283D1A2B002D63C0 /* ThreeDSSDK.xcframework */; };
 		92E247F22475481700C2EF6C /* CardKBinding.h in Headers */ = {isa = PBXBuildFile; fileRef = 92E247F02475481700C2EF6C /* CardKBinding.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		92E247F32475481700C2EF6C /* CardKBinding.m in Sources */ = {isa = PBXBuildFile; fileRef = 92E247F12475481700C2EF6C /* CardKBinding.m */; };
 		92E247F6247676A900C2EF6C /* CardKBindingViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 92E247F4247676A900C2EF6C /* CardKBindingViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -242,6 +242,7 @@
 		92985C84246A96F4009B7392 /* CardKSwitchView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CardKSwitchView.m; sourceTree = "<group>"; };
 		92985C87246BEE1E009B7392 /* CardKKindPaymentViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CardKKindPaymentViewController.h; sourceTree = "<group>"; };
 		92985C88246BEE1E009B7392 /* CardKKindPaymentViewController.m */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = CardKKindPaymentViewController.m; sourceTree = "<group>"; tabWidth = 2; };
+		9298C71929138B68008BD387 /* Pods_SampleApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Pods_SampleApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		92992A7D283289CD0031AFFF /* CardKitPayment.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CardKitPayment.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		92992A86283289CE0031AFFF /* CardKitPaymentTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CardKitPaymentTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		929BA32225591CFC00AB0526 /* TextField.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TextField.h; sourceTree = "<group>"; };
@@ -346,7 +347,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				92626F36289CF36D00DAB222 /* ThreeDSSDK.xcframework in Frameworks */,
+				92E0687A291B904500F85B80 /* ThreeDSSDK.xcframework in Frameworks */,
 				92626F33289CF36700DAB222 /* CardKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -415,6 +416,7 @@
 		927EEFF4261F2EB200250EA0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9298C71929138B68008BD387 /* Pods_SampleApp.framework */,
 				92E1E6B3283D1A2B002D63C0 /* ThreeDSSDK.xcframework */,
 			);
 			name = Frameworks;
