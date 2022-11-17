@@ -29,21 +29,14 @@ static Logger *__instance = nil;
 }
 
 + (void) addLogInterface:(LogInterface *) logInterface {
-    NSLog(@"added log interface");
     Logger *logger = [Logger shared];
     [logger.logInterfaces addObject:logInterface];
 }
 
-+ (void) logWithClass:(Class *) classMethod tag:(NSString *) tag  exception:(NSException *) exception {
-    
-//    syslog(LOG_NOTICE, "Some string %s", "sdadsa");
-}
-
-+ (void) log:(NSString *) message {
-    
-    NSLog(@"log", Logger.shared.logInterfaces);
-    [Logger.shared.logInterfaces.firstObject log:message];
-//    syslog(LOG_NOTICE, "Some string %s", "sdadsa");
++ (void) logWithClass:(Class) class tag:(NSString *) tag message:(NSString *) message  exception:(NSException * _Nullable) exception {
+    for (LogInterface *logInterface in Logger.shared.logInterfaces) {
+        [logInterface logWithClass:class tag:tag message:message exception:exception];
+    }
 }
 
 @end

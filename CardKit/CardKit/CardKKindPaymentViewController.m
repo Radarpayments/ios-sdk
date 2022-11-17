@@ -65,7 +65,7 @@
     
     _sections = [self _defaultSections];
     
-    [Logger log:@"Init payment view"];
+    [Logger logWithClass:[CardKKindPaymentViewController class] tag:@"" message:@"message" exception:nil];
     
     _bankLogoView = [[CardKBankLogoView alloc] init];
     _bankLogoView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
