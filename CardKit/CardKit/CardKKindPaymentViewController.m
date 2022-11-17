@@ -23,7 +23,7 @@
 #import "CardKitImageProvider.h"
 
 #import "Constants.h"
-
+#import "Logger.h"
 
 
 @implementation CardKKindPaymentViewController {
@@ -55,7 +55,6 @@
     _bundle = [NSBundle bundleForClass:[CardKKindPaymentViewController class]];
     _removedBindings = [[NSMutableArray alloc] init];
     _currentBindings = [[NSMutableArray alloc] initWithArray:CardKConfig.shared.bindings];
-    //    self.transitioningDelegate = self;
     
     NSString *language = CardKConfig.shared.language;
     if (language != nil) {
@@ -65,6 +64,8 @@
     }
     
     _sections = [self _defaultSections];
+    
+    [Logger log:@"Init payment view"];
     
     _bankLogoView = [[CardKBankLogoView alloc] init];
     _bankLogoView.autoresizingMask = UIViewAutoresizingFlexibleWidth;

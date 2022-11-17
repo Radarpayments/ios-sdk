@@ -10,6 +10,7 @@ import UIKit
 import CardKit
 import ThreeDSSDK
 import CardKitPayment
+import CardKitCore
 
 struct Section {
   let title: String?
@@ -81,6 +82,8 @@ class ViewController: UITableViewController {
   }
   
   func _openLightUINavigation() {
+    Logger.add(Log());
+    
     CardKConfig.shared.theme = CardKTheme.light();
     CardKConfig.shared.language = "";
     CardKConfig.shared.bindingCVCRequired = true;
@@ -485,3 +488,8 @@ extension ViewController: CardKDelegate {
   }
 }
 
+class Log: LogInterface {
+  override func log(_ message: String!) {
+    print("Example ovveride log \(String(message))");
+  }
+}

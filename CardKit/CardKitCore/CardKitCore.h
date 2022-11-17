@@ -24,4 +24,6 @@ FOUNDATION_EXPORT const unsigned char CardKitCoreVersionString[];
 #import <CardKitCore/CKCPubKey.h>
 #import <CardKitCore/Luhn.h>
 #import <CardKitCore/RSA.h>
+#import <CardKitCore/LogInterface.h>
+#import <CardKitCore/Logger.h>
 

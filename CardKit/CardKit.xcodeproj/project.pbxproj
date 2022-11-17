@@ -37,6 +37,7 @@
 		9234CC4F247BC315009E3034 /* CardKValidation.m in Sources */ = {isa = PBXBuildFile; fileRef = 9234CC4D247BC315009E3034 /* CardKValidation.m */; };
 		9234CC5A247FBCDD009E3034 /* CardKPaymentView.h in Headers */ = {isa = PBXBuildFile; fileRef = 9234CC58247FBCDD009E3034 /* CardKPaymentView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9234CC5B247FBCDD009E3034 /* CardKPaymentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9234CC59247FBCDD009E3034 /* CardKPaymentView.m */; };
+		9236033729236CE600581270 /* Logger.m in Sources */ = {isa = PBXBuildFile; fileRef = 9236033629236CE600581270 /* Logger.m */; };
 		923FDAB1285C52DF0021C788 /* WebView3DSController.m in Sources */ = {isa = PBXBuildFile; fileRef = 923FDAB0285C52DF0021C788 /* WebView3DSController.m */; };
 		924290D4255D5FF600378C68 /* CKCPubKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 92BD9007255D202E001E1ECF /* CKCPubKey.m */; };
 		924290D5255D5FF600378C68 /* CKCTokenResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 92BD9023255D2315001E1ECF /* CKCTokenResult.m */; };
@@ -51,6 +52,9 @@
 		92626F30289CF35E00DAB222 /* CardKitCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 924290B7255D5FE200378C68 /* CardKitCore.framework */; platformFilter = ios; };
 		92626F33289CF36700DAB222 /* CardKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D245AB39231C435E00369747 /* CardKit.framework */; platformFilter = ios; };
 		92626F36289CF36D00DAB222 /* ThreeDSSDK.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92E1E6B3283D1A2B002D63C0 /* ThreeDSSDK.xcframework */; };
+		92812EA529260A0B00BEA215 /* LogInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = 92812EA42926095100BEA215 /* LogInterface.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		92812EA629260A1100BEA215 /* Logger.h in Headers */ = {isa = PBXBuildFile; fileRef = 9236033829236CF800581270 /* Logger.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		92812EA829260CD800BEA215 /* LogInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 92812EA729260CD800BEA215 /* LogInterface.m */; };
 		9292CED5255E611F00053EC3 /* CKCPubKey.h in Headers */ = {isa = PBXBuildFile; fileRef = 92BD9006255D202E001E1ECF /* CKCPubKey.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9292CF4B255E9B2F00053EC3 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9292CF4A255E9B2F00053EC3 /* AppDelegate.m */; };
 		9292CF51255E9B2F00053EC3 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9292CF50255E9B2F00053EC3 /* ViewController.m */; };
@@ -219,6 +223,8 @@
 		9234CC4D247BC315009E3034 /* CardKValidation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CardKValidation.m; sourceTree = "<group>"; };
 		9234CC58247FBCDD009E3034 /* CardKPaymentView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CardKPaymentView.h; sourceTree = "<group>"; };
 		9234CC59247FBCDD009E3034 /* CardKPaymentView.m */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = CardKPaymentView.m; sourceTree = "<group>"; tabWidth = 2; };
+		9236033629236CE600581270 /* Logger.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Logger.m; sourceTree = "<group>"; };
+		9236033829236CF800581270 /* Logger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Logger.h; sourceTree = "<group>"; };
 		923FDAAF285C52B20021C788 /* WebView3DSController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WebView3DSController.h; sourceTree = "<group>"; };
 		923FDAB0285C52DF0021C788 /* WebView3DSController.m */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = WebView3DSController.m; sourceTree = "<group>"; tabWidth = 2; };
 		924290B7255D5FE200378C68 /* CardKitCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CardKitCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -227,6 +233,8 @@
 		92533B99289908A400C51867 /* VerifyCompaniesView.m */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = VerifyCompaniesView.m; sourceTree = "<group>"; tabWidth = 2; };
 		92533B9B2899097300C51867 /* VerifyCompaniesView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VerifyCompaniesView.h; sourceTree = "<group>"; };
 		92626F3A289CF97900DAB222 /* info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = info.plist; sourceTree = "<group>"; };
+		92812EA42926095100BEA215 /* LogInterface.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LogInterface.h; sourceTree = "<group>"; };
+		92812EA729260CD800BEA215 /* LogInterface.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LogInterface.m; sourceTree = "<group>"; };
 		9292CF47255E9B2F00053EC3 /* TestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9292CF49255E9B2F00053EC3 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		9292CF4A255E9B2F00053EC3 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -408,6 +416,10 @@
 				92BD9033255D241D001E1ECF /* CKCCardParams.m */,
 				92BD903E255D24B4001E1ECF /* CKCBindingParams.h */,
 				92BD903F255D24B4001E1ECF /* CKCBindingParams.m */,
+				92812EA42926095100BEA215 /* LogInterface.h */,
+				92812EA729260CD800BEA215 /* LogInterface.m */,
+				9236033829236CF800581270 /* Logger.h */,
+				9236033629236CE600581270 /* Logger.m */,
 			);
 			path = CardKitCore;
 			sourceTree = "<group>";
@@ -592,7 +604,9 @@
 				92626F2F289CEF3500DAB222 /* RSA.h in Headers */,
 				920312D3255D6621006FBED7 /* CKCToken.h in Headers */,
 				920312EE255D664A006FBED7 /* CKCTokenResult.h in Headers */,
+				92812EA629260A1100BEA215 /* Logger.h in Headers */,
 				920312DC255D662A006FBED7 /* CKCCardParams.h in Headers */,
+				92812EA529260A0B00BEA215 /* LogInterface.h in Headers */,
 				9292CED5255E611F00053EC3 /* CKCPubKey.h in Headers */,
 				9245F8D725B19A130065AF9E /* Luhn.h in Headers */,
 				92D85548255D63DA0002936B /* CardKitCore.h in Headers */,
@@ -924,6 +938,8 @@
 				929D7FDB28362EDF0042DBBD /* RSA.m in Sources */,
 				924290D8255D5FF600378C68 /* Luhn.m in Sources */,
 				924290DA255D5FF600378C68 /* CKCCardParams.m in Sources */,
+				92812EA829260CD800BEA215 /* LogInterface.m in Sources */,
+				9236033729236CE600581270 /* Logger.m in Sources */,
 				924290D6255D5FF600378C68 /* CKCBindingParams.m in Sources */,
 				924290D5255D5FF600378C68 /* CKCTokenResult.m in Sources */,
 				924290D4255D5FF600378C68 /* CKCPubKey.m in Sources */,
