@@ -17,9 +17,11 @@ static Logger *__instance = nil;
 
 - (instancetype)init {
     self.logInterfaces = [[NSMutableArray alloc] init];
+    self.TAG = @"SDK-CORE";
     
     return self;
 }
+
 + (Logger *)shared {
   if (__instance == nil) {
       __instance = [[Logger alloc] init];

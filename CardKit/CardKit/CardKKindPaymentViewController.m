@@ -65,8 +65,6 @@
     
     _sections = [self _defaultSections];
     
-    [Logger logWithClass:[CardKKindPaymentViewController class] tag:@"" message:@"message" exception:nil];
-    
     _bankLogoView = [[CardKBankLogoView alloc] init];
     _bankLogoView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     _bankLogoView.title = NSLocalizedStringFromTableInBundle(@"title", nil, _languageBundle, @"Title");

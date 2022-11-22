@@ -27,3 +27,5 @@ NSString* const CardKSwitchCellID = @"switch";
 NSString* const CardKButtonCellID = @"button";
 NSString* const CardKSectionTitle = @"title";
 NSString* const CardKFooterID = @"footer";
+
+NSString* const TAG = @"CardKit-Form";
