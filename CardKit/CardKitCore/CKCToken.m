@@ -12,6 +12,7 @@
 #import "CKCCardParams.h"
 #import "RSA.h"
 #import "Luhn.h"
+#import "Logger.h"
 
 @implementation CKCToken: NSObject
 + (nullable NSString *)_getFullYearFromExpirationDate: (NSString *) time {
@@ -174,6 +175,11 @@
   if (validatedSecureCode != nil) {
     [errors addObject:validatedSecureCode];
     tokenResult.errors = errors;
+    
+    [Logger logWithClass:[CKCToken class]
+                     tag:Logger.shared.TAG message:[NSString stringWithFormat:@"generateWithBinding(%@) validation failed - %@", params, errors]
+          exception:nil];
+    
 
     return tokenResult;
   }
@@ -193,6 +199,11 @@
   
   if (seToken.length == 0) {
     [errors addObject:@{@"field": CKCFieldPubKey, @"error": CKCErrorInvalid}];
+    
+    [Logger logWithClass:[CKCToken class]
+                     tag:Logger.shared.TAG message:[NSString stringWithFormat:@"generateWithBinding(%@) could not generate seToken - %@", params, errors]
+          exception:nil];
+    
     return tokenResult;
   }
   
@@ -213,6 +224,9 @@
   
   if (errors.count > 0) {
     tokenResult.errors = errors;
+    [Logger logWithClass:[CKCToken class]
+                     tag:Logger.shared.TAG message:[NSString stringWithFormat:@"generateWithCard(%@) validation failed - %@", params, errors]
+          exception:nil];
     return tokenResult;
   }
   
@@ -234,6 +248,7 @@
   
   if (errors.count > 0) {
     tokenResult.errors = errors;
+    
     return tokenResult;
   }
 
@@ -259,6 +274,10 @@
   if (seToken.length == 0) {
     [errors addObject:@{@"field": CKCFieldPubKey, @"error": CKCErrorInvalid}];
     tokenResult.errors = errors;
+    
+    [Logger logWithClass:[CKCToken class]
+                     tag:Logger.shared.TAG message:[NSString stringWithFormat:@"generateWithCard(%@) could not generate seToken - %@", params, errors]
+          exception:nil];
 
     return tokenResult;
   }
