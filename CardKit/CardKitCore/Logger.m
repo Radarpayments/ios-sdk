@@ -35,7 +35,7 @@ static Logger *__instance = nil;
     [logger.logInterfaces addObject:logInterface];
 }
 
-+ (void) logWithClass:(Class) class tag:(NSString *) tag message:(NSString *) message  exception:(NSException * _Nullable) exception {
++ (void) logWithClass:(Class) class tag:(NSString *) tag message:(NSString *) message exception:(NSError * _Nullable) exception {
     for (LogInterface *logInterface in Logger.shared.logInterfaces) {
         [logInterface logWithClass:class tag:tag message:message exception:exception];
     }

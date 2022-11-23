@@ -10,7 +10,7 @@
 NS_ASSUME_NONNULL_BEGIN
 @interface Logger: NSObject
 + (void) addLogInterface:(LogInterface *) logInterface;
-+ (void) logWithClass:(Class) class tag:(NSString *) tag message:(NSString *) message  exception:(NSException * _Nullable) exception;
++ (void) logWithClass:(Class) class tag:(NSString *) tag message:(NSString *) message  exception:(NSError * _Nullable) exception;
 @property (class, readonly, strong, nonatomic) Logger * shared;
 @property NSString * TAG;
 @property NSMutableArray<LogInterface *> * logInterfaces;

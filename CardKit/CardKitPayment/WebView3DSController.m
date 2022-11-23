@@ -10,6 +10,7 @@
 #import <WebKit/WebKit.h>
 #import <UIKit/UIKit.h>
 #import "WebView3DSController.h"
+#import "Logger.h"
 
 @implementation WebView3DSController {
   WKWebView *_wkWebView;
@@ -83,6 +84,8 @@
   
   CardKPaymentError *error = [[CardKPaymentError alloc] init];
   error.message = @"3ds1 was finished by timeout";
+  
+  [Logger logWithClass:[WebView3DSController class] tag:Logger.shared.TAG message: error.message exception:nil];
   [self.cardKPaymentDelegate didErrorPaymentFlow:error];
 }
 

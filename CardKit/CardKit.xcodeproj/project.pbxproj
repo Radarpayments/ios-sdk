@@ -80,6 +80,7 @@
 		92C9AECA28352CDC0000D878 /* PaymentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 92C9AEC928352CDC0000D878 /* PaymentController.m */; };
 		92C9AECC283532180000D878 /* CardKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D245AB39231C435E00369747 /* CardKit.framework */; };
 		92CAD53828908CB500373ADD /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 92CAD53728908CB500373ADD /* Colors.xcassets */; };
+		92D207C1292CE45600F20DD5 /* Constans.m in Sources */ = {isa = PBXBuildFile; fileRef = 92D207C0292CE45600F20DD5 /* Constans.m */; };
 		92D67341287FDFCE0069DBF5 /* CardKApplePayButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 92D67340287FDFCE0069DBF5 /* CardKApplePayButtonView.m */; };
 		92D67342287FF1180069DBF5 /* CardKApplePayButtonView.h in Headers */ = {isa = PBXBuildFile; fileRef = 92D6733F287FDF9E0069DBF5 /* CardKApplePayButtonView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		92D85548255D63DA0002936B /* CardKitCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 92D85547255D63DA0002936B /* CardKitCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -276,6 +277,8 @@
 		92C9AEC928352CDC0000D878 /* PaymentController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PaymentController.m; sourceTree = "<group>"; };
 		92C9AECB28352CED0000D878 /* PaymentController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PaymentController.h; sourceTree = "<group>"; };
 		92CAD53728908CB500373ADD /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
+		92D207C0292CE45600F20DD5 /* Constans.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Constans.m; sourceTree = "<group>"; };
+		92D207C2292CE46300F20DD5 /* Constans.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constans.h; sourceTree = "<group>"; };
 		92D6733F287FDF9E0069DBF5 /* CardKApplePayButtonView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CardKApplePayButtonView.h; sourceTree = "<group>"; };
 		92D67340287FDFCE0069DBF5 /* CardKApplePayButtonView.m */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = CardKApplePayButtonView.m; sourceTree = "<group>"; tabWidth = 2; };
 		92D85547255D63DA0002936B /* CardKitCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardKitCore.h; sourceTree = "<group>"; };
@@ -467,6 +470,8 @@
 				92DC600E2834FCA0003485A0 /* TransactionManager.swift */,
 				923FDAAF285C52B20021C788 /* WebView3DSController.h */,
 				923FDAB0285C52DF0021C788 /* WebView3DSController.m */,
+				92D207C2292CE46300F20DD5 /* Constans.h */,
+				92D207C0292CE45600F20DD5 /* Constans.m */,
 			);
 			path = CardKitPayment;
 			sourceTree = "<group>";
@@ -967,6 +972,7 @@
 				92DC600F2834FCA0003485A0 /* TransactionManager.swift in Sources */,
 				921CCC8F28328F130070BB72 /* RequestParams.m in Sources */,
 				921CCC9628328F130070BB72 /* CardKPaymentManager.m in Sources */,
+				92D207C1292CE45600F20DD5 /* Constans.m in Sources */,
 				921CCC9128328F130070BB72 /* CardKPaymentSessionStatus.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

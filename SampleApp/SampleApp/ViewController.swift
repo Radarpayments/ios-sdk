@@ -489,13 +489,13 @@ extension ViewController: CardKDelegate {
 }
 
 class Log: LogInterface {
-  override func log(with class: AnyClass, tag: String, message: String, exception: NSException?) {
+  override func log(with class: AnyClass, tag: String, message: String, exception: Error?) {
     print("------");
     print("Example ovveride log");
     print("Class name - '\(String(describing: `class`))'")
     print("Tag - '\(tag)'");
     print("Message - '\(message)'");
-    print("Exception - '\(String(describing: exception?.description))'");
+    print("Exception - '\(String(describing: exception?.localizedDescription))'");
     print("------");
   }
 }

@@ -8,5 +8,5 @@
 #import <Foundation/Foundation.h>
 
 @interface LogInterface: NSObject
-- (void) logWithClass:(Class) class tag:(NSString *) tag message:(NSString *) message  exception:(NSException * _Nullable) exception;
+- (void) logWithClass:(Class) class tag:(NSString *) tag message:(NSString *) message  exception:(NSError * _Nullable) exception;
 @end

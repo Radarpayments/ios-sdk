@@ -8,12 +8,15 @@
 
 import UIKit
 import ThreeDSSDK
+import CardKitCore
 
 @objc public protocol TransactionManagerDelegate {
   func errorEventReceived(message: NSString)
   func didCancel()
   func didComplete(transactionStatus: NSString)
 }
+
+let TAG = "CardKit-Form";
 
 @objc public class TransactionManager: NSObject {
   @objc public weak var delegate: TransactionManagerDelegate?
@@ -41,6 +44,7 @@ import ThreeDSSDK
 
       _sdkProgressDialog = try _sdkTransaction!.getProgressView()
     } catch {
+      Logger.log(with: TransactionManager.self, tag: TAG, message: "Failed initializeSdk: directoryServerID - \(directoryServerId); \n messageVersion - nil; \n pubKey  - \(pubKey); \n rootCertificate - \(rootCertificate) \n logoBase64 - \"empty line\"" , exception: error);
       self.delegate?.errorEventReceived(message: error.localizedDescription as NSString)
     }
   }
@@ -68,6 +72,7 @@ import ThreeDSSDK
       do {
         try self._sdkTransaction?.doChallenge(challengeParameters: challengeParameters, challengeStatusReceiver: delegate, timeOut: Int(timeout))
       } catch {
+        Logger.log(with: TransactionManager.self, tag: TAG, message: "Faile call doChallenge: ChallengeParameters - \(challengeParameters); \n timeout - \(timeout)" , exception: error);
         self.delegate?.errorEventReceived(message: error.localizedDescription as NSString)
       }
     }
@@ -75,7 +80,7 @@ import ThreeDSSDK
 }
 
 extension TransactionManager {
-  @objc public func getAuthRequestParameters() -> [NSString: Any]? {
+  @objc public func getAuthRequestParameters() -> [NSString: Any]?  {
     do {
       let authRequestParams = try self._sdkTransaction?.getAuthenticationRequestParameters()
     
@@ -85,7 +90,8 @@ extension TransactionManager {
         "threeDSSDKAppId": authRequestParams?.getSDKAppID() ?? "",
         "threeDSSDKTransId": authRequestParams?.getSDKTransactionID() ?? ""
       ];
-    } catch  {
+    } catch {
+        Logger.log(with: TransactionManager.self, tag: TAG, message: "Faile getAuthenticationRequestParameters", exception: error);
       return nil;
     }
   }
