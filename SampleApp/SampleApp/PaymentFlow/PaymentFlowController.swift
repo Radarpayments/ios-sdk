@@ -76,19 +76,24 @@ class PaymentFlowController: UIViewController {
   @objc func _pressedButton() {
     _fetchRootCert()
     _fetchPubKey()
+    _registerOrder()
   }
   
   func _fetchRootCert() {
-    let request: URLRequest = URLRequest(url: URL(string: "https://dummy3dsdev.intabia.ru/acs2/secret/cert")!)
-
-    URLSession.shared.dataTask(with: request as URLRequest, completionHandler: { (data, response, error) -> Void in
-      guard let data = data else { return }
-
-      CardKConfig.shared.rootCertificate = String(data: data, encoding: .utf8) ?? ""
-      DispatchQueue.main.async {
-        self._registerOrder()
-      }
-    }).resume()
+    CardKConfig.shared.rootCertificate = """
+            MIICDTCCAbOgAwIBAgIUOO3a573khC9kCsQJGKj/PpKOSl8wCgYIKoZIzj0EA
+            wIwXDELMAkGA1UEBhMCQVUxEzARBgNVBAgMClNvbWUtU3RhdGUxITAfBgNVBA
+            oMGEludGVybmV0IFdpZGdpdHMgUHR5IEx0ZDEVMBMGA1UEAwwMZHVtbXkzZHN
+            yb290MB4XDTIxMDkxNDA2NDQ1OVoXDTMxMDkxMjA2NDQ1OVowXDELMAkGA1UE
+            BhMCQVUxEzARBgNVBAgMClNvbWUtU3RhdGUxITAfBgNVBAoMGEludGVybmV0I
+            FdpZGdpdHMgUHR5IEx0ZDEVMBMGA1UEAwwMZHVtbXkzZHNyb290MFkwEwYHKo
+            ZIzj0CAQYIKoZIzj0DAQcDQgAE//e+MhwdgWxkFpexkjBCx8FtJ24KznHRXMS
+            WabTrRYwdSZMScgwdpG1QvDO/ErTtW8IwouvDRlR2ViheGr02bqNTMFEwHQYD
+            VR0OBBYEFHK/QzMXw3kW9UzY5w9LVOXr+6YpMB8GA1UdIwQYMBaAFHK/QzMXw
+            3kW9UzY5w9LVOXr+6YpMA8GA1UdEwEB/wQFMAMBAf8wCgYIKoZIzj0EAwIDSA
+            AwRQIhAOPEiotH3HJPIjlrj9/0m3BjlgvME0EhGn+pBzoX7Z3LAiAOtAFtkip
+            d9T5c9qwFAqpjqwS9sSm5odIzk7ug8wow4Q==
+            """
   }
   
   func _fetchPubKey() {
