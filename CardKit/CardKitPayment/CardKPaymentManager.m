@@ -324,7 +324,6 @@
         self->_transactionManager.headerLabel = self.headerLabel;
         [self->_transactionManager setUpUICustomizationWithPrimaryColor:self.primaryColor textDoneButtonColor:self.textDoneButtonColor error:nil];
         [self->_transactionManager initializeSdk];
-        [self->_transactionManager showProgressDialog];
         NSDictionary *reqParams = [self->_transactionManager getAuthRequestParameters];
         
         self->_requestParams.threeDSSDKEncData = reqParams[@"threeDSSDKEncData"];
@@ -435,7 +434,7 @@
       self->_transactionManager.headerLabel = self.headerLabel;
       [self->_transactionManager setUpUICustomizationWithPrimaryColor:self.primaryColor textDoneButtonColor:self.textDoneButtonColor error:nil];
       [self->_transactionManager initializeSdk];
-      [self->_transactionManager showProgressDialog];
+//      [self->_transactionManager showProgressDialog];
       NSDictionary *reqParams = [self->_transactionManager getAuthRequestParameters];
       
       self->_requestParams.threeDSSDKEncData = reqParams[@"threeDSSDKEncData"];
