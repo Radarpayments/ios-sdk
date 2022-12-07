@@ -132,6 +132,7 @@
 - (void)_moveChoosePaymentMethodController {
   CardKConfig.shared.bindings = _sessionStatus.bindingItems;
   CardKConfig.shared.bindingCVCRequired = !_sessionStatus.cvcNotRequired;
+  CardKConfig.shared.displayApplyPayButton = [_sessionStatus useApplePay];
   CardKViewController *cardKViewController = [[CardKViewController alloc] init];
   cardKViewController.cKitDelegate = self;
   _kindPaymentController = [CardKViewController create:self controller:cardKViewController];

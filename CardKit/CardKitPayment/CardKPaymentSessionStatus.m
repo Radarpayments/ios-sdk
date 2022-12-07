@@ -9,5 +9,7 @@
 #import "CardKPaymentSessionStatus.h"
 
 @implementation CardKPaymentSessionStatus
-
+- (BOOL) useApplePay {
+    return [self.merchantOptions indexOfObject: @"APPLEPAY"] != NSNotFound;
+}
 @end

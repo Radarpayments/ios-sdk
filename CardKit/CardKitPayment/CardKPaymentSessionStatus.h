@@ -17,7 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property BOOL bindingEnabled;
 @property BOOL cvcNotRequired;
 @property NSString *redirect;
-
+@property NSArray<NSString *> *merchantOptions;
+- (BOOL) useApplePay;
 @end
 
 NS_ASSUME_NONNULL_END
