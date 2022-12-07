@@ -19,6 +19,7 @@ static CardKConfig *__instance = nil;
   config.theme = CardKTheme.defaultTheme;
   config.language = nil;
   config.isTestMod = false;
+  config.displayApplyPayButton = true;
 
   return config;
 }

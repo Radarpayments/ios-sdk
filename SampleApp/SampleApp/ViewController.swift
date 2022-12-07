@@ -25,6 +25,7 @@ struct SectionItem {
   enum Kind {
     case version
     case navLightTheme
+    case navLightThemeWithoutApplePay
     case navNewCardWithoutSaveCard
     case navNewCardWithoutCardholder
     case navDarkTheme
@@ -92,6 +93,27 @@ class ViewController: UITableViewController {
     CardKConfig.shared.bindingsSectionTitle = "Your cards";
     CardKConfig.shared.isEditBindingListMode = false;
     CardKConfig.shared.pubKey = publicKey;
+    CardKConfig.shared.displayApplyPayButton = true;
+    
+    let controller = CardKViewController();
+    controller.cKitDelegate = self
+    
+    _presentController(controller: controller);
+  }
+  
+  func _openLightUINavigationWithoutApplePay() {
+    CardKConfig.shared.theme = CardKTheme.light();
+    CardKConfig.shared.language = "";
+    CardKConfig.shared.displayApplyPayButton = false;
+    CardKConfig.shared.bindingCVCRequired = true;
+    CardKConfig.shared.bindings = self._fetchBindingCards();
+    CardKConfig.shared.isTestMod = true;
+    CardKConfig.shared.mdOrder = "mdOrder";
+    CardKConfig.shared.mrBinApiURL = "https://mrbin.io/bins/display";
+    CardKConfig.shared.mrBinURL = "https://mrbin.io/bins/";
+    CardKConfig.shared.bindingsSectionTitle = "Your cards";
+    CardKConfig.shared.isEditBindingListMode = false;
+    CardKConfig.shared.pubKey = publicKey;
     
     let controller = CardKViewController();
     controller.cKitDelegate = self
@@ -112,6 +134,7 @@ class ViewController: UITableViewController {
     CardKConfig.shared.bindingsSectionTitle = "Your cards";
     CardKConfig.shared.isEditBindingListMode = false;
     CardKConfig.shared.bindingCVCRequired = false;
+    CardKConfig.shared.displayApplyPayButton = true;
     CardKConfig.shared.pubKey = publicKey;
     
     
@@ -134,6 +157,7 @@ class ViewController: UITableViewController {
     CardKConfig.shared.mrBinURL = "https://mrbin.io/bins/";
     CardKConfig.shared.bindingsSectionTitle = "Your cards";
     CardKConfig.shared.isEditBindingListMode = false;
+    CardKConfig.shared.displayApplyPayButton = true;
     
     let controller = CardKViewController();
     controller.cKitDelegate = self
@@ -154,6 +178,7 @@ class ViewController: UITableViewController {
     CardKConfig.shared.bindingsSectionTitle = "Your cards";
     CardKConfig.shared.isEditBindingListMode = true;
     CardKConfig.shared.bindingCVCRequired = false;
+    CardKConfig.shared.displayApplyPayButton = true;
     CardKConfig.shared.pubKey = publicKey;
     let controller = CardKViewController();
     controller.cKitDelegate = self
@@ -171,6 +196,7 @@ class ViewController: UITableViewController {
     CardKConfig.shared.mrBinURL = "https://mrbin.io/bins/";
     CardKConfig.shared.bindingsSectionTitle = "Your cards";
     CardKConfig.shared.isEditBindingListMode = false;
+    CardKConfig.shared.displayApplyPayButton = true;
 
     let controller = CardKViewController();
     controller.cKitDelegate = self
@@ -191,6 +217,7 @@ class ViewController: UITableViewController {
     CardKConfig.shared.isTestMod = true;
     CardKConfig.shared.mdOrder = "mdOrder";
     CardKConfig.shared.isEditBindingListMode = false;
+    CardKConfig.shared.displayApplyPayButton = true;
 
     let controller = CardKViewController();
     controller.cKitDelegate = self
@@ -207,6 +234,7 @@ class ViewController: UITableViewController {
       CardKConfig.shared.mrBinApiURL = "https://mrbin.io/bins/display";
       CardKConfig.shared.mrBinURL = "https://mrbin.io/bins/";
       CardKConfig.shared.bindingsSectionTitle = "Your cards";
+      CardKConfig.shared.displayApplyPayButton = true;
     
       let controller = CardKViewController();
       controller.cKitDelegate = self
@@ -253,6 +281,7 @@ class ViewController: UITableViewController {
       case .version: _version()
       case .navLightTheme: _openLightUINavigation()
       case .editMode: _openEditBindingsMode()
+      case .navLightThemeWithoutApplePay: _openLightUINavigationWithoutApplePay()
       case .navNewCardWithoutSaveCard: _openNewCardFormWithoutSaveCard()
       case .navNewCardWithoutCardholder: _openNewCardFormWithoutCardholder()
       case .navDarkTheme: _openDarkUINavigation()
@@ -283,6 +312,7 @@ class ViewController: UITableViewController {
     Section(title: "Navigation", items: [
       SectionItem(title: "Light theme with bindings", kind: .navLightTheme, isShowChevron: true, language: ""),
       SectionItem(title: "Light theme with edit mode", kind: .editMode, isShowChevron: true, language: ""),
+      SectionItem(title: "Light theme without apple pay button", kind: .navLightThemeWithoutApplePay, isShowChevron: true, language: ""),
       SectionItem(title: "Dark theme", kind: .navDarkTheme, isShowChevron: true, language: ""),
       SectionItem(title: "System theme", kind: .navSystemTheme, isShowChevron: true, language: ""),
       SectionItem(title: "The New Card form without save card", kind: .navNewCardWithoutSaveCard, isShowChevron: true, language: ""),
