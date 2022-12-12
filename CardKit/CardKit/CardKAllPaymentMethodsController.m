@@ -21,6 +21,7 @@
 #import "NewCardCellView.h"
 
 #import "Constants.h"
+#import "Logger.h"
 
 @implementation CardKAllPaymentMethodsController {
   UIButton *_button;
@@ -253,8 +254,17 @@
 }
 
 - (void) _removeBindingByIndexPath:(NSIndexPath *) indexPath {
-  [_removedBindings addObject: _currentBindings[indexPath.row]];
+  CardKBinding *binding = _currentBindings[indexPath.row];
+  
+  [_removedBindings addObject: binding];
+  
+  [Logger logWithClass:[CardKAllPaymentMethodsController class]
+          tag:TAG message:[NSString stringWithFormat:@"Remove binding: bindingID - %@, cardNumber - %@", binding.bindingId, binding.cardNumber]
+          exception:nil];
+  
   [_currentBindings removeObjectAtIndex:indexPath.row];
+  
+  
     
   _sections = [self _defaultSectionsWithoudNewCard];
 

@@ -68,6 +68,10 @@ static CardKConfig *__instance = nil;
         NSString *keyValue = [lastKey objectForKey:@"keyValue"];
 
         __instance.pubKey = keyValue;
+      } else {
+        [Logger logWithClass:[CardKConfig class]
+                tag:Logger.shared.TAG message:[NSString stringWithFormat:@"Failed request pub key - %@. \n Error message - %@. \n Response status - %@ \n url - %@ ", response, error.description, httpResponse.description,  url]
+          exception:nil];
       }
   }];
   
@@ -94,6 +98,11 @@ static CardKConfig *__instance = nil;
 
   if (osStatus != errSecSuccess) {
     completionHandler(NSURLSessionAuthChallengeCancelAuthenticationChallenge, NULL);
+    
+    [Logger logWithClass:[CardKConfig class]
+                     tag:Logger.shared.TAG message:[NSString stringWithFormat:@"Certificate is not verify - %ld", (long)NSURLSessionAuthChallengeCancelAuthenticationChallenge]
+      exception:nil];
+
     return;
   }
 

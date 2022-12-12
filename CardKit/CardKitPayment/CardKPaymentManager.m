@@ -23,6 +23,8 @@
 #import <CardKitPayment/CardKitPayment-Swift.h>
 #import "ARes.h"
 #import "WebView3DSController.h"
+#import "Logger.h"
+#import "Constans.h"
 
 @protocol TransactionManagerDelegate;
 
@@ -168,6 +170,10 @@
 
       if(httpResponse.statusCode != 200) {
         [self _sendError];
+        
+        [Logger logWithClass:[CardKPaymentManager class]
+                tag:Logger.shared.TAG message:[NSString stringWithFormat:@"Failed request getSessionStatus - %@. \n Error message - %@. \n Response status - %@ \n url - %@ ", response, error.description, httpResponse.description,  URL]
+          exception:nil];
         return;
       }
       
@@ -222,6 +228,9 @@
     
         if(httpResponse.statusCode != 200) {
           [self _sendError];
+          [Logger logWithClass:[CardKPaymentManager class]
+                  tag:Logger.shared.TAG message:[NSString stringWithFormat:@"Failed request getSessionStatus - %@. \n Error message - %@. \n Response status - %@ \n url - %@ ", response, error.description, httpResponse.description,  URL]
+            exception:nil];
           return;
         }
         
@@ -281,6 +290,9 @@
 
       if(httpResponse.statusCode != 200) {
         [self _sendError];
+          [Logger logWithClass:[CardKPaymentManager class]
+                tag:Logger.shared.TAG message:[NSString stringWithFormat:@"Failed request processBindingForm - %@. \n Error message - %@. \n Response status - %@ \n url - %@ \n params - %@", response, error.description, httpResponse.description,  URL, params]
+          exception:nil];
         return;
       }
       
@@ -387,6 +399,9 @@
           self->_cardKPaymentError.message = @"Form data request failed";
             [self->_cardKPaymentDelegate didErrorPaymentFlow:self->_cardKPaymentError];
 
+          [Logger logWithClass:[CardKPaymentManager class]
+                tag:Logger.shared.TAG message:[NSString stringWithFormat:@"Failed request processBindingForm step two - %@. \n Error message - %@. \n Response status - %@ \n url - %@ \n params - %@", response, error.description, httpResponse.description,  URL, parameters]
+          exception:nil];
           return;
         }
         
@@ -461,6 +476,9 @@
 
       if(httpResponse.statusCode != 200) {
         [self _sendError];
+        [Logger logWithClass:[CardKPaymentManager class]
+              tag:Logger.shared.TAG message:[NSString stringWithFormat:@"Failed request processForm - %@. \n Error message - %@. \n Response status - %@ \n url - %@ \n params - %@", response, error.description, httpResponse.description,  URL, parameters]
+        exception:nil];
         return;
       }
       
@@ -543,6 +561,10 @@
           self->_cardKPaymentError.message = @"Form data request failed";
             [self->_cardKPaymentDelegate didErrorPaymentFlow:self->_cardKPaymentError];
 
+          [Logger logWithClass:[CardKPaymentManager class]
+                tag:Logger.shared.TAG message:[NSString stringWithFormat:@"Failed request processForm step two - %@. \n Error message - %@. \n Response status - %@ \n url - %@ \n params - %@", response, error.description, httpResponse.description,  URL, parameters]
+          exception:nil];
+          
           return;
         }
         
@@ -590,6 +612,10 @@
             
           if(httpResponse.statusCode != 200) {
             [self _sendError];
+            
+            [Logger logWithClass:[CardKPaymentManager class]
+                  tag:Logger.shared.TAG message:[NSString stringWithFormat:@"Failed request getFinishedPayment info - %@. \n Error message - %@. \n Response status - %@ \n url - %@ \n params - %@", response, error.description, httpResponse.description,  URL, parameters]
+            exception:nil];
             return;
           }
           
@@ -621,6 +647,9 @@
       if (httpResponse.statusCode != 200) {
         [self _sendError];
 
+        [Logger logWithClass:[CardKPaymentManager class]
+              tag:Logger.shared.TAG message:[NSString stringWithFormat:@"Failed request unbindcardanon info - %@. \n Error message - %@. \n Response status - %@ \n url - %@ \n params - %@", response, error.description, httpResponse.description,  URL, parameters]
+        exception:nil];
         return;
       }
       
@@ -661,6 +690,9 @@
       if (httpResponse.statusCode != 200) {
         [self _sendError];
 
+        [Logger logWithClass:[CardKPaymentManager class]
+              tag:Logger.shared.TAG message:[NSString stringWithFormat:@"Failed request paimentOrder info - %@. \n Error message - %@. \n Response status - %@ \n url - %@ \n params - %@", response, error.description, httpResponse.description,  URL, jsonBodyDict]
+        exception:nil];
         return;
       }
       
@@ -686,6 +718,9 @@
       self->_cardKPaymentError.message = @"Applepay payment failure";
       [self _sendErrorWithCardPaymentError: self->_cardKPaymentError];
 
+      [Logger logWithClass:[CardKPaymentManager class]
+            tag:Logger.shared.TAG message:[NSString stringWithFormat:@"Failed init apple pay didAuthorizePayment: pkPayment is nill"]
+      exception:nil];
       return;
     }
   
@@ -695,6 +730,8 @@
       self->_cardKPaymentError.message = @"Applepay payment failure";
       [self _sendErrorWithCardPaymentError: self->_cardKPaymentError];
       
+      [Logger logWithClass:[CardKPaymentManager class]
+                       tag:Logger.shared.TAG message:[NSString stringWithFormat:@"Failed init apple pay didAuthorizePayment: could not serialize pkPayment object - %@", pKPayment] exception: nil];
       return;
     }
     
@@ -762,6 +799,9 @@
           
         if(httpResponse.statusCode != 200) {
           [self _sendError];
+          [Logger logWithClass:[CardKPaymentManager class]
+                tag:Logger.shared.TAG message:[NSString stringWithFormat:@"Failed request finish3dsVer2PaymentAnonymous info - %@. \n Error message - %@. \n Response status - %@ \n url - %@ \n params - %@", response, error.description, httpResponse.description,  URL, postData]
+          exception:nil];
           return;
         }
 

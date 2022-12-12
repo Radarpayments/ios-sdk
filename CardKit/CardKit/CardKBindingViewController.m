@@ -25,7 +25,7 @@
 #import "VerifyCompaniesView.h"
 
 #import "Constants.h"
-
+#import "Logger.h"
 
 @implementation CardKBindingViewController {
   CardKBankLogoView *_bankLogoView;
@@ -316,6 +316,9 @@
 - (void)_buttonPressed:(UIButton *)button {
   if (![self _isFormValid]) {
     [self _animateError];
+    [Logger logWithClass:[CardKBindingViewController class]
+          tag:TAG message:[NSString stringWithFormat:@"The binding form is not valid"]
+          exception:nil];
     return;
   }
   
@@ -333,6 +336,10 @@
 
   CKCTokenResult *seToken = [CKCToken generateWithBinding:ckcBindingParams];
   self.cardKBinding.secureCode = _cvcTextField.secureCode;
+  
+  [Logger logWithClass:[CardKBindingViewController class]
+          tag:TAG message:[NSString stringWithFormat:@"Generate seToken:  %@", seToken.token]
+          exception:nil];
   
   [_cKitDelegate bindingViewController:self didCreateSeToken:seToken.token allowSaveBinding:NO isNewCard: NO];
 }

@@ -414,6 +414,9 @@
 - (void)_buttonPressed:(UIButton *)button {
   if (![self _isFormValid]) {
     [self _animateError];
+    [Logger logWithClass:[CardKViewController class]
+          tag:TAG message:[NSString stringWithFormat:@"The new card from is not valid"]
+          exception:nil];
     return;
   }
   
@@ -427,6 +430,9 @@
 
 
   CKCTokenResult *seToken = [CKCToken generateWithCard:ckcCardParams];
+  [Logger logWithClass:[CardKViewController class]
+          tag:TAG message:[NSString stringWithFormat:@"Generate seToken:  %@", seToken.token]
+          exception:nil];
 
   [_cKitDelegate cardKitViewController:self didCreateSeToken:seToken.token allowSaveBinding: _switchView.getSwitch.isOn isNewCard: YES];
   
@@ -438,6 +444,11 @@
   }
   
   [_cardNumberCell resignFirstResponder];
+  
+  
+  [Logger logWithClass:[CardKViewController class]
+        tag:TAG message:[NSString stringWithFormat:@"Call cardKitViewControllerScanCardRequest delegate"]
+        exception:nil];
   
   [_cKitDelegate cardKitViewControllerScanCardRequest:self];
 }
