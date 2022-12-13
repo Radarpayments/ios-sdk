@@ -274,7 +274,7 @@
 		92D6733F287FDF9E0069DBF5 /* CardKApplePayButtonView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CardKApplePayButtonView.h; sourceTree = "<group>"; };
 		92D67340287FDFCE0069DBF5 /* CardKApplePayButtonView.m */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = CardKApplePayButtonView.m; sourceTree = "<group>"; tabWidth = 2; };
 		92D85547255D63DA0002936B /* CardKitCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardKitCore.h; sourceTree = "<group>"; };
-		92DC600E2834FCA0003485A0 /* TransactionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionManager.swift; sourceTree = "<group>"; };
+		92DC600E2834FCA0003485A0 /* TransactionManager.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = TransactionManager.swift; sourceTree = "<group>"; tabWidth = 2; };
 		92DF14472889D9C400381DA8 /* CardKButtonView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CardKButtonView.h; sourceTree = "<group>"; };
 		92DF14482889D9DD00381DA8 /* CardKButtonView.m */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = CardKButtonView.m; sourceTree = "<group>"; tabWidth = 2; };
 		92DF144E2889EBC000381DA8 /* CardKCardNumberTextField.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CardKCardNumberTextField.h; sourceTree = "<group>"; };
