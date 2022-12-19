@@ -290,7 +290,7 @@
 - (void) testRunSingleSelectFlowWithBinding{
   [self _runFlowWithRadioButtons];
 
-  [self _tapWaitingElement:[_app.otherElements elementBoundByIndex:10]];
+  [self _tapWaitingElement:_app.staticTexts[@"My mobile"]];
 
   [self _pressConfirmButton];
   
@@ -308,7 +308,7 @@
 - (void) testRunMultiSelectFlowWithBinding{
   [self _runFlowWithCheckBoxs];
 
-  [self _tapWaitingElement:[_app.otherElements elementBoundByIndex:10]];
+  [self _tapWaitingElement:_app.staticTexts[@"My mobile"]];
 
   [self _pressConfirmButton];
 

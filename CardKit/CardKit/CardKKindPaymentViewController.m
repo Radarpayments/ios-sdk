@@ -125,8 +125,12 @@
   NSMutableArray *bindings = [[NSMutableArray alloc] initWithArray:@[]];
   
   [bindings addObject:@{CardKCloseIconCellID: @[]}];
-  [bindings addObject:@{CardKPayCardButtonCellID: @[]}];
-  [bindings addObject:@{CardKDividerCellID: @[]}];
+  
+  if (CardKConfig.shared.displayApplyPayButton && [PKPaymentAuthorizationController canMakePayments]) {
+    [bindings addObject:@{CardKPayCardButtonCellID: @[]}];
+    [bindings addObject:@{CardKDividerCellID: @[]}];
+  }
+  
   for (CardKBinding * binding in _currentBindings) {
     BindingCellView *cellBinding = [[BindingCellView alloc] init];
     cellBinding.binding = binding;

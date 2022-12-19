@@ -47,15 +47,23 @@ NS_ASSUME_NONNULL_BEGIN
 /*! URL to request prod key */
 @property NSString *prodURL;
 
+/*! URL to mrBin service */
 @property NSString *mrBinURL;
 
+/*! URL to mrBin api */
 @property NSString *mrBinApiURL;
 
+/*! Binding section title */
 @property NSString *bindingsSectionTitle;
 
+/*! Timestamp for setoken */
 @property (nullable) NSString *seTokenTimestamp;
 
+/*! Path to bundle with trust cert */
 @property (nullable) NSString *bundlePathToTrustCert;
+
+/*! Show apple pay button */
+@property BOOL displayApplyPayButton;
 
 + (void) fetchKeys:(NSString *)url;
 

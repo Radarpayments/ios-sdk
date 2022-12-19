@@ -68,6 +68,7 @@
 		92992A87283289CE0031AFFF /* CardKitPayment.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92992A7D283289CD0031AFFF /* CardKitPayment.framework */; };
 		92992A92283289CE0031AFFF /* CardKitPayment.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92992A7D283289CD0031AFFF /* CardKitPayment.framework */; };
 		92992A93283289CE0031AFFF /* CardKitPayment.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 92992A7D283289CD0031AFFF /* CardKitPayment.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		92995E842934810400B0D25D /* CardKPaymentSessionStatusTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 92995E832934810400B0D25D /* CardKPaymentSessionStatusTest.m */; };
 		929BA32425591CFC00AB0526 /* TextField.h in Headers */ = {isa = PBXBuildFile; fileRef = 929BA32225591CFC00AB0526 /* TextField.h */; };
 		929BA32525591CFC00AB0526 /* TextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 929BA32325591CFC00AB0526 /* TextField.m */; };
 		929D7FDB28362EDF0042DBBD /* RSA.m in Sources */ = {isa = PBXBuildFile; fileRef = 92BD8FA9255D1B3A001E1ECF /* RSA.m */; };
@@ -253,6 +254,7 @@
 		92985C88246BEE1E009B7392 /* CardKKindPaymentViewController.m */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = CardKKindPaymentViewController.m; sourceTree = "<group>"; tabWidth = 2; };
 		92992A7D283289CD0031AFFF /* CardKitPayment.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CardKitPayment.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		92992A86283289CE0031AFFF /* CardKitPaymentTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CardKitPaymentTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		92995E832934810400B0D25D /* CardKPaymentSessionStatusTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CardKPaymentSessionStatusTest.m; sourceTree = "<group>"; };
 		929BA32225591CFC00AB0526 /* TextField.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TextField.h; sourceTree = "<group>"; };
 		929BA32325591CFC00AB0526 /* TextField.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TextField.m; sourceTree = "<group>"; };
 		92A1461823435C6B002FBCC3 /* CardKConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CardKConfig.h; sourceTree = "<group>"; };
@@ -282,7 +284,7 @@
 		92D6733F287FDF9E0069DBF5 /* CardKApplePayButtonView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CardKApplePayButtonView.h; sourceTree = "<group>"; };
 		92D67340287FDFCE0069DBF5 /* CardKApplePayButtonView.m */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = CardKApplePayButtonView.m; sourceTree = "<group>"; tabWidth = 2; };
 		92D85547255D63DA0002936B /* CardKitCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardKitCore.h; sourceTree = "<group>"; };
-		92DC600E2834FCA0003485A0 /* TransactionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionManager.swift; sourceTree = "<group>"; };
+		92DC600E2834FCA0003485A0 /* TransactionManager.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = TransactionManager.swift; sourceTree = "<group>"; tabWidth = 2; };
 		92DF14472889D9C400381DA8 /* CardKButtonView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CardKButtonView.h; sourceTree = "<group>"; };
 		92DF14482889D9DD00381DA8 /* CardKButtonView.m */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = CardKButtonView.m; sourceTree = "<group>"; tabWidth = 2; };
 		92DF144E2889EBC000381DA8 /* CardKCardNumberTextField.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CardKCardNumberTextField.h; sourceTree = "<group>"; };
@@ -482,6 +484,7 @@
 				92C9AEC728352C780000D878 /* CardKPaymentManagerTest.m */,
 				92C9AEC928352CDC0000D878 /* PaymentController.m */,
 				92C9AECB28352CED0000D878 /* PaymentController.h */,
+				92995E832934810400B0D25D /* CardKPaymentSessionStatusTest.m */,
 			);
 			path = CardKitPaymentTests;
 			sourceTree = "<group>";
@@ -822,6 +825,7 @@
 					};
 					92992A85283289CE0031AFFF = {
 						CreatedOnToolsVersion = 13.2.1;
+						LastSwiftMigration = 1410;
 						TestTargetID = 9292CF46255E9B2F00053EC3;
 					};
 					D245AB38231C435E00369747 = {
@@ -982,6 +986,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				92C9AEC828352C780000D878 /* CardKPaymentManagerTest.m in Sources */,
+				92995E842934810400B0D25D /* CardKPaymentSessionStatusTest.m in Sources */,
 				92C9AECA28352CDC0000D878 /* PaymentController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1380,16 +1385,25 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = FD6ZML48V9;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.rbs.CardKitPaymentTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "CardKitPaymentTests/CardKitPaymentTests-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TestApp.app/TestApp";
 			};
@@ -1400,16 +1414,24 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = FD6ZML48V9;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.rbs.CardKitPaymentTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "CardKitPaymentTests/CardKitPaymentTests-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TestApp.app/TestApp";
 			};
