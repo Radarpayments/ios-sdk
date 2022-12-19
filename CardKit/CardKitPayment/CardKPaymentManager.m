@@ -237,6 +237,7 @@
         self->_sessionStatus.bindingEnabled = (BOOL)[responseDictionary[@"bindingEnabled"] boolValue];
         self->_sessionStatus.cvcNotRequired = (BOOL)[responseDictionary[@"cvcNotRequired"] boolValue];
         self-> _sessionStatus.redirect = [responseDictionary objectForKey:@"redirect"];
+        self-> _sessionStatus.merchantOptions = [responseDictionary objectForKey:@"merchantOptions"];
   
         if (self->_sessionStatus.redirect != nil) {
           [self _sendRedirectError];
