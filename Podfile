@@ -6,7 +6,7 @@ target 'SampleApp' do
 
   use_frameworks!
   pod 'CardIO'
-  pod 'ThreeDSSDK', :podspec => 'https://raw.githubusercontent.com/Radarpayments/ios-sdk/master/ThreeDSSDK.podspec'
+  #pod 'ThreeDSSDK', :podspec => 'https://raw.githubusercontent.com/Radarpayments/ios-sdk/master/ThreeDSSDK.podspec'
 end
 
 target 'SampleAppUITests' do
@@ -14,5 +14,5 @@ target 'SampleAppUITests' do
 
   use_frameworks!
   pod 'CardIO'
-  pod 'ThreeDSSDK', :podspec => 'https://raw.githubusercontent.com/Radarpayments/ios-sdk/master/ThreeDSSDK.podspec'
+  #pod 'ThreeDSSDK', :podspec => 'https://raw.githubusercontent.com/Radarpayments/ios-sdk/master/ThreeDSSDK.podspec'
 end

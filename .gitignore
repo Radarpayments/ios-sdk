@@ -7,6 +7,8 @@
 ## User settings
 xcuserdata/
 
+Frameworks
+
 ## compatibility with Xcode 8 and earlier (ignoring not required starting Xcode 9)
 *.xcscmblueprint
 *.xccheckout
@@ -41,7 +43,8 @@ DerivedData/
 # Pods/
 #
 # Add this line if you want to avoid checking in source code from the Xcode workspace
-# *.xcworkspace
+
+*.xcworkspace
 
 # Carthage
 #
