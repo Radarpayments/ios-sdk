@@ -1,0 +1,16 @@
+sourceryCommand: null
+sourceryTemplate: null
+SDKFormsTests:
+  sources:
+    include:
+    - ./SDKForms
+    - ./SDKFormsTests
+    - ./Pods/SDKCore
+  output: ./SDKFormsTests/Mock.generated.swift
+  targets:
+  - SDKFormsTests
+  testable:
+  - SDKForms
+  - SDKCore
+  import:
+  - Foundation

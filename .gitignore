@@ -77,3 +77,13 @@ iOSInjectionProject/
 
 node_modules
 dist
+
+*.framework
+*.xcframework
+*/build
+*/DerivedData
+*.swiftpm
+*/.swiftpm
+*/.mocky*
+.mocky*
+

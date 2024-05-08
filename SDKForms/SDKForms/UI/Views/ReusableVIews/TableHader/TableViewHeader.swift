@@ -1,0 +1,62 @@
+//
+//  TableViewHeader.swift
+//  SDKForms
+//
+// 
+//
+
+import UIKit
+
+final class TableViewHeader: UITableViewHeaderFooterView {
+    
+    private lazy var titleLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = ThemeSetting.shared.colorLabel()
+        label.font = .systemBold20
+        
+        return label
+    }()
+    
+    private var model: TableViewHeaderModel?
+    
+    override init(reuseIdentifier: String?) {
+        super.init(reuseIdentifier: reuseIdentifier)
+        
+        setupSubviews()
+        setupLayout()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        
+        setupSubviews()
+        setupLayout()
+    }
+    
+    func bind(model: TableViewHeaderModel) -> Self {
+        self.model = model
+        titleLabel.text = model.title
+        
+        return self
+    }
+    
+    private func setupSubviews() {
+        backgroundColor = ThemeSetting.shared.colorCellBackground()
+        contentView.backgroundColor = ThemeSetting.shared.colorCellBackground()
+        
+        contentView.addSubview(titleLabel)
+    }
+    
+    private func setupLayout() {
+        contentView.subviews.forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
+        
+        NSLayoutConstraint.activate(
+            [
+                titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 36),
+                titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+                titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+                titleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12)
+            ]
+        )
+    }
+}

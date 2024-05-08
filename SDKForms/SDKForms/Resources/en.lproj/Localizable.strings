@@ -1,0 +1,36 @@
+"title" = "Enter card details";
+"card" = "Card";
+"cardholder" = "Cardholder";
+"cardholderPlaceholder" = "NAME";
+"Card Number" = "Number";
+"MM/YY" = "MM/YY";
+"CVC" = "CVC";
+"doneButton" = "Submit payment";
+"scanBackButton" = "Enter details manually";
+"expiry" = "Card expiry date";
+"cvcDescription" = "Last three code digits on the signature line";
+
+"incorrectLength" = "Card number length should be 16-19 digits";
+"incorrectCardNumber" = "The card number is incorrect";
+"incorrectExpiry" = "Card expiry date is incorrect";
+"incorrectCvc" = "CVC2/CVV2 is incorrect";
+"incorrectCardholder" = "The card holder is incorrect";
+
+"switchViewTitle" = "Save card";
+"newCard" = "New card";
+
+"edit" = "Edit";
+"save" = "Save";
+
+"payByCard" = "Or pay by card";
+"addCard" = "Add new card";
+"allPaymentMethods" = "All payment methods";
+"payment" = "Payment";
+"cardNumber" = "Card number";
+"pay" = "Pay";
+"allCards" = "All cards";
+"removeBindingAlertTitle" = "Are you sure you want to remove this card?";
+"removeBindingAlertDescription" = "If you change your mind later, you'll have to add it again.";
+"cancel" = "Cancel";
+"remove" = "Remove";
+"paymentMethod" = "Payment methods";

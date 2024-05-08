@@ -1,0 +1,36 @@
+"title" = "Введите данные карты";
+"card" = "Карта";
+"cardholder" = "Владелец карты";
+"cardholderPlaceholder" = "Имя фамилия";
+"Card Number" = "Номер карты";
+"MM/YY" = "ММ/ГГ";
+"CVC" = "CVC";
+"doneButton" = "Оплатить";
+"scanBackButton" = "Ввести данные карты вручную";
+"expiry" = "Срок действия карты";
+"cvcDescription" = "Последние 3 цифры кода на полосе для подписи";
+
+"incorrectLength" = "Длина номера карты должна быть 16-19 цифр";
+"incorrectCardNumber" = "Номер карты указан неверно";
+"incorrectExpiry" = "Срок действия карты указан неверно";
+"incorrectCvc" = "CVC2/CVV2 указан неверно";
+"incorrectCardholder" = "Владелец карты указан неверно";
+
+"switchViewTitle" = "Сохранить карту";
+"newCard" = "Новая карта";
+
+"edit" = "Изменить";
+"save" = "Сохранить";
+
+"payByCard" = "Или оплатить картой";
+"addCard" = "Добавить карту";
+"allPaymentMethods" = "Все способы оплаты";
+"payment" = "Оплата";
+"cardNumber" = "Номер карты";
+"pay" = "Оплатить";
+"allCards" = "Все карты";
+"removeBindingAlertTitle" = "Вы точно хотите удалить эту карту?";
+"removeBindingAlertDescription" = "Чтобы снова использовать эту карту, нужно будет добавить ее еще раз.";
+"cancel" = "Отмена";
+"remove" = "Удалить";
+"paymentMethod" = "Способ оплаты";

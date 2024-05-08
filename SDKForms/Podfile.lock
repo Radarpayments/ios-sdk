@@ -1,0 +1,36 @@
+PODS:
+  - SDKCore (2.0.8)
+  - Sourcery (1.9.0):
+    - Sourcery/CLI-Only (= 1.9.0)
+  - Sourcery/CLI-Only (1.9.0)
+  - SwiftyMocky (4.2.0):
+    - Sourcery (= 1.9.0)
+
+DEPENDENCIES:
+  - SDKCore (from `../SDKCore`)
+  - SwiftyMocky (from `https://github.com/AppPear/SwiftyMocky`, tag `4.2.0`)
+
+SPEC REPOS:
+  trunk:
+    - Sourcery
+
+EXTERNAL SOURCES:
+  SDKCore:
+    :path: "../SDKCore"
+  SwiftyMocky:
+    :git: https://github.com/AppPear/SwiftyMocky
+    :tag: 4.2.0
+
+CHECKOUT OPTIONS:
+  SwiftyMocky:
+    :git: https://github.com/AppPear/SwiftyMocky
+    :tag: 4.2.0
+
+SPEC CHECKSUMS:
+  SDKCore: f36a03b3ed7b904958b1c85804a2bc3ba955e702
+  Sourcery: d7c59d100e55bf59123c8ae7d65a24cf30748979
+  SwiftyMocky: e46909b2e15996fc41c9d48f196e72fa7d3df808
+
+PODFILE CHECKSUM: a37c4343dce3b316fdd5fdf513a5bc8362593290
+
+COCOAPODS: 1.14.3
