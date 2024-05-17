@@ -12,4 +12,4 @@ import SDKForms
 /// - Parameters:
 ///     - message error description text.
 ///     - cause error reason.
-final class SDKOrderNotExistException: SDKException {}
+public final class SDKOrderNotExistException: SDKException {}

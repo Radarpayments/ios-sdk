@@ -53,7 +53,7 @@ public final class SdkForms: NSObject {
         throw SDKException(message: "Please call SDKForms.initialize(sdkConfig:) before.")
     }
     
-    public static func getSDKVersion() -> String { "3.0.0" }
+    public static func getSDKVersion() -> String { "3.0.1" }
     
     /// Launching the payment process.
     ///

@@ -1,5 +1,5 @@
 //
-//  ThreeDS1FormDelegateImpl.swift
+//  ThreeDS2WebFormDelegateImpl.swift
 //  SDKPayment
 //
 // 
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class ThreeDS1FormDelegateImpl: ThreeDS1FormDelegate {
+final class ThreeDS2WebFormDelegateImpl: ThreeDS2WebFormDelegate {
     
     private var parentController: UINavigationController
     private weak var viewControllerDelegate: ViewControllerDelegate?
@@ -24,7 +24,7 @@ final class ThreeDS1FormDelegateImpl: ThreeDS1FormDelegate {
         DispatchQueue.main.async { [weak self] in
             guard let self else { return }
 
-            let webChallengeVC = ViewController3DS1Challenge(
+            let webChallengeVC = ViewController3DS2WebChallenge(
                 webChallengeParam: webChallengeParam,
                 viewControllerDelegate: viewControllerDelegate
             )

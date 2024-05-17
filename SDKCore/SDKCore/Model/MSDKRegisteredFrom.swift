@@ -2,7 +2,7 @@
 //  MSDKRegisteredFrom.swift
 //  SDKCore
 //
-//  Created by George Starkov on 5/3/24.
+//
 //
 
 import Foundation

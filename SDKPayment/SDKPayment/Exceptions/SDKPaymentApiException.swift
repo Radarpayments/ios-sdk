@@ -12,5 +12,5 @@ import SDKForms
 /// - Parameters:
 ///     - message error description text.
 ///     - cause error reason.
-final class SDKPaymentApiException: SDKException {}
+public final class SDKPaymentApiException: SDKException {}
 

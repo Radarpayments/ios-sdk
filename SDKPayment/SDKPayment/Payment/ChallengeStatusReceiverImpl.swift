@@ -12,7 +12,7 @@ final class ChallengeStatusReceiverImpl: ChallengeStatusReceiver {
     
     private var mdOrder: String?
     private var paymentQueue: DispatchQueue
-    private var threeDS2FormDelegate: ThreeDS2FormDelegate
+    private var threeDS2SDKFormDelegate: ThreeDS2SDKFormDelegate
     private var transaction: Transaction?
     private var threeDS2Service: ThreeDS2Service
     private var processFormResponse: ProcessFormResponse
@@ -22,7 +22,7 @@ final class ChallengeStatusReceiverImpl: ChallengeStatusReceiver {
     init(
         mdOrder: String?,
         paymentQueue: DispatchQueue,
-        threeDS2FormDelegate: ThreeDS2FormDelegate,
+        threeDS2SDKFormDelegate: ThreeDS2SDKFormDelegate,
         transaction: Transaction?,
         threeDS2Service: ThreeDS2Service,
         processFormResponse: ProcessFormResponse,
@@ -31,7 +31,7 @@ final class ChallengeStatusReceiverImpl: ChallengeStatusReceiver {
     ) {
         self.mdOrder = mdOrder
         self.paymentQueue = paymentQueue
-        self.threeDS2FormDelegate = threeDS2FormDelegate
+        self.threeDS2SDKFormDelegate = threeDS2SDKFormDelegate
         self.transaction = transaction
         self.threeDS2Service = threeDS2Service
         self.processFormResponse = processFormResponse
@@ -79,7 +79,7 @@ final class ChallengeStatusReceiverImpl: ChallengeStatusReceiver {
     private func logIfDebugAndCleanup(logMessage: String) {
         LogDebug.shared.logIfDebug(message: logMessage)
 
-        try? threeDS2FormDelegate.cleanup(
+        try? threeDS2SDKFormDelegate.cleanup(
             transaction: transaction,
             threeDS2Service: threeDS2Service
         )

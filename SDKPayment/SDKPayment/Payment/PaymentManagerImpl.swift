@@ -14,15 +14,15 @@ public final class PaymentManagerImpl: PaymentManager {
     
     private var paymentQueue: DispatchQueue
     private let cardFormDelegate: CardFormDelegate
-    private var threeDS1FormDelegate: ThreeDS1FormDelegate
-    private let threeDS2FormDelegate: ThreeDS2FormDelegate
+    private var threeDS2WebFormDelegate: ThreeDS2WebFormDelegate
+    private let threeDS2SDKFormDelegate: ThreeDS2SDKFormDelegate
     private weak var viewControllerDelegate: ViewControllerDelegate!
     
     private var mdOrder: String!
     private var applePaySettings: ApplePaySettings?
 
     private lazy var dsRoot: String? = {
-        if case let .use3DS2(dsRoot) = viewControllerDelegate.getPaymentConfig().use3DSConfig {
+        if case let .use3ds2sdk(dsRoot) = viewControllerDelegate.getPaymentConfig().use3DSConfig {
             return dsRoot
         } else {
             return nil
@@ -39,20 +39,20 @@ public final class PaymentManagerImpl: PaymentManager {
     public init(
         paymentQueue: DispatchQueue,
         cardFormDelegate: CardFormDelegate,
-        threeDS1FormDelegate: ThreeDS1FormDelegate,
-        threeDS2FormDelegate: ThreeDS2FormDelegate,
+        threeDS2WebFormDelegate: ThreeDS2WebFormDelegate,
+        threeDS2SDKFormDelegate: ThreeDS2SDKFormDelegate,
         viewControllerDelegate: ViewControllerDelegate
     ) {
         self.paymentQueue = paymentQueue
         self.cardFormDelegate = cardFormDelegate
-        self.threeDS1FormDelegate = threeDS1FormDelegate
-        self.threeDS2FormDelegate = threeDS2FormDelegate
+        self.threeDS2WebFormDelegate = threeDS2WebFormDelegate
+        self.threeDS2SDKFormDelegate = threeDS2SDKFormDelegate
         self.viewControllerDelegate = viewControllerDelegate
         
         paymentQueue.async { [weak self] in
             guard let self else { return }
 
-            try? threeDS2FormDelegate.initThreeDS2Service(threeDS2Service: threeDS2Service)
+            try? threeDS2SDKFormDelegate.initThreeDS2Service(threeDS2Service: threeDS2Service)
         }
     }
     
@@ -151,7 +151,7 @@ public final class PaymentManagerImpl: PaymentManager {
     ///     - cryptogramApiData result of the creating a cryptogram.
     func processFormData(cryptogramApiData: CryptogramApiData, isBinding: Bool) throws {
         do {
-            let isUse3DS2 = if case .use3DS2(_) = viewControllerDelegate.getPaymentConfig().use3DSConfig { true } else { false }
+            let isUse3DS2 = if case .use3ds2sdk(_) = viewControllerDelegate.getPaymentConfig().use3DSConfig { true } else { false }
             let paymentResult = if isBinding {
                 try paymentApi.processBindingForm(
                     cryptogramApiData: cryptogramApiData,
@@ -199,7 +199,7 @@ public final class PaymentManagerImpl: PaymentManager {
     /// Canceling the process of creating a cryptogram.
     func finishWithError<T: SDKException>(exception: T?) {
         do {
-            try threeDS2FormDelegate.cleanup(transaction: transaction, threeDS2Service: threeDS2Service)
+            try threeDS2SDKFormDelegate.cleanup(transaction: transaction, threeDS2Service: threeDS2Service)
             try finishWithCheckOrderStatus(exception: exception)
         } catch {
             let paymentResult = PaymentResult(mdOrder: mdOrder, isSuccess: false, exception: error as? SDKException)
@@ -241,7 +241,7 @@ public final class PaymentManagerImpl: PaymentManager {
                 LogDebug.shared.logIfDebug(
                     message: "processForm - Payment need 3DSVer1: \(processFormResponse)"
                 )
-                threeDS1FormDelegate.openWebChallenge(
+                threeDS2WebFormDelegate.openWebChallenge(
                     webChallengeParam: WebChallengeParam(
                         mdOrder: cryptogramApiData.mdOrder,
                         acsUrl: acsUrl,
@@ -308,7 +308,7 @@ public final class PaymentManagerImpl: PaymentManager {
                       let _ = paymentResult.threeDSAcsTransactionId,
                       let _ = paymentResult.threeDSAcsSignedContent {
 
-                try threeDS2FormDelegate.openChallengeFlow(
+                try threeDS2SDKFormDelegate.openChallengeFlow(
                     transaction: transaction,
                     challengeParameters: createChallengeParameters(paymentResult: paymentResult, processFormResponse: processFormResponse),
                     challengeStatusReceiver: createChallengeStatusReceiver(processFormResponse: processFormResponse)
@@ -319,7 +319,7 @@ public final class PaymentManagerImpl: PaymentManager {
                 )
             }
             
-            try threeDS2FormDelegate.openChallengeFlow(
+            try threeDS2SDKFormDelegate.openChallengeFlow(
                 transaction: transaction,
                 challengeParameters: createChallengeParameters(
                     paymentResult: paymentResult,
@@ -409,7 +409,7 @@ public final class PaymentManagerImpl: PaymentManager {
         ChallengeStatusReceiverImpl(
             mdOrder: mdOrder,
             paymentQueue: paymentQueue,
-            threeDS2FormDelegate: threeDS2FormDelegate,
+            threeDS2SDKFormDelegate: threeDS2SDKFormDelegate,
             transaction: transaction,
             threeDS2Service: threeDS2Service,
             processFormResponse: processFormResponse,

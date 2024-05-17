@@ -1,5 +1,5 @@
 //
-//  ThreeDS2FormDelegateImpl.swift
+//  ThreeDS2SDKFormDelegateImpl.swift
 //  SDKPayment
 //
 // 
@@ -10,7 +10,7 @@ import UIKit
 import SDKForms
 import ThreeDSSDK
 
-final class ThreeDS2FormDelegateImpl: ThreeDS2FormDelegate {
+final class ThreeDS2SDKFormDelegateImpl: ThreeDS2SDKFormDelegate {
     
     private var parentController: UINavigationController
     private weak var viewControllerDelegate: ViewControllerDelegate?

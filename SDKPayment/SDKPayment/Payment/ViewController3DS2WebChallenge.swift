@@ -1,5 +1,5 @@
 //
-//  ViewController3DS1Challenge.swift
+//  ViewController3DS2WebChallenge.swift
 //  SDKPayment
 //
 // 
@@ -9,7 +9,7 @@ import UIKit
 import WebKit
 import SDKForms
 
-public final class ViewController3DS1Challenge: UIViewController {
+public final class ViewController3DS2WebChallenge: UIViewController {
     
     private lazy var webView: WKWebView = { WKWebView() }()
     private var noActionTimer: Timer?
@@ -134,7 +134,7 @@ public final class ViewController3DS1Challenge: UIViewController {
     }
 }
 
-extension ViewController3DS1Challenge: WKNavigationDelegate {
+extension ViewController3DS2WebChallenge: WKNavigationDelegate {
     
     public func webView(
         _ webView: WKWebView,
@@ -149,6 +149,7 @@ extension ViewController3DS1Challenge: WKNavigationDelegate {
             return
         }
         
+        print("absoluteString: \(absoluteString)")
         if absoluteString.contains("sdk://done") {
             finishPayment()
             decisionHandler(.cancel)

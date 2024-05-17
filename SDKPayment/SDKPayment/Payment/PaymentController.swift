@@ -24,15 +24,15 @@ final class PaymentController {
         )
     }()
     
-    private lazy var threeDS1FormDelegate: ThreeDS1FormDelegate = {
-        ThreeDS1FormDelegateImpl(
+    private lazy var threeDS2WebFormDelegate: ThreeDS2WebFormDelegate = {
+        ThreeDS2WebFormDelegateImpl(
             parentController: parentController,
             viewControllerDelegate: self
         )
     }()
 
-    private lazy var threeDS2FormDelegate: ThreeDS2FormDelegate = {
-        ThreeDS2FormDelegateImpl(
+    private lazy var threeDS2SDKFormDelegate: ThreeDS2SDKFormDelegate = {
+        ThreeDS2SDKFormDelegateImpl(
             parentController: parentController,
             viewControllerDelegate: self
         )
@@ -42,8 +42,8 @@ final class PaymentController {
         PaymentManagerImpl(
             paymentQueue: paymentQueue,
             cardFormDelegate: cardFormDelegate,
-            threeDS1FormDelegate: threeDS1FormDelegate,
-            threeDS2FormDelegate: threeDS2FormDelegate,
+            threeDS2WebFormDelegate: threeDS2WebFormDelegate,
+            threeDS2SDKFormDelegate: threeDS2SDKFormDelegate,
             viewControllerDelegate: self
         )
     }()
@@ -166,7 +166,7 @@ extension PaymentController: ViewControllerDelegate {
                 
                 callbackHandler.onResult(result: paymentData)
             
-            case let topViewController as ViewController3DS1Challenge:
+            case let topViewController as ViewController3DS2WebChallenge:
                 topViewController.dismiss(animated: true) { [weak self] in
                     guard let self else { return }
                     

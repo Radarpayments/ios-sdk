@@ -1,5 +1,5 @@
 //
-//  ThreeDS1FormDelegate.swift
+//  ThreeDS2WebFormDelegate.swift
 //  SDKPayment
 //
 // 
@@ -7,8 +7,8 @@
 
 import Foundation
 
-/// Interface describing the work of the 3DS1 form.
-public protocol ThreeDS1FormDelegate {
+/// Interface describing the work of the 3DS2 form.
+public protocol ThreeDS2WebFormDelegate {
     
     /// Start Web Challenge screen.
     ///

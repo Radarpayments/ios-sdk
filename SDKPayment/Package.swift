@@ -8,7 +8,7 @@ let package = Package(
     platforms: [.iOS(.v12)],
     products: [
         .library(
-            name: "SDKPayment", type: .dynamic,                              
+            name: "SDKPayment",                                                  
             targets: ["SDKPayment"]
         )
     ],

@@ -12,4 +12,4 @@ import SDKForms
 /// - Parameters:
 ///     - message error description text.
 ///     - cause error reason.
-final class SDKTransactionException: SDKException {}
+public final class SDKTransactionException: SDKException {}

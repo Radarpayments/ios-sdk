@@ -68,3 +68,8 @@ xcodebuild -create-xcframework \
 -framework build/Release-iphoneos.xcarchive/Products/usr/local/lib/$NAME.framework \
 -framework build/Release-iphonesimulator.xcarchive/Products/usr/local/lib/$NAME.framework \
 -output build/$NAME.xcframework
+
+
+# Rewrite Package.swift without .dynamic
+perl -i -p0e 's/type: .dynamic,//g' Package.swift
+perl -i -p0e 's/(library[^,]*,)/$1 /g' Package.swift
