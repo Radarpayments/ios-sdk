@@ -21,6 +21,7 @@ final class ThreeDSS2creen: BaseScreen {
     
     func typeSMSCode(_ text: String) -> Bool {
         performWithTimeout(element: smsCodeInput) { element in
+            element.tap()
             element.typeText(text)
         }
     }

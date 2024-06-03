@@ -11,6 +11,7 @@
 import UIKit
 import SDKForms
 import SDKPayment
+import ThreeDSSDK
 
 class ViewController: UIViewController {
     
@@ -88,7 +89,9 @@ class ViewController: UIViewController {
     
     @objc
     private func payClick() {
-        OrderCreator.registerNewOrder(baseUrl: baseUrl, 
+        // You don't need to use .registerNewOrder()
+        // This method needs only for creating order for SDKPayment in the SampleApp
+        OrderCreator.registerNewOrder(baseUrl: baseUrl,
                                       amount: amount,
                                       userName: login,
                                       password: password) { [weak self] orderId in
@@ -130,6 +133,9 @@ class ViewController: UIViewController {
     
     // MARK: - Start of payment
     private func checkout(orderId: String) {
+        // For uploading logs you need to setup `LogUploadingConfigProvider` for ThreeDSLogger
+        ThreeDSLogger.shared.setupLogUploaderConfigProvider(configProvider: self)
+
         // To begin checkout, first of all - we need to configure SDKPaymentConfig
         // For example:
         let paymentConfig = SDKPaymentConfig(
@@ -226,5 +232,12 @@ extension ViewController: CellDelegate {
         case "amount": amount = value
         default: break
         }
+    }
+}
+
+extension ViewController: LogUploaderConfigProvider {
+    
+    func provideConfig(sdkAppId: String?) -> ThreeDSSDK.LogUploaderConfig? {
+        .sentry(url: "SentryURL", key: "SentryKey")
     }
 }

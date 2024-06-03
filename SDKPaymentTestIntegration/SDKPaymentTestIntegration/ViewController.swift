@@ -6,6 +6,7 @@
 import UIKit
 import SDKPayment
 import SDKForms
+import ThreeDSSDK
 
 class ViewController: UIViewController {
 
@@ -68,6 +69,12 @@ class ViewController: UIViewController {
             return
         }
         
+        if let needsToLog = ProcessInfo.processInfo.environment["needsToLog"],
+           let needsToLogValue = Bool(needsToLog),
+           needsToLogValue {
+            ThreeDSLogger.shared.setupLogUploaderConfigProvider(configProvider: self)
+        }
+        
         startChekout(
             orderId: orderId,
             paymentConfig: paymentConfig
@@ -97,5 +104,12 @@ extension ViewController: ResultPaymentCallback {
     func onResult(result: PaymentResult) {
         print(result)
         resultLabel.text = "\(result.isSuccess)"
+    }
+}
+
+extension ViewController: LogUploaderConfigProvider {
+    
+    func provideConfig(sdkAppId: String?) -> ThreeDSSDK.LogUploaderConfig? {
+        .sentry(url: "SentryUrl", key: "SentryKey")
     }
 }

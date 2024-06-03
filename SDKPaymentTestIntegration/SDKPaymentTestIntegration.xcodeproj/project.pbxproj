@@ -31,6 +31,7 @@
 		2270EB2D2BCF8A1A002C8B34 /* TestCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2270EB2C2BCF8A1A002C8B34 /* TestCard.swift */; };
 		2270EB2F2BCF8A45002C8B34 /* TestCardHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2270EB2E2BCF8A45002C8B34 /* TestCardHelper.swift */; };
 		2270EB332BCF8AC5002C8B34 /* TestOrderHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2270EB322BCF8AC5002C8B34 /* TestOrderHelper.swift */; };
+		227BFB2B2C0D70650055C656 /* PaymentThreeDSLogUseCaseTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227BFB2A2C0D70650055C656 /* PaymentThreeDSLogUseCaseTest.swift */; };
 		228FCB5F2BE8860900B9593D /* SDKPaymentIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 228FCB5E2BE8860900B9593D /* SDKPaymentIntegrationTests.swift */; };
 		22A011372BF33FE700F892DE /* TestPaymentApiHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A011362BF33FE700F892DE /* TestPaymentApiHelper.swift */; };
 		22A011392BF3401B00F892DE /* TestSessionStatusResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A011382BF3401B00F892DE /* TestSessionStatusResponse.swift */; };
@@ -112,6 +113,7 @@
 		2270EB2C2BCF8A1A002C8B34 /* TestCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestCard.swift; sourceTree = "<group>"; };
 		2270EB2E2BCF8A45002C8B34 /* TestCardHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestCardHelper.swift; sourceTree = "<group>"; };
 		2270EB322BCF8AC5002C8B34 /* TestOrderHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestOrderHelper.swift; sourceTree = "<group>"; };
+		227BFB2A2C0D70650055C656 /* PaymentThreeDSLogUseCaseTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentThreeDSLogUseCaseTest.swift; sourceTree = "<group>"; };
 		228FCB5E2BE8860900B9593D /* SDKPaymentIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SDKPaymentIntegrationTests.swift; sourceTree = "<group>"; };
 		22A011362BF33FE700F892DE /* TestPaymentApiHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestPaymentApiHelper.swift; sourceTree = "<group>"; };
 		22A011382BF3401B00F892DE /* TestSessionStatusResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSessionStatusResponse.swift; sourceTree = "<group>"; };
@@ -243,6 +245,7 @@
 				22148C1A2BD25431001390B3 /* PaymentCommonUseCaseTest.swift */,
 				22148C142BD2233A001390B3 /* PaymentCardFrictionlessThreeDSUseCaseTest.swift */,
 				22148C162BD23EBF001390B3 /* PaymentCardFullThreeDSUseCaseTest.swift */,
+				227BFB2A2C0D70650055C656 /* PaymentThreeDSLogUseCaseTest.swift */,
 			);
 			path = Payment;
 			sourceTree = "<group>";
@@ -450,6 +453,7 @@
 				22148C062BD0FFA8001390B3 /* PaymentBottomSheetScreen.swift in Sources */,
 				22A011432BF344C300F892DE /* TestBindingItem.swift in Sources */,
 				2270EB2D2BCF8A1A002C8B34 /* TestCard.swift in Sources */,
+				227BFB2B2C0D70650055C656 /* PaymentThreeDSLogUseCaseTest.swift in Sources */,
 				22148C152BD2233A001390B3 /* PaymentCardFrictionlessThreeDSUseCaseTest.swift in Sources */,
 				22148C192BD24D36001390B3 /* PaymentCardSSLUseCaseTest.swift in Sources */,
 				2270EB2F2BCF8A45002C8B34 /* TestCardHelper.swift in Sources */,

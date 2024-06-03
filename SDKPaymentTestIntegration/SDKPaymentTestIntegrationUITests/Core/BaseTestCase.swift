@@ -59,7 +59,8 @@ class BaseTestCase: XCTestCase {
         userName: String = "mobile-sdk-api",
         password: String = "vkyvbG0",
         clientId: String? = nil,
-        use3DS2SDK: Bool
+        use3DS2SDK: Bool,
+        needsToLog: Bool = false
     ) -> String {
         app = XCUIApplication()
         app.launchArguments = ["-uiTesting"]
@@ -86,7 +87,8 @@ class BaseTestCase: XCTestCase {
         )
         app.launchEnvironment = [
             "paymentConfig": paymentConfig,
-            "orderId": orderId
+            "orderId": orderId,
+            "needsToLog": "\(needsToLog)"
         ]
         app.launch()
         

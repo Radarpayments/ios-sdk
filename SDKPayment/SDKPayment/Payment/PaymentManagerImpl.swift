@@ -318,17 +318,6 @@ public final class PaymentManagerImpl: PaymentManager {
                     exception: SDKPaymentApiException(message: "Wrong api response from second form \(paymentResult)")
                 )
             }
-            
-            try threeDS2SDKFormDelegate.openChallengeFlow(
-                transaction: transaction,
-                challengeParameters: createChallengeParameters(
-                    paymentResult: paymentResult,
-                    processFormResponse: processFormResponse
-                ),
-                challengeStatusReceiver: createChallengeStatusReceiver(
-                    processFormResponse: processFormResponse
-                )
-            )
         } catch {
             throw error
         }
