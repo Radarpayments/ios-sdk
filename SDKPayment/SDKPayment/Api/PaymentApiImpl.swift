@@ -52,7 +52,7 @@ final class PaymentApiImpl: NSObject, PaymentApi {
         threeDSSDK: Bool
     ) throws -> ProcessFormResponse {
         let body = [
-            "seToken": cryptogramApiData.seToken,
+            "seToken": cryptogramApiData.paymentToken,
             "MDORDER": cryptogramApiData.mdOrder,
             "TEXT": cryptogramApiData.holder,
             "bindingNotNeeded": "\(!cryptogramApiData.saveCard)",
@@ -71,7 +71,7 @@ final class PaymentApiImpl: NSObject, PaymentApi {
         threeDSSDK: Bool
     ) throws -> ProcessFormResponse {
         let body = [
-            "seToken": cryptogramApiData.seToken,
+            "seToken": cryptogramApiData.paymentToken,
             "MDORDER": cryptogramApiData.mdOrder,
             "TEXT": cryptogramApiData.holder,
             "threeDSSDK": "\(threeDSSDK)"
@@ -89,7 +89,7 @@ final class PaymentApiImpl: NSObject, PaymentApi {
         threeDSParams: PaymentThreeDSInfo
     ) throws -> ProcessFormSecondResponse {
         let body = [
-            "seToken": cryptogramApiData.seToken,
+            "seToken": cryptogramApiData.paymentToken,
             "MDORDER": cryptogramApiData.mdOrder,
             "TEXT": cryptogramApiData.holder,
             "bindingNotNeeded": "\(!cryptogramApiData.saveCard)",
@@ -114,7 +114,7 @@ final class PaymentApiImpl: NSObject, PaymentApi {
         threeDSParams: PaymentThreeDSInfo
     ) throws -> ProcessFormSecondResponse {
         let body = [
-            "seToken": cryptogramApiData.seToken,
+            "seToken": cryptogramApiData.paymentToken,
             "MDORDER": cryptogramApiData.mdOrder,
             "TEXT": cryptogramApiData.holder,
             "threeDSSDK": "\(threeDSParams.threeDSSDK)",

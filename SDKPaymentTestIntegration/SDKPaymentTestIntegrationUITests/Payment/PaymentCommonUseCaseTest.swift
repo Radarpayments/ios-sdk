@@ -11,7 +11,21 @@ import XCTest
 final class PaymentCommonUseCaseTest: BaseTestCase {
 
     func testShouldReturnAlreadyPaymentException() {
-        let orderId = try! testOrderHelper.preparePayedOrder()
+        let orderId = registerOrderAndLaunchApp(use3DS2SDK: false)
+        
+        var mainScreen = TestMainScreen(app: app)
+        XCTAssertTrue(mainScreen.clickOnCheckout())
+        
+        let paymentBottomSheet = PaymentBottomSheetScreen(app: app)
+        XCTAssertTrue(paymentBottomSheet.clickOnAddNewCard())
+        
+        let newCardScreen = NewCardScreen(app: app)
+        XCTAssertTrue(newCardScreen.fillOutForm(with: TestCardHelper.successSSL))
+        XCTAssertTrue(newCardScreen.clickOnActionButton())
+        
+        awaitAssert {
+            XCTAssertEqual("true", mainScreen.resultText)
+        }
         
         let paymentConfig = getDefaultPaymentConfig()
         let encodedPaymentConfig = testOrderHelper.encodeConfig(
@@ -26,7 +40,7 @@ final class PaymentCommonUseCaseTest: BaseTestCase {
         ]
         app.launch()
 
-        let mainScreen = TestMainScreen(app: app)
+        mainScreen = TestMainScreen(app: app)
         XCTAssertTrue(mainScreen.clickOnCheckout())
         
         awaitAssert {

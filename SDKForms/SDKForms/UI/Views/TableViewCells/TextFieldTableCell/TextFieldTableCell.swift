@@ -7,17 +7,11 @@
 
 import UIKit
 
-protocol TextFieldTableCellDelegate: AnyObject {
-    
-    func textDidChange(id: String, _ text: String)
-}
-
 class TextFieldTableCell: UITableViewCell {
     
     private lazy var textFieldView = CardDataTextFieldView()
     
     private var model: (any TextFieldTableModelProtocol)?
-    private weak var delegate: TextFieldTableCellDelegate?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -34,15 +28,15 @@ class TextFieldTableCell: UITableViewCell {
     }
     
     func bind(
-        model: any TextFieldTableModelProtocol,
-        delegate: TextFieldTableCellDelegate?
+        model: any TextFieldTableModelProtocol
     ) -> Self {
         self.model = model
-        self.delegate = delegate
         
         textFieldView.setState(model.textFieldViewConfig)
         textFieldView.setTextChangingHandler { [weak self] text in
-            self?.delegate?.textDidChange(id: model.id, text)
+            guard let self else { return }
+            
+            model.textFieldViewConfig.textFieldViewTextDidChange?(self.textFieldView)
         }
         
         return self
@@ -66,5 +60,12 @@ class TextFieldTableCell: UITableViewCell {
                 textFieldView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
             ]
         )
+    }
+}
+
+extension TextFieldTableCell: InputCell {
+    
+    var inputViews: [InputView] {
+        [ textFieldView ]
     }
 }

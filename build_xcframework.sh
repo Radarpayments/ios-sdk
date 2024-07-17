@@ -70,6 +70,7 @@ xcodebuild -create-xcframework \
 -output build/$NAME.xcframework
 
 
+# TODO: Process removing type: .dynamic from package file
 # Rewrite Package.swift without .dynamic
-perl -i -p0e 's/type: .dynamic,//g' Package.swift
-perl -i -p0e 's/(library[^,]*,)/$1 /g' Package.swift
+# perl -i -p0e 's/type: .dynamic,//g' Package.swift
+# perl -i -p0e 's/(library[^,]*,)/$1 /g' Package.swift

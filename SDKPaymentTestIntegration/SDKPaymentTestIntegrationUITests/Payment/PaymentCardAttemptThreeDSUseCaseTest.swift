@@ -150,4 +150,148 @@ final class PaymentCardAttemptThreeDSUseCaseTest: BaseTestCase {
             XCTAssertEqual("false", mainScreen.resultText)
         }
     }
+    
+    func testShouldReturnSuccessPaymentWithNewCardAttemptThreeDSUse3DS2SDKWithSessionId() {
+        let sessionId = registerSessionAndLaunchApp(use3DS2SDK: true)
+
+        let mainScreen = TestMainScreen(app: app)
+        XCTAssertTrue(mainScreen.clickOnCheckout())
+        
+        let paymentBottomSheet = PaymentBottomSheetScreen(app: app)
+        XCTAssertTrue(paymentBottomSheet.clickOnAddNewCard())
+        
+        let newCardScreen = NewCardScreen(app: app)
+        XCTAssertTrue(newCardScreen.fillOutForm(with: TestCardHelper.successAttempt3DS))
+        XCTAssertTrue(newCardScreen.clickOnActionButton())
+        
+        let threeDSScreen = ThreeDSS2creen(app: app)
+        XCTAssertTrue(threeDSScreen.typeSMSCode("123456"))
+        XCTAssertTrue(threeDSScreen.clickOnConfirmButton())
+        
+        awaitAssert {
+            XCTAssertEqual("true", mainScreen.resultText)
+        }
+    }
+    
+    func testShouldReturnErrorPaymentWithNewCardAttemptThreeDSUse3DS2SDKWithInvalidCVCWithSessionId() {
+        let sessionId = registerSessionAndLaunchApp(use3DS2SDK: true)
+        
+        let mainScreen = TestMainScreen(app: app)
+        XCTAssertTrue(mainScreen.clickOnCheckout())
+        
+        let paymentBottomSheet = PaymentBottomSheetScreen(app: app)
+        XCTAssertTrue(paymentBottomSheet.clickOnAddNewCard())
+        
+        let newCardScreen = NewCardScreen(app: app)
+        XCTAssertTrue(newCardScreen.fillOutForm(
+            with: TestCardHelper.successAttempt3DS,
+            overrideCvc: "000"
+        ))
+        XCTAssertTrue(newCardScreen.clickOnActionButton())
+        
+        let threeDSScreen = ThreeDSS2creen(app: app)
+        XCTAssertTrue(threeDSScreen.typeSMSCode("123456"))
+        XCTAssertTrue(threeDSScreen.clickOnConfirmButton())
+        
+        awaitAssert {
+            XCTAssertEqual("false", mainScreen.resultText)
+        }
+    }
+    
+    func testShouldReturnErrorPaymentWithNewCardAttemptThreeDSUse3DS2SDKWithInvalidExpiryWithSessionId() {
+        let sessionId = registerSessionAndLaunchApp(use3DS2SDK: true)
+        
+        let mainScreen = TestMainScreen(app: app)
+        XCTAssertTrue(mainScreen.clickOnCheckout())
+        
+        let paymentBottomSheet = PaymentBottomSheetScreen(app: app)
+        XCTAssertTrue(paymentBottomSheet.clickOnAddNewCard())
+        
+        let newCardScreen = NewCardScreen(app: app)
+        XCTAssertTrue(newCardScreen.fillOutForm(
+            with: TestCardHelper.successAttempt3DS,
+            overrideExpiry: "10/35"
+        ))
+        XCTAssertTrue(newCardScreen.clickOnActionButton())
+        
+        let threeDSScreen = ThreeDSS2creen(app: app)
+        XCTAssertTrue(threeDSScreen.typeSMSCode("123456"))
+        XCTAssertTrue(threeDSScreen.clickOnConfirmButton())
+        
+        awaitAssert {
+            XCTAssertEqual("false", mainScreen.resultText)
+        }
+    }
+    
+    func testShouldReturnSuccessPaymentWithNewCardAttemptThreeDSNoUse3DS2SDKWithSessionId() {
+        let sessionId = registerSessionAndLaunchApp(use3DS2SDK: false)
+        
+        let mainScreen = TestMainScreen(app: app)
+        XCTAssertTrue(mainScreen.clickOnCheckout())
+        
+        let paymentBottomSheet = PaymentBottomSheetScreen(app: app)
+        XCTAssertTrue(paymentBottomSheet.clickOnAddNewCard())
+        
+        let newCardScreen = NewCardScreen(app: app)
+        XCTAssertTrue(newCardScreen.fillOutForm(with: TestCardHelper.successAttempt3DS))
+        XCTAssertTrue(newCardScreen.clickOnActionButton())
+
+        let webViewScreen = ThreeDS1Screen(app: app)
+        XCTAssertTrue(webViewScreen.clickOnSuccess())
+        XCTAssertTrue(webViewScreen.clickOnReturnToMerchant())
+        
+        awaitAssert {
+            XCTAssertEqual("true", mainScreen.resultText)
+        }
+    }
+    
+    func testShouldReturnErrorPaymentWithNewCardAttemptThreeDSNoUse3DS2SDKWithInvalidCVCWithSessionId() {
+        let sessionId = registerSessionAndLaunchApp(use3DS2SDK: false)
+        
+        let mainScreen = TestMainScreen(app: app)
+        XCTAssertTrue(mainScreen.clickOnCheckout())
+        
+        let paymentBottomSheet = PaymentBottomSheetScreen(app: app)
+        XCTAssertTrue(paymentBottomSheet.clickOnAddNewCard())
+        
+        let newCardScreen = NewCardScreen(app: app)
+        XCTAssertTrue(newCardScreen.fillOutForm(
+            with: TestCardHelper.successAttempt3DS,
+            overrideCvc: "000"
+        ))
+        XCTAssertTrue(newCardScreen.clickOnActionButton())
+
+        let webViewScreen = ThreeDS1Screen(app: app)
+        XCTAssertTrue(webViewScreen.clickOnSuccess())
+        XCTAssertTrue(webViewScreen.clickOnReturnToMerchant())
+        
+        awaitAssert {
+            XCTAssertEqual("false", mainScreen.resultText)
+        }
+    }
+    
+    func testShouldReturnErrorPaymentWithNewCardAttemptThreeDSNoUse3DS2SDKWithInvalidExpiryWithSessionId() {
+        let sessionId = registerSessionAndLaunchApp(use3DS2SDK: false)
+        
+        let mainScreen = TestMainScreen(app: app)
+        XCTAssertTrue(mainScreen.clickOnCheckout())
+        
+        let paymentBottomSheet = PaymentBottomSheetScreen(app: app)
+        XCTAssertTrue(paymentBottomSheet.clickOnAddNewCard())
+        
+        let newCardScreen = NewCardScreen(app: app)
+        XCTAssertTrue(newCardScreen.fillOutForm(
+            with: TestCardHelper.successAttempt3DS,
+            overrideExpiry: "10/35"
+        ))
+        XCTAssertTrue(newCardScreen.clickOnActionButton())
+        
+        let webViewScreen = ThreeDS1Screen(app: app)
+        XCTAssertTrue(webViewScreen.clickOnSuccess())
+        XCTAssertTrue(webViewScreen.clickOnReturnToMerchant())
+        
+        awaitAssert {
+            XCTAssertEqual("false", mainScreen.resultText)
+        }
+    }
 }

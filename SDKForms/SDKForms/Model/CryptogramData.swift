@@ -18,24 +18,24 @@ public struct CryptogramData: Codable {
     
     enum CodingKeys: String, CodingKey {
         case status
-        case seToken
+        case paymentToken
         case info
         case deletedCardList
     }
 
     public let status: PaymentDataStatus
-    public let seToken: String
+    public let paymentToken: String
     public let info: PaymentInfo?
     public var deletedCardList = Set<Card>()
     
     public init(
         status: PaymentDataStatus,
-        seToken: String,
+        paymentToken: String,
         info: PaymentInfo?,
         deletedCardList: Set<Card>
     ) {
         self.status = status
-        self.seToken = seToken
+        self.paymentToken = paymentToken
         self.info = info
         self.deletedCardList = deletedCardList
     }
@@ -44,7 +44,7 @@ public struct CryptogramData: Codable {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         
         status = try values.decode(PaymentDataStatus.self, forKey: .status)
-        seToken = try values.decode(String.self, forKey: .seToken)
+        paymentToken = try values.decode(String.self, forKey: .paymentToken)
         deletedCardList = try values.decode(Set<Card>.self, forKey: .deletedCardList)
         
         info = if let infoBindCard = try? values.decode(PaymentInfoBindCard.self, forKey: .info) {
@@ -60,7 +60,7 @@ public struct CryptogramData: Codable {
         var container = encoder.container(keyedBy: CodingKeys.self)
      
         try container.encode(status, forKey: .status)
-        try container.encode(seToken, forKey: .seToken)
+        try container.encode(paymentToken, forKey: .paymentToken)
         try container.encode(deletedCardList, forKey: .deletedCardList)
         
         switch info {

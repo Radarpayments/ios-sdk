@@ -34,7 +34,7 @@ final class CardNumberValidatorTest: XCTestCase {
         let result = cardNumberValidator.validate(data: "455673360410674")
         
         XCTAssertFalse(result.isValid)
-        XCTAssertEqual(String.cardIncorrectLength(), result.errorMessage)
+        XCTAssertEqual(String.cardIncorrectLength().localized, result.errorMessage)
         XCTAssertEqual(ValidationCodes.invalid, result.errorCode)
     }
 
@@ -42,7 +42,7 @@ final class CardNumberValidatorTest: XCTestCase {
         let result = cardNumberValidator.validate(data: "")
         
         XCTAssertFalse(result.isValid)
-        XCTAssertEqual(String.cardIncorrectNumber(), result.errorMessage)
+        XCTAssertEqual(String.cardIncorrectNumber().localized, result.errorMessage)
         XCTAssertEqual(ValidationCodes.required, result.errorCode)
     }
 
@@ -50,7 +50,7 @@ final class CardNumberValidatorTest: XCTestCase {
         let result = cardNumberValidator.validate(data: "45399859847410559971")
         
         XCTAssertFalse(result.isValid)
-        XCTAssertEqual(String.cardIncorrectLength(), result.errorMessage)
+        XCTAssertEqual(String.cardIncorrectLength().localized, result.errorMessage)
         XCTAssertEqual(ValidationCodes.invalid, result.errorCode)
     }
 
@@ -58,19 +58,19 @@ final class CardNumberValidatorTest: XCTestCase {
         let result = cardNumberValidator.validate(data: "IncorrectCardNum")
         
         XCTAssertFalse(result.isValid)
-        XCTAssertEqual(String.cardIncorrectNumber(), result.errorMessage)
+        XCTAssertEqual(String.cardIncorrectNumber().localized, result.errorMessage)
         XCTAssertEqual(ValidationCodes.invalidFormat, result.errorCode)
     }
 
     func testShouldNotAcceptIfLunhFailed() {
         let resultFirst = cardNumberValidator.validate(data: "4532047793306966344")
         XCTAssertFalse(resultFirst.isValid)
-        XCTAssertEqual(String.cardIncorrectNumber(), resultFirst.errorMessage)
+        XCTAssertEqual(String.cardIncorrectNumber().localized, resultFirst.errorMessage)
         XCTAssertEqual(ValidationCodes.invalid, resultFirst.errorCode)
 
         let resultSecond = cardNumberValidator.validate(data: "4556733604106745")
         XCTAssertFalse(resultSecond.isValid)
-        XCTAssertEqual(String.cardIncorrectNumber(), resultSecond.errorMessage)
+        XCTAssertEqual(String.cardIncorrectNumber().localized, resultSecond.errorMessage)
         XCTAssertEqual(ValidationCodes.invalid, resultSecond.errorCode)
     }
 }

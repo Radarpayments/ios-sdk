@@ -17,4 +17,6 @@ struct CardDataTextFieldViewState {
     var hideleftImageView = true
     var isSecureInput = false
     var inputIsAvailable = true
+    
+    var textFieldViewTextDidChange: ((_ inputView: InputView) -> Void)?
 }

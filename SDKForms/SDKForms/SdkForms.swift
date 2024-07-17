@@ -250,7 +250,7 @@ extension SdkForms: PKPaymentAuthorizationViewControllerDelegate {
 
         let applePayPaymentInfo = PaymentInfoApplePay(order: order)
         let cryptogramData = CryptogramData(status: .succeeded, 
-                                            seToken: paymentToken,
+                                            paymentToken: paymentToken,
                                             info: applePayPaymentInfo,
                                             deletedCardList: [])
         

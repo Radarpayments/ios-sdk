@@ -20,9 +20,9 @@ struct PaymentConfigTestProvider {
             cards: [],
             uuid: UUID().uuidString,
             timestamp: Int64(Date().timeIntervalSince1970),
-            locale: Locale.current,
+            locale: .en,
             buttonText: nil,
-            bindingCVCRequired: true,
+            storedPaymentMethodCVCRequired: true,
             cardDeleteOptions: .noDelete,
             cardsToDelete: [], 
             editingBindingsIsEnabled: true

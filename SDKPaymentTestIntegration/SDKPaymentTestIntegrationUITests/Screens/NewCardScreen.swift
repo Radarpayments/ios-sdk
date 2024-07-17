@@ -22,11 +22,32 @@ final class NewCardScreen: BaseScreen {
         cardCVCField.value as? String ?? ""
     }
     
+    var cardNumberIsFocused: Bool {
+        (cardNumberField.value(forKey: "hasKeyboardFocus") as? Bool) ?? false
+    }
+    
+    var cardExpiryIsFocused: Bool {
+        (cardExpiryField.value(forKey: "hasKeyboardFocus") as? Bool) ?? false
+    }
+    
+    var cardCvcIsFocused: Bool {
+        (cardCVCField.value(forKey: "hasKeyboardFocus") as? Bool) ?? false
+    }
+    
+    var cardHolderIsFocused: Bool {
+        (cardHolderField?.value(forKey: "hasKeyboardFocus") as? Bool) ?? false
+    }
+    
+    var cardHolderIsExist: Bool {
+        cardHolderField?.exists ?? false
+    }
+    
     private var app: XCUIApplication
     
     private lazy var cardNumberField = app.textFields["Card number"]
     private lazy var cardExpiryField = app.textFields["MM/YY"]
     private lazy var cardCVCField = app.secureTextFields["CVC"]
+    private lazy var cardHolderField: XCUIElement? = app.textFields["NAME"]
     
     private lazy var actionButton = app.buttons["actionButton"]
     private lazy var backButton = app.buttons["Back"]
@@ -54,6 +75,17 @@ final class NewCardScreen: BaseScreen {
             element.tap()
             element.typeText(text)
         }
+    }
+    
+    func typeCardHolder(_ text: String) -> Bool {
+        if let cardHolderField {
+            return performWithTimeout(element: cardHolderField) { element in
+                element.tap()
+                element.typeText(text)
+            }
+        }
+        
+        return false
     }
     
     func clickOnActionButton() -> Bool {

@@ -24,7 +24,7 @@ public final class PaymentConfigBuilder {
     private var uuid: String = UUID().uuidString
     private var timestamp = Int64(Date().timeIntervalSince1970)
     private var locale: Locales = .en
-    private var bindingCVCRequired = true
+    private var storedPaymentMethodCVCRequired = true
     private var cardDeleteOptions: CardDeleteOptions = .noDelete
     private var displayApplePay = false
     private var registeredFrom: MSDKRegisteredFrom = MSDKRegisteredFrom.MSDK_FORMS
@@ -212,14 +212,14 @@ public final class PaymentConfigBuilder {
     /// - Parameters:
     ///     - required: CVC filling requirement.
     /// - Returns: the current constructor.
-    public func bindingCVCRequired(required: Bool) -> PaymentConfigBuilder {
+    public func storedPaymentMethodCVCRequired(required: Bool) -> PaymentConfigBuilder {
         Logger.shared.log(
             classMethod: type(of: self),
             tag: Constants.TAG,
-            message: "bindingCVCRequired: \(required)",
+            message: "storedPaymentMethodCVCRequired: \(required)",
             exception: nil
         )
-        self.bindingCVCRequired = required
+        self.storedPaymentMethodCVCRequired = required
         
         return self
     }
@@ -307,7 +307,7 @@ public final class PaymentConfigBuilder {
             timestamp: self.timestamp,
             locale: self.locale,
             buttonText: self.buttonText,
-            bindingCVCRequired: self.bindingCVCRequired,
+            storedPaymentMethodCVCRequired: self.storedPaymentMethodCVCRequired,
             cardDeleteOptions: self.cardDeleteOptions,
             displayApplePay: self.displayApplePay,
             registeredFrom: self.registeredFrom,

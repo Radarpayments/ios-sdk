@@ -15,6 +15,7 @@ public final class SdkPayment {
     public static let shared = SdkPayment()
     
     private var innerSDKPaymentConfig: SDKPaymentConfig?
+    private var paymentController: PaymentController?
     
     private init() {}
     
@@ -47,30 +48,36 @@ public final class SdkPayment {
     ///     - mdOrder order number.
     public func checkoutWithBottomSheet(
         controller: UINavigationController,
-        mdOrder: String,
+        checkoutConfig: CheckoutConfig,
         callbackHandler: any ResultPaymentCallback<PaymentResult>
     ) {
+        let paymentId: String
+        
+        switch checkoutConfig.id {
+        case let .sessionId(id),
+             let .mdOrder(id):
+            paymentId = id
+        }
+        
         Logger.shared.log(
             classMethod: type(of: self),
             tag: Constants.TAG,
-            message: "checkoutWithBottomSheet(\(controller), \(mdOrder): ",
+            message: "checkoutWithBottomSheet(\(controller), \(paymentId): ",
             exception: nil
         )
         
         do {
-            let paymentController = PaymentController(
-                mdOrder: mdOrder,
+            paymentController = PaymentController(
+                checkoutConfig: checkoutConfig,
                 parentController: controller,
                 callbackHandler: callbackHandler
             )
 
-            try paymentController.startPaymentFlow()
+            try paymentController?.startPaymentFlow()
         } catch {
-            let resultPayment = PaymentResult(mdOrder: mdOrder,
-                                              isSuccess: false,
-                                              exception: error as? SDKException)
-
+            let resultPayment = PaymentResult(paymentId: paymentId, isSuccess: false, exception: error as? SDKException)
             callbackHandler.onResult(result: resultPayment)
+            paymentController = nil
         }
     }
     
@@ -83,6 +90,7 @@ public final class SdkPayment {
             case _ as SDKPaymentApiException: return "error when working with gateway API methods"
             case _ as SDKTransactionException: return "error when creating a transaction when paying through 3ds"
             case _ as SDKOrderNotExistException: return "payment for a non-existent order"
+            case _ as SDKSessionNotExistException: return "payment for a non-existent session"
             default: return nil
             }
         }

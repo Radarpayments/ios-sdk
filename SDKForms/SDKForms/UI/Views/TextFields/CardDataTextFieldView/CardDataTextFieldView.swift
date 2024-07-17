@@ -15,6 +15,8 @@ final class CardDataTextFieldView: UIView {
     private let NUMBER_MAX_LENGTH = 19
     private let CARD_HOLDER_MAX_LENGTH = 30
     
+    private var _isFilled = false
+    
     private lazy var textField: UITextField = {
         let textField = UITextField()
         
@@ -121,6 +123,11 @@ final class CardDataTextFieldView: UIView {
         dividerLine.backgroundColor = config?.errorMessage != ""
             ? ThemeSetting.shared.colorErrorLabel()
             : ThemeSetting.shared.colorSeparator()
+        
+        if !(config?.inputIsAvailable ?? true) {
+            setFilled(true)
+        }
+
         updateTextField()
         setNeedsLayout()
     }
@@ -223,5 +230,31 @@ extension CardDataTextFieldView: UITextFieldDelegate {
         case .cardHolder:
             return (textField.text?.count ?? .zero) < CARD_HOLDER_MAX_LENGTH
         }
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.endEditing(true)
+        return true
+    }
+}
+
+extension CardDataTextFieldView: InputView {
+    
+    var isFilled: Bool {
+        _isFilled
+    }
+    
+    var value: String {
+        textField.text ?? ""
+    }
+    
+    func setActive(_ active: Bool) {
+        active
+            ? textField.becomeFirstResponder()
+            : textField.endEditing(true)
+    }
+    
+    func setFilled(_ filled: Bool) {
+        _isFilled = filled
     }
 }

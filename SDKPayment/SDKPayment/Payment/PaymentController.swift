@@ -11,8 +11,9 @@ import SDKForms
 final class PaymentController {
     
     private let DEFAULT_VALUE_CARDHOLDER: String = "CARDHOLDER"
-    
-    private var mdOrder: String
+
+    private let paymentId: PaymentIdType
+    private let checkoutConfig: CheckoutConfig
     private var parentController: UINavigationController
     private var callbackHandler: any ResultPaymentCallback<PaymentResult>
     private let paymentQueue = DispatchQueue(label: "paymentQueue", attributes: .concurrent)
@@ -49,22 +50,26 @@ final class PaymentController {
     }()
     
     init(
-        mdOrder: String,
+        checkoutConfig: CheckoutConfig,
         parentController: UINavigationController,
         callbackHandler: any ResultPaymentCallback<PaymentResult>
     ) {
-        self.mdOrder = mdOrder
+        self.paymentId = checkoutConfig.id
+        self.checkoutConfig = checkoutConfig
         self.parentController = parentController
         self.callbackHandler = callbackHandler
     }
     
     func startPaymentFlow() throws {
-        do { try paymentManager.checkout(order: mdOrder) } 
-        catch { throw error }
+        do {
+            try paymentManager.checkout(config: checkoutConfig)
+        } catch {
+            throw error
+        }
     }
     
     private func paymentNewCard(
-        seToken: String,
+        paymentToken: String,
         paymentInfo: PaymentInfoNewCard,
         completion: @escaping (_ error: SDKException?) -> Void
     ) {
@@ -77,7 +82,7 @@ final class PaymentController {
             do {
                 try paymentManager.processFormData(
                     cryptogramApiData: CryptogramApiData(
-                        seToken: seToken,
+                        paymentToken: paymentToken,
                         mdOrder: paymentInfo.order,
                         holder: cardHolder,
                         saveCard: paymentInfo.saveCard
@@ -91,7 +96,7 @@ final class PaymentController {
     }
     
     private func paymentBindingCard(
-        seToken: String,
+        paymentToken: String,
         paymentInfo: PaymentInfoBindCard,
         completion: @escaping (_ error: SDKException?) -> Void
     ) {
@@ -101,7 +106,7 @@ final class PaymentController {
             do {
                 try paymentManager.processFormData(
                     cryptogramApiData: CryptogramApiData(
-                        seToken: seToken,
+                        paymentToken: paymentToken,
                         mdOrder: paymentInfo.order,
                         holder: DEFAULT_VALUE_CARDHOLDER
                     ),
@@ -114,7 +119,7 @@ final class PaymentController {
     }
     
     private func paymentApplePay(
-        seToken: String,
+        paymentToken: String,
         paymentInfo: PaymentInfoApplePay,
         completion: @escaping (_ error: SDKException?) -> Void
     ) {
@@ -125,7 +130,7 @@ final class PaymentController {
                 try paymentManager.processApplePay(
                     cryptogramApplePayApiData: CryptogramApplePayApiData(
                         mdOrder: paymentInfo.order,
-                        paymentToken: seToken
+                        paymentToken: paymentToken
                     )
                 )
             } catch {
@@ -151,7 +156,7 @@ final class PaymentController {
 
 extension PaymentController: ViewControllerDelegate {
 
-    func finishWithResult(paymentData: PaymentResult) {
+    func finishWithResult(paymentData: PaymentResultData) {
         DispatchQueue.main.async { [weak self] in
             guard let self,
                   let topViewController = UIApplication.shared.topViewController
@@ -164,7 +169,18 @@ extension PaymentController: ViewControllerDelegate {
                     return
                 }
                 
-                callbackHandler.onResult(result: paymentData)
+                let idForResult: String
+                
+                switch paymentId {
+                case let .sessionId(id),
+                     let .mdOrder(id):
+                    idForResult = id
+                }
+                
+                let paymentResult = PaymentResult(paymentId: idForResult,
+                                                  paymentResultData: paymentData)
+                
+                callbackHandler.onResult(result: paymentResult)
             
             case let topViewController as ViewController3DS2WebChallenge:
                 topViewController.dismiss(animated: true) { [weak self] in
@@ -181,7 +197,17 @@ extension PaymentController: ViewControllerDelegate {
                 }
 
             default:
-                callbackHandler.onResult(result: paymentData)
+                let clearId: String
+                
+                switch paymentId {
+                case let .sessionId(id),
+                     let .mdOrder(id):
+                    clearId = id
+                }
+                
+                let paymentResult = PaymentResult(paymentId: clearId,
+                                                  paymentResultData: paymentData)
+                callbackHandler.onResult(result: paymentResult)
             }
         }
     }
@@ -216,25 +242,25 @@ extension PaymentController: ResultCryptogramCallback {
             
             switch info {
             case let info as PaymentInfoNewCard:
-                paymentNewCard(seToken: result.seToken, paymentInfo: info) { [weak self] error in
+                paymentNewCard(paymentToken: result.paymentToken, paymentInfo: info) { [weak self] error in
                     guard let self else { return }
                     
-                    let paymentResult = PaymentResult(mdOrder: mdOrder, isSuccess: false, exception: error)
-                    finishWithResult(paymentData: paymentResult)
+                    let paymentResultData = PaymentResultData(isSuccess: false, exception: error)
+                    finishWithResult(paymentData: paymentResultData)
                 }
             case let info as PaymentInfoBindCard:
-                paymentBindingCard(seToken: result.seToken, paymentInfo: info) { [weak self] error in
+                paymentBindingCard(paymentToken: result.paymentToken, paymentInfo: info) { [weak self] error in
                     guard let self else { return }
                     
-                    let paymentResult = PaymentResult(mdOrder: mdOrder, isSuccess: false, exception: error)
-                    finishWithResult(paymentData: paymentResult)
+                    let paymentResultData = PaymentResultData(isSuccess: false, exception: error)
+                    finishWithResult(paymentData: paymentResultData)
                 }
             case let info as PaymentInfoApplePay:
-                paymentApplePay(seToken: result.seToken, paymentInfo: info) { [weak self] error in
+                paymentApplePay(paymentToken: result.paymentToken, paymentInfo: info) { [weak self] error in
                     guard let self else { return }
                     
-                    let paymentResult = PaymentResult(mdOrder: mdOrder, isSuccess: false, exception: error)
-                    finishWithResult(paymentData: paymentResult)
+                    let paymentResultData = PaymentResultData(isSuccess: false, exception: error)
+                    finishWithResult(paymentData: paymentResultData)
                 }
             default:
                 break

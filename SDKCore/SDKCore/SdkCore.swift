@@ -2,8 +2,6 @@
 //  SdkCore.swift
 //  SdkCore
 //
-// 
-//
 
 import Foundation
 
@@ -21,49 +19,149 @@ public class SdkCore {
     
     public init() {}
     
-    /// Token generation method for a new card.
+    /// Token generation method for SDKCoreConfig.
     ///
     /// - Parameters:
-    ///     -  params: a new card information.
-    ///     -  timestamp: the timestamp used in the generated token.
-    ///     -  registeredFrom: source of token generation.
+    ///     -  config: config for generating token.
     ///
     /// - Returns: generated token or error.
-    public func generateWithCard(params: CardParams,
-                                 timestamp: TimeInterval = Date().timeIntervalSince1970,
-                                 registeredFrom: MSDKRegisteredFrom = .MSDK_CORE
-    ) -> TokenResult {
-
+    public func generateWithConfig(config: SDKCoreConfig) -> TokenResult {
         Logger.shared.log(
             classMethod: type(of: self),
             tag: Logger.TAG,
-            message: "generateWithCard(\(params), \(timestamp)): Token generation method for a new card.",
+            message: "generateWithConfig(\(config)): Token generation method for a new card.",
             exception: nil
         )
         
-        let validatorsMap: [String?: BaseValidator] = [
-            params.cardholder: cardHolderValidator,
-            params.mdOrder: orderNumberValidator,
-            params.expiryMMYY: cardExpiryValidator,
-            params.pan: cardNumberValidator,
-            params.cvc: cardCodeValidator,
-            params.pubKey: pubKeyValidator
-        ]
+        let validatorsMap = prepareValidatorsMap(for: config.paymentMethodParams)
+        let fieldErrors = prepareFieldErrors(for: config.paymentMethodParams)
         
-        let fieldErrors: [String?: ParamField] = [
-            params.cardholder: .CARDHOLDER,
-            params.mdOrder: .MD_ORDER,
-            params.expiryMMYY: .EXPIRY,
-            params.pan: .PAN,
-            params.cvc: .CVC,
-            params.pubKey: .PUB_KEY
-        ]
+        if let errorTokenResult = validateFields(validatorsMap: validatorsMap,
+                                                 fieldErrors: fieldErrors) {
+            return errorTokenResult
+        }
         
+        do {
+            let cardInfo = try prepareCoreCardInfo(for: config.paymentMethodParams)
+            let mdOrder = prepareMdOrder(for: config.paymentMethodParams)
+            let pubKey = preparePubKey(for: config.paymentMethodParams)
+            
+            return prepareToken(mdOrder: mdOrder,
+                                cardInfo: cardInfo,
+                                pubKey: pubKey,
+                                timestamp: config.timestamp,
+                                registeredFrom: config.registeredFrom)
+            
+            
+        } catch {
+            Logger.shared.log(
+                classMethod: type(of: self),
+                tag: Logger.TAG,
+                message: "generateWithConfig(\(config)): Error \(error.localizedDescription)",
+                exception: error
+            )
+            
+            let errorDescription = (error as NSError).localizedDescription
+            return TokenResult(errors: [ParamField.UNKNOWN : errorDescription])
+        }
+    }
+    
+    private func prepareValidatorsMap(for params: PaymentParamsVariant) -> [String?: BaseValidator<String>] {
+        switch params {
+        case let .cardParams(params):
+            return [ params.cardholder: cardHolderValidator,
+                     params.mdOrder: orderNumberValidator,
+                     params.expiryMMYY: cardExpiryValidator,
+                     params.pan: cardNumberValidator,
+                     params.cvc: cardCodeValidator,
+                     params.pubKey: pubKeyValidator ]
+
+        case let .cardParamsInstant(params):
+            return [ params.cardholder: cardHolderValidator,
+                     params.expiryMMYY: cardExpiryValidator,
+                     params.pan: cardNumberValidator,
+                     params.cvc: cardCodeValidator,
+                     params.pubKey: pubKeyValidator ]
+            
+        case let .bindingParams(params):
+            return [ params.mdOrder: orderNumberValidator,
+                     params.bindingId: cardBindingIdValidator,
+                     params.cvc: cardCodeValidator,
+                     params.pubKey: pubKeyValidator ]
+
+        case let .bindingParamsInstant(params):
+            return [ params.bindingId: cardBindingIdValidator,
+                     params.cvc: cardCodeValidator,
+                     params.pubKey: pubKeyValidator ]
+
+        case let .newPaymentMethodParams(params):
+            return [ params.cardholder: cardHolderValidator,
+                     params.expiryMMYY: cardExpiryValidator,
+                     params.pan: cardNumberValidator,
+                     params.cvc: cardCodeValidator,
+                     params.pubKey: pubKeyValidator ]
+
+        case let .storedPaymentMethodParams(params):
+            let extractedBindingId = extractBindingId(storedPaymentMethod: params)
+
+            return [ extractedBindingId: cardBindingIdValidator,
+                     params.cvc: cardCodeValidator,
+                     params.pubKey: pubKeyValidator ]
+        }
+    }
+    
+    private func prepareFieldErrors(for params: PaymentParamsVariant) -> [String?: ParamField] {
+        switch params {
+        case let .cardParams(params):
+            return [ params.cardholder: .CARDHOLDER,
+                     params.mdOrder: .MD_ORDER,
+                     params.expiryMMYY: .EXPIRY,
+                     params.pan: .PAN,
+                     params.cvc: .CVC,
+                     params.pubKey: .PUB_KEY ]
+
+        case let .cardParamsInstant(params):
+            return [ params.cardholder: .CARDHOLDER,
+                     params.expiryMMYY: .EXPIRY,
+                     params.pan: .PAN,
+                     params.cvc: .CVC,
+                     params.pubKey: .PUB_KEY ]
+
+        case let .bindingParams(params):
+            return [ params.mdOrder: .MD_ORDER,
+                     params.bindingId: .BINDING_ID,
+                     params.cvc: .CVC,
+                     params.pubKey: .PUB_KEY ]
+            
+        case let .bindingParamsInstant(params):
+            return [ params.bindingId: .BINDING_ID,
+                     params.cvc: .CVC,
+                     params.pubKey: .PUB_KEY ]
+
+        case let .newPaymentMethodParams(params):
+            return [ params.cardholder: .CARDHOLDER,
+                     params.expiryMMYY: .EXPIRY,
+                     params.pan: .PAN,
+                     params.cvc: .CVC,
+                     params.pubKey: .PUB_KEY ]
+
+        case let .storedPaymentMethodParams(params):
+            let extractedBindingId = extractBindingId(storedPaymentMethod: params)
+            
+            return [ extractedBindingId: .STORED_PAYMENT_METHOD_ID,
+                     params.cvc: .CVC,
+                     params.pubKey: .PUB_KEY ]
+        }
+    }
+    
+    private func validateFields(validatorsMap: [String?: BaseValidator<String>],
+                                fieldErrors: [String?: ParamField]
+    ) -> TokenResult? {
         for (fieldValue, validator) in validatorsMap {
             Logger.shared.log(
                 classMethod: type(of: self),
                 tag: Logger.TAG,
-                message: "generateWithCard(\(params), \(timestamp)): Validate \(fieldErrors[fieldValue])",
+                message: "validateField(\(fieldValue)): Validate \(fieldErrors[fieldValue])",
                 exception: fieldErrors[fieldValue] ?? .UNKNOWN
             )
             
@@ -75,7 +173,7 @@ public class SdkCore {
                     Logger.shared.log(
                         classMethod: type(of: self),
                         tag: Logger.TAG,
-                        message: "generateWithCard(\(params), \(timestamp)): Error \(errorField)",
+                        message: "validateField(\(fieldValue)): Error \(errorField)",
                         exception: errorField
                     )
                     
@@ -84,200 +182,92 @@ public class SdkCore {
             }
         }
         
+        return nil
+    }
+    
+    private func extractBindingId(storedPaymentMethod: StoredPaymentMethodParams) -> String {
+        BindingUtils().extractValue(from: storedPaymentMethod.storedPaymentMethodId)
+    }
+    
+    private func prepareCoreCardInfo(for params: PaymentParamsVariant) throws -> CoreCardInfo {
         do {
-            let cardInfo = CoreCardInfo(
-                identifier: .cardPanIdentifier(params.pan),
-                expDate: try params.expiryMMYY.toExpDate(), cvv: params.cvc
-            )
-            return prepareToken(
-                mdOrder: params.mdOrder,
-                cardInfo: cardInfo,
-                pubKey: params.pubKey,
-                timestamp: timestamp,
-                registeredFrom: registeredFrom
-            )
-        } catch let error {
-            let errorDescription = (error as NSError).localizedDescription
-            return TokenResult(errors: [ParamField.UNKNOWN : errorDescription])
-        }
-    }
-    
-    /// Token generation method for a new card.
-    ///
-    /// - Parameters:
-    ///     - params: a new card information.
-    ///     - timestamp: the timestamp used in the generated token.
-    ///     - registeredFrom: source of token generation.
-    /// - Returns: generated token or error.
-    public func generateInstanceWithCard(params: CardParams,
-                                         timestamp: TimeInterval = Date().timeIntervalSince1970,
-                                         registeredFrom: MSDKRegisteredFrom = .MSDK_CORE
-    ) -> TokenResult {
-        
-        let validatorsMap: [String?: BaseValidator] = [
-            params.cardholder: cardHolderValidator,
-            params.expiryMMYY: cardExpiryValidator,
-            params.pan: cardNumberValidator,
-            params.cvc: cardCodeValidator,
-            params.pubKey: pubKeyValidator
-        ]
-        
-        let fieldErrors: [String?: ParamField] = [
-            params.cardholder: .CARDHOLDER,
-            params.expiryMMYY: .EXPIRY,
-            params.pan: .PAN,
-            params.cvc: .CVC,
-            params.pubKey: .PUB_KEY
-        ]
-        
-        for (fieldValue, validator) in validatorsMap {
-            if let fieldValue {
-                let result = validator.validate(data: fieldValue)
-                if !result.isValid {
-                    let errorField = fieldErrors[fieldValue] ?? .UNKNOWN
-                    return TokenResult(errors: [errorField: result.errorCode!])
-                }
+            switch params {
+            case let .cardParams(params):
+                return CoreCardInfo(
+                    identifier: .newPaymentMethodIdentifier(params.pan),
+                    expDate: try params.expiryMMYY.toExpDate(),
+                    cvv: params.cvc,
+                    cardHolder: params.cardholder
+                )
+            case let .cardParamsInstant(params):
+                return CoreCardInfo(
+                    identifier: .newPaymentMethodIdentifier(params.pan),
+                    expDate: try params.expiryMMYY.toExpDate(),
+                    cvv: params.cvc,
+                    cardHolder: params.cardholder
+                )
+            case let .bindingParams(params):
+                return CoreCardInfo(
+                    identifier: .storedPaymentMethodIdentifier(params.bindingId),
+                    cvv: params.cvc,
+                    cardHolder: nil
+                )
+            case let .bindingParamsInstant(params):
+                return CoreCardInfo(
+                    identifier: .storedPaymentMethodIdentifier(params.bindingId),
+                    cvv: params.cvc,
+                    cardHolder: nil
+                )
+            case let .newPaymentMethodParams(params):
+                return CoreCardInfo(
+                    identifier: .newPaymentMethodIdentifier(params.pan),
+                    expDate: try params.expiryMMYY.toExpDate(),
+                    cvv: params.cvc,
+                    cardHolder: params.cardholder
+                )
+            case let .storedPaymentMethodParams(params):
+                let extractedBindingId = extractBindingId(storedPaymentMethod: params)
+                
+                return CoreCardInfo(
+                    identifier: .storedPaymentMethodIdentifier(extractedBindingId),
+                    cvv: params.cvc,
+                    cardHolder: nil
+                )
             }
-        }
-        
-        do {
-            let cardInfo = CoreCardInfo(
-                identifier: .cardPanIdentifier(params.pan),
-                expDate: try params.expiryMMYY.toExpDate(), 
-                cvv: params.cvc,
-                cardHolder: params.cardholder
-            )
-
-            return prepareToken(
-                mdOrder: params.mdOrder,
-                cardInfo: cardInfo,
-                pubKey: params.pubKey,
-                timestamp: timestamp,
-                registeredFrom: registeredFrom
-            )
-        } catch let error {
-            print("An error occurred: \(error)")
-            let errorDescription = (error as NSError).localizedDescription
-            return TokenResult(errors: [ParamField.UNKNOWN : errorDescription])
+        } catch {
+            throw error
         }
     }
     
-    /// Token generation method for a saved card.
-    ///
-    /// - Parameters:
-    ///     - params: information about the linked card.
-    ///     - timestamp: the timestamp used in the generated token.
-    ///     - registeredFrom: source of token generation.
-    /// - Returns: generated token or error.
-    public func generateWithBinding(params: BindingParams,
-                                    timestamp: TimeInterval = Date().timeIntervalSince1970,
-                                    registeredFrom: MSDKRegisteredFrom = .MSDK_CORE
-    ) -> TokenResult {
-        
-        Logger.shared.log(
-            classMethod: type(of: self),
-            tag: Logger.TAG,
-            message: "generateWithBinding(\(params), \(timestamp)): Token generation method for a saved card.",
-            exception: nil
-        )
-        
-        let validatorsMap: [String?: BaseValidator] = [
-            params.mdOrder: orderNumberValidator,
-            params.bindingId: cardBindingIdValidator,
-            params.cvc: cardCodeValidator,
-            params.pubKey: pubKeyValidator
-        ]
-        
-        let fieldErrors: [String?: ParamField] = [
-            params.mdOrder: .MD_ORDER,
-            params.bindingId: .BINDING_ID,
-            params.cvc: .CVC,
-            params.pubKey: .PUB_KEY
-        ]
-        
-        for (fieldValue, validator) in validatorsMap {
-            if let fieldValue {
-                let result = validator.validate(data: fieldValue)
-                if !result.isValid {
-                    let errorField = fieldErrors[fieldValue] ?? .UNKNOWN
-                    
-                    Logger.shared.log(
-                        classMethod: type(of: self),
-                        tag: Logger.TAG,
-                        message: "generateWithBinding(\(params), \(timestamp)): Error \(errorField)",
-                        exception: ParamField.UNKNOWN
-                    )
-                    
-                    return TokenResult(errors: [errorField: result.errorCode!])
-                }
-            }
+    private func prepareMdOrder(for params: PaymentParamsVariant) -> String {
+        switch params {
+        case let .cardParams(params): params.mdOrder
+        case .cardParamsInstant(_): ""
+        case let .bindingParams(params): params.mdOrder
+        case .bindingParamsInstant(_): ""
+        case .newPaymentMethodParams(_): ""
+        case .storedPaymentMethodParams(_): ""
         }
-        
-        let cardInfo = CoreCardInfo(
-            identifier: .cardBindingIdIdentifier(params.bindingId),
-            cvv: params.cvc,
-            cardHolder: nil
-        )
-        return prepareToken(mdOrder: params.mdOrder,
-                            cardInfo: cardInfo,
-                            pubKey: params.pubKey,
-                            timestamp: timestamp,
-                            registeredFrom: registeredFrom)
     }
     
-    /// Token generation method for a saved card.
-    ///
-    /// - Parameters:
-    ///     - params: information about the linked card.
-    ///     - timestamp: the timestamp used in the generated token.
-    ///     - registeredFrom: source of token generation.
-    /// - Returns: generated token or error.
-    public func generateInstanceWithBinding(params: BindingParams,
-                                            timestamp: TimeInterval = Date().timeIntervalSince1970,
-                                            registeredFrom: MSDKRegisteredFrom = .MSDK_CORE
-    ) -> TokenResult {
-        
-        let validatorsMap: [String?: BaseValidator] = [
-            params.bindingId: cardBindingIdValidator,
-            params.cvc: cardCodeValidator,
-            params.pubKey: pubKeyValidator
-        ]
-        
-        let fieldErrors: [String?: ParamField] = [
-            params.bindingId: .BINDING_ID,
-            params.cvc: .CVC,
-            params.pubKey: .PUB_KEY
-        ]
-        
-        for (fieldValue, validator) in validatorsMap {
-            if let fieldValue {
-                let result = validator.validate(data: fieldValue)
-                if !result.isValid {
-                    let errorField = fieldErrors[fieldValue] ?? .UNKNOWN
-                    return TokenResult(errors: [errorField: result.errorCode!])
-                }
-            }
+    private func preparePubKey(for params: PaymentParamsVariant) -> String {
+        switch params {
+        case let .cardParams(params): params.pubKey
+        case let .cardParamsInstant(params): params.pubKey
+        case let .bindingParams(params): params.pubKey
+        case let .bindingParamsInstant(params): params.pubKey
+        case let .newPaymentMethodParams(params): params.pubKey
+        case let .storedPaymentMethodParams(params): params.pubKey
         }
-        
-        let cardInfo = CoreCardInfo(
-            identifier: .cardBindingIdIdentifier(params.bindingId),
-            cvv: params.cvc,
-            cardHolder: nil
-        )
-        return prepareToken(mdOrder: params.mdOrder,
-                            cardInfo: cardInfo,
-                            pubKey: params.pubKey,
-                            timestamp: timestamp,
-                            registeredFrom: registeredFrom)
     }
     
-    public func prepareToken(mdOrder: String = "",
-                             cardInfo: CoreCardInfo,
-                             pubKey: String,
-                             timestamp: TimeInterval,
-                             registeredFrom: MSDKRegisteredFrom = .MSDK_CORE
+    private func prepareToken(mdOrder: String = "",
+                              cardInfo: CoreCardInfo,
+                              pubKey: String,
+                              timestamp: TimeInterval,
+                              registeredFrom: MSDKRegisteredFrom = .MSDK_CORE
     ) -> TokenResult {
-
+        
         Logger.shared.log(
             classMethod: type(of: self),
             tag: Logger.TAG,

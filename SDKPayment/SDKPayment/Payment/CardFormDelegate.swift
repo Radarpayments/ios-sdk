@@ -9,7 +9,7 @@ import Foundation
 import SDKForms
 
 /// Interface describing the operation of the card data entry form.
-public protocol CardFormDelegate {
+protocol CardFormDelegate: AnyObject {
     
     /// Method for starting a form with binding cards.
     ///

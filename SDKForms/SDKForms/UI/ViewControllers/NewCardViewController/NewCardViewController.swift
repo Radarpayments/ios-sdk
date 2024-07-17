@@ -19,7 +19,7 @@ public final class NewCardViewController: FormsBaseViewController {
         static let submitModel = "submitModel"
     }
 
-    private lazy var tableView: UITableView = {
+    internal lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.backgroundColor = ThemeSetting.shared.colorTableBackground()
         
@@ -89,6 +89,12 @@ public final class NewCardViewController: FormsBaseViewController {
         updateSections()
     }
     
+    override public func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        nextInputView()?.setActive(true)
+    }
+    
     private func setupNavigationController() {
         navigationItem.titleView = navigationTitleLabel
         navigationController?.navigationBar.tintColor = ThemeSetting.shared.colorLabel()
@@ -104,7 +110,7 @@ public final class NewCardViewController: FormsBaseViewController {
     }
     
     private func checkFormValidation() -> Bool {
-        cardNumberValidation = cardNumberValidator.validate(data: cardNumberEntered.digitsOnly())
+        cardNumberValidation = cardNumberValidator.validate(data: cardNumberEntered)
         cardExpiryValidation = cardExpiryValidator.validate(data: cardExpiryEntered)
         cardCVCValidation = cardCodeValidator.validate(data: cardCVCEntered)
         
@@ -123,21 +129,21 @@ public final class NewCardViewController: FormsBaseViewController {
 
         actionWasCalled = true
         do {
-            let seToken = try cryptogramProcessor?.create(
+            let paymentToken = try cryptogramProcessor?.create(
                 order: config.order,
                 timestamp: config.timestamp,
                 uuid: config.uuid,
                 cardInfo: CoreCardInfo(
-                    identifier: .cardPanIdentifier(cardNumberEntered.digitsOnly()),
+                    identifier: .newPaymentMethodIdentifier(cardNumberEntered.digitsOnly()),
                     expDate: cardExpiryEntered.toExpDate(),
                     cvv: cardCVCEntered
                 ),
                 registeredFrom: config.registeredFrom
             )
-            
+
             let cryptogramData = CryptogramData(
                 status: PaymentDataStatus.succeeded,
-                seToken: seToken ?? "",
+                paymentToken: paymentToken ?? "",
                 info: PaymentInfoNewCard(
                     order: config.order,
                     saveCard: saveSwitchIsOn,
@@ -190,7 +196,8 @@ public final class NewCardViewController: FormsBaseViewController {
                 placeholder: .cardNumberTitle(),
                 pattern: .cardNumber,
                 errorMessage: cardNumberValidation.errorMessage ?? "",
-                hideleftImageView: false
+                hideleftImageView: false, 
+                textFieldViewTextDidChange: cardNumberTextDidChange
             )
         )
     }
@@ -201,13 +208,15 @@ public final class NewCardViewController: FormsBaseViewController {
             cardExpiryViewConfig: CardDataTextFieldViewState(
                 placeholder: .mmYY(),
                 pattern: .cardExpiry,
-                errorMessage: cardExpiryValidation.errorMessage ?? ""
+                errorMessage: cardExpiryValidation.errorMessage ?? "", 
+                textFieldViewTextDidChange: cardExpiryTextDidChange
             ),
             cardCVCViewConfig: CardDataTextFieldViewState(
                 placeholder: .cvcTitle(),
                 pattern: .cardCVC,
                 errorMessage: cardCVCValidation.errorMessage ?? "",
-                isSecureInput: true
+                isSecureInput: true, 
+                textFieldViewTextDidChange: cardCVCTextDidChange
             )
         )
     }
@@ -215,10 +224,11 @@ public final class NewCardViewController: FormsBaseViewController {
     private func cardHolderFieldModel() -> CardHolderTableModel {
         CardHolderTableModel(
             id: Constants.cardHolder,
-            textFieldViewConfig: CardDataTextFieldViewState(
+            textFieldViewConfig: CardDataTextFieldViewState( 
                 placeholder: .cardholderPlaceholder(),
                 pattern: .cardHolder,
-                errorMessage: cardHolderValidation.errorMessage ?? ""
+                errorMessage: cardHolderValidation.errorMessage ?? "", 
+                textFieldViewTextDidChange: cardHolderTextDidChange
             )
         )
     }
@@ -288,24 +298,31 @@ extension NewCardViewController: ButtonTableCellDelegate {
     }
 }
 
-extension NewCardViewController: TextFieldTableCellDelegate {
+// MARK: - Inputs text changing handlers
+extension NewCardViewController {
     
-    func textDidChange(id: String, _ text: String) {
-        switch id {
-        case Constants.cardNumber: cardNumberEntered = text
-        case Constants.cardHolder: cardHolderEntered = text
-        default: break
-        }
+    private func cardNumberTextDidChange(_ inputView: InputView) {
+        cardNumberEntered = inputView.value.digitsOnly()
+        cardNumberValidation = checkValidation(value: cardNumberEntered, validator: cardNumberValidator)
+        setActiveNextInputIfValid(cardNumberValidation, activeInput: inputView)
+    }
+    
+    private func cardExpiryTextDidChange(_ inputView: InputView) {
+        cardExpiryEntered = inputView.value
+        cardExpiryValidation = checkValidation(value: cardExpiryEntered, validator: cardExpiryValidator)
+        setActiveNextInputIfValid(cardExpiryValidation, activeInput: inputView)
+    }
+    
+    private func cardCVCTextDidChange(_ inputView: InputView) {
+        cardCVCEntered = inputView.value
+        cardCVCValidation = checkValidation(value: cardCVCEntered, validator: cardCodeValidator)
+        setActiveNextInputIfValid(cardCVCValidation, activeInput: inputView)
+    }
+    
+    private func cardHolderTextDidChange(_ inputView: InputView) {
+        cardHolderEntered = inputView.value
+        cardHolderValidation = checkValidation(value: cardHolderEntered, validator: cardHolderValidator)
     }
 }
 
-extension NewCardViewController: TwoTextFieldsTableCellDelegate {
-    
-    func cardExpiryTextDidChange(_ text: String) {
-        cardExpiryEntered = text
-    }
-    
-    func cardCVCTextDidChange(_ text: String) {
-        cardCVCEntered = text
-    }
-}
+extension NewCardViewController: InputTableVC {}

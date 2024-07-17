@@ -17,7 +17,7 @@ public final class SelectedCardViewController: FormsBaseViewController {
         static let submitModel = "submitModel"
     }
     
-    private lazy var tableView: UITableView = {
+    internal lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.backgroundColor = ThemeSetting.shared.colorTableBackground()
         
@@ -82,6 +82,12 @@ public final class SelectedCardViewController: FormsBaseViewController {
         updateSections()
     }
     
+    override public func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        nextInputView()?.setActive(true)
+    }
+    
     private func setupNavigationController() {
         navigationItem.titleView = navigationTitleLabel
         navigationController?.navigationBar.tintColor = ThemeSetting.shared.colorLabel()
@@ -101,7 +107,7 @@ public final class SelectedCardViewController: FormsBaseViewController {
             cardHolderValidation = cardHolderValidator.validate(data: cardHolderEntered)
         }
 
-        if paymentConfig?.bindingCVCRequired ?? true {
+        if paymentConfig?.storedPaymentMethodCVCRequired ?? true {
             cardCVCValidation = cardCodeValidator.validate(data: cardCVCEntered)
         }
         
@@ -116,12 +122,12 @@ public final class SelectedCardViewController: FormsBaseViewController {
         actionWasCalled = true
 
         do {
-            let seToken = try cryptogramProcessor?.create(
+            let paymentToken = try cryptogramProcessor?.create(
                 order: config.order,
                 timestamp: config.timestamp,
                 uuid: config.uuid,
                 cardInfo: CoreCardInfo(
-                    identifier: .cardBindingIdIdentifier(card.bindingId),
+                    identifier: .storedPaymentMethodIdentifier(card.bindingId),
                     cvv: cardCVCEntered
                 ),
                 registeredFrom: config.registeredFrom
@@ -129,7 +135,7 @@ public final class SelectedCardViewController: FormsBaseViewController {
             
             let cryptogramData = CryptogramData(
                 status: PaymentDataStatus.succeeded,
-                seToken: seToken ?? "",
+                paymentToken: paymentToken ?? "",
                 info: PaymentInfoBindCard(
                     order: config.order,
                     bindingId: card.bindingId
@@ -177,7 +183,8 @@ public final class SelectedCardViewController: FormsBaseViewController {
                 pattern: .cardNumber,
                 hideleftImageView: false,
                 isSecureInput: true,
-                inputIsAvailable: false
+                inputIsAvailable: false, 
+                textFieldViewTextDidChange: nil
             )
         )
     }
@@ -189,15 +196,17 @@ public final class SelectedCardViewController: FormsBaseViewController {
                 text: card.expiryDate?.formatExpiryDate() ?? "",
                 pattern: .cardExpiry,
                 isSecureInput: true,
-                inputIsAvailable: false
+                inputIsAvailable: false, 
+                textFieldViewTextDidChange: nil
             ),
             cardCVCViewConfig: CardDataTextFieldViewState(
                 placeholder: .cvcTitle(),
-                text: !(paymentConfig?.bindingCVCRequired ?? false) ? "   " : cardCVCEntered,
+                text: !(paymentConfig?.storedPaymentMethodCVCRequired ?? false) ? "   " : cardCVCEntered,
                 pattern: .cardCVC,
                 errorMessage: cardCVCValidation.errorMessage ?? "",
                 isSecureInput: true,
-                inputIsAvailable: (paymentConfig?.bindingCVCRequired ?? false)
+                inputIsAvailable: (paymentConfig?.storedPaymentMethodCVCRequired ?? false),
+                textFieldViewTextDidChange: cardCVCTextDidChange
             )
         )
     }
@@ -215,7 +224,8 @@ public final class SelectedCardViewController: FormsBaseViewController {
             textFieldViewConfig: CardDataTextFieldViewState(
                 placeholder: .cardholderPlaceholder(),
                 pattern: .cardHolder,
-                errorMessage: cardHolderValidation.errorMessage ?? ""
+                errorMessage: cardHolderValidation.errorMessage ?? "", 
+                textFieldViewTextDidChange: cardHolderTextDidChange
             )
         )
     }
@@ -264,21 +274,19 @@ extension SelectedCardViewController: ButtonTableCellDelegate {
     }
 }
 
-extension SelectedCardViewController: TextFieldTableCellDelegate {
+// MARK: - Inputs text changing handlers
+extension SelectedCardViewController {
     
-    func textDidChange(id: String, _ text: String) {
-        switch id {
-        case Constants.cardHolder: cardHolderEntered = text
-        default: break
-        }
+    private func cardCVCTextDidChange(_ inputView: InputView) {
+        cardCVCEntered = inputView.value
+        cardCVCValidation = checkValidation(value: cardCVCEntered, validator: cardCodeValidator)
+        setActiveNextInputIfValid(cardCVCValidation, activeInput: inputView)
+    }
+    
+    private func cardHolderTextDidChange(_ inputView: InputView) {
+        cardHolderEntered = inputView.value
+        cardHolderValidation = checkValidation(value: cardHolderEntered, validator: cardHolderValidator)
     }
 }
 
-extension SelectedCardViewController: TwoTextFieldsTableCellDelegate {
-    
-    func cardExpiryTextDidChange(_ text: String) {}
-    
-    func cardCVCTextDidChange(_ text: String) {
-        cardCVCEntered = text
-    }
-}
+extension SelectedCardViewController: InputTableVC {}

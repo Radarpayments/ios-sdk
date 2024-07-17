@@ -13,7 +13,7 @@ import SDKCore
 final class CardFormDelegateImpl: CardFormDelegate {
     
     private var parentController: UINavigationController
-    private var resultCryptogramCallback: any ResultCryptogramCallback<CryptogramData>
+    private weak var resultCryptogramCallback: (any ResultCryptogramCallback<CryptogramData>)!
     
     init(
         parentController: UINavigationController,
@@ -33,7 +33,7 @@ final class CardFormDelegateImpl: CardFormDelegate {
     ) {
         let paymentConfig = PaymentConfigBuilder(order: mdOrder)
             .cards(cards: Set(bindingCards.toCards()))
-            .bindingCVCRequired(required: !cvcNotRequired)
+            .storedPaymentMethodCVCRequired(required: !cvcNotRequired)
             .cardSaveOptions(options: bindingEnabled ? .yesByDefault : .hide)
             .cardDeleteOptions(options: bindingDeactivationEnabled ? .yesDelete : .noDelete)
             .displayApplePay(isDisplay: applePayPaymentConfig != nil)

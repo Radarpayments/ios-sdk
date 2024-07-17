@@ -38,6 +38,34 @@ final class OrderCreator {
             completionHandler(responseParams["orderId"] ?? "")
         }.resume()
     }
+    
+    static func registerNewSession(baseUrl: String,
+                                   amount: String,
+                                   completionHandler: @escaping (_ sessionId: String) -> Void) {
+        let headers = ["Content-Type": "application/json",
+                       "X-Version": "2023-10-31",
+                       "X-Api-Key": "9yVrffWNAiHUUVUCQoX4NFHMxmRHYA2yB"]
+        
+        let body: [String: Any] = ["amount": 2000,
+                    "currency": "USD",
+                    "successUrl": "sdk://done",
+                    "failureUrl": "sdk://failure"]
+        
+        var request = URLRequest(url: NSURL(string: "https://dev.bpcbt.com/api2/sessions")! as URL)
+        request.httpMethod = "POST"
+        request.allHTTPHeaderFields = headers
+        request.httpBody = try? JSONSerialization.data(withJSONObject: body)
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data,
+                  let responseParams = try? JSONSerialization.jsonObject(with: data) as? [String: Any]
+            else { return }
+            
+            completionHandler(responseParams["id"] as? String ?? "")
+        }.resume()
+    }
+    
+    
 }
 
 extension URLRequest {

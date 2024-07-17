@@ -49,23 +49,20 @@ final class SelectedCardVCFactory: NSObject {
             let cell = tableView?.dequeueReusableCell(TextFieldTableCell.self, for: indexPath) as? TextFieldTableCell
             
             return cell?.bind(
-                model: itemModel,
-                delegate: owner as? TextFieldTableCellDelegate
+                model: itemModel
             )
             
         case let itemModel as TwoTextFieldsTableModel:
             let cell = tableView?.dequeueReusableCell(TwoTextFieldsTableCell.self, for: indexPath) as? TwoTextFieldsTableCell
             
             return cell?.bind(
-                model: itemModel,
-                delegate: owner as? TwoTextFieldsTableCellDelegate
+                model: itemModel
             )
             
         case let itemModel as CardHolderTableModel:
             let cell = tableView?.dequeueReusableCell(CardHolderTableCell.self, for: indexPath) as? CardHolderTableCell
             return cell?.bind(
-                model: itemModel,
-                delegate: owner as? TextFieldTableCellDelegate
+                model: itemModel
             )
             
         case let itemModel as ButtonTableModel:

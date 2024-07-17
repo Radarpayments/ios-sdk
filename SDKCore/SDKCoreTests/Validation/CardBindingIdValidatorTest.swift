@@ -30,7 +30,7 @@ final class CardBindingIdValidatorTest: XCTestCase {
         let result = cardBindongValidator.validate(data: "")
         
         XCTAssertFalse(result.isValid)
-        XCTAssertEqual(String.bindingRequired(), result.errorMessage)
+        XCTAssertEqual(String.bindingRequired().localized, result.errorMessage)
         XCTAssertEqual(ValidationCodes.required, result.errorCode)
     }
 
@@ -38,7 +38,7 @@ final class CardBindingIdValidatorTest: XCTestCase {
         let result = cardBindongValidator.validate(data: "   ")
         
         XCTAssertFalse(result.isValid)
-        XCTAssertEqual(String.bindingRequired(), result.errorMessage)
+        XCTAssertEqual(String.bindingRequired().localized, result.errorMessage)
         XCTAssertEqual(ValidationCodes.required, result.errorCode)
     }
 
@@ -46,7 +46,7 @@ final class CardBindingIdValidatorTest: XCTestCase {
         let result = cardBindongValidator.validate(data: "513b17f4 - e32e-414f-8c74-936fd7027baa")
         
         XCTAssertFalse(result.isValid)
-        XCTAssertEqual(String.bindingIncorrect(), result.errorMessage)
+        XCTAssertEqual(String.bindingIncorrect().localized, result.errorMessage)
         XCTAssertEqual(ValidationCodes.invalid, result.errorCode)
     }
 

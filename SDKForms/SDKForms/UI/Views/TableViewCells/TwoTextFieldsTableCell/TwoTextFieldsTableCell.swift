@@ -7,12 +7,6 @@
 
 import UIKit
 
-protocol TwoTextFieldsTableCellDelegate: AnyObject {
-    
-    func cardExpiryTextDidChange(_ text: String)
-    func cardCVCTextDidChange(_ text: String)
-}
-
 final class TwoTextFieldsTableCell: UITableViewCell {
     
     private lazy var cardExpiryTextFiedlView: CardDataTextFieldView = {
@@ -43,7 +37,6 @@ final class TwoTextFieldsTableCell: UITableViewCell {
     }()
     
     private var model: TwoTextFieldsTableModel?
-    private weak var delegate: TwoTextFieldsTableCellDelegate?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -60,21 +53,23 @@ final class TwoTextFieldsTableCell: UITableViewCell {
     }
     
     func bind(
-        model: TwoTextFieldsTableModel,
-        delegate: TwoTextFieldsTableCellDelegate?
+        model: TwoTextFieldsTableModel
     ) -> Self {
         self.model = model
-        self.delegate = delegate
 
         cardExpiryTextFiedlView.setState(model.cardExpiryViewConfig)
         cardCVCTextFieldView.setState(model.cardCVCViewConfig)
         
         cardExpiryTextFiedlView.setTextChangingHandler { [weak self] text in
-            self?.delegate?.cardExpiryTextDidChange(text)
+            guard let self else { return }
+            
+            model.cardExpiryViewConfig.textFieldViewTextDidChange?(self.cardExpiryTextFiedlView)
         }
         
         cardCVCTextFieldView.setTextChangingHandler { [weak self] text in
-            self?.delegate?.cardCVCTextDidChange(text)
+            guard let self else { return }
+            
+            model.cardCVCViewConfig.textFieldViewTextDidChange?(self.cardCVCTextFieldView)
         }
 
         return self
@@ -98,5 +93,12 @@ final class TwoTextFieldsTableCell: UITableViewCell {
                 stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
             ]
         )
+    }
+}
+
+extension TwoTextFieldsTableCell: InputCell {
+    
+    var inputViews: [InputView] {
+        [ cardExpiryTextFiedlView, cardCVCTextFieldView ]
     }
 }

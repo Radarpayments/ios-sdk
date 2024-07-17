@@ -19,10 +19,13 @@ public enum ParamField: Error {
     case EXPIRY
     // Cardholder error.
     case CARDHOLDER
+    // Public key error.
+    case PUB_KEY
+    // Stored payment method Id
+    case STORED_PAYMENT_METHOD_ID
+    
     // Binding number error.
     case BINDING_ID
     // Number order error.
     case MD_ORDER
-    // Public key error.
-    case PUB_KEY
 }
