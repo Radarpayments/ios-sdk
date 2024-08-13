@@ -19,7 +19,7 @@ public struct SDKCoreConfig {
     public init(
         paymentMethodParams: PaymentParamsVariant,
         registeredFrom: MSDKRegisteredFrom = .MSDK_CORE,
-        timestamp: Double = Date().timeIntervalSinceReferenceDate
+        timestamp: Double = Date().timeIntervalSince1970
     ) {
         self.paymentMethodParams = paymentMethodParams
         self.registeredFrom = registeredFrom

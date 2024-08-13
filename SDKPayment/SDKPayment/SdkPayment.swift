@@ -99,7 +99,7 @@ public final class SdkPayment {
     }
     
     public static func getSDKVersion() -> String {
-        let version = "3.0.2"
+        let version = "3.0.3.1"
         LogDebug.shared.logIfDebug(message: "SDKPayment version is: \(version)")
         LogDebug.shared.logIfDebug(message: "SDKForms version is: \(SdkForms.getSDKVersion())")
         LogDebug.shared.logIfDebug(message: "SDKCore version is: \(SdkCore.getSDKVersion())")

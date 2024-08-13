@@ -312,5 +312,5 @@ public class SdkCore {
     }
     
     /// - Returns: SDKCore version
-    public static func getSDKVersion() -> String { "3.0.2" }
+    public static func getSDKVersion() -> String { "3.0.3.1" }
 }
