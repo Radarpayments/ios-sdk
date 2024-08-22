@@ -95,6 +95,54 @@ class BaseTestCase: XCTestCase {
         return orderId
     }
     
+    func registerOrderAndLaunchAppWithPreFilledBiilingData(
+        amount: Int = 20000,
+        returnUrl: String = "sdk://done",
+        userName: String = "mobile-sdk-api",
+        password: String = "vkyvbG0",
+        clientId: String? = nil,
+        use3DS2SDK: Bool,
+        needsToLog: Bool = false,
+        email: String = "test@test.com",
+        mobilePhone: String = "+35799902871",
+        billingPayerData: BillingPayerData = BillingPayerData()
+    ) -> String {
+        app = XCUIApplication()
+        app.launchArguments = ["-uiTesting"]
+        
+        let config: Use3DSConfig = use3DS2SDK
+            ? .use3ds2sdk(dsRoot: dsRoot)
+            : .noUse3ds2sdk
+
+        paymentConfig = SDKPaymentConfig(baseURL: baseUrl,
+                                         use3DSConfig: config,
+                                         keyProviderUrl: keyProviderUrl)
+        _ = SdkPayment.getSDKVersion()
+
+        let orderId = try! testOrderHelper.registerOrder(
+            amount: amount,
+            returnUrl: returnUrl,
+            userName: userName,
+            password: password,
+            clientId: clientId,
+            email: email,
+            mobilePhone: mobilePhone,
+            billingPayerData: billingPayerData
+        )
+        
+        let paymentConfig = testOrderHelper.encodeConfig(
+            paymentConfig: paymentConfig
+        )
+        app.launchEnvironment = [
+            "paymentConfig": paymentConfig,
+            "orderId": orderId,
+            "needsToLog": "\(needsToLog)"
+        ]
+        app.launch()
+        
+        return orderId
+    }
+    
     func registerSessionAndLaunchApp(
         createSessionbaseUrl: String = "https://dev.bpcbt.com",
         amount: Int = 2000,

@@ -138,7 +138,8 @@ final class PaymentManagerImpl: PaymentManager {
                 cvcNotRequired: sessionStatusResponse.cvcNotRequired,
                 bindingDeactivationEnabled: sessionStatusResponse.bindingDeactivationEnabled,
                 applePayPaymentConfig: createApplePayPaymentConfig(applePaySettings: applePaySettings, 
-                                                                   currencyCode: sessionStatusResponse.currencyAlphaCode)
+                                                                   currencyCode: sessionStatusResponse.currencyAlphaCode),
+                sessionStatus: sessionStatusResponse
             )
         } catch {
             finishWithError(exception: error as? SDKException)

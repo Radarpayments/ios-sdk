@@ -6,6 +6,7 @@ import Foundation
 
 protocol InputView {
     
+    var id: String { get }
     var isFilled: Bool { get }
     var value: String { get }
     

@@ -19,7 +19,9 @@ final class PaymentCardFullThreeDSUseCaseTest: BaseTestCase {
         XCTAssertTrue(paymentBottomSheet.clickOnAddNewCard())
         
         let newCardScreen = NewCardScreen(app: app)
-        XCTAssertTrue(newCardScreen.fillOutForm(with: TestCardHelper.successFull3DS))
+        XCTAssertTrue(newCardScreen.fillOutForm(
+            with: TestCardHelper.successFull3DS
+        ))
         XCTAssertTrue(newCardScreen.clickOnActionButton())
         
         let threeDSScreen = ThreeDSS2creen(app: app)
@@ -91,7 +93,9 @@ final class PaymentCardFullThreeDSUseCaseTest: BaseTestCase {
         XCTAssertTrue(paymentBottomSheet.clickOnAddNewCard())
         
         let newCardScreen = NewCardScreen(app: app)
-        XCTAssertTrue(newCardScreen.fillOutForm(with: TestCardHelper.successFull3DS))
+        XCTAssertTrue(newCardScreen.fillOutForm(
+            with: TestCardHelper.successFull3DS
+        ))
         XCTAssertTrue(newCardScreen.clickOnActionButton())
         
         let webViewScreen = ThreeDS1Screen(app: app)
@@ -160,7 +164,9 @@ final class PaymentCardFullThreeDSUseCaseTest: BaseTestCase {
         XCTAssertTrue(paymentBottomSheet.clickOnAddNewCard())
         
         let newCardScreen = NewCardScreen(app: app)
-        XCTAssertTrue(newCardScreen.fillOutForm(with: TestCardHelper.successFull3DS))
+        XCTAssertTrue(newCardScreen.fillOutForm(
+            with: TestCardHelper.successFull3DS
+        ))
         XCTAssertTrue(newCardScreen.clickOnActionButton())
         
         let threeDSScreen = ThreeDSS2creen(app: app)
@@ -232,7 +238,9 @@ final class PaymentCardFullThreeDSUseCaseTest: BaseTestCase {
         XCTAssertTrue(paymentBottomSheet.clickOnAddNewCard())
         
         let newCardScreen = NewCardScreen(app: app)
-        XCTAssertTrue(newCardScreen.fillOutForm(with: TestCardHelper.successFull3DS))
+        XCTAssertTrue(newCardScreen.fillOutForm(
+            with: TestCardHelper.successFull3DS
+        ))
         XCTAssertTrue(newCardScreen.clickOnActionButton())
         
         let webViewScreen = ThreeDS1Screen(app: app)

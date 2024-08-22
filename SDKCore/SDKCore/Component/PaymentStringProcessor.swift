@@ -16,7 +16,7 @@ import Foundation
 ///     - cardInfo: card data for withdraw money.
 ///
 /// - Returns: prepared line with payment information.
-public protocol PaymentStringProcessor {
+protocol PaymentStringProcessor {
     func createPaymentString(
         order: String,
         timestamp: Int64,

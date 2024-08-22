@@ -6,7 +6,7 @@
   
 */
 
-"payrdr_card_incorrect_cvc" = "VC2/CVV2 is incorrect";
+"payrdr_card_incorrect_cvc" = "CVC2/CVV2 is incorrect";
 "payrdr_card_incorrect_length" = "Card number length should be 16–19 digit";
 "payrdr_card_incorrect_number" = "The card number is incorrect";
 "payrdr_card_incorrect_expiry" = "Card expiry date is incorrect";
@@ -16,3 +16,8 @@
 "payrdr_pub_key_required" = "Public key required";
 "payrdr_binding_required" = "Binding id required";
 "payrdr_binding_incorrect" = "Binding id has incorrect format";
+
+"payrdr_field_required" = "Field is required";
+
+"payrdr_email_incorrect" = "Email is incorrect";
+"payrdr_phone_number_incorrect" = "Phone number is incorrect";

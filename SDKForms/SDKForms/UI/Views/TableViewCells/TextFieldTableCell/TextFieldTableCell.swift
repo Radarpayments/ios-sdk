@@ -27,19 +27,25 @@ class TextFieldTableCell: UITableViewCell {
         setupLayout()
     }
     
-    func bind(
-        model: any TextFieldTableModelProtocol
-    ) -> Self {
+    convenience init() {
+        self.init(style: .default, reuseIdentifier: Self.description())
+    }
+    
+    func bind(model: any TextFieldTableModelProtocol) -> Self {
         self.model = model
         
         textFieldView.setState(model.textFieldViewConfig)
         textFieldView.setTextChangingHandler { [weak self] text in
             guard let self else { return }
             
-            model.textFieldViewConfig.textFieldViewTextDidChange?(self.textFieldView)
+            model.textFieldViewConfig.textFieldViewTextDidChange?(self.inputView())
         }
         
         return self
+    }
+    
+    private func inputView() -> InputView {
+        textFieldView
     }
     
     private func setupSubviews() {

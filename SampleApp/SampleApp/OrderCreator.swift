@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SDKPayment
 
 final class OrderCreator {
     
@@ -13,16 +14,26 @@ final class OrderCreator {
                                  amount: String,
                                  userName: String,
                                  password: String,
+                                 billingPayerData: BillingPayerData = BillingPayerData(),
                                  completionHandler: @escaping (_ orderId: String) -> Void) {
         let headers = ["content-type": "application/x-www-form-urlencoded"]
         
-        let body = ["amount": amount,
-                    "userName": userName,
-                    "password": password,
-                    "returnUrl": "sdk://done",
-                    "email": "test@test.com",
-                    "clientId": "ClientIdTestIOS",
-                    "orderNumber": "\(Int64.random(in: Int64.min...Int64.max))"]
+        let mobilePhoneJson = ["mobilePhone": "+35799902871"]
+        let encodedMobilePhone = try? JSONEncoder().encode(mobilePhoneJson)
+        let encodedBillingPayerData = try? JSONEncoder().encode(billingPayerData)
+        
+        let body = [
+            "amount": amount,
+            "userName": userName,
+            "password": password,
+            "returnUrl": "sdk://done",
+            "email": "test@test.com",
+            "clientId": "ClientIdTestIOS",
+            "orderNumber": "\(Int64.random(in: Int64.min...Int64.max))",
+            "orderPayerData": String(data: encodedMobilePhone!, encoding: .utf8)!,
+            "billingPayerData":  String(data: encodedBillingPayerData!, encoding: .utf8)!
+        ]
+
         
         var request = URLRequest(url: NSURL(string: "\(baseUrl)/rest/register.do")! as URL)
         request.httpMethod = "POST"
@@ -84,9 +95,9 @@ extension URLRequest {
     
     let parameterArray = parameters.map { (arg) -> String in
       let (key, value) = arg
-      return "\(key)=\(self.percentEscapeString(value))"
+        return "\(key)=\(self.percentEscapeString(value))"
     }
     
-    httpBody = parameterArray.joined(separator: "&").data(using: String.Encoding.utf8)
+      httpBody = parameterArray.joined(separator: "&").data(using: .utf8)
   }
 }

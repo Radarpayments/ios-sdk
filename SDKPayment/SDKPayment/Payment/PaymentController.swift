@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SDKCore
 import SDKForms
 
 final class PaymentController {
@@ -14,6 +15,7 @@ final class PaymentController {
 
     private let paymentId: PaymentIdType
     private let checkoutConfig: CheckoutConfig
+    private let sdkPaymentConfig: SDKPaymentConfig
     private var parentController: UINavigationController
     private var callbackHandler: any ResultPaymentCallback<PaymentResult>
     private let paymentQueue = DispatchQueue(label: "paymentQueue", attributes: .concurrent)
@@ -51,11 +53,13 @@ final class PaymentController {
     
     init(
         checkoutConfig: CheckoutConfig,
+        sdkPaymentConfig: SDKPaymentConfig,
         parentController: UINavigationController,
         callbackHandler: any ResultPaymentCallback<PaymentResult>
     ) {
         self.paymentId = checkoutConfig.id
         self.checkoutConfig = checkoutConfig
+        self.sdkPaymentConfig = sdkPaymentConfig
         self.parentController = parentController
         self.callbackHandler = callbackHandler
     }
@@ -69,10 +73,15 @@ final class PaymentController {
     }
     
     private func paymentNewCard(
-        paymentToken: String,
+        paymentToken: String?,
         paymentInfo: PaymentInfoNewCard,
         completion: @escaping (_ error: SDKException?) -> Void
     ) {
+        guard let paymentToken else {
+            completion(SDKCryptogramException(message: "Payment token is nil"))
+            return
+        }
+
         paymentQueue.async { [weak self] in
             guard let self else { return }
             let cardHolder = paymentInfo.holder.isEmpty 
@@ -80,12 +89,15 @@ final class PaymentController {
                 : paymentInfo.holder
             
             do {
+                let fullPayerData = fullPayerData(from: paymentInfo.mandatoryFieldsValues)
+
                 try paymentManager.processFormData(
                     cryptogramApiData: CryptogramApiData(
                         paymentToken: paymentToken,
                         mdOrder: paymentInfo.order,
                         holder: cardHolder,
-                        saveCard: paymentInfo.saveCard
+                        saveCard: paymentInfo.saveCard,
+                        fullPayerData: fullPayerData
                     ),
                     isBinding: false
                 )
@@ -96,19 +108,27 @@ final class PaymentController {
     }
     
     private func paymentBindingCard(
-        paymentToken: String,
+        paymentToken: String?,
         paymentInfo: PaymentInfoBindCard,
         completion: @escaping (_ error: SDKException?) -> Void
     ) {
+        guard let paymentToken else {
+            completion(SDKCryptogramException(message: "Payment token is nil"))
+            return
+        }
+        
         paymentQueue.async { [weak self] in
             guard let self else { return }
             
             do {
+                let fullPayerData = fullPayerData(from: paymentInfo.mandatoryFieldsValues)
+                
                 try paymentManager.processFormData(
                     cryptogramApiData: CryptogramApiData(
                         paymentToken: paymentToken,
                         mdOrder: paymentInfo.order,
-                        holder: DEFAULT_VALUE_CARDHOLDER
+                        holder: DEFAULT_VALUE_CARDHOLDER,
+                        fullPayerData: fullPayerData
                     ),
                     isBinding: true
                 )
@@ -119,7 +139,6 @@ final class PaymentController {
     }
     
     private func paymentApplePay(
-        paymentToken: String,
         paymentInfo: PaymentInfoApplePay,
         completion: @escaping (_ error: SDKException?) -> Void
     ) {
@@ -130,7 +149,7 @@ final class PaymentController {
                 try paymentManager.processApplePay(
                     cryptogramApplePayApiData: CryptogramApplePayApiData(
                         mdOrder: paymentInfo.order,
-                        paymentToken: paymentToken
+                        paymentToken: paymentInfo.paymentToken
                     )
                 )
             } catch {
@@ -151,6 +170,28 @@ final class PaymentController {
                 }
             }
         }
+    }
+    
+    private func fullPayerData(from fieldsValues: [String: String]) -> FullPayerData {
+        var fullPayerData = FullPayerData()
+        
+        fieldsValues.forEach { key, value in
+            if let billingpayerDataField = BillingPayerDataFields(stringValue: key) {
+                switch billingpayerDataField {
+                case .MOBILE_PHONE:          fullPayerData.mobilePhone = value
+                case .EMAIL:                 fullPayerData.email = value
+                case .BILLING_COUNTRY:       fullPayerData.billingPayerData.billingCountry = value
+                case .BILLING_STATE:         fullPayerData.billingPayerData.billingState = value
+                case .BILLING_POSTAL_CODE:   fullPayerData.billingPayerData.billingPostalCode = value
+                case .BILLING_CITY:          fullPayerData.billingPayerData.billingCity = value
+                case .BILLING_ADDRESS_LINE1: fullPayerData.billingPayerData.billingAddressLine1 = value
+                case .BILLING_ADDRESS_LINE2: fullPayerData.billingPayerData.billingAddressLine2 = value
+                case .BILLING_ADDRESS_LINE3: fullPayerData.billingPayerData.billingAddressLine3 = value
+                }
+            }
+        }
+        
+        return fullPayerData
     }
 }
 
@@ -242,21 +283,70 @@ extension PaymentController: ResultCryptogramCallback {
             
             switch info {
             case let info as PaymentInfoNewCard:
-                paymentNewCard(paymentToken: result.paymentToken, paymentInfo: info) { [weak self] error in
-                    guard let self else { return }
+                do {
+                    let keyProvider = RemoteKeyProvider(url: sdkPaymentConfig.keyProviderUrl)
+                    let pubKey = try keyProvider.provideKey().value
+
+                    let sdkCoreConfig = SDKCoreConfig(
+                        paymentMethodParams: .cardParams(
+                            params: CardParams(
+                                pan: info.pan,
+                                cvc: info.cvc,
+                                expiryMMYY: info.expiry,
+                                cardholder: info.holder.isEmpty ? DEFAULT_VALUE_CARDHOLDER : info.holder,
+                                mdOrder: info.order,
+                                pubKey: pubKey
+                            )
+                        ),
+                        registeredFrom: .MSDK_PAYMENT
+                    )
                     
-                    let paymentResultData = PaymentResultData(isSuccess: false, exception: error)
+                    let sdkCore = SdkCore()
+                    let paymentToken = sdkCore.generateWithConfig(config: sdkCoreConfig).token
+                    
+                    paymentNewCard(paymentToken: paymentToken, paymentInfo: info) { [weak self] error in
+                        guard let self else { return }
+                        
+                        let paymentResultData = PaymentResultData(isSuccess: false, exception: error)
+                        finishWithResult(paymentData: paymentResultData)
+                    }
+                } catch {
+                    let paymentResultData = PaymentResultData(isSuccess: false, exception: error as? SDKException)
                     finishWithResult(paymentData: paymentResultData)
                 }
+
             case let info as PaymentInfoBindCard:
-                paymentBindingCard(paymentToken: result.paymentToken, paymentInfo: info) { [weak self] error in
-                    guard let self else { return }
+                do {
+                    let keyProvider = RemoteKeyProvider(url: sdkPaymentConfig.keyProviderUrl)
+                    let pubKey = try keyProvider.provideKey().value
                     
-                    let paymentResultData = PaymentResultData(isSuccess: false, exception: error)
+                    let sdkCoreConfig = SDKCoreConfig(
+                        paymentMethodParams: .bindingParams(
+                            params: BindingParams(
+                                pubKey: pubKey,
+                                bindingId: info.bindingId,
+                                cvc: info.cvc,
+                                mdOrder: info.order
+                            )
+                        )
+                    )
+                    
+                    let sdkCore = SdkCore()
+                    let paymentToken = sdkCore.generateWithConfig(config: sdkCoreConfig).token
+                    
+                    paymentBindingCard(paymentToken: paymentToken, paymentInfo: info) { [weak self] error in
+                        guard let self else { return }
+                        
+                        let paymentResultData = PaymentResultData(isSuccess: false, exception: error)
+                        finishWithResult(paymentData: paymentResultData)
+                    }
+                } catch {
+                    let paymentResultData = PaymentResultData(isSuccess: false, exception: error as? SDKException)
                     finishWithResult(paymentData: paymentResultData)
                 }
+
             case let info as PaymentInfoApplePay:
-                paymentApplePay(paymentToken: result.paymentToken, paymentInfo: info) { [weak self] error in
+                paymentApplePay(paymentInfo: info) { [weak self] error in
                     guard let self else { return }
                     
                     let paymentResultData = PaymentResultData(isSuccess: false, exception: error)

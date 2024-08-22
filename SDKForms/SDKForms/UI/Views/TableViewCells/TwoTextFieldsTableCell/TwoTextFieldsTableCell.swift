@@ -9,13 +9,13 @@ import UIKit
 
 final class TwoTextFieldsTableCell: UITableViewCell {
     
-    private lazy var cardExpiryTextFiedlView: CardDataTextFieldView = {
+    private lazy var leadingTextFieldView: CardDataTextFieldView = {
         let view = CardDataTextFieldView()
         
         return view
     }()
     
-    private lazy var cardCVCTextFieldView: CardDataTextFieldView = {
+    private lazy var trailingTextFieldView: CardDataTextFieldView = {
         let view = CardDataTextFieldView()
         
         return view
@@ -25,8 +25,8 @@ final class TwoTextFieldsTableCell: UITableViewCell {
         let stack = UIStackView(
             arrangedSubviews:
                 [
-                    cardExpiryTextFiedlView,
-                    cardCVCTextFieldView
+                    leadingTextFieldView,
+                    trailingTextFieldView
                 ]
         )
         stack.axis = .horizontal
@@ -36,7 +36,7 @@ final class TwoTextFieldsTableCell: UITableViewCell {
         return stack
     }()
     
-    private var model: TwoTextFieldsTableModel?
+    private var model: (any TwoTextFieldsTableModelProtocol)?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -52,27 +52,31 @@ final class TwoTextFieldsTableCell: UITableViewCell {
         setupLayout()
     }
     
-    func bind(
-        model: TwoTextFieldsTableModel
-    ) -> Self {
+    convenience init() {
+        self.init(style: .default, reuseIdentifier: Self.description())
+    }
+    
+    func bind(model: any TwoTextFieldsTableModelProtocol) -> Self {
         self.model = model
-
-        cardExpiryTextFiedlView.setState(model.cardExpiryViewConfig)
-        cardCVCTextFieldView.setState(model.cardCVCViewConfig)
         
-        cardExpiryTextFiedlView.setTextChangingHandler { [weak self] text in
-            guard let self else { return }
-            
-            model.cardExpiryViewConfig.textFieldViewTextDidChange?(self.cardExpiryTextFiedlView)
-        }
-        
-        cardCVCTextFieldView.setTextChangingHandler { [weak self] text in
-            guard let self else { return }
-            
-            model.cardCVCViewConfig.textFieldViewTextDidChange?(self.cardCVCTextFieldView)
-        }
+        set(model.leadingTextFieldViewConfig, for: leadingTextFieldView)
+        set(model.trailingTextFieldViewConfig, for: trailingTextFieldView)
 
         return self
+    }
+    
+    private func set(_ viewState: CardDataTextFieldViewState?, for textFieldView: CardDataTextFieldView) {
+        guard let viewState else {
+            textFieldView.isHidden = true
+            return
+        }
+        
+        textFieldView.setState(viewState)
+        textFieldView.setTextChangingHandler { [weak self] text in
+            guard let self else { return }
+            
+            viewState.textFieldViewTextDidChange?(textFieldView)
+        }
     }
     
     private func setupSubviews() {
@@ -99,6 +103,6 @@ final class TwoTextFieldsTableCell: UITableViewCell {
 extension TwoTextFieldsTableCell: InputCell {
     
     var inputViews: [InputView] {
-        [ cardExpiryTextFiedlView, cardCVCTextFieldView ]
+        [ leadingTextFieldView, trailingTextFieldView ]
     }
 }

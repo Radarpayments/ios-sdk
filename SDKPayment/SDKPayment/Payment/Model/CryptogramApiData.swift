@@ -20,4 +20,5 @@ struct CryptogramApiData: Codable {
     let mdOrder: String
     let holder: String
     var saveCard: Bool = false
+    var fullPayerData: FullPayerData?
 }

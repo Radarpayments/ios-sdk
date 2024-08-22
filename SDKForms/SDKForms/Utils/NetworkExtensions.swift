@@ -64,7 +64,8 @@ public extension URLSession {
         
         var params = paramBody
             .reduce("") { $0 + "&\($1.key.urlEncoded!)=\($1.value.urlEncoded!)" }
-        params.removeFirst()
+
+        if !params.isEmpty { params.removeFirst() }
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
@@ -75,7 +76,7 @@ public extension URLSession {
     }
 }
 
-extension String {
+public extension String {
     
     var urlEncoded: String? {
         let allowedCharacterSet = CharacterSet.alphanumerics.union(CharacterSet(charactersIn: "~-_."))

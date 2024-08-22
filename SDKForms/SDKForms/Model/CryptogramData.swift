@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SDKCore
 
 /// The result of the formation of a cryptogram.
 ///
@@ -18,24 +19,20 @@ public struct CryptogramData: Codable {
     
     enum CodingKeys: String, CodingKey {
         case status
-        case paymentToken
         case info
         case deletedCardList
     }
 
     public let status: PaymentDataStatus
-    public let paymentToken: String
     public let info: PaymentInfo?
     public var deletedCardList = Set<Card>()
     
     public init(
         status: PaymentDataStatus,
-        paymentToken: String,
         info: PaymentInfo?,
         deletedCardList: Set<Card>
     ) {
         self.status = status
-        self.paymentToken = paymentToken
         self.info = info
         self.deletedCardList = deletedCardList
     }
@@ -44,7 +41,6 @@ public struct CryptogramData: Codable {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         
         status = try values.decode(PaymentDataStatus.self, forKey: .status)
-        paymentToken = try values.decode(String.self, forKey: .paymentToken)
         deletedCardList = try values.decode(Set<Card>.self, forKey: .deletedCardList)
         
         info = if let infoBindCard = try? values.decode(PaymentInfoBindCard.self, forKey: .info) {
@@ -60,7 +56,6 @@ public struct CryptogramData: Codable {
         var container = encoder.container(keyedBy: CodingKeys.self)
      
         try container.encode(status, forKey: .status)
-        try container.encode(paymentToken, forKey: .paymentToken)
         try container.encode(deletedCardList, forKey: .deletedCardList)
         
         switch info {

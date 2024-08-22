@@ -29,7 +29,8 @@ final class CardFormDelegateImpl: CardFormDelegate {
         bindingCards: [BindingItem],
         cvcNotRequired: Bool,
         bindingDeactivationEnabled: Bool,
-        applePayPaymentConfig: ApplePayPaymentConfig?
+        applePayPaymentConfig: ApplePayPaymentConfig?,
+        sessionStatus: SessionStatusResponse
     ) {
         let paymentConfig = PaymentConfigBuilder(order: mdOrder)
             .cards(cards: Set(bindingCards.toCards()))
@@ -43,6 +44,7 @@ final class CardFormDelegateImpl: CardFormDelegate {
         SdkForms.shared.cryptogramWithBottomSheet(
             parent: parentController,
             config: paymentConfig,
+            mandatoryFieldsProvider: MandatoryFieldsDefaultProvider(sessionStatus: sessionStatus),
             applePayPaymentConfig: applePayPaymentConfig,
             callbackHandler: resultCryptogramCallback
         )
@@ -70,6 +72,7 @@ private extension BindingItem {
                 return Card(
                     pan: label[0],
                     bindingId: self.id,
+                    paymentSystem: self.paymentSystem,
                     expiryDate: ExpiryDate(
                         expYear: expYear,
                         expMonth: expMonth
@@ -81,6 +84,7 @@ private extension BindingItem {
         return Card(
             pan: self.label,
             bindingId: self.id,
+            paymentSystem: self.paymentSystem,
             expiryDate: nil
         )
     }

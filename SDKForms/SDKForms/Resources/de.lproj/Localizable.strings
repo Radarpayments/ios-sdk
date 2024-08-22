@@ -10,6 +10,16 @@
 "expiry" = "Ablaufdatum der Karte";
 "cvcDescription" = "Drei Endziffern der Code";
 
+"email" = "E-Mail";
+"phoneNumber" = "Telefonnummer";
+"country" = "Land";
+"state" = "Staat";
+"city" = "Stadt";
+"postalCode" = "Postleitzahl";
+"addressLine1" = "Adresszeile 1";
+"addressLine2" = "Adresszeile 2";
+"addressLine3" = "Adresszeile 3";
+
 "incorrectLength" = "Die Länge der Kartennummer sollte 16 bis 19 Stellen betragen";
 "incorrectCardNumber" = "Kartennummer falsch eingegeben";
 "incorrectExpiry" = "Ablaufdatum der Karte falsch e";

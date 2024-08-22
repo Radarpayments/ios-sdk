@@ -148,4 +148,40 @@ public extension String {
     static func paymentMethod() -> String {
         NSLocalizedString("paymentMethod", comment: "").localized
     }
+    
+    static func email() -> String {
+        NSLocalizedString("email", comment: "").localized
+    }
+    
+    static func phoneNumber() -> String {
+        NSLocalizedString("phoneNumber", comment: "").localized
+    }
+    
+    static func country() -> String {
+        NSLocalizedString("country", comment: "").localized
+    }
+    
+    static func state() -> String {
+        NSLocalizedString("state", comment: "").localized
+    }
+    
+    static func city() -> String {
+        NSLocalizedString("city", comment: "").localized
+    }
+    
+    static func postalCode() -> String {
+        NSLocalizedString("postalCode", comment: "").localized
+    }
+    
+    static func addressLine1() -> String {
+        NSLocalizedString("addressLine1", comment: "").localized
+    }
+    
+    static func addressLine2() -> String {
+        NSLocalizedString("addressLine2", comment: "").localized
+    }
+    
+    static func addressLine3() -> String {
+        NSLocalizedString("addressLine3", comment: "").localized
+    }
 }

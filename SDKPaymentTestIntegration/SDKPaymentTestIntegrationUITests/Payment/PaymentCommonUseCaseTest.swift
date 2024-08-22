@@ -20,7 +20,11 @@ final class PaymentCommonUseCaseTest: BaseTestCase {
         XCTAssertTrue(paymentBottomSheet.clickOnAddNewCard())
         
         let newCardScreen = NewCardScreen(app: app)
-        XCTAssertTrue(newCardScreen.fillOutForm(with: TestCardHelper.successSSL))
+        XCTAssertTrue(newCardScreen.fillOutForm(
+            with: TestCardHelper.successSSL,
+            phoneNumber: "+35799902871",
+            email: "test@test.com"
+        ))
         XCTAssertTrue(newCardScreen.clickOnActionButton())
         
         awaitAssert {

@@ -8,8 +8,6 @@ import SDKCore
 protocol InputTableVC: UIViewController {
     
     var tableView: UITableView { get }
-    
-    func nextInputView() -> InputView?
 }
 
 extension InputTableVC {

@@ -66,7 +66,10 @@ final class TestOrderHelper {
         returnUrl: String = "sdk://done",
         userName: String = "mobile-sdk-api",
         password: String = "vkyvbG0",
-        clientId: String? = nil
+        clientId: String? = nil,
+        email: String? = nil,
+        mobilePhone: String? = nil,
+        billingPayerData: BillingPayerData? = nil
     ) throws -> String {
         let url = "https://dev.bpcbt.com/payment/rest/register.do"
         var body = [String: String]()
@@ -77,6 +80,21 @@ final class TestOrderHelper {
 
         if let clientId {
             body["clientId"] = clientId
+        }
+        
+        if let email {
+            body["email"] = email
+        }
+        
+        if let mobilePhone {
+            let mobilePhoneJson = ["mobilePhone": mobilePhone]
+            let encodedMobilePhone = try? JSONEncoder().encode(mobilePhoneJson)
+            body["orderPayerData"] = String(data: encodedMobilePhone!, encoding: .utf8)!
+        }
+        
+        if let billingPayerData {
+            let encodedBillingPayerData = try? JSONEncoder().encode(billingPayerData)
+            body["billingPayerData"] = String(data: encodedBillingPayerData!, encoding: .utf8)!
         }
         
         let connection = URLSession.shared.executePostParams(urlString: url, paramBody: body)

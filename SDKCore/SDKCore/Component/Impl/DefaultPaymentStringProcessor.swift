@@ -8,11 +8,11 @@
 import Foundation
 
 /// Implementation of a processor for generating a line with payment information using a template.
-public final class DefaultPaymentStringProcessor: PaymentStringProcessor {
+final class DefaultPaymentStringProcessor: PaymentStringProcessor {
 
     private let SPLASH = "/"
     
-    public init() {}
+    init() {}
 
     /// Generates a list of payment data using a template.
     ///
@@ -34,7 +34,7 @@ public final class DefaultPaymentStringProcessor: PaymentStringProcessor {
         return formatter
     }()
     
-    public func createPaymentString(order: String,
+    func createPaymentString(order: String,
                                     timestamp: Int64,
                                     uuid: String,
                                     cardInfo: CoreCardInfo,

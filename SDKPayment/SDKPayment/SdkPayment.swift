@@ -67,8 +67,11 @@ public final class SdkPayment {
         )
         
         do {
+            let sdkPaymentConfig = try sdkPaymnetConfig()
+
             paymentController = PaymentController(
                 checkoutConfig: checkoutConfig,
+                sdkPaymentConfig: sdkPaymentConfig,
                 parentController: controller,
                 callbackHandler: callbackHandler
             )
@@ -99,7 +102,7 @@ public final class SdkPayment {
     }
     
     public static func getSDKVersion() -> String {
-        let version = "3.0.3.1"
+        let version = "3.0.4"
         LogDebug.shared.logIfDebug(message: "SDKPayment version is: \(version)")
         LogDebug.shared.logIfDebug(message: "SDKForms version is: \(SdkForms.getSDKVersion())")
         LogDebug.shared.logIfDebug(message: "SDKCore version is: \(SdkCore.getSDKVersion())")

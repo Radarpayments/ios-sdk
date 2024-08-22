@@ -21,7 +21,11 @@ final class PaymentCardFrictionlessThreeDSUseCaseTest: BaseTestCase {
         XCTAssertTrue(paymentBottomSheet.clickOnAddNewCard())
         
         let newCardScreen = NewCardScreen(app: app)
-        XCTAssertTrue(newCardScreen.fillOutForm(with: TestCardHelper.successFrictionless3DS2))
+        XCTAssertTrue(newCardScreen.fillOutForm(
+            with: TestCardHelper.successFrictionless3DS2,
+            phoneNumber: "+35799902871",
+            email: "test@test.com"
+        ))
         XCTAssertTrue(newCardScreen.clickOnActionButton())
         
         let threeDSScreen = ThreeDSS2creen(app: app)
@@ -45,7 +49,9 @@ final class PaymentCardFrictionlessThreeDSUseCaseTest: BaseTestCase {
         let newCardScreen = NewCardScreen(app: app)
         XCTAssertTrue(newCardScreen.fillOutForm(
             with: TestCardHelper.successFrictionless3DS2,
-            overrideCvc: "000"
+            overrideCvc: "000",
+            phoneNumber: "+35799902871",
+            email: "test@test.com"
         ))
         XCTAssertTrue(newCardScreen.clickOnActionButton())
         
@@ -70,7 +76,9 @@ final class PaymentCardFrictionlessThreeDSUseCaseTest: BaseTestCase {
         let newCardScreen = NewCardScreen(app: app)
         XCTAssertTrue(newCardScreen.fillOutForm(
             with: TestCardHelper.successFrictionless3DS2,
-            overrideExpiry: "10/35"
+            overrideExpiry: "10/35",
+            phoneNumber: "+35799902871",
+            email: "test@test.com"
         ))
         XCTAssertTrue(newCardScreen.clickOnActionButton())
         
@@ -93,7 +101,11 @@ final class PaymentCardFrictionlessThreeDSUseCaseTest: BaseTestCase {
         XCTAssertTrue(paymentBottomSheet.clickOnAddNewCard())
         
         let newCardScreen = NewCardScreen(app: app)
-        XCTAssertTrue(newCardScreen.fillOutForm(with: TestCardHelper.successFrictionless3DS2))
+        XCTAssertTrue(newCardScreen.fillOutForm(
+            with: TestCardHelper.successFrictionless3DS2,
+            phoneNumber: "+35799902871",
+            email: "test@test.com"
+        ))
         XCTAssertTrue(newCardScreen.clickOnActionButton())
         
         awaitAssert {
@@ -113,7 +125,9 @@ final class PaymentCardFrictionlessThreeDSUseCaseTest: BaseTestCase {
         let newCardScreen = NewCardScreen(app: app)
         XCTAssertTrue(newCardScreen.fillOutForm(
             with: TestCardHelper.successFrictionless3DS2,
-            overrideCvc: "000"
+            overrideCvc: "000",
+            phoneNumber: "+35799902871",
+            email: "test@test.com"
         ))
         XCTAssertTrue(newCardScreen.clickOnActionButton())
         
@@ -134,7 +148,9 @@ final class PaymentCardFrictionlessThreeDSUseCaseTest: BaseTestCase {
         let newCardScreen = NewCardScreen(app: app)
         XCTAssertTrue(newCardScreen.fillOutForm(
             with: TestCardHelper.successFrictionless3DS2,
-            overrideExpiry: "10/35"
+            overrideExpiry: "10/35",
+            phoneNumber: "+35799902871",
+            email: "test@test.com"
         ))
         XCTAssertTrue(newCardScreen.clickOnActionButton())
         
@@ -153,7 +169,9 @@ final class PaymentCardFrictionlessThreeDSUseCaseTest: BaseTestCase {
         XCTAssertTrue(paymentBottomSheet.clickOnAddNewCard())
         
         let newCardScreen = NewCardScreen(app: app)
-        XCTAssertTrue(newCardScreen.fillOutForm(with: TestCardHelper.failFrictionless3DS))
+        XCTAssertTrue(newCardScreen.fillOutForm(
+            with: TestCardHelper.failFrictionless3DS
+        ))
         XCTAssertTrue(newCardScreen.clickOnActionButton())
         
         awaitAssert {
@@ -171,7 +189,9 @@ final class PaymentCardFrictionlessThreeDSUseCaseTest: BaseTestCase {
         XCTAssertTrue(paymentBottomSheet.clickOnAddNewCard())
         
         let newCardScreen = NewCardScreen(app: app)
-        XCTAssertTrue(newCardScreen.fillOutForm(with: TestCardHelper.failFrictionless3DS))
+        XCTAssertTrue(newCardScreen.fillOutForm(
+            with: TestCardHelper.failFrictionless3DS
+        ))
         XCTAssertTrue(newCardScreen.clickOnActionButton())
         
         awaitAssert {
@@ -190,7 +210,11 @@ final class PaymentCardFrictionlessThreeDSUseCaseTest: BaseTestCase {
         XCTAssertTrue(paymentBottomSheet.clickOnAddNewCard())
         
         let newCardScreen = NewCardScreen(app: app)
-        XCTAssertTrue(newCardScreen.fillOutForm(with: TestCardHelper.successFrictionless3DS2))
+        XCTAssertTrue(newCardScreen.fillOutForm(
+            with: TestCardHelper.successFrictionless3DS2,
+            phoneNumber: "+35799902871",
+            email: "test@test.com"
+        ))
         XCTAssertTrue(newCardScreen.clickOnActionButton())
         
         awaitAssert {
@@ -221,7 +245,11 @@ final class PaymentCardFrictionlessThreeDSUseCaseTest: BaseTestCase {
         XCTAssertTrue(paymentBottomSheet.clickOnAddNewCard())
 
         let newCardScreen = NewCardScreen(app: app)
-        XCTAssertTrue(newCardScreen.fillOutForm(with: TestCardHelper.successFrictionless3DS2))
+        XCTAssertTrue(newCardScreen.fillOutForm(
+            with: TestCardHelper.successFrictionless3DS2,
+            phoneNumber: "+35799902871",
+            email: "test@test.com"
+        ))
         XCTAssertTrue(newCardScreen.clickOnActionButton())
         
         let threeDSScreen = ThreeDSS2creen(app: app)
@@ -254,7 +282,11 @@ final class PaymentCardFrictionlessThreeDSUseCaseTest: BaseTestCase {
         XCTAssertTrue(paymentBottomSheet.clickOnAddNewCard())
         
         let newCardScreen = NewCardScreen(app: app)
-        XCTAssertTrue(newCardScreen.fillOutForm(with: TestCardHelper.successFrictionless3DS2))
+        XCTAssertTrue(newCardScreen.fillOutForm(
+            with: TestCardHelper.successFrictionless3DS2,
+            phoneNumber: "+35799902871",
+            email: "test@test.com"
+        ))
         XCTAssertTrue(newCardScreen.clickOnActionButton())
         
         let threeDSScreen = ThreeDSS2creen(app: app)
@@ -278,7 +310,9 @@ final class PaymentCardFrictionlessThreeDSUseCaseTest: BaseTestCase {
         let newCardScreen = NewCardScreen(app: app)
         XCTAssertTrue(newCardScreen.fillOutForm(
             with: TestCardHelper.successFrictionless3DS2,
-            overrideCvc: "000"
+            overrideCvc: "000",
+            phoneNumber: "+35799902871",
+            email: "test@test.com"
         ))
         XCTAssertTrue(newCardScreen.clickOnActionButton())
         
@@ -303,7 +337,9 @@ final class PaymentCardFrictionlessThreeDSUseCaseTest: BaseTestCase {
         let newCardScreen = NewCardScreen(app: app)
         XCTAssertTrue(newCardScreen.fillOutForm(
             with: TestCardHelper.successFrictionless3DS2,
-            overrideExpiry: "10/35"
+            overrideExpiry: "10/35",
+            phoneNumber: "+35799902871",
+            email: "test@test.com"
         ))
         XCTAssertTrue(newCardScreen.clickOnActionButton())
         
@@ -326,7 +362,11 @@ final class PaymentCardFrictionlessThreeDSUseCaseTest: BaseTestCase {
         XCTAssertTrue(paymentBottomSheet.clickOnAddNewCard())
         
         let newCardScreen = NewCardScreen(app: app)
-        XCTAssertTrue(newCardScreen.fillOutForm(with: TestCardHelper.successFrictionless3DS2))
+        XCTAssertTrue(newCardScreen.fillOutForm(
+            with: TestCardHelper.successFrictionless3DS2,
+            phoneNumber: "+35799902871",
+            email: "test@test.com"
+        ))
         XCTAssertTrue(newCardScreen.clickOnActionButton())
         
         let webViewScreen = ThreeDS1Screen(app: app)
@@ -349,7 +389,9 @@ final class PaymentCardFrictionlessThreeDSUseCaseTest: BaseTestCase {
         let newCardScreen = NewCardScreen(app: app)
         XCTAssertTrue(newCardScreen.fillOutForm(
             with: TestCardHelper.successFrictionless3DS2,
-            overrideCvc: "000"
+            overrideCvc: "000",
+            phoneNumber: "+35799902871",
+            email: "test@test.com"
         ))
         XCTAssertTrue(newCardScreen.clickOnActionButton())
         
@@ -373,7 +415,9 @@ final class PaymentCardFrictionlessThreeDSUseCaseTest: BaseTestCase {
         let newCardScreen = NewCardScreen(app: app)
         XCTAssertTrue(newCardScreen.fillOutForm(
             with: TestCardHelper.successFrictionless3DS2,
-            overrideExpiry: "10/35"
+            overrideExpiry: "10/35",
+            phoneNumber: "+35799902871",
+            email: "test@test.com"
         ))
         XCTAssertTrue(newCardScreen.clickOnActionButton())
         
@@ -395,7 +439,9 @@ final class PaymentCardFrictionlessThreeDSUseCaseTest: BaseTestCase {
         XCTAssertTrue(paymentBottomSheet.clickOnAddNewCard())
         
         let newCardScreen = NewCardScreen(app: app)
-        XCTAssertTrue(newCardScreen.fillOutForm(with: TestCardHelper.failFrictionless3DS))
+        XCTAssertTrue(newCardScreen.fillOutForm(
+            with: TestCardHelper.failFrictionless3DS
+        ))
         XCTAssertTrue(newCardScreen.clickOnActionButton())
         
         awaitAssert {
@@ -413,7 +459,9 @@ final class PaymentCardFrictionlessThreeDSUseCaseTest: BaseTestCase {
         XCTAssertTrue(paymentBottomSheet.clickOnAddNewCard())
         
         let newCardScreen = NewCardScreen(app: app)
-        XCTAssertTrue(newCardScreen.fillOutForm(with: TestCardHelper.failFrictionless3DS))
+        XCTAssertTrue(newCardScreen.fillOutForm(
+            with: TestCardHelper.failFrictionless3DS
+        ))
         XCTAssertTrue(newCardScreen.clickOnActionButton())
         
         let webViewScreen = ThreeDS1Screen(app: app)
@@ -421,6 +469,126 @@ final class PaymentCardFrictionlessThreeDSUseCaseTest: BaseTestCase {
         
         awaitAssert {
             XCTAssertEqual("false", mainScreen.resultText)
+        }
+    }
+    
+    func testShouldReturnSuccessPaymentWithNewCardFrictionlessThreeDSNoUse3DS2SDKWithPreFilledMandatoryFields() {
+        let email = "test@test.com"
+        let mobilePhone = "+35799902871"
+        let billingPayerData = BillingPayerData(
+            billingCountry: "Germany",
+            billingState: "DE-BE",
+            billingCity: "Berlin",
+            billingPostalCode: "26133",
+            billingAddressLine1: "Billing Address Line 1",
+            billingAddressLine2: "Billing Address Line 2",
+            billingAddressLine3: "Billing Address Line 3"
+        )
+        
+        let orderId = registerOrderAndLaunchAppWithPreFilledBiilingData(
+            use3DS2SDK: false,
+            email: email,
+            mobilePhone: mobilePhone,
+            billingPayerData: billingPayerData
+        )
+        
+        let mainScreen = TestMainScreen(app: app)
+        XCTAssertTrue(mainScreen.clickOnCheckout())
+        
+        let paymentBottomSheet = PaymentBottomSheetScreen(app: app)
+        XCTAssertTrue(paymentBottomSheet.clickOnAddNewCard())
+        
+        let newCardScreen = NewCardScreen(app: app)
+        XCTAssertTrue(newCardScreen.typeCardNumber(TestCardHelper.successFrictionless3DS2.pan))
+        XCTAssertTrue(newCardScreen.typeCardExpiry(TestCardHelper.successFrictionless3DS2.expiry))
+        XCTAssertTrue(newCardScreen.typeCardCVC(TestCardHelper.successFrictionless3DS2.cvc))
+        
+        XCTAssertEqual(newCardScreen.phoneNumberValue, mobilePhone)
+        XCTAssertEqual(newCardScreen.emailValue, email)
+        XCTAssertEqual(newCardScreen.countryValue, billingPayerData.billingCountry)
+        XCTAssertEqual(newCardScreen.stateValue, billingPayerData.billingState)
+        XCTAssertEqual(newCardScreen.postalCodeValue, billingPayerData.billingPostalCode)
+        XCTAssertEqual(newCardScreen.cityValue, billingPayerData.billingCity)
+        XCTAssertEqual(newCardScreen.addressLine1Value, billingPayerData.billingAddressLine1)
+        XCTAssertEqual(newCardScreen.addressLine2Value, billingPayerData.billingAddressLine2)
+        XCTAssertEqual(newCardScreen.addressLine3Value, billingPayerData.billingAddressLine3)
+        XCTAssertTrue(newCardScreen.clickOnActionButton())
+        
+        awaitAssert {
+            XCTAssertEqual("true", mainScreen.resultText)
+        }
+    }
+    
+    func testShouldReturnSuccessPaymentWithSavedCardFrictionlessThreeDSNoUse3DS2SDKWithPreFilledMandatoryFields() {
+        let clientId = testClientIdHelper.getNewTestClientId()
+        
+        var orderId = registerOrderAndLaunchApp(clientId: clientId, use3DS2SDK: false)
+        
+        var mainScreen = TestMainScreen(app: app)
+        XCTAssertTrue(mainScreen.clickOnCheckout())
+        
+        var paymentBottomSheet = PaymentBottomSheetScreen(app: app)
+        XCTAssertTrue(paymentBottomSheet.clickOnAddNewCard())
+        
+        let newCardScreen = NewCardScreen(app: app)
+        XCTAssertTrue(newCardScreen.fillOutForm(
+            with: TestCardHelper.successFrictionless3DS2,
+            phoneNumber: "+35799902871",
+            email: "test@test.com"
+        ))
+        XCTAssertTrue(newCardScreen.clickOnActionButton())
+        
+        awaitAssert {
+            XCTAssertEqual("true", mainScreen.resultText)
+        }
+        
+        let email = "test@test.com"
+        let mobilePhone = "+35799902871"
+        let billingPayerData = BillingPayerData(
+            billingCountry: "Germany",
+            billingState: "DE-BE",
+            billingCity: "Berlin",
+            billingPostalCode: "26133",
+            billingAddressLine1: "Billing Address Line 1",
+            billingAddressLine2: "Billing Address Line 2",
+            billingAddressLine3: "Billing Address Line 3"
+        )
+        
+        orderId = registerOrderAndLaunchAppWithPreFilledBiilingData(
+            clientId: clientId,
+            use3DS2SDK: false,
+            email: email,
+            mobilePhone: mobilePhone,
+            billingPayerData: billingPayerData
+        )
+        
+        mainScreen = TestMainScreen(app: app)
+        XCTAssertTrue(mainScreen.clickOnCheckout())
+        
+        paymentBottomSheet = PaymentBottomSheetScreen(app: app)
+        XCTAssertTrue(
+            paymentBottomSheet.clickOnCard(
+                TestCardHelper.getLabelForSavedCardFrom(testCard: TestCardHelper.successFrictionless3DS2)
+            )
+        )
+        
+        let selectedCardScreen = SelectedCardScreen(app: app)
+        XCTAssertTrue(selectedCardScreen.typeCardCVC(TestCardHelper.successSSL.cvc))
+        
+        XCTAssertEqual(selectedCardScreen.phoneNumberValue, mobilePhone)
+        XCTAssertEqual(selectedCardScreen.emailValue, email)
+        XCTAssertEqual(selectedCardScreen.countryValue, billingPayerData.billingCountry)
+        XCTAssertEqual(selectedCardScreen.stateValue, billingPayerData.billingState)
+        XCTAssertEqual(selectedCardScreen.postalCodeValue, billingPayerData.billingPostalCode)
+        XCTAssertEqual(selectedCardScreen.cityValue, billingPayerData.billingCity)
+        XCTAssertEqual(selectedCardScreen.addressLine1Value, billingPayerData.billingAddressLine1)
+        XCTAssertEqual(selectedCardScreen.addressLine2Value, billingPayerData.billingAddressLine2)
+        XCTAssertEqual(selectedCardScreen.addressLine3Value, billingPayerData.billingAddressLine3)
+
+        XCTAssertTrue(selectedCardScreen.clickOnActionButton())
+        
+        awaitAssert {
+            XCTAssertEqual("true", mainScreen.resultText)
         }
     }
 }

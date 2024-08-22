@@ -10,6 +10,16 @@
 "expiry" = "Valable jusqu'au";
 "cvcDescription" = "Les trois derniers chiffres du code";
 
+"email" = "E-mail";
+"phoneNumber" = "Numéro de téléphone";
+"country" = "Pays";
+"state" = "État";
+"city" = "Ville";
+"postalCode" = "Code postal";
+"addressLine1" = "Ligne d'adresse 1";
+"addressLine2" = "Ligne d'adresse 2";
+"addressLine3" = "Ligne d'adresse 3";
+
 "incorrectLength" = "La longueur du numéro de carte doit être de 16 à 19 chiffres";
 "incorrectCardNumber" = "Numéro incorrect";
 "incorrectExpiry" = "Durée de valabilité de la carte incorrecte";

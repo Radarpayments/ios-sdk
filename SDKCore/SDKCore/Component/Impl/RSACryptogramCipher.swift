@@ -14,11 +14,11 @@ public enum CryptogramCipherError: Error {
 }
 
 /// Implementation of cryptogram encryptor.
-public final class RSACryptogramCipher: CryptogramCipher {
+final class RSACryptogramCipher: CryptogramCipher {
     
-    public init() {}
+    init() {}
 
-    public func encode(data: String, key: Key) throws -> String {
+    func encode(data: String, key: Key) throws -> String {
         guard key.protocol == "RSA",
               let keyPem = key.value.pemKeyContent().data(using: .utf8),
               let keyBytes = Data(base64Encoded: keyPem) else {

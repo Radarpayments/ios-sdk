@@ -26,6 +26,7 @@ protocol CardFormDelegate: AnyObject {
        bindingCards: [BindingItem],
        cvcNotRequired: Bool,
        bindingDeactivationEnabled: Bool,
-       applePayPaymentConfig: ApplePayPaymentConfig?
+       applePayPaymentConfig: ApplePayPaymentConfig?,
+       sessionStatus: SessionStatusResponse
    ) throws
 }

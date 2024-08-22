@@ -51,7 +51,7 @@ final class PaymentApiImpl: NSObject, PaymentApi {
         cryptogramApiData: CryptogramApiData,
         threeDSSDK: Bool
     ) throws -> ProcessFormResponse {
-        let body = [
+        let preparedBody = [
             "seToken": cryptogramApiData.paymentToken,
             "MDORDER": cryptogramApiData.mdOrder,
             "TEXT": cryptogramApiData.holder,
@@ -59,36 +59,34 @@ final class PaymentApiImpl: NSObject, PaymentApi {
             "threeDSSDK": "\(threeDSSDK)"
         ]
         
-        return try startRunCatching(
-            urlString: "\(baseUrl)/rest/processform.do",
-            body: body,
-            type: ProcessFormResponse.self
-        )
+        return try startRunCatchingProcessForm(urlString: "\(baseUrl)/rest/processform.do",
+                                               preparedBody: preparedBody,
+                                               cryptogramApiData: cryptogramApiData,
+                                               type: ProcessFormResponse.self)
     }
     
     func processBindingForm(
         cryptogramApiData: CryptogramApiData,
         threeDSSDK: Bool
     ) throws -> ProcessFormResponse {
-        let body = [
+        let preparedBody = [
             "seToken": cryptogramApiData.paymentToken,
             "MDORDER": cryptogramApiData.mdOrder,
             "TEXT": cryptogramApiData.holder,
             "threeDSSDK": "\(threeDSSDK)"
         ]
         
-        return try startRunCatching(
-            urlString: "\(baseUrl)/rest/processBindingForm.do",
-            body: body,
-            type: ProcessFormResponse.self
-        )
+        return try startRunCatchingProcessForm(urlString: "\(baseUrl)/rest/processBindingForm.do",
+                                               preparedBody: preparedBody,
+                                               cryptogramApiData: cryptogramApiData,
+                                               type: ProcessFormResponse.self)
     }
     
     func processFormSecond(
         cryptogramApiData: CryptogramApiData,
         threeDSParams: PaymentThreeDSInfo
     ) throws -> ProcessFormSecondResponse {
-        let body = [
+        let preparedBody = [
             "seToken": cryptogramApiData.paymentToken,
             "MDORDER": cryptogramApiData.mdOrder,
             "TEXT": cryptogramApiData.holder,
@@ -102,18 +100,17 @@ final class PaymentApiImpl: NSObject, PaymentApi {
             "threeDSSDKReferenceNumber": threeDSParams.threeDSSDKReferenceNumber
         ]
         
-        return try startRunCatching(
-            urlString: "\(baseUrl)/rest/processform.do",
-            body: body,
-            type: ProcessFormSecondResponse.self
-        )
+        return try startRunCatchingProcessForm(urlString: "\(baseUrl)/rest/processform.do",
+                                               preparedBody: preparedBody,
+                                               cryptogramApiData: cryptogramApiData,
+                                               type: ProcessFormSecondResponse.self)
     }
     
     func processBindingFormSecond(
         cryptogramApiData: CryptogramApiData,
         threeDSParams: PaymentThreeDSInfo
     ) throws -> ProcessFormSecondResponse {
-        let body = [
+        let preparedBody = [
             "seToken": cryptogramApiData.paymentToken,
             "MDORDER": cryptogramApiData.mdOrder,
             "TEXT": cryptogramApiData.holder,
@@ -126,11 +123,10 @@ final class PaymentApiImpl: NSObject, PaymentApi {
             "threeDSSDKReferenceNumber": threeDSParams.threeDSSDKReferenceNumber
         ]
         
-        return try startRunCatching(
-            urlString: "\(baseUrl)/rest/processBindingForm.do",
-            body: body,
-            type: ProcessFormSecondResponse.self
-        )
+        return try startRunCatchingProcessForm(urlString: "\(baseUrl)/rest/processBindingForm.do",
+                                           preparedBody: preparedBody,
+                                           cryptogramApiData: cryptogramApiData,
+                                           type: ProcessFormSecondResponse.self)
     }
     
     func finish3dsVer2PaymentAnonymous(threeDSServerTransId: String) throws {
@@ -222,5 +218,73 @@ final class PaymentApiImpl: NSObject, PaymentApi {
             message: response.error?.localizedDescription,
             cause: response.error
         )
+    }
+    
+    private func startRunCatchingProcessForm<T: Decodable>(
+        urlString: String,
+        preparedBody: [String: String],
+        cryptogramApiData: CryptogramApiData,
+        type: T.Type
+    ) throws -> T {
+        var body = preparedBody
+        
+        if let email = cryptogramApiData.fullPayerData?.email {
+            body["email"] = email
+        }
+        
+        if let mobilePhone = cryptogramApiData.fullPayerData?.mobilePhone {
+            body["mobilePhone"] = mobilePhone
+        }
+        
+        if let billingPayerData = cryptogramApiData.fullPayerData?.billingPayerData {
+            body["billingPayerData"] = encodedBillingPayerData(billingPayerData: billingPayerData)
+        }
+        
+        return try startRunCatching(urlString: urlString, body: body, type: type)
+    }
+    
+    private func encodedBillingPayerData(billingPayerData: BillingPayerData) -> String {
+        var billingPayerDataBody = [String: String]()
+        
+        if let country = billingPayerData.billingCountry {
+            billingPayerDataBody["billingCountry"] = country
+        }
+        
+        if let state = billingPayerData.billingState {
+            billingPayerDataBody["billingState"] = state
+        }
+        
+        if let city = billingPayerData.billingCity {
+            billingPayerDataBody["billingCity"] = city
+        }
+        
+        if let postalCode = billingPayerData.billingPostalCode {
+            billingPayerDataBody["billingPostalCode"] = postalCode
+        }
+        
+        if let addressLine1 = billingPayerData.billingAddressLine1 {
+            billingPayerDataBody["billingAddressLine1"] = addressLine1
+        }
+        
+        if let addressLine2 = billingPayerData.billingAddressLine2 {
+            billingPayerDataBody["billingAddressLine2"] = addressLine2
+        }
+        
+        if let addressLine3 = billingPayerData.billingAddressLine3 {
+            billingPayerDataBody["billingAddressLine3"] = addressLine3
+        }
+            
+        var encodedBillingPayerData = billingPayerDataBody
+            .reduce("") {
+                if let key = $1.key.urlEncoded, let value = $1.value.urlEncoded {
+                    return $0 + "&\(key)=\(value)"
+                }
+                
+                return $0
+            }
+        
+        if !encodedBillingPayerData.isEmpty { encodedBillingPayerData.removeFirst() }
+        
+        return encodedBillingPayerData
     }
 }

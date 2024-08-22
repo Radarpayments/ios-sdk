@@ -7,6 +7,7 @@
 
 import Foundation
 import XCTest
+import SDKPayment
 
 final class PaymentCardAttemptThreeDSUseCaseTest: BaseTestCase {
     
@@ -20,7 +21,25 @@ final class PaymentCardAttemptThreeDSUseCaseTest: BaseTestCase {
         XCTAssertTrue(paymentBottomSheet.clickOnAddNewCard())
         
         let newCardScreen = NewCardScreen(app: app)
-        XCTAssertTrue(newCardScreen.fillOutForm(with: TestCardHelper.successAttempt3DS))
+        XCTAssertTrue(
+            newCardScreen.fillOutForm(
+                with: TestCardHelper.successAttempt3DS,
+                phoneNumber: "35799902871",
+                email: "test@test.com"
+            )
+        )
+        XCTAssertTrue(
+            newCardScreen.fillOutMandatoryFields(
+                country: "Germany",
+                state: "DE-BE",
+                postalCode: "26133",
+                city: "Berlin",
+                addressLine1: "Billing Address Line 1",
+                addressLine2: "Billing Address Line 2",
+                addressLine3: "Billing Address Line 3"
+            )
+        )
+        
         XCTAssertTrue(newCardScreen.clickOnActionButton())
         
         let threeDSScreen = ThreeDSS2creen(app: app)
@@ -44,7 +63,9 @@ final class PaymentCardAttemptThreeDSUseCaseTest: BaseTestCase {
         let newCardScreen = NewCardScreen(app: app)
         XCTAssertTrue(newCardScreen.fillOutForm(
             with: TestCardHelper.successAttempt3DS,
-            overrideCvc: "000"
+            overrideCvc: "000",
+            phoneNumber: "+35799902871",
+            email: "test@test.com"
         ))
         XCTAssertTrue(newCardScreen.clickOnActionButton())
         
@@ -67,10 +88,14 @@ final class PaymentCardAttemptThreeDSUseCaseTest: BaseTestCase {
         XCTAssertTrue(paymentBottomSheet.clickOnAddNewCard())
         
         let newCardScreen = NewCardScreen(app: app)
-        XCTAssertTrue(newCardScreen.fillOutForm(
-            with: TestCardHelper.successAttempt3DS,
-            overrideExpiry: "10/35"
-        ))
+        XCTAssertTrue(
+            newCardScreen.fillOutForm(
+                with: TestCardHelper.successAttempt3DS,
+                overrideExpiry: "10/35",
+                phoneNumber: "+35799902871",
+                email: "test@test.com"
+            )
+        )
         XCTAssertTrue(newCardScreen.clickOnActionButton())
         
         let threeDSScreen = ThreeDSS2creen(app: app)
@@ -92,7 +117,13 @@ final class PaymentCardAttemptThreeDSUseCaseTest: BaseTestCase {
         XCTAssertTrue(paymentBottomSheet.clickOnAddNewCard())
         
         let newCardScreen = NewCardScreen(app: app)
-        XCTAssertTrue(newCardScreen.fillOutForm(with: TestCardHelper.successAttempt3DS))
+        XCTAssertTrue(
+            newCardScreen.fillOutForm(
+                with: TestCardHelper.successAttempt3DS,
+                phoneNumber: "+35799902871",
+                email: "test@test.com"
+            )
+        )
         XCTAssertTrue(newCardScreen.clickOnActionButton())
 
         XCTAssertTrue(ThreeDS1Screen(app: app)
@@ -113,10 +144,14 @@ final class PaymentCardAttemptThreeDSUseCaseTest: BaseTestCase {
         XCTAssertTrue(paymentBottomSheet.clickOnAddNewCard())
         
         let newCardScreen = NewCardScreen(app: app)
-        XCTAssertTrue(newCardScreen.fillOutForm(
-            with: TestCardHelper.successAttempt3DS,
-            overrideCvc: "000"
-        ))
+        XCTAssertTrue(
+            newCardScreen.fillOutForm(
+                with: TestCardHelper.successAttempt3DS,
+                overrideCvc: "000",
+                phoneNumber: "+35799902871",
+                email: "test@test.com"
+            )
+        )
         XCTAssertTrue(newCardScreen.clickOnActionButton())
 
         XCTAssertTrue(ThreeDS1Screen(app: app)
@@ -137,10 +172,14 @@ final class PaymentCardAttemptThreeDSUseCaseTest: BaseTestCase {
         XCTAssertTrue(paymentBottomSheet.clickOnAddNewCard())
         
         let newCardScreen = NewCardScreen(app: app)
-        XCTAssertTrue(newCardScreen.fillOutForm(
-            with: TestCardHelper.successAttempt3DS,
-            overrideExpiry: "10/35"
-        ))
+        XCTAssertTrue(
+            newCardScreen.fillOutForm(
+                with: TestCardHelper.successAttempt3DS,
+                overrideExpiry: "10/35",
+                phoneNumber: "+35799902871",
+                email: "test@test.com"
+            )
+        )
         XCTAssertTrue(newCardScreen.clickOnActionButton())
         
         XCTAssertTrue(ThreeDS1Screen(app: app)
@@ -161,7 +200,13 @@ final class PaymentCardAttemptThreeDSUseCaseTest: BaseTestCase {
         XCTAssertTrue(paymentBottomSheet.clickOnAddNewCard())
         
         let newCardScreen = NewCardScreen(app: app)
-        XCTAssertTrue(newCardScreen.fillOutForm(with: TestCardHelper.successAttempt3DS))
+        XCTAssertTrue(
+            newCardScreen.fillOutForm(
+                with: TestCardHelper.successAttempt3DS,
+                phoneNumber: "+35799902871",
+                email: "test@test.com"
+            )
+        )
         XCTAssertTrue(newCardScreen.clickOnActionButton())
         
         let threeDSScreen = ThreeDSS2creen(app: app)
@@ -183,10 +228,14 @@ final class PaymentCardAttemptThreeDSUseCaseTest: BaseTestCase {
         XCTAssertTrue(paymentBottomSheet.clickOnAddNewCard())
         
         let newCardScreen = NewCardScreen(app: app)
-        XCTAssertTrue(newCardScreen.fillOutForm(
-            with: TestCardHelper.successAttempt3DS,
-            overrideCvc: "000"
-        ))
+        XCTAssertTrue(
+            newCardScreen.fillOutForm(
+                with: TestCardHelper.successAttempt3DS,
+                overrideCvc: "000",
+                phoneNumber: "+35799902871",
+                email: "test@test.com"
+            )
+        )
         XCTAssertTrue(newCardScreen.clickOnActionButton())
         
         let threeDSScreen = ThreeDSS2creen(app: app)
@@ -208,10 +257,14 @@ final class PaymentCardAttemptThreeDSUseCaseTest: BaseTestCase {
         XCTAssertTrue(paymentBottomSheet.clickOnAddNewCard())
         
         let newCardScreen = NewCardScreen(app: app)
-        XCTAssertTrue(newCardScreen.fillOutForm(
-            with: TestCardHelper.successAttempt3DS,
-            overrideExpiry: "10/35"
-        ))
+        XCTAssertTrue(
+            newCardScreen.fillOutForm(
+                with: TestCardHelper.successAttempt3DS,
+                overrideExpiry: "10/35",
+                phoneNumber: "+35799902871",
+                email: "test@test.com"
+            )
+        )
         XCTAssertTrue(newCardScreen.clickOnActionButton())
         
         let threeDSScreen = ThreeDSS2creen(app: app)
@@ -233,7 +286,13 @@ final class PaymentCardAttemptThreeDSUseCaseTest: BaseTestCase {
         XCTAssertTrue(paymentBottomSheet.clickOnAddNewCard())
         
         let newCardScreen = NewCardScreen(app: app)
-        XCTAssertTrue(newCardScreen.fillOutForm(with: TestCardHelper.successAttempt3DS))
+        XCTAssertTrue(
+            newCardScreen.fillOutForm(
+                with: TestCardHelper.successAttempt3DS,
+                phoneNumber: "+35799902871",
+                email: "test@test.com"
+            )
+        )
         XCTAssertTrue(newCardScreen.clickOnActionButton())
 
         let webViewScreen = ThreeDS1Screen(app: app)
@@ -257,7 +316,9 @@ final class PaymentCardAttemptThreeDSUseCaseTest: BaseTestCase {
         let newCardScreen = NewCardScreen(app: app)
         XCTAssertTrue(newCardScreen.fillOutForm(
             with: TestCardHelper.successAttempt3DS,
-            overrideCvc: "000"
+            overrideCvc: "000",
+            phoneNumber: "+35799902871",
+            email: "test@test.com"
         ))
         XCTAssertTrue(newCardScreen.clickOnActionButton())
 
@@ -282,7 +343,9 @@ final class PaymentCardAttemptThreeDSUseCaseTest: BaseTestCase {
         let newCardScreen = NewCardScreen(app: app)
         XCTAssertTrue(newCardScreen.fillOutForm(
             with: TestCardHelper.successAttempt3DS,
-            overrideExpiry: "10/35"
+            overrideExpiry: "10/35",
+            phoneNumber: "+35799902871",
+            email: "test@test.com"
         ))
         XCTAssertTrue(newCardScreen.clickOnActionButton())
         
