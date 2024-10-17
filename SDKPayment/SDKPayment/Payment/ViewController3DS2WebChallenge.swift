@@ -9,7 +9,7 @@ import UIKit
 import WebKit
 import SDKForms
 
-final class ViewController3DS2WebChallenge: UIViewController {
+public final class ViewController3DS2WebChallenge: UIViewController {
     
     private lazy var webView: WKWebView = { WKWebView() }()
     private var noActionTimer: Timer?
@@ -21,7 +21,7 @@ final class ViewController3DS2WebChallenge: UIViewController {
         PaymentApiImpl(baseUrl: viewControllerDelegate.getPaymentConfig().baseURL)
     }()
     
-    convenience init(
+    convenience public init(
         webChallengeParam: WebChallengeParam,
         viewControllerDelegate: ViewControllerDelegate?
     ) {
@@ -40,14 +40,17 @@ final class ViewController3DS2WebChallenge: UIViewController {
     override public func viewDidLoad() {
         super.viewDidLoad()
         
-        noActionTimer = Timer.scheduledTimer(withTimeInterval: 30, repeats: false, block: { [weak self] timer in
+        noActionTimer = Timer.scheduledTimer(withTimeInterval: 300, repeats: false, block: { [weak self] timer in
             guard let self else { return }
             
             timer.invalidate()
             
-            let paymentResultData = PaymentResultData(isSuccess: false,
-                                                      exception: SDKTransactionException(message: "Transaction Timed Out."))
-            viewControllerDelegate?.finishWithResult(paymentData: paymentResultData)
+            let paymentResult = PaymentResult(
+                mdOrder: webChallengeParam.mdOrder,
+                isSuccess: false, 
+                exception: SDKTransactionException(message: "Transaction Timed Out.")
+            )
+            viewControllerDelegate?.finishWithResult(paymentData: paymentResult)
         })
         
         setupWebView()
@@ -97,15 +100,22 @@ final class ViewController3DS2WebChallenge: UIViewController {
             let isSuccess = paymentFinishedInfo.status?
                 .containsAnyOfKeywordIgnoreCase(keywords: OrderStatuses.payedStatuses) ?? false
             
-            let paymentResultData = PaymentResultData(isSuccess: isSuccess)
+            let paymentResult = PaymentResult(
+                mdOrder: webChallengeParam.mdOrder,
+                isSuccess: isSuccess
+            )
+            
             LogDebug.shared.logIfDebug(message: "getSessionStatus - Remaining sec \(orderStatus.remainingSecs)")
             
-            viewControllerDelegate?.finishWithResult(paymentData: paymentResultData)
+            viewControllerDelegate?.finishWithResult(paymentData: paymentResult)
             
         } catch {
-            let paymentResultData = PaymentResultData(isSuccess: false,
-                                                  exception: error as? SDKException)
-            viewControllerDelegate?.finishWithResult(paymentData: paymentResultData)
+            let paymentResult = PaymentResult(
+                mdOrder: webChallengeParam.mdOrder,
+                isSuccess: false, 
+                exception: error as? SDKException
+            )
+            viewControllerDelegate?.finishWithResult(paymentData: paymentResult)
         }
 
         dismissController()

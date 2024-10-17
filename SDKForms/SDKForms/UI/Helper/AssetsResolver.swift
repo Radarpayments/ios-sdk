@@ -17,7 +17,7 @@ final class AssetsResolver {
         "^(5[1-5]|222[1-9]|2[3-6]|27[0-1]|2720)\\d*$": "mastercard",
         "^4\\d*$": "visa",
         "^(6011|64[4-9]|65|6221[2-9][6-9]|6222[0-8][0-9][0-9]|62229[1-2][0-5])\\d$": "discover",
-        "^(62[0-9]{14,17})$": "unionpay"
+        "^(62[0-9]{14,17})$": "cup"
     ]
     
     func resolveByPan(pan: String, preferLight: Bool = false) -> String? {

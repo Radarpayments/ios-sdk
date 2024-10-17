@@ -20,11 +20,7 @@ final class PaymentCardSSLUseCaseTest: BaseTestCase {
         XCTAssertTrue(paymentBottomSheet.clickOnAddNewCard())
         
         let newCardScreen = NewCardScreen(app: app)
-        XCTAssertTrue(newCardScreen.fillOutForm(
-            with: TestCardHelper.successSSL,
-            phoneNumber: "+35799902871",
-            email: "test@test.com"
-        ))
+        XCTAssertTrue(newCardScreen.fillOutForm(with: TestCardHelper.successSSL))
         XCTAssertTrue(newCardScreen.clickOnActionButton())
         
         awaitAssert {
@@ -44,9 +40,7 @@ final class PaymentCardSSLUseCaseTest: BaseTestCase {
         let newCardScreen = NewCardScreen(app: app)
         XCTAssertTrue(newCardScreen.fillOutForm(
             with: TestCardHelper.successSSL,
-            overrideCvc: "000",
-            phoneNumber: "+35799902871",
-            email: "test@test.com"
+            overrideCvc: "000"
         ))
         XCTAssertTrue(newCardScreen.clickOnActionButton())
         
@@ -67,9 +61,7 @@ final class PaymentCardSSLUseCaseTest: BaseTestCase {
         let newCardScreen = NewCardScreen(app: app)
         XCTAssertTrue(newCardScreen.fillOutForm(
             with: TestCardHelper.successSSL,
-            overrideExpiry: "10/35",
-            phoneNumber: "+35799902871",
-            email: "test@test.com"
+            overrideExpiry: "10/35"
         ))
         XCTAssertTrue(newCardScreen.clickOnActionButton())
         
@@ -89,11 +81,7 @@ final class PaymentCardSSLUseCaseTest: BaseTestCase {
         XCTAssertTrue(paymentBottomSheet.clickOnAddNewCard())
         
         let newCardScreen = NewCardScreen(app: app)
-        XCTAssertTrue(newCardScreen.fillOutForm(
-            with: TestCardHelper.successSSL,
-            phoneNumber: "+35799902871",
-            email: "test@test.com"
-        ))
+        XCTAssertTrue(newCardScreen.fillOutForm(with: TestCardHelper.successSSL))
         XCTAssertTrue(newCardScreen.clickOnActionButton())
 
         awaitAssert {
@@ -118,10 +106,6 @@ final class PaymentCardSSLUseCaseTest: BaseTestCase {
         
         let selectedCardScreen = SelectedCardScreen(app: app)
         XCTAssertTrue(selectedCardScreen.typeCardCVC(TestCardHelper.successSSL.cvc))
-        XCTAssertTrue(selectedCardScreen.fillOutPhoneAndMail(
-            phoneNumber: "+35799902871",
-            email: "test@test.com"
-        ))
         XCTAssertTrue(selectedCardScreen.clickOnActionButton())
         
         awaitAssert {
@@ -139,11 +123,7 @@ final class PaymentCardSSLUseCaseTest: BaseTestCase {
         XCTAssertTrue(paymentBottomSheet.clickOnAddNewCard())
         
         let newCardScreen = NewCardScreen(app: app)
-        XCTAssertTrue(newCardScreen.fillOutForm(
-            with: TestCardHelper.successSSL,
-            phoneNumber: "+35799902871",
-            email: "test@test.com"
-        ))
+        XCTAssertTrue(newCardScreen.fillOutForm(with: TestCardHelper.successSSL))
         XCTAssertTrue(newCardScreen.clickOnActionButton())
         
         awaitAssert {
@@ -163,9 +143,7 @@ final class PaymentCardSSLUseCaseTest: BaseTestCase {
         let newCardScreen = NewCardScreen(app: app)
         XCTAssertTrue(newCardScreen.fillOutForm(
             with: TestCardHelper.successSSL,
-            overrideCvc: "000",
-            phoneNumber: "+35799902871",
-            email: "test@test.com"
+            overrideCvc: "000"
         ))
         XCTAssertTrue(newCardScreen.clickOnActionButton())
         
@@ -186,9 +164,7 @@ final class PaymentCardSSLUseCaseTest: BaseTestCase {
         let newCardScreen = NewCardScreen(app: app)
         XCTAssertTrue(newCardScreen.fillOutForm(
             with: TestCardHelper.successSSL,
-            overrideExpiry: "10/35",
-            phoneNumber: "+35799902871",
-            email: "test@test.com"
+            overrideExpiry: "10/35"
         ))
         XCTAssertTrue(newCardScreen.clickOnActionButton())
         
@@ -208,11 +184,7 @@ final class PaymentCardSSLUseCaseTest: BaseTestCase {
         XCTAssertTrue(paymentBottomSheet.clickOnAddNewCard())
         
         let newCardScreen = NewCardScreen(app: app)
-        XCTAssertTrue(newCardScreen.fillOutForm(
-            with: TestCardHelper.successSSL,
-            phoneNumber: "+35799902871",
-            email: "test@test.com"
-        ))
+        XCTAssertTrue(newCardScreen.fillOutForm(with: TestCardHelper.successSSL))
         XCTAssertTrue(newCardScreen.clickOnActionButton())
         
         awaitAssert {
@@ -232,10 +204,6 @@ final class PaymentCardSSLUseCaseTest: BaseTestCase {
         
         let selectedCardScreen = SelectedCardScreen(app: app)
         XCTAssertTrue(selectedCardScreen.typeCardCVC(TestCardHelper.successSSL.cvc))
-        XCTAssertTrue(selectedCardScreen.fillOutPhoneAndMail(
-            phoneNumber: "+35799902871",
-            email: "test@test.com"
-        ))
         XCTAssertTrue(selectedCardScreen.clickOnActionButton())
         
         awaitAssert {
@@ -254,11 +222,7 @@ final class PaymentCardSSLUseCaseTest: BaseTestCase {
         XCTAssertTrue(paymentBottomSheet.clickOnAddNewCard())
         
         let newCardScreen = NewCardScreen(app: app)
-        XCTAssertTrue(newCardScreen.fillOutForm(
-            with: TestCardHelper.successSSL,
-            phoneNumber: "+35799902871",
-            email: "test@test.com"
-        ))
+        XCTAssertTrue(newCardScreen.fillOutForm(with: TestCardHelper.successSSL))
         XCTAssertTrue(newCardScreen.clickOnActionButton())
         
         awaitAssert {
@@ -278,147 +242,7 @@ final class PaymentCardSSLUseCaseTest: BaseTestCase {
         
         let selectedCardScreen = SelectedCardScreen(app: app)
         XCTAssertTrue(selectedCardScreen.typeCardCVC("000"))
-        XCTAssertTrue(selectedCardScreen.fillOutPhoneAndMail(
-            phoneNumber: "+35799902871",
-            email: "test@test.com"
-        ))
         XCTAssertTrue(selectedCardScreen.clickOnActionButton())
-        
-        awaitAssert {
-            XCTAssertEqual("false", mainScreen.resultText)
-        }
-    }
-    
-    func testShouldReturnSuccessPaymentResultWithNewCardSSLWithUse3DS2SDKWithSessionId() {
-        let sessionId = registerSessionAndLaunchApp(use3DS2SDK: true)
-
-        let mainScreen = TestMainScreen(app: app)
-        XCTAssertTrue(mainScreen.clickOnCheckout())
-        
-        let paymentBottomSheet = PaymentBottomSheetScreen(app: app)
-        XCTAssertTrue(paymentBottomSheet.clickOnAddNewCard())
-        
-        let newCardScreen = NewCardScreen(app: app)
-        XCTAssertTrue(newCardScreen.fillOutForm(
-            with: TestCardHelper.successSSL,
-            phoneNumber: "+35799902871",
-            email: "test@test.com"
-        ))
-        XCTAssertTrue(newCardScreen.clickOnActionButton())
-        
-        awaitAssert {
-            XCTAssertEqual("true", mainScreen.resultText)
-        }
-    }
-    
-    func testShouldReturnErrorPaymentResultWithNewCardSSLWithUse3DS2SDKWithInvalidCVCWithSessionId() {
-        let sessionId = registerSessionAndLaunchApp(use3DS2SDK: true)
-        
-        let mainScreen = TestMainScreen(app: app)
-        XCTAssertTrue(mainScreen.clickOnCheckout())
-        
-        let paymentBottomSheet = PaymentBottomSheetScreen(app: app)
-        XCTAssertTrue(paymentBottomSheet.clickOnAddNewCard())
-        
-        let newCardScreen = NewCardScreen(app: app)
-        XCTAssertTrue(newCardScreen.fillOutForm(
-            with: TestCardHelper.successSSL,
-            overrideCvc: "000",
-            phoneNumber: "+35799902871",
-            email: "test@test.com"
-        ))
-        XCTAssertTrue(newCardScreen.clickOnActionButton())
-        
-        awaitAssert {
-            XCTAssertEqual("false", mainScreen.resultText)
-        }
-    }
-    
-    func testShouldReturnErrorPaymentResultWithNewCardSSLWithUse3DS2SDKWithInvalidExpiryWithSessionId() {
-        let sessionId = registerSessionAndLaunchApp(use3DS2SDK: true)
-        
-        let mainScreen = TestMainScreen(app: app)
-        XCTAssertTrue(mainScreen.clickOnCheckout())
-        
-        let paymentBottomSheet = PaymentBottomSheetScreen(app: app)
-        XCTAssertTrue(paymentBottomSheet.clickOnAddNewCard())
-        
-        let newCardScreen = NewCardScreen(app: app)
-        XCTAssertTrue(newCardScreen.fillOutForm(
-            with: TestCardHelper.successSSL,
-            overrideExpiry: "10/35",
-            phoneNumber: "+35799902871",
-            email: "test@test.com"
-        ))
-        XCTAssertTrue(newCardScreen.clickOnActionButton())
-        
-        awaitAssert {
-            XCTAssertEqual("false", mainScreen.resultText)
-        }
-    }
-    
-    func testShouldReturnSuccessPaymentResultWithNewCardSSLWithNoUse3DS2SDKWithSessionId() {
-        let sessionId = registerSessionAndLaunchApp(use3DS2SDK: false)
-        
-        let mainScreen = TestMainScreen(app: app)
-        XCTAssertTrue(mainScreen.clickOnCheckout())
-        
-        let paymentBottomSheet = PaymentBottomSheetScreen(app: app)
-        XCTAssertTrue(paymentBottomSheet.clickOnAddNewCard())
-        
-        let newCardScreen = NewCardScreen(app: app)
-        XCTAssertTrue(newCardScreen.fillOutForm(
-            with: TestCardHelper.successSSL,
-            phoneNumber: "+35799902871",
-            email: "test@test.com"
-        ))
-        XCTAssertTrue(newCardScreen.clickOnActionButton())
-        
-        awaitAssert {
-            XCTAssertEqual("true", mainScreen.resultText)
-        }
-    }
-    
-    func testShouldReturnErrorPaymentResultWithNewCardSSLWithNoUse3DS2SDKWithInvalidCVCWithSessionId() {
-        let sessionId = registerSessionAndLaunchApp(use3DS2SDK: false)
-        
-        let mainScreen = TestMainScreen(app: app)
-        XCTAssertTrue(mainScreen.clickOnCheckout())
-        
-        let paymentBottomSheet = PaymentBottomSheetScreen(app: app)
-        XCTAssertTrue(paymentBottomSheet.clickOnAddNewCard())
-        
-        let newCardScreen = NewCardScreen(app: app)
-        XCTAssertTrue(newCardScreen.fillOutForm(
-            with: TestCardHelper.successSSL,
-            overrideCvc: "000",
-            phoneNumber: "+35799902871",
-            email: "test@test.com"
-        ))
-        XCTAssertTrue(newCardScreen.clickOnActionButton())
-        
-        awaitAssert {
-            XCTAssertEqual("false", mainScreen.resultText)
-        }
-    }
-    
-    func testShouldReturnErrorPaymentResultWithNewCardSSLWithNoUse3DS2SDKWithInvalidExpiryWithSessionId() {
-        let sessionId = registerSessionAndLaunchApp(use3DS2SDK: false)
-        
-        let mainScreen = TestMainScreen(app: app)
-        XCTAssertTrue(mainScreen.clickOnCheckout())
-        
-        let paymentBottomSheet = PaymentBottomSheetScreen(app: app)
-        XCTAssertTrue(paymentBottomSheet.clickOnAddNewCard())
-        
-        let newCardScreen = NewCardScreen(app: app)
-        XCTAssertTrue(newCardScreen.fillOutForm(
-            with: TestCardHelper.successSSL,
-            overrideExpiry: "10/35",
-            phoneNumber: "+35799902871",
-            email: "test@test.com"
-        ))
-        XCTAssertTrue(newCardScreen.clickOnActionButton())
         
         awaitAssert {
             XCTAssertEqual("false", mainScreen.resultText)

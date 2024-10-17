@@ -18,7 +18,7 @@ import Foundation
 ///     - payerEmail cardholder email.
 ///     - payerPhone cardholder phone.
 ///     - isMaestro is the card maestro payment system.
-struct BindingItem: Codable {
+public struct BindingItem: Codable {
 
     let id: String
     let label: String

@@ -15,7 +15,6 @@ public final class SdkPayment {
     public static let shared = SdkPayment()
     
     private var innerSDKPaymentConfig: SDKPaymentConfig?
-    private var paymentController: PaymentController?
     
     private init() {}
     
@@ -48,39 +47,30 @@ public final class SdkPayment {
     ///     - mdOrder order number.
     public func checkoutWithBottomSheet(
         controller: UINavigationController,
-        checkoutConfig: CheckoutConfig,
+        mdOrder: String,
         callbackHandler: any ResultPaymentCallback<PaymentResult>
     ) {
-        let paymentId: String
-        
-        switch checkoutConfig.id {
-        case let .sessionId(id),
-             let .mdOrder(id):
-            paymentId = id
-        }
-        
         Logger.shared.log(
             classMethod: type(of: self),
             tag: Constants.TAG,
-            message: "checkoutWithBottomSheet(\(controller), \(paymentId): ",
+            message: "checkoutWithBottomSheet(\(controller), \(mdOrder): ",
             exception: nil
         )
         
         do {
-            let sdkPaymentConfig = try sdkPaymnetConfig()
-
-            paymentController = PaymentController(
-                checkoutConfig: checkoutConfig,
-                sdkPaymentConfig: sdkPaymentConfig,
+            let paymentController = PaymentController(
+                mdOrder: mdOrder,
                 parentController: controller,
                 callbackHandler: callbackHandler
             )
 
-            try paymentController?.startPaymentFlow()
+            try paymentController.startPaymentFlow()
         } catch {
-            let resultPayment = PaymentResult(paymentId: paymentId, isSuccess: false, exception: error as? SDKException)
+            let resultPayment = PaymentResult(mdOrder: mdOrder,
+                                              isSuccess: false,
+                                              exception: error as? SDKException)
+
             callbackHandler.onResult(result: resultPayment)
-            paymentController = nil
         }
     }
     
@@ -93,7 +83,6 @@ public final class SdkPayment {
             case _ as SDKPaymentApiException: return "error when working with gateway API methods"
             case _ as SDKTransactionException: return "error when creating a transaction when paying through 3ds"
             case _ as SDKOrderNotExistException: return "payment for a non-existent order"
-            case _ as SDKSessionNotExistException: return "payment for a non-existent session"
             default: return nil
             }
         }
@@ -102,7 +91,7 @@ public final class SdkPayment {
     }
     
     public static func getSDKVersion() -> String {
-        let version = "3.0.4"
+        let version = "3.0.2.1"
         LogDebug.shared.logIfDebug(message: "SDKPayment version is: \(version)")
         LogDebug.shared.logIfDebug(message: "SDKForms version is: \(SdkForms.getSDKVersion())")
         LogDebug.shared.logIfDebug(message: "SDKCore version is: \(SdkCore.getSDKVersion())")

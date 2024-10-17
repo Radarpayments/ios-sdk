@@ -2,6 +2,8 @@
 //  DefaultPaymentStringProcessorTest.swift
 //  SDKCoreTests
 //
+// 
+//
 
 import XCTest
 @testable import SDKCore
@@ -24,7 +26,7 @@ final class DefaultPaymentStringProcessorTest: XCTestCase {
             timestamp: 1594009580,
             uuid: "fd4b1011-727a-41e8-95b4-d7092d729022",
             cardInfo: CoreCardInfo(
-                identifier: .newPaymentMethodIdentifier("4532896701439077"),
+                identifier: .cardPanIdentifier("4532896701439077"),
                 expDate: ExpiryDate(expYear: 2020, expMonth: 12),
                 cvv: "444",
                 cardHolder: "CardHolderName"
@@ -42,7 +44,7 @@ final class DefaultPaymentStringProcessorTest: XCTestCase {
             timestamp: 1594009580,
             uuid: "fd4b1011-727a-41e8-95b4-d7092d729022",
             cardInfo: CoreCardInfo(
-                identifier: .newPaymentMethodIdentifier("4532896701439077"),
+                identifier: .cardPanIdentifier("4532896701439077"),
                 expDate: ExpiryDate(expYear: 2020, expMonth: 12),
                 cardHolder: "CardHolderName"
             ),
@@ -59,7 +61,7 @@ final class DefaultPaymentStringProcessorTest: XCTestCase {
             timestamp: 1594009580,
             uuid: "fd4b1011-727a-41e8-95b4-d7092d729022",
             cardInfo: CoreCardInfo(
-                identifier: .newPaymentMethodIdentifier("4532896701439077"),
+                identifier: .cardPanIdentifier("4532896701439077"),
                 cvv: "444",
                 cardHolder: "CardHolderName"
             ),
@@ -76,7 +78,7 @@ final class DefaultPaymentStringProcessorTest: XCTestCase {
             timestamp: 1594009580,
             uuid: "fd4b1011-727a-41e8-95b4-d7092d729022",
             cardInfo: CoreCardInfo(
-                identifier: .newPaymentMethodIdentifier("4532896701439077"),
+                identifier: .cardPanIdentifier("4532896701439077"),
                 cardHolder: "CardHolderName"
             ),
             registeredFrom: .MSDK_CORE
@@ -92,7 +94,7 @@ final class DefaultPaymentStringProcessorTest: XCTestCase {
             timestamp: 1594009580,
             uuid: "fd4b1011-727a-41e8-95b4-d7092d729022",
             cardInfo: CoreCardInfo(
-                identifier: .storedPaymentMethodIdentifier("47eb0336-5ad9-4e03-8a1e-b9f3656ec768"),
+                identifier: .cardBindingIdIdentifier("47eb0336-5ad9-4e03-8a1e-b9f3656ec768"),
                 expDate: ExpiryDate(expYear: 2020, expMonth: 12),
                 cvv: "444"
             ),
@@ -109,7 +111,7 @@ final class DefaultPaymentStringProcessorTest: XCTestCase {
             timestamp: 1594009580,
             uuid: "fd4b1011-727a-41e8-95b4-d7092d729022",
             cardInfo: CoreCardInfo(
-                identifier: .storedPaymentMethodIdentifier("47eb0336-5ad9-4e03-8a1e-b9f3656ec768"),
+                identifier: .cardBindingIdIdentifier("47eb0336-5ad9-4e03-8a1e-b9f3656ec768"),
                 expDate: ExpiryDate(expYear: 2020, expMonth: 12)
             ),
             registeredFrom: .MSDK_CORE
@@ -125,7 +127,7 @@ final class DefaultPaymentStringProcessorTest: XCTestCase {
             timestamp: 1594009580,
             uuid: "fd4b1011-727a-41e8-95b4-d7092d729022",
             cardInfo: CoreCardInfo(
-                identifier: .storedPaymentMethodIdentifier("47eb0336-5ad9-4e03-8a1e-b9f3656ec768"),
+                identifier: .cardBindingIdIdentifier("47eb0336-5ad9-4e03-8a1e-b9f3656ec768"),
                 cvv: "444"
             ),
             registeredFrom: .MSDK_CORE
@@ -141,7 +143,7 @@ final class DefaultPaymentStringProcessorTest: XCTestCase {
             timestamp: 1594009580,
             uuid: "fd4b1011-727a-41e8-95b4-d7092d729022",
             cardInfo: CoreCardInfo(
-                identifier: .storedPaymentMethodIdentifier("47eb0336-5ad9-4e03-8a1e-b9f3656ec768")
+                identifier: .cardBindingIdIdentifier("47eb0336-5ad9-4e03-8a1e-b9f3656ec768")
             ),
             registeredFrom: .MSDK_CORE
         )
@@ -156,7 +158,7 @@ final class DefaultPaymentStringProcessorTest: XCTestCase {
             timestamp: 1594009580,
             uuid: "fd4b1011-727a-41e8-95b4-d7092d729022",
             cardInfo: CoreCardInfo(
-                identifier: .newPaymentMethodIdentifier("4532896701439077"),
+                identifier: .cardPanIdentifier("4532896701439077"),
                 expDate: ExpiryDate(expYear: 2020, expMonth: 12),
                 cvv: "444",
                 cardHolder: "CardHolderName"
@@ -174,7 +176,7 @@ final class DefaultPaymentStringProcessorTest: XCTestCase {
             timestamp: 1594009580,
             uuid: "fd4b1011-727a-41e8-95b4-d7092d729022",
             cardInfo: CoreCardInfo(
-                identifier: .newPaymentMethodIdentifier("4532896701439077"),
+                identifier: .cardPanIdentifier("4532896701439077"),
                 expDate: ExpiryDate(expYear: 2020, expMonth: 12),
                 cardHolder: "CardHolderName"
             ),
@@ -191,7 +193,7 @@ final class DefaultPaymentStringProcessorTest: XCTestCase {
             timestamp: 1594009580,
             uuid: "fd4b1011-727a-41e8-95b4-d7092d729022",
             cardInfo: CoreCardInfo(
-                identifier: .newPaymentMethodIdentifier("4532896701439077"),
+                identifier: .cardPanIdentifier("4532896701439077"),
                 cvv: "444",
                 cardHolder: "CardHolderName"
             ),
@@ -208,7 +210,7 @@ final class DefaultPaymentStringProcessorTest: XCTestCase {
             timestamp: 1594009580,
             uuid: "fd4b1011-727a-41e8-95b4-d7092d729022",
             cardInfo: CoreCardInfo(
-                identifier: .newPaymentMethodIdentifier("4532896701439077"),
+                identifier: .cardPanIdentifier("4532896701439077"),
                 cardHolder: "CardHolderName"
             ),
             registeredFrom: .MSDK_CORE
@@ -224,7 +226,7 @@ final class DefaultPaymentStringProcessorTest: XCTestCase {
             timestamp: 1594009580,
             uuid: "fd4b1011-727a-41e8-95b4-d7092d729022",
             cardInfo: CoreCardInfo(
-                identifier: .storedPaymentMethodIdentifier("47eb0336-5ad9-4e03-8a1e-b9f3656ec768"),
+                identifier: .cardBindingIdIdentifier("47eb0336-5ad9-4e03-8a1e-b9f3656ec768"),
                 expDate: ExpiryDate(expYear: 2020, expMonth: 12),
                 cvv: "444",
                 cardHolder: "CardHolderName"
@@ -242,7 +244,7 @@ final class DefaultPaymentStringProcessorTest: XCTestCase {
             timestamp: 1594009580,
             uuid: "fd4b1011-727a-41e8-95b4-d7092d729022",
             cardInfo: CoreCardInfo(
-                identifier: .storedPaymentMethodIdentifier("47eb0336-5ad9-4e03-8a1e-b9f3656ec768"),
+                identifier: .cardBindingIdIdentifier("47eb0336-5ad9-4e03-8a1e-b9f3656ec768"),
                 expDate: ExpiryDate(expYear: 2020, expMonth: 12),
                 cardHolder: "CardHolderName"
             ),
@@ -259,7 +261,7 @@ final class DefaultPaymentStringProcessorTest: XCTestCase {
             timestamp: 1594009580,
             uuid: "fd4b1011-727a-41e8-95b4-d7092d729022",
             cardInfo: CoreCardInfo(
-                identifier: .storedPaymentMethodIdentifier("47eb0336-5ad9-4e03-8a1e-b9f3656ec768"),
+                identifier: .cardBindingIdIdentifier("47eb0336-5ad9-4e03-8a1e-b9f3656ec768"),
                 cvv: "444",
                 cardHolder: "CardHolderName"
             ),
@@ -276,7 +278,7 @@ final class DefaultPaymentStringProcessorTest: XCTestCase {
             timestamp: 1594009580,
             uuid: "fd4b1011-727a-41e8-95b4-d7092d729022",
             cardInfo: CoreCardInfo(
-                identifier: .storedPaymentMethodIdentifier("47eb0336-5ad9-4e03-8a1e-b9f3656ec768"),
+                identifier: .cardBindingIdIdentifier("47eb0336-5ad9-4e03-8a1e-b9f3656ec768"),
                 cardHolder: "CardHolderName"
             ),
             registeredFrom: .MSDK_CORE

@@ -42,8 +42,6 @@
 		22A011672BF378FB00F892DE /* SDKPayment in Frameworks */ = {isa = PBXBuildFile; productRef = 22A011662BF378FB00F892DE /* SDKPayment */; };
 		22A011692BF3790000F892DE /* SDKPayment in Frameworks */ = {isa = PBXBuildFile; productRef = 22A011682BF3790000F892DE /* SDKPayment */; };
 		22C063EA2BDB5DCA000F47CA /* BaseScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C063E92BDB5DCA000F47CA /* BaseScreen.swift */; };
-		22FBC99D2C259235000A401F /* NewCardScreenUseCaseTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FBC99C2C259235000A401F /* NewCardScreenUseCaseTest.swift */; };
-		22FBC9A12C259D44000A401F /* SelectedCardScreenUseCaseTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FBC9A02C259D44000A401F /* SelectedCardScreenUseCaseTest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -124,8 +122,6 @@
 		22A0113E2BF3411500F892DE /* TestProcessFormResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestProcessFormResponse.swift; sourceTree = "<group>"; };
 		22A011422BF344C300F892DE /* TestBindingItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestBindingItem.swift; sourceTree = "<group>"; };
 		22C063E92BDB5DCA000F47CA /* BaseScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseScreen.swift; sourceTree = "<group>"; };
-		22FBC99C2C259235000A401F /* NewCardScreenUseCaseTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCardScreenUseCaseTest.swift; sourceTree = "<group>"; };
-		22FBC9A02C259D44000A401F /* SelectedCardScreenUseCaseTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedCardScreenUseCaseTest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -232,7 +228,6 @@
 		2270EB152BCF86F8002C8B34 /* SDKPaymentTestIntegrationUITests */ = {
 			isa = PBXGroup;
 			children = (
-				22FBC99B2C259214000A401F /* Forms */,
 				22A011442BF3465C00F892DE /* AdditionalEntities */,
 				22148C0B2BD21237001390B3 /* Core */,
 				22148C022BD0FE83001390B3 /* Screens */,
@@ -277,15 +272,6 @@
 				22A011422BF344C300F892DE /* TestBindingItem.swift */,
 			);
 			path = AdditionalEntities;
-			sourceTree = "<group>";
-		};
-		22FBC99B2C259214000A401F /* Forms */ = {
-			isa = PBXGroup;
-			children = (
-				22FBC99C2C259235000A401F /* NewCardScreenUseCaseTest.swift */,
-				22FBC9A02C259D44000A401F /* SelectedCardScreenUseCaseTest.swift */,
-			);
-			path = Forms;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -464,8 +450,6 @@
 				22A011372BF33FE700F892DE /* TestPaymentApiHelper.swift in Sources */,
 				22148C042BD0FE91001390B3 /* TestMainScreen.swift in Sources */,
 				22148C0F2BD21360001390B3 /* TestClientIdHelper.swift in Sources */,
-				22FBC9A12C259D44000A401F /* SelectedCardScreenUseCaseTest.swift in Sources */,
-				22FBC99D2C259235000A401F /* NewCardScreenUseCaseTest.swift in Sources */,
 				22148C062BD0FFA8001390B3 /* PaymentBottomSheetScreen.swift in Sources */,
 				22A011432BF344C300F892DE /* TestBindingItem.swift in Sources */,
 				2270EB2D2BCF8A1A002C8B34 /* TestCard.swift in Sources */,
@@ -632,7 +616,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = M8J93M3U27;
+				DEVELOPMENT_TEAM = "";
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SDKPaymentTestIntegration/Info.plist;

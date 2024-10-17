@@ -11,8 +11,6 @@ enum NewCardVCSectionType {
     
     case logo
     case cardInfo
-    case mandatoryFields
-    case actions
 }
 
 struct NewCardVCSection {

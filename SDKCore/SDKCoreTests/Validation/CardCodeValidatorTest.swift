@@ -30,7 +30,7 @@ final class CardCodeValidatorTest: XCTestCase {
         let result = cardCodeValidator.validate(data: "")
         
         XCTAssertFalse(result.isValid)
-        XCTAssertEqual(String.cardIncorrectCVC().localized, result.errorMessage)
+        XCTAssertEqual(String.cardIncorrectCVC(), result.errorMessage)
         XCTAssertEqual(ValidationCodes.required, result.errorCode)
     }
 
@@ -38,7 +38,7 @@ final class CardCodeValidatorTest: XCTestCase {
         let result = cardCodeValidator.validate(data: "12")
         
         XCTAssertFalse(result.isValid)
-        XCTAssertEqual(String.cardIncorrectCVC().localized, result.errorMessage)
+        XCTAssertEqual(String.cardIncorrectCVC(), result.errorMessage)
         XCTAssertEqual(ValidationCodes.invalid, result.errorCode)
     }
 
@@ -46,7 +46,7 @@ final class CardCodeValidatorTest: XCTestCase {
         let result = cardCodeValidator.validate(data: "1234")
         
         XCTAssertFalse(result.isValid)
-        XCTAssertEqual(String.cardIncorrectCVC().localized, result.errorMessage)
+        XCTAssertEqual(String.cardIncorrectCVC(), result.errorMessage)
         XCTAssertEqual(ValidationCodes.invalid, result.errorCode)
     }
 
@@ -54,7 +54,7 @@ final class CardCodeValidatorTest: XCTestCase {
         let result = cardCodeValidator.validate(data: "1AAA")
         
         XCTAssertFalse(result.isValid)
-        XCTAssertEqual(String.cardIncorrectCVC().localized, result.errorMessage)
+        XCTAssertEqual(String.cardIncorrectCVC(), result.errorMessage)
         XCTAssertEqual(ValidationCodes.invalid, result.errorCode)
     }
 }

@@ -13,7 +13,7 @@ import SDKCore
 final class CardFormDelegateImpl: CardFormDelegate {
     
     private var parentController: UINavigationController
-    private weak var resultCryptogramCallback: (any ResultCryptogramCallback<CryptogramData>)!
+    private var resultCryptogramCallback: any ResultCryptogramCallback<CryptogramData>
     
     init(
         parentController: UINavigationController,
@@ -29,12 +29,11 @@ final class CardFormDelegateImpl: CardFormDelegate {
         bindingCards: [BindingItem],
         cvcNotRequired: Bool,
         bindingDeactivationEnabled: Bool,
-        applePayPaymentConfig: ApplePayPaymentConfig?,
-        sessionStatus: SessionStatusResponse
+        applePayPaymentConfig: ApplePayPaymentConfig?
     ) {
         let paymentConfig = PaymentConfigBuilder(order: mdOrder)
             .cards(cards: Set(bindingCards.toCards()))
-            .storedPaymentMethodCVCRequired(required: !cvcNotRequired)
+            .bindingCVCRequired(required: !cvcNotRequired)
             .cardSaveOptions(options: bindingEnabled ? .yesByDefault : .hide)
             .cardDeleteOptions(options: bindingDeactivationEnabled ? .yesDelete : .noDelete)
             .displayApplePay(isDisplay: applePayPaymentConfig != nil)
@@ -44,7 +43,6 @@ final class CardFormDelegateImpl: CardFormDelegate {
         SdkForms.shared.cryptogramWithBottomSheet(
             parent: parentController,
             config: paymentConfig,
-            mandatoryFieldsProvider: MandatoryFieldsDefaultProvider(sessionStatus: sessionStatus),
             applePayPaymentConfig: applePayPaymentConfig,
             callbackHandler: resultCryptogramCallback
         )
@@ -72,7 +70,6 @@ private extension BindingItem {
                 return Card(
                     pan: label[0],
                     bindingId: self.id,
-                    paymentSystem: self.paymentSystem,
                     expiryDate: ExpiryDate(
                         expYear: expYear,
                         expMonth: expMonth
@@ -84,7 +81,6 @@ private extension BindingItem {
         return Card(
             pan: self.label,
             bindingId: self.id,
-            paymentSystem: self.paymentSystem,
             expiryDate: nil
         )
     }

@@ -10,16 +10,6 @@
 "expiry" = "Card expiry date";
 "cvcDescription" = "Last three code digits on the signature line";
 
-"email" = "Email";
-"phoneNumber" = "Phone number";
-"country" = "Country";
-"state" = "State";
-"city" = "City";
-"postalCode" = "Postal code";
-"addressLine1" = "Address line 1";
-"addressLine2" = "Address line 2";
-"addressLine3" = "Address line 3";
-
 "incorrectLength" = "Card number length should be 16-19 digits";
 "incorrectCardNumber" = "The card number is incorrect";
 "incorrectExpiry" = "Card expiry date is incorrect";

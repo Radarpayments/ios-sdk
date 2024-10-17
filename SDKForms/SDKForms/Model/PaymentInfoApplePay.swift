@@ -14,5 +14,4 @@ import Foundation
 public struct PaymentInfoApplePay: PaymentInfo {
     
     public let order: String
-    public let paymentToken: String
 }

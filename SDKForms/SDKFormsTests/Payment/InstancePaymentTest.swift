@@ -11,12 +11,12 @@ import XCTest
 
 final class InstancePaymentTest: XCTestCase {
     
-    var sdkForms: SdkForms!
+    var sdkForms: SDKForms!
     
     override func setUp() {
         super.setUp()
         
-        sdkForms = SdkForms.initialize(
+        sdkForms = SDKForms.initialize(
             sdkConfig: try! SDKConfigBuilder()
                 .keyProviderUrl(providerUrl: "https://dev.bpcbt.com/payment/se/keys.do")
                 .build()
@@ -31,7 +31,7 @@ final class InstancePaymentTest: XCTestCase {
                 timestamp: config.timestamp,
                 uuid: config.uuid,
                 cardInfo: CoreCardInfo(
-                    identifier: .newPaymentMethodIdentifier("5000001111111115"),
+                    identifier: .cardPanIdentifier("5000001111111115"),
                     expDate: "12/30".toExpDate(),
                     cvv: "123"
                 ),

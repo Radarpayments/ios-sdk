@@ -8,7 +8,7 @@ let package = Package(
     platforms: [.iOS(.v12)],
     products: [
         .library(
-            name: "SDKPayment",
+            name: "SDKPayment",                                                  
             targets: ["SDKPayment"]
         )
     ],
@@ -26,12 +26,7 @@ let package = Package(
             ],
             path: "SDKPayment"
         ),
-        .binaryTarget(name: "ThreeDSSDK", path: "../Frameworks/ThreeDSSDK.xcframework"),
-        .testTarget(
-            name: "SDKPaymentTests",
-            dependencies: ["SDKPayment"],
-            path: "SDKPaymentTests"
-        )
+        .binaryTarget(name: "ThreeDSSDK", path: "../Frameworks/ThreeDSSDK.xcframework")
     ],
     swiftLanguageVersions: [.v5]
 )

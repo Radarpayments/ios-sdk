@@ -17,7 +17,6 @@ import Foundation
 ///     - mdOrder: order number.
 ///     - pubKey: public key.
 public struct CardParams {
-    
     public let mdOrder: String
     public let pan: String
     public let cvc: String
@@ -30,7 +29,7 @@ public struct CardParams {
         cvc: String,
         expiryMMYY: String,
         cardholder: String? = nil,
-        mdOrder: String,
+        mdOrder: String = "",
         pubKey: String
     ) {
         self.pan = pan

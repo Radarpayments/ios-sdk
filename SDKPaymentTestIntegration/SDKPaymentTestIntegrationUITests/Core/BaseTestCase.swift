@@ -95,88 +95,6 @@ class BaseTestCase: XCTestCase {
         return orderId
     }
     
-    func registerOrderAndLaunchAppWithPreFilledBiilingData(
-        amount: Int = 20000,
-        returnUrl: String = "sdk://done",
-        userName: String = "mobile-sdk-api",
-        password: String = "vkyvbG0",
-        clientId: String? = nil,
-        use3DS2SDK: Bool,
-        needsToLog: Bool = false,
-        email: String = "test@test.com",
-        mobilePhone: String = "+35799902871",
-        billingPayerData: BillingPayerData = BillingPayerData()
-    ) -> String {
-        app = XCUIApplication()
-        app.launchArguments = ["-uiTesting"]
-        
-        let config: Use3DSConfig = use3DS2SDK
-            ? .use3ds2sdk(dsRoot: dsRoot)
-            : .noUse3ds2sdk
-
-        paymentConfig = SDKPaymentConfig(baseURL: baseUrl,
-                                         use3DSConfig: config,
-                                         keyProviderUrl: keyProviderUrl)
-        _ = SdkPayment.getSDKVersion()
-
-        let orderId = try! testOrderHelper.registerOrder(
-            amount: amount,
-            returnUrl: returnUrl,
-            userName: userName,
-            password: password,
-            clientId: clientId,
-            email: email,
-            mobilePhone: mobilePhone,
-            billingPayerData: billingPayerData
-        )
-        
-        let paymentConfig = testOrderHelper.encodeConfig(
-            paymentConfig: paymentConfig
-        )
-        app.launchEnvironment = [
-            "paymentConfig": paymentConfig,
-            "orderId": orderId,
-            "needsToLog": "\(needsToLog)"
-        ]
-        app.launch()
-        
-        return orderId
-    }
-    
-    func registerSessionAndLaunchApp(
-        createSessionbaseUrl: String = "https://dev.bpcbt.com",
-        amount: Int = 2000,
-        apiKey: String = "9yVrffWNAiHUUVUCQoX4NFHMxmRHYA2yB",
-        use3DS2SDK: Bool,
-        needsToLog: Bool = false
-    ) -> String {
-        app = XCUIApplication()
-        app.launchArguments = ["-uiTesting"]
-        
-        let config: Use3DSConfig = use3DS2SDK
-            ? .use3ds2sdk(dsRoot: dsRoot)
-            : .noUse3ds2sdk
-        
-        paymentConfig = SDKPaymentConfig(baseURL: self.baseUrl,
-                                         use3DSConfig: config,
-                                         keyProviderUrl: keyProviderUrl)
-        _ = SdkPayment.getSDKVersion()
-        
-        let sessionId = testOrderHelper.registerNewSession(createSessionbaseUrl: createSessionbaseUrl, amount: amount, apiKey: apiKey)
-        
-        let paymentConfig = testOrderHelper.encodeConfig(
-            paymentConfig: paymentConfig
-        )
-        app.launchEnvironment = [
-            "paymentConfig": paymentConfig,
-            "sessionId": sessionId,
-            "needsToLog": "\(needsToLog)"
-        ]
-        app.launch()
-        
-        return sessionId
-    }
-    
     func getDefaultPaymentConfig() -> SDKPaymentConfig {
         guard let paymentConfig else {
             paymentConfig = SDKPaymentConfig(baseURL: baseUrl,
@@ -188,7 +106,7 @@ class BaseTestCase: XCTestCase {
         return paymentConfig
     }
     
-    func awaitAssert(timeout: TimeInterval = 8, _ assert: () -> Void) {
+    func awaitAssert(timeout: TimeInterval = 5, _ assert: () -> Void) {
         let expectation = expectation(description: "Test after \(timeout) seconds")
         let _ = XCTWaiter.wait(for: [expectation], timeout: timeout)
         expectation.fulfill()

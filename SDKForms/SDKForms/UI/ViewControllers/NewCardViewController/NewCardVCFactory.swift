@@ -29,40 +29,6 @@ final class NewCardVCFactory: NSObject {
         tableView?.reloadData()
     }
     
-    func updateTextFieldModel(model: TextFieldTableModel) {
-        let sectionIndex = sections.firstIndex { section in
-            section.items.contains { item in
-                (item as? TextFieldTableModel) == model
-            }
-        }
-        
-        if let sectionIndex {
-            let modelIndex = sections[sectionIndex].items
-                .firstIndex(where: { ($0 as? TextFieldTableModel) == model })
-            
-            if let modelIndex {
-                sections[sectionIndex].items[modelIndex] = model
-            }
-        }
-    }
-    
-    func updateTwoTextFieldsModel(model: TwoTextFieldsTableModel) {
-        let sectionIndex = sections.firstIndex { section in
-            section.items.contains { item in
-                (item as? TwoTextFieldsTableModel) == model
-            }
-        }
-        
-        if let sectionIndex {
-            let modelIndex = sections[sectionIndex].items
-                .firstIndex(where: { ($0 as? TwoTextFieldsTableModel) == model })
-            
-            if let modelIndex {
-                sections[sectionIndex].items[modelIndex] = model
-            }
-        }
-    }
-    
     private func setupTableView() {
         tableView?.separatorStyle = .none
         tableView?.allowsSelection = false
@@ -72,6 +38,7 @@ final class NewCardVCFactory: NSObject {
         tableView?.registerClass(BankLogoTableCell.self)
         tableView?.registerClass(TextFieldTableCell.self)
         tableView?.registerClass(TwoTextFieldsTableCell.self)
+        tableView?.registerClass(CardHolderTableCell.self)
         tableView?.registerClass(SwitchTableCell.self)
         tableView?.registerClass(ButtonTableCell.self)
     }
@@ -85,12 +52,25 @@ final class NewCardVCFactory: NSObject {
             return cell?.bind(model: itemModel)
             
         case let itemModel as TextFieldTableModel:
-            let cell = TextFieldTableCell()
-            return cell.bind(model: itemModel)
+            let cell = tableView?.dequeueReusableCell(TextFieldTableCell.self, for: indexPath) as? TextFieldTableCell
+            return cell?.bind(
+                model: itemModel,
+                delegate: owner as? TextFieldTableCellDelegate
+            )
             
         case let itemModel as TwoTextFieldsTableModel:
-            let cell = TwoTextFieldsTableCell()
-            return cell.bind(model: itemModel)
+            let cell = tableView?.dequeueReusableCell(TwoTextFieldsTableCell.self, for: indexPath) as? TwoTextFieldsTableCell
+            return cell?.bind(
+                model: itemModel,
+                delegate: owner as? TwoTextFieldsTableCellDelegate
+            )
+            
+        case let itemModel as CardHolderTableModel:
+            let cell = tableView?.dequeueReusableCell(CardHolderTableCell.self, for: indexPath) as? CardHolderTableCell
+            return cell?.bind(
+                model: itemModel,
+                delegate: owner as? TextFieldTableCellDelegate
+            )
             
         case let itemModel as SwitchTableModel:
             let cell = tableView?.dequeueReusableCell(SwitchTableCell.self, for: indexPath) as? SwitchTableCell

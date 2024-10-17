@@ -46,17 +46,14 @@ public final class CardListViewController: FormsBaseViewController {
     private let formatter = CardNumberFormatter()
     private let cardLogoResolver = AssetsResolver()
     
-    private var mandatoryFieldsProvider: (any MandatoryFieldsProvider)?
     private var paymentConfig: PaymentConfig?
     
     convenience public init(
         paymentConfig: PaymentConfig?,
-        mandatoryFieldsProvider: (any MandatoryFieldsProvider)?,
         callbackHandler: (any ResultCryptogramCallback<CryptogramData>)?
     ) {
         self.init()
 
-        self.mandatoryFieldsProvider = mandatoryFieldsProvider
         self.paymentConfig = paymentConfig
         self.callbackHandler = callbackHandler
     }
@@ -213,7 +210,6 @@ extension CardListViewController: CardListSelectable {
         let bindingCardVC = SelectedCardViewController(
             paymentConfig: paymentConfig,
             card: card,
-            mandatoryFieldsProvider: self.mandatoryFieldsProvider,
             callbackHandler: callbackHandler
         )
 
@@ -224,7 +220,6 @@ extension CardListViewController: CardListSelectable {
         actionWasCalled = true
         let newCardVC = NewCardViewController(
             paymentConfig: paymentConfig,
-            mandatoryFieldsProvider: self.mandatoryFieldsProvider,
             callbackHandler: callbackHandler
         )
         

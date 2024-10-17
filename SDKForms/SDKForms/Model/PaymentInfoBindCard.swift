@@ -16,6 +16,4 @@ public struct PaymentInfoBindCard: PaymentInfo {
     
     public var order = ""
     public let bindingId: String
-    public var cvc: String?
-    public let mandatoryFieldsValues: [String: String]
 }

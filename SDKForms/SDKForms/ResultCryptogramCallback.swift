@@ -8,7 +8,7 @@
 import Foundation
 
 /// An interface for handling the result of an operation that returns [CryptogramData] or [Exception].
-public protocol ResultCryptogramCallback<T>: AnyObject {
+public protocol ResultCryptogramCallback<T> {
     
     associatedtype T
     

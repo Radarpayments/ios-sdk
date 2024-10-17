@@ -32,7 +32,7 @@ final class PubKeyValidatorTest: XCTestCase {
         let result = pubKeyValidator.validate(data: "")
         
         XCTAssertFalse(result.isValid)
-        XCTAssertEqual(String.pubKeyRequired().localized, result.errorMessage)
+        XCTAssertEqual(String.pubKeyRequired(), result.errorMessage)
         XCTAssertEqual(ValidationCodes.required, result.errorCode)
     }
 
@@ -40,7 +40,7 @@ final class PubKeyValidatorTest: XCTestCase {
         let result = pubKeyValidator.validate(data: "        ")
         
         XCTAssertFalse(result.isValid)
-        XCTAssertEqual(String.pubKeyRequired().localized, result.errorMessage)
+        XCTAssertEqual(String.pubKeyRequired(), result.errorMessage)
         XCTAssertEqual(ValidationCodes.required, result.errorCode)
     }
 }

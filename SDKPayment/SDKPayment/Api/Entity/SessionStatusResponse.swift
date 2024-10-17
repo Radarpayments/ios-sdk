@@ -47,10 +47,6 @@ struct SessionStatusResponse: Codable {
     let currencyAlphaCode: String?
     let merchantInfo: MerchantInfo
     var merchantOptions = [MerchantOption]()
-    var payerDataParamsNeedToBeFilled = [String: [PayerDataField]]()
-    var billingPayerData: BillingPayerData?
-    var orderPayerData: OrderPayerData?
-    var customerDetails: CustomerDetails?
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -78,13 +74,5 @@ struct SessionStatusResponse: Codable {
                 }
             }
         }
-
-        if let params = try? container.decode([String: [PayerDataField]].self, forKey: .payerDataParamsNeedToBeFilled) {
-            self.payerDataParamsNeedToBeFilled = params
-        }
-
-        self.billingPayerData = try? container.decode(BillingPayerData.self, forKey: .billingPayerData)
-        self.orderPayerData = try? container.decode(OrderPayerData.self, forKey: .orderPayerData)
-        self.customerDetails = try? container.decode(CustomerDetails.self, forKey: .customerDetails)
     }
 }

@@ -9,14 +9,14 @@ import Foundation
 import SDKForms
 
 /// Interface describing viewController delegates methods.
-protocol ViewControllerDelegate: AnyObject {
+public protocol ViewControllerDelegate: AnyObject {
     
     /// Finish viewController and return result of the job.
     ///
     /// - Parameters:
     ///     - view view controller
     ///     - paymentData result of payment completion.
-    func finishWithResult(paymentData: PaymentResultData)
+    func finishWithResult(paymentData: PaymentResult)
     
     /// Getting a configuration object for the Payment SDK.
     ///

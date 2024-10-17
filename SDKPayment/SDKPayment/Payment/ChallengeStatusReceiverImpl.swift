@@ -99,10 +99,13 @@ final class ChallengeStatusReceiverImpl: ChallengeStatusReceiver {
             let isSuccess = paymentFinishInfo.status?
                 .containsAnyOfKeywordIgnoreCase(keywords: OrderStatuses.payedStatuses) ?? false
             
-            let paymentResultData = PaymentResultData(isSuccess: isSuccess)
+            let paymentResult = PaymentResult(
+                mdOrder: order,
+                isSuccess: isSuccess
+            )
             
             viewControllerDelegate?.finishWithResult(
-                paymentData: paymentResultData
+                paymentData: paymentResult
             )
         } catch { throw error }
     }

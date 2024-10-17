@@ -12,7 +12,6 @@ import UIKit
 import SDKForms
 import SDKPayment
 import ThreeDSSDK
-import SDKCore
 
 class ViewController: UIViewController {
     
@@ -24,24 +23,13 @@ class ViewController: UIViewController {
         return scrollView
     }()
     
-    private lazy var payOrderButton: UIButton = {
+    private lazy var payButton: UIButton = {
         let button = UIButton(type: .system)
         button.backgroundColor = .systemBlue
-        button.setTitle("Pay Order", for: .normal)
+        button.setTitle("Pay", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 10
-        button.addTarget(self, action: #selector(payOrderClick), for: .touchUpInside)
-        
-        return button
-    }()
-    
-    private lazy var paySessionButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.backgroundColor = .systemBlue
-        button.setTitle("Pay Session", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.layer.cornerRadius = 10
-        button.addTarget(self, action: #selector(paySessionClick), for: .touchUpInside)
+        button.addTarget(self, action: #selector(payClick), for: .touchUpInside)
         
         return button
     }()
@@ -52,7 +40,6 @@ class ViewController: UIViewController {
     private var amount   = ""
     
     private var orderId  = ""
-    private var sessionId = ""
     
     override func loadView() {
         super.loadView()
@@ -71,21 +58,15 @@ class ViewController: UIViewController {
         navigationItem.title = "SampleApp"
         view.backgroundColor = .white
         view.addSubview(tableView)
-        view.addSubview(payOrderButton)
-        view.addSubview(paySessionButton)
+        view.addSubview(payButton)
         view.subviews.forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
         
         NSLayoutConstraint.activate(
             [
-                payOrderButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-                payOrderButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
-                payOrderButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -24),
-                payOrderButton.heightAnchor.constraint(equalToConstant: 48),
-                
-                paySessionButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -64),
-                paySessionButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
-                paySessionButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -24),
-                paySessionButton.heightAnchor.constraint(equalToConstant: 48),
+                payButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+                payButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
+                payButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -24),
+                payButton.heightAnchor.constraint(equalToConstant: 48),
                 
                 tableView.topAnchor.constraint(equalTo: view.topAnchor),
                 tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -107,42 +88,20 @@ class ViewController: UIViewController {
     }
     
     @objc
-    private func payOrderClick() {
-        let billingPayerData = BillingPayerData(
-            billingCountry: "AF",
-            billingState: "DE-BE",
-            billingCity: "Berlin",
-            billingAddressLine1: "MainStreet 1st"
-        )
-
+    private func payClick() {
         // You don't need to use .registerNewOrder()
         // This method needs only for creating order for SDKPayment in the SampleApp
         OrderCreator.registerNewOrder(baseUrl: baseUrl,
                                       amount: amount,
                                       userName: login,
-                                      password: password,
-                                      billingPayerData: billingPayerData) { [weak self] orderId in
+                                      password: password) { [weak self] orderId in
             guard let self else { return }
 
             self.orderId = orderId
             
             DispatchQueue.main.async {
                 // After creating order in an application we can start payment with SDKPayment
-                self.checkout(orderId: self.orderId)
-            }
-        }
-    }
-    
-    @objc
-    private func paySessionClick() {
-        OrderCreator.registerNewSession(baseUrl: baseUrl,
-                                        amount: amount) { [weak self] sessionId in
-            guard let self else { return }
-            
-            self.sessionId = sessionId
-            
-            DispatchQueue.main.async {
-                self.checkout(sessionId: sessionId)
+                self.checkout(orderId: orderId)
             }
         }
     }
@@ -188,41 +147,15 @@ class ViewController: UIViewController {
         
         // The second step - to initialize object SdkPayment
         // For example:
-        _ = SdkPayment.initialize(sdkPaymentConfig: paymentConfig)
+        SdkPayment.initialize(sdkPaymentConfig: paymentConfig)
         
         // And the third step - we need to call method 'checkoutWithBottomSheet' on the 'shared' object
         SdkPayment.shared.checkoutWithBottomSheet(
             controller: navigationController!,
-            checkoutConfig: CheckoutConfig(id: .mdOrder(id: orderId)),
+            mdOrder: orderId,
             callbackHandler: self
         )
     }
-    
-    private func checkout(sessionId: String) {
-        // For uploading logs you need to setup `LogUploadingConfigProvider` for ThreeDSLogger
-        ThreeDSLogger.shared.setupLogUploaderConfigProvider(configProvider: self)
-
-        // To begin checkout, first of all - we need to configure SDKPaymentConfig
-        // For example:
-        let paymentConfig = SDKPaymentConfig(
-            baseURL: baseUrl,
-            use3DSConfig: .noUse3ds2sdk,
-            keyProviderUrl: "\(baseUrl)/se/keys.do",
-            applePaySettings: nil
-        )
-        
-        // The second step - to initialize object SdkPayment
-        // For example:
-        _ = SdkPayment.initialize(sdkPaymentConfig: paymentConfig)
-        
-        // And the third step - we need to call method 'checkoutWithBottomSheet' on the 'shared' object
-        SdkPayment.shared.checkoutWithBottomSheet(
-            controller: navigationController!,
-            checkoutConfig: CheckoutConfig(id: .sessionId(id: sessionId)),
-            callbackHandler: self)
-    }
-    
-    
 }
 
 extension ViewController: ResultPaymentCallback {
@@ -236,7 +169,7 @@ extension ViewController: ResultPaymentCallback {
         // and if it exists - exception: SDKException(message: String?, cause: Error?)
         let alert = UIAlertController(
             title: "Checkout result",
-            message: "Success: \(result.isSuccess),\n PaymentId: \(result.paymentId),\n Exception: \(result.exception?.message)",
+            message: "Success: \(result.isSuccess), OrderId: \(result.mdOrder), Exception: \(result.exception?.message)",
             preferredStyle: .alert
         )
         

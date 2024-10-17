@@ -9,7 +9,7 @@ import Foundation
 import SDKForms
 
 /// Interface describing the operation of the card data entry form.
-protocol CardFormDelegate: AnyObject {
+public protocol CardFormDelegate {
     
     /// Method for starting a form with binding cards.
     ///
@@ -26,7 +26,6 @@ protocol CardFormDelegate: AnyObject {
        bindingCards: [BindingItem],
        cvcNotRequired: Bool,
        bindingDeactivationEnabled: Bool,
-       applePayPaymentConfig: ApplePayPaymentConfig?,
-       sessionStatus: SessionStatusResponse
+       applePayPaymentConfig: ApplePayPaymentConfig?
    ) throws
 }

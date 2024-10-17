@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import SDKPayment
 
 final class OrderCreator {
     
@@ -14,26 +13,16 @@ final class OrderCreator {
                                  amount: String,
                                  userName: String,
                                  password: String,
-                                 billingPayerData: BillingPayerData = BillingPayerData(),
                                  completionHandler: @escaping (_ orderId: String) -> Void) {
         let headers = ["content-type": "application/x-www-form-urlencoded"]
         
-        let mobilePhoneJson = ["mobilePhone": "+35799902871"]
-        let encodedMobilePhone = try? JSONEncoder().encode(mobilePhoneJson)
-        let encodedBillingPayerData = try? JSONEncoder().encode(billingPayerData)
-        
-        let body = [
-            "amount": amount,
-            "userName": userName,
-            "password": password,
-            "returnUrl": "sdk://done",
-            "email": "test@test.com",
-            "clientId": "ClientIdTestIOS",
-            "orderNumber": "\(Int64.random(in: Int64.min...Int64.max))",
-            "orderPayerData": String(data: encodedMobilePhone!, encoding: .utf8)!,
-            "billingPayerData":  String(data: encodedBillingPayerData!, encoding: .utf8)!
-        ]
-
+        let body = ["amount": amount,
+                    "userName": userName,
+                    "password": password,
+                    "returnUrl": "sdk://done",
+                    "email": "test@test.com",
+                    "clientId": "ClientIdTestIOS",
+                    "orderNumber": "\(Int64.random(in: Int64.min...Int64.max))"]
         
         var request = URLRequest(url: NSURL(string: "\(baseUrl)/rest/register.do")! as URL)
         request.httpMethod = "POST"
@@ -49,34 +38,6 @@ final class OrderCreator {
             completionHandler(responseParams["orderId"] ?? "")
         }.resume()
     }
-    
-    static func registerNewSession(baseUrl: String,
-                                   amount: String,
-                                   completionHandler: @escaping (_ sessionId: String) -> Void) {
-        let headers = ["Content-Type": "application/json",
-                       "X-Version": "2023-10-31",
-                       "X-Api-Key": "9yVrffWNAiHUUVUCQoX4NFHMxmRHYA2yB"]
-        
-        let body: [String: Any] = ["amount": 2000,
-                    "currency": "USD",
-                    "successUrl": "sdk://done",
-                    "failureUrl": "sdk://failure"]
-        
-        var request = URLRequest(url: NSURL(string: "https://dev.bpcbt.com/api2/sessions")! as URL)
-        request.httpMethod = "POST"
-        request.allHTTPHeaderFields = headers
-        request.httpBody = try? JSONSerialization.data(withJSONObject: body)
-        
-        URLSession.shared.dataTask(with: request) { data, response, error in
-            guard let data,
-                  let responseParams = try? JSONSerialization.jsonObject(with: data) as? [String: Any]
-            else { return }
-            
-            completionHandler(responseParams["id"] as? String ?? "")
-        }.resume()
-    }
-    
-    
 }
 
 extension URLRequest {
@@ -95,9 +56,9 @@ extension URLRequest {
     
     let parameterArray = parameters.map { (arg) -> String in
       let (key, value) = arg
-        return "\(key)=\(self.percentEscapeString(value))"
+      return "\(key)=\(self.percentEscapeString(value))"
     }
     
-      httpBody = parameterArray.joined(separator: "&").data(using: .utf8)
+    httpBody = parameterArray.joined(separator: "&").data(using: String.Encoding.utf8)
   }
 }

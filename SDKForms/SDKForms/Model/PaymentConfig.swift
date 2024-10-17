@@ -22,7 +22,7 @@ import SDKCore
 ///     - timestamp: time of payment.
 ///     - locale: locale in which the payment form should work.
 ///     - buttonText: the text of the payment button.
-///     - storedPaymentMethodCVCRequired: mandatory entry of CVC paying with a previously saved card.
+///     - bindingCVCRequired: mandatory entry of CVC paying with a previously saved card.
 ///     - cardDeleteOptions: the option to remove the card.
 ///     - cardsToDelete: the list of cards to be removed that the user has selected.
 public struct PaymentConfig: Codable {
@@ -37,7 +37,7 @@ public struct PaymentConfig: Codable {
     let timestamp: Int64
     let locale: Locales
     let buttonText: String?
-    let storedPaymentMethodCVCRequired: Bool
+    let bindingCVCRequired: Bool
     let cardDeleteOptions: CardDeleteOptions
     var cardsToDelete = Set<Card>()
     var displayApplePay = false

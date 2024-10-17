@@ -18,14 +18,6 @@ class ViewController: UIViewController {
         return button
     }()
     
-    private lazy var checkoutSessionButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("Checkout Session", for: .normal)
-        button.setTitleColor(.blue, for: .normal)
-        button.accessibilityIdentifier = "Checkout Session"
-        return button
-    }()
-    
     private lazy var resultLabel: UILabel = {
         let label = UILabel()
         label.text = "Here will be result"
@@ -47,7 +39,6 @@ class ViewController: UIViewController {
     
     private func setupSubviews() {
         view.addSubview(checkoutButton)
-        view.addSubview(checkoutSessionButton)
         view.addSubview(resultLabel)
         
         view.subviews.forEach {
@@ -56,8 +47,6 @@ class ViewController: UIViewController {
         
         NSLayoutConstraint.activate(
             [
-                checkoutSessionButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                checkoutSessionButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -80),
                 checkoutButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
                 checkoutButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
                 resultLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 100),
@@ -66,7 +55,6 @@ class ViewController: UIViewController {
         )
         
         checkoutButton.addTarget(self, action: #selector(onCheckoutClick), for: .touchUpInside)
-        checkoutSessionButton.addTarget(self, action: #selector(onCheckoutClick), for: .touchUpInside)
     }
     
     @objc
@@ -74,7 +62,8 @@ class ViewController: UIViewController {
         guard let targetConfigString = ProcessInfo.processInfo.environment["paymentConfig"],
               let base64EncodedData = targetConfigString.data(using: .utf8),
               let data = Data(base64Encoded: base64EncodedData),
-              let paymentConfig = try? JSONDecoder().decode(SDKPaymentConfig.self, from: data)
+              let paymentConfig = try? JSONDecoder().decode(SDKPaymentConfig.self, from: data),
+              let orderId = ProcessInfo.processInfo.environment["orderId"]
         else {
             print("There is no PaymentConfig for checkout")
             return
@@ -86,19 +75,10 @@ class ViewController: UIViewController {
             ThreeDSLogger.shared.setupLogUploaderConfigProvider(configProvider: self)
         }
         
-        if let orderId = ProcessInfo.processInfo.environment["orderId"] {
-            startChekout(
-                orderId: orderId,
-                paymentConfig: paymentConfig
-            )
-        }
-        
-        if let sessionId = ProcessInfo.processInfo.environment["sessionId"] {
-            startCheckoutSession(
-                sessionId: sessionId,
-                paymentConfig: paymentConfig
-            )
-        }
+        startChekout(
+            orderId: orderId,
+            paymentConfig: paymentConfig
+        )
     }
     
     private func startChekout(
@@ -111,22 +91,7 @@ class ViewController: UIViewController {
         
         SdkPayment.shared.checkoutWithBottomSheet(
             controller: self.navigationController!,
-            checkoutConfig: CheckoutConfig(id: .mdOrder(id: orderId)),
-            callbackHandler: self
-        )
-    }
-    
-    private func startCheckoutSession(
-        sessionId: String,
-        paymentConfig: SDKPaymentConfig
-    ) {
-        _ = SdkPayment.initialize(
-            sdkPaymentConfig: paymentConfig
-        )
-        
-        SdkPayment.shared.checkoutWithBottomSheet(
-            controller: self.navigationController!,
-            checkoutConfig: CheckoutConfig(id: .sessionId(id: sessionId)),
+            mdOrder: orderId,
             callbackHandler: self
         )
     }

@@ -30,7 +30,7 @@ final class OrderNumberValidatorTest: XCTestCase {
         let result = orderNumberValidator.validate(data: "")
         
         XCTAssertFalse(result.isValid)
-        XCTAssertEqual(String.orderIncorrectLength().localized, result.errorMessage)
+        XCTAssertEqual(String.orderIncorrectLength(), result.errorMessage)
         XCTAssertEqual(ValidationCodes.required, result.errorCode)
     }
 
@@ -38,7 +38,7 @@ final class OrderNumberValidatorTest: XCTestCase {
         let result = orderNumberValidator.validate(data: "    ")
         
         XCTAssertFalse(result.isValid)
-        XCTAssertEqual(String.orderIncorrectLength().localized, result.errorMessage)
+        XCTAssertEqual(String.orderIncorrectLength(), result.errorMessage)
         XCTAssertEqual(ValidationCodes.required, result.errorCode)
     }
 
@@ -46,7 +46,7 @@ final class OrderNumberValidatorTest: XCTestCase {
         let result = orderNumberValidator.validate(data: "  39ce26e1 -5fd 0-4784-9e6c-25c9f2c2d09e")
         
         XCTAssertFalse(result.isValid)
-        XCTAssertEqual(String.orderIncorrectLength().localized, result.errorMessage)
+        XCTAssertEqual(String.orderIncorrectLength(), result.errorMessage)
         XCTAssertEqual(ValidationCodes.invalid, result.errorCode)
     }
 

@@ -10,17 +10,15 @@ import SDKForms
 import ThreeDSSDK
 import PassKit
 
-final class PaymentManagerImpl: PaymentManager {
+public final class PaymentManagerImpl: PaymentManager {
     
     private var paymentQueue: DispatchQueue
-    private weak var cardFormDelegate: CardFormDelegate!
-    private weak var threeDS2WebFormDelegate: ThreeDS2WebFormDelegate!
-    private weak var threeDS2SDKFormDelegate: ThreeDS2SDKFormDelegate!
+    private let cardFormDelegate: CardFormDelegate
+    private var threeDS2WebFormDelegate: ThreeDS2WebFormDelegate
+    private let threeDS2SDKFormDelegate: ThreeDS2SDKFormDelegate
     private weak var viewControllerDelegate: ViewControllerDelegate!
     
-    private var checkoutConfig: CheckoutConfig!
     private var mdOrder: String!
-
     private var applePaySettings: ApplePaySettings?
 
     private lazy var dsRoot: String? = {
@@ -38,7 +36,7 @@ final class PaymentManagerImpl: PaymentManager {
     private var threeDS2Service: ThreeDS2Service = Ecom3DS2Service()
     private var transaction: Transaction?
     
-    init(
+    public init(
         paymentQueue: DispatchQueue,
         cardFormDelegate: CardFormDelegate,
         threeDS2WebFormDelegate: ThreeDS2WebFormDelegate,
@@ -58,7 +56,7 @@ final class PaymentManagerImpl: PaymentManager {
         }
     }
     
-    func checkout(config: CheckoutConfig) throws {
+    public func checkout(order: String) throws {
         // start PaymentActivity
         // The first step is to call the getSessionStatus method
         // Payment configuration ->
@@ -75,20 +73,7 @@ final class PaymentManagerImpl: PaymentManager {
         // 3.b.1 - launch SDK 3DS (challenge flow)
         // c - Get an error
         // 4 - Completion with the result of the payment (return to the payment start screen).
-        checkoutConfig = config
-
-        switch config.id {
-        case let .sessionId(id):
-            guard let extractedMdOrder = SessionIdUtils().extractValue(from: id) else {
-                finishWithError(exception: SDKIncorrectSessionIdException())
-                return
-            }
-            mdOrder = extractedMdOrder
-
-        case let .mdOrder(id):
-            mdOrder = id
-        }
-        
+        mdOrder = order
         do {
             let sessionStatusResponse = try getSessionStatus()
             let isApplePayAccepted = sessionStatusResponse.merchantOptions.contains(.applePay)
@@ -98,7 +83,7 @@ final class PaymentManagerImpl: PaymentManager {
             }
             
             if sessionStatusResponse.remainingSecs == nil {
-                let response = try getFinishedPaymentInfo(mdOrder: mdOrder)
+                let response = try getFinishedPaymentInfo(mdOrder: order)
                 let successPaymentStatusList = [OrderStatus.deposited.rawValue, OrderStatus.approved.rawValue]
                 
                 if let status = response.status {
@@ -112,14 +97,7 @@ final class PaymentManagerImpl: PaymentManager {
                         return
                     }
                 } else {
-                    let exception: SDKException
-                    switch checkoutConfig.id {
-                    case .sessionId(_):
-                        exception = SDKSessionNotExistException()
-                    case .mdOrder(_):
-                        exception = SDKOrderNotExistException()
-                    }
-                    finishWithError(exception: exception)
+                    finishWithError(exception: SDKOrderNotExistException())
                 }
                 
                 return
@@ -132,21 +110,20 @@ final class PaymentManagerImpl: PaymentManager {
             }
             
             try cardFormDelegate.openBottomSheet(
-                mdOrder: mdOrder,
+                mdOrder: order,
                 bindingEnabled: sessionStatusResponse.bindingEnabled,
                 bindingCards: sessionStatusResponse.bindingItems,
                 cvcNotRequired: sessionStatusResponse.cvcNotRequired,
                 bindingDeactivationEnabled: sessionStatusResponse.bindingDeactivationEnabled,
                 applePayPaymentConfig: createApplePayPaymentConfig(applePaySettings: applePaySettings, 
-                                                                   currencyCode: sessionStatusResponse.currencyAlphaCode),
-                sessionStatus: sessionStatusResponse
+                                                                   currencyCode: sessionStatusResponse.currencyAlphaCode)
             )
         } catch {
             finishWithError(exception: error as? SDKException)
         }
     }
     
-    func finishWithCheckOrderStatus(exception: SDKException? = nil) throws {
+    public func finishWithCheckOrderStatus(exception: SDKException? = nil) throws {
         do {
             let orderStatus = try getSessionStatus()
             let paymentFinishInfo = try getFinishedPaymentInfo(mdOrder: mdOrder)
@@ -158,9 +135,13 @@ final class PaymentManagerImpl: PaymentManager {
             let isSuccess = paymentFinishInfo.status?
                 .containsAnyOfKeywordIgnoreCase(keywords: OrderStatuses.payedStatuses) ?? false
             
-            let paymentResultData = PaymentResultData(isSuccess: isSuccess,
-                                                      exception: exception)
-            viewControllerDelegate?.finishWithResult(paymentData: paymentResultData)
+            let paymentResult = PaymentResult(
+                mdOrder: mdOrder,
+                isSuccess: isSuccess,
+                exception: exception
+            )
+            
+            viewControllerDelegate?.finishWithResult(paymentData: paymentResult)
         } catch { throw error }
     }
     
@@ -221,9 +202,8 @@ final class PaymentManagerImpl: PaymentManager {
             try threeDS2SDKFormDelegate.cleanup(transaction: transaction, threeDS2Service: threeDS2Service)
             try finishWithCheckOrderStatus(exception: exception)
         } catch {
-            let paymentResultData = PaymentResultData(isSuccess: false,
-                                                      exception: error as? SDKException)
-            viewControllerDelegate?.finishWithResult(paymentData: paymentResultData)
+            let paymentResult = PaymentResult(mdOrder: mdOrder, isSuccess: false, exception: error as? SDKException)
+            viewControllerDelegate?.finishWithResult(paymentData: paymentResult)
         }
     }
     

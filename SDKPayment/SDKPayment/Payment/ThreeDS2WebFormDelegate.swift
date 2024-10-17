@@ -8,7 +8,7 @@
 import Foundation
 
 /// Interface describing the work of the 3DS2 form.
-protocol ThreeDS2WebFormDelegate: AnyObject {
+public protocol ThreeDS2WebFormDelegate {
     
     /// Start Web Challenge screen.
     ///

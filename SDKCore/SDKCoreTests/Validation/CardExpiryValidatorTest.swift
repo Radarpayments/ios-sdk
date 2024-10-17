@@ -51,7 +51,7 @@ final class CardExpiryValidatorTest: XCTestCase {
         let result = cardExpiryValidator.validate(data: "12")
 
         XCTAssertFalse(result.isValid)
-        XCTAssertEqual(String.cardIncorrectExpiry().localized, result.errorMessage)
+        XCTAssertEqual(String.cardIncorrectExpiry(), result.errorMessage)
         XCTAssertEqual(ValidationCodes.invalidFormat, result.errorCode)
     }
 
@@ -59,7 +59,7 @@ final class CardExpiryValidatorTest: XCTestCase {
         let result = cardExpiryValidator.validate(data: "12/346")
 
         XCTAssertFalse(result.isValid)
-        XCTAssertEqual(String.cardIncorrectExpiry().localized, result.errorMessage)
+        XCTAssertEqual(String.cardIncorrectExpiry(), result.errorMessage)
         XCTAssertEqual(ValidationCodes.invalidFormat, result.errorCode)
     }
 
@@ -67,7 +67,7 @@ final class CardExpiryValidatorTest: XCTestCase {
         let result = cardExpiryValidator.validate(data: "12346")
 
         XCTAssertFalse(result.isValid)
-        XCTAssertEqual(String.cardIncorrectExpiry().localized, result.errorMessage)
+        XCTAssertEqual(String.cardIncorrectExpiry(), result.errorMessage)
         XCTAssertEqual(ValidationCodes.invalidFormat, result.errorCode)
     }
 
@@ -75,7 +75,7 @@ final class CardExpiryValidatorTest: XCTestCase {
         let result = cardExpiryValidator.validate(data: "")
 
         XCTAssertFalse(result.isValid)
-        XCTAssertEqual(String.cardIncorrectExpiry().localized, result.errorMessage)
+        XCTAssertEqual(String.cardIncorrectExpiry(), result.errorMessage)
         XCTAssertEqual(ValidationCodes.required, result.errorCode)
     }
 
@@ -83,7 +83,7 @@ final class CardExpiryValidatorTest: XCTestCase {
         let result = cardExpiryValidator.validate(data: "13/25")
 
         XCTAssertFalse(result.isValid)
-        XCTAssertEqual(String.cardIncorrectExpiry().localized, result.errorMessage)
+        XCTAssertEqual(String.cardIncorrectExpiry(), result.errorMessage)
         XCTAssertEqual(ValidationCodes.invalid, result.errorCode)
     }
 
@@ -91,7 +91,7 @@ final class CardExpiryValidatorTest: XCTestCase {
         let result = cardExpiryValidator.validate(data: "13/19")
 
         XCTAssertFalse(result.isValid)
-        XCTAssertEqual(String.cardIncorrectExpiry().localized, result.errorMessage)
+        XCTAssertEqual(String.cardIncorrectExpiry(), result.errorMessage)
         XCTAssertEqual(ValidationCodes.invalid, result.errorCode)
     }
 }

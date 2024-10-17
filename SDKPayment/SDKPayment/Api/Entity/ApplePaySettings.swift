@@ -17,7 +17,7 @@ public struct ApplePaySettings: Codable {
     public init(
         merchantId: String,
         availablePaymentSystems: [PaymentSystem] = PaymentSystem.allCases,
-        countryCode: String = "US",
+        countryCode: String = "RU",
         summaryItems: [ApplePaySummaryItem]
     ) {
         self.merchantId = merchantId

@@ -10,8 +10,6 @@ import Foundation
 enum SelectedCardVCSectionType {
     
     case cardInfo
-    case mandatoryFields
-    case actions
 }
 
 struct SelectedCardVCSection {

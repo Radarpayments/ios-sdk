@@ -10,15 +10,14 @@ import Foundation
 /// An object containing data for API requests.
 ///
 /// - Parameters:
-///     - paymentToken cryptogram.
+///     - seToken cryptogram.
 ///     - mdOrder order number.
 ///     - holder first and last cardholder name.
 ///     - saveCard should saving a card.
 struct CryptogramApiData: Codable {
     
-    let paymentToken: String
+    let seToken: String
     let mdOrder: String
     let holder: String
     var saveCard: Bool = false
-    var fullPayerData: FullPayerData?
 }

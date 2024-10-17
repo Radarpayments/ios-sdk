@@ -15,9 +15,10 @@ public final class SdkForms: NSObject {
     public static let shared = SdkForms()
     
     private var innerSDKConfig: SDKConfig?
+    private var innerCryptograProcessor: CryptogramProcessor?
+    
     private var parent: UINavigationController?
     private var paymentConfig: PaymentConfig?
-    private var mandatoryFieldsProvider: (any MandatoryFieldsProvider)?
     private var applePayPaymentConfig: ApplePayPaymentConfig?
     private var callbackHandler: (any ResultCryptogramCallback<CryptogramData>)?
     
@@ -30,6 +31,11 @@ public final class SdkForms: NSObject {
     /// Initialization
     public static func initialize(sdkConfig: SDKConfig) -> SdkForms {
         shared.innerSDKConfig = sdkConfig
+        shared.innerCryptograProcessor = DefaultCryptogramProcessor(
+            keyProvider: sdkConfig.keyProvider,
+            paymentStringProcessor: DefaultPaymentStringProcessor(),
+            cryptogramCipher: RSACryptogramCipher()
+        )
 
         return shared
     }
@@ -41,7 +47,13 @@ public final class SdkForms: NSObject {
         throw SDKException(message: "Please call SDKForms.initialize(sdkConfig:) before.")
     }
     
-    public static func getSDKVersion() -> String { "3.0.4" }
+    func cryptogramProcessor() throws -> CryptogramProcessor {
+        if let innerCryptograProcessor { return innerCryptograProcessor}
+        
+        throw SDKException(message: "Please call SDKForms.initialize(sdkConfig:) before.")
+    }
+    
+    public static func getSDKVersion() -> String { "3.0.2.1" }
     
     /// Launching the payment process.
     ///
@@ -51,15 +63,18 @@ public final class SdkForms: NSObject {
     public func cryptogram(
         navigationController: UINavigationController,
         config: PaymentConfig,
-        mandatoryFieldsProvider: (any MandatoryFieldsProvider)?,
         callbackHandler: any ResultCryptogramCallback<CryptogramData>
     ) {
+        guard let cryptograProcessor = try? cryptogramProcessor() else {
+            callbackHandler.onFail(error: SDKException(message: "Please call SDKForms.initialize(sdkConfig:) before."))
+            return
+        }
+        
         LocalizationSetting.shared.setLanguage(locale: config.locale)
         ThemeSetting.shared.setTheme(config.theme)
         
         self.parent = navigationController
         self.paymentConfig = config
-        self.mandatoryFieldsProvider = mandatoryFieldsProvider
         self.callbackHandler = callbackHandler
         
         if config.cards.isEmpty {
@@ -70,14 +85,7 @@ public final class SdkForms: NSObject {
                 exception: nil
             )
             
-            navigationController.pushViewController(
-                NewCardViewController(
-                    paymentConfig: config,
-                    mandatoryFieldsProvider: self.mandatoryFieldsProvider,
-                    callbackHandler: callbackHandler
-                ),
-                animated: true
-            )
+            navigationController.pushViewController(NewCardViewController(paymentConfig: config, callbackHandler: callbackHandler), animated: true)
             return
         }
         
@@ -87,14 +95,7 @@ public final class SdkForms: NSObject {
             message: "cryptogram \(config): Launching the payment process from CardListViewController",
             exception: nil
         )
-        navigationController.pushViewController(
-            CardListViewController(
-                paymentConfig: config,
-                mandatoryFieldsProvider: self.mandatoryFieldsProvider,
-                callbackHandler: callbackHandler
-            ),
-            animated: true
-        )
+        navigationController.pushViewController(CardListViewController(paymentConfig: config, callbackHandler: callbackHandler), animated: true)
     }
     
     /// Launching the payment process from BottomSheet.
@@ -105,16 +106,19 @@ public final class SdkForms: NSObject {
     public func cryptogramWithBottomSheet(
         parent: UINavigationController,
         config: PaymentConfig,
-        mandatoryFieldsProvider: (any MandatoryFieldsProvider)?,
         applePayPaymentConfig: ApplePayPaymentConfig?,
         callbackHandler: (any ResultCryptogramCallback<CryptogramData>)
     ) {
+        guard let cryptograProcessor = try? cryptogramProcessor() else {
+            callbackHandler.onFail(error: SDKException(message: "Please call SDKForms.initialize(sdkConfig:) before."))
+            return
+        }
+        
         LocalizationSetting.shared.setLanguage(locale: config.locale)
         ThemeSetting.shared.setTheme(config.theme)
         
         self.parent = parent
         self.paymentConfig = config
-        self.mandatoryFieldsProvider = mandatoryFieldsProvider
         self.applePayPaymentConfig = applePayPaymentConfig
         self.callbackHandler = callbackHandler
 
@@ -149,7 +153,6 @@ extension SdkForms: PaymentBottomSheetDelegate {
         let selectedCardVC = SelectedCardViewController(
             paymentConfig: paymentConfig,
             card: card,
-            mandatoryFieldsProvider: self.mandatoryFieldsProvider,
             callbackHandler: callbackHandler
         )
         
@@ -166,7 +169,6 @@ extension SdkForms: PaymentBottomSheetDelegate {
     func selectAddNewCard() {
         let newCardVC = NewCardViewController(
             paymentConfig: paymentConfig,
-            mandatoryFieldsProvider: self.mandatoryFieldsProvider,
             callbackHandler: callbackHandler
         )
         
@@ -182,8 +184,7 @@ extension SdkForms: PaymentBottomSheetDelegate {
     
     func selectAllPaymentMethods() {
         let allPaymentsMethodsVC = CardListViewController(
-            paymentConfig: paymentConfig, 
-            mandatoryFieldsProvider: self.mandatoryFieldsProvider,
+            paymentConfig: paymentConfig,
             callbackHandler: callbackHandler
         )
 
@@ -247,8 +248,9 @@ extension SdkForms: PKPaymentAuthorizationViewControllerDelegate {
             return
         }
 
-        let applePayPaymentInfo = PaymentInfoApplePay(order: order, paymentToken: paymentToken)
-        let cryptogramData = CryptogramData(status: .succeeded,
+        let applePayPaymentInfo = PaymentInfoApplePay(order: order)
+        let cryptogramData = CryptogramData(status: .succeeded, 
+                                            seToken: paymentToken,
                                             info: applePayPaymentInfo,
                                             deletedCardList: [])
         

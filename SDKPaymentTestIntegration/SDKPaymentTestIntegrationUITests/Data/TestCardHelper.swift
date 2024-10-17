@@ -51,13 +51,6 @@ struct TestCardHelper {
         holder: "CARD HOLDER"
     )
     
-    static let uncorrectNumberCard = TestCard(
-        pan: "4111111111111112",
-        expiry: "",
-        cvc: "",
-        holder: ""
-    )
-    
     static func getLabelForSavedCardFrom(testCard: TestCard) -> String {
         return "**" + testCard.pan.takeLast(4)
     }

@@ -21,7 +21,7 @@ final class CardDataTextFormatter {
             modifyCardNumberString(text)
         case .cardExpiry:
             modifyCardExpiryString(text)
-        case .cardCVC, .mandatoryField, .phoneNumber, .email, .plain:
+        case .cardCVC:
             text
         case .cardHolder:
             modifyCardHolderString(text)

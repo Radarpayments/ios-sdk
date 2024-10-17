@@ -7,14 +7,10 @@
 
 import Foundation
 
-public enum CardDataTextFieldStringPattern {
+enum CardDataTextFieldStringPattern {
     
     case cardNumber
     case cardExpiry
     case cardCVC
     case cardHolder
-    case email
-    case phoneNumber
-    case mandatoryField
-    case plain
 }

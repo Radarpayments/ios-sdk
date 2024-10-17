@@ -6,16 +6,13 @@
 //
 
 import UIKit
-import SDKCore
 import SDKForms
 
 final class PaymentController {
     
     private let DEFAULT_VALUE_CARDHOLDER: String = "CARDHOLDER"
-
-    private let paymentId: PaymentIdType
-    private let checkoutConfig: CheckoutConfig
-    private let sdkPaymentConfig: SDKPaymentConfig
+    
+    private var mdOrder: String
     private var parentController: UINavigationController
     private var callbackHandler: any ResultPaymentCallback<PaymentResult>
     private let paymentQueue = DispatchQueue(label: "paymentQueue", attributes: .concurrent)
@@ -52,36 +49,25 @@ final class PaymentController {
     }()
     
     init(
-        checkoutConfig: CheckoutConfig,
-        sdkPaymentConfig: SDKPaymentConfig,
+        mdOrder: String,
         parentController: UINavigationController,
         callbackHandler: any ResultPaymentCallback<PaymentResult>
     ) {
-        self.paymentId = checkoutConfig.id
-        self.checkoutConfig = checkoutConfig
-        self.sdkPaymentConfig = sdkPaymentConfig
+        self.mdOrder = mdOrder
         self.parentController = parentController
         self.callbackHandler = callbackHandler
     }
     
     func startPaymentFlow() throws {
-        do {
-            try paymentManager.checkout(config: checkoutConfig)
-        } catch {
-            throw error
-        }
+        do { try paymentManager.checkout(order: mdOrder) } 
+        catch { throw error }
     }
     
     private func paymentNewCard(
-        paymentToken: String?,
+        seToken: String,
         paymentInfo: PaymentInfoNewCard,
         completion: @escaping (_ error: SDKException?) -> Void
     ) {
-        guard let paymentToken else {
-            completion(SDKCryptogramException(message: "Payment token is nil"))
-            return
-        }
-
         paymentQueue.async { [weak self] in
             guard let self else { return }
             let cardHolder = paymentInfo.holder.isEmpty 
@@ -89,15 +75,12 @@ final class PaymentController {
                 : paymentInfo.holder
             
             do {
-                let fullPayerData = fullPayerData(from: paymentInfo.mandatoryFieldsValues)
-
                 try paymentManager.processFormData(
                     cryptogramApiData: CryptogramApiData(
-                        paymentToken: paymentToken,
+                        seToken: seToken,
                         mdOrder: paymentInfo.order,
                         holder: cardHolder,
-                        saveCard: paymentInfo.saveCard,
-                        fullPayerData: fullPayerData
+                        saveCard: paymentInfo.saveCard
                     ),
                     isBinding: false
                 )
@@ -108,27 +91,19 @@ final class PaymentController {
     }
     
     private func paymentBindingCard(
-        paymentToken: String?,
+        seToken: String,
         paymentInfo: PaymentInfoBindCard,
         completion: @escaping (_ error: SDKException?) -> Void
     ) {
-        guard let paymentToken else {
-            completion(SDKCryptogramException(message: "Payment token is nil"))
-            return
-        }
-        
         paymentQueue.async { [weak self] in
             guard let self else { return }
             
             do {
-                let fullPayerData = fullPayerData(from: paymentInfo.mandatoryFieldsValues)
-                
                 try paymentManager.processFormData(
                     cryptogramApiData: CryptogramApiData(
-                        paymentToken: paymentToken,
+                        seToken: seToken,
                         mdOrder: paymentInfo.order,
-                        holder: DEFAULT_VALUE_CARDHOLDER,
-                        fullPayerData: fullPayerData
+                        holder: DEFAULT_VALUE_CARDHOLDER
                     ),
                     isBinding: true
                 )
@@ -139,6 +114,7 @@ final class PaymentController {
     }
     
     private func paymentApplePay(
+        seToken: String,
         paymentInfo: PaymentInfoApplePay,
         completion: @escaping (_ error: SDKException?) -> Void
     ) {
@@ -149,7 +125,7 @@ final class PaymentController {
                 try paymentManager.processApplePay(
                     cryptogramApplePayApiData: CryptogramApplePayApiData(
                         mdOrder: paymentInfo.order,
-                        paymentToken: paymentInfo.paymentToken
+                        paymentToken: seToken
                     )
                 )
             } catch {
@@ -171,33 +147,11 @@ final class PaymentController {
             }
         }
     }
-    
-    private func fullPayerData(from fieldsValues: [String: String]) -> FullPayerData {
-        var fullPayerData = FullPayerData()
-        
-        fieldsValues.forEach { key, value in
-            if let billingpayerDataField = BillingPayerDataFields(stringValue: key) {
-                switch billingpayerDataField {
-                case .MOBILE_PHONE:          fullPayerData.mobilePhone = value
-                case .EMAIL:                 fullPayerData.email = value
-                case .BILLING_COUNTRY:       fullPayerData.billingPayerData.billingCountry = value
-                case .BILLING_STATE:         fullPayerData.billingPayerData.billingState = value
-                case .BILLING_POSTAL_CODE:   fullPayerData.billingPayerData.billingPostalCode = value
-                case .BILLING_CITY:          fullPayerData.billingPayerData.billingCity = value
-                case .BILLING_ADDRESS_LINE1: fullPayerData.billingPayerData.billingAddressLine1 = value
-                case .BILLING_ADDRESS_LINE2: fullPayerData.billingPayerData.billingAddressLine2 = value
-                case .BILLING_ADDRESS_LINE3: fullPayerData.billingPayerData.billingAddressLine3 = value
-                }
-            }
-        }
-        
-        return fullPayerData
-    }
 }
 
 extension PaymentController: ViewControllerDelegate {
 
-    func finishWithResult(paymentData: PaymentResultData) {
+    func finishWithResult(paymentData: PaymentResult) {
         DispatchQueue.main.async { [weak self] in
             guard let self,
                   let topViewController = UIApplication.shared.topViewController
@@ -210,18 +164,7 @@ extension PaymentController: ViewControllerDelegate {
                     return
                 }
                 
-                let idForResult: String
-                
-                switch paymentId {
-                case let .sessionId(id),
-                     let .mdOrder(id):
-                    idForResult = id
-                }
-                
-                let paymentResult = PaymentResult(paymentId: idForResult,
-                                                  paymentResultData: paymentData)
-                
-                callbackHandler.onResult(result: paymentResult)
+                callbackHandler.onResult(result: paymentData)
             
             case let topViewController as ViewController3DS2WebChallenge:
                 topViewController.dismiss(animated: true) { [weak self] in
@@ -238,17 +181,7 @@ extension PaymentController: ViewControllerDelegate {
                 }
 
             default:
-                let clearId: String
-                
-                switch paymentId {
-                case let .sessionId(id),
-                     let .mdOrder(id):
-                    clearId = id
-                }
-                
-                let paymentResult = PaymentResult(paymentId: clearId,
-                                                  paymentResultData: paymentData)
-                callbackHandler.onResult(result: paymentResult)
+                callbackHandler.onResult(result: paymentData)
             }
         }
     }
@@ -283,74 +216,25 @@ extension PaymentController: ResultCryptogramCallback {
             
             switch info {
             case let info as PaymentInfoNewCard:
-                do {
-                    let keyProvider = RemoteKeyProvider(url: sdkPaymentConfig.keyProviderUrl)
-                    let pubKey = try keyProvider.provideKey().value
-
-                    let sdkCoreConfig = SDKCoreConfig(
-                        paymentMethodParams: .cardParams(
-                            params: CardParams(
-                                pan: info.pan,
-                                cvc: info.cvc,
-                                expiryMMYY: info.expiry,
-                                cardholder: info.holder.isEmpty ? DEFAULT_VALUE_CARDHOLDER : info.holder,
-                                mdOrder: info.order,
-                                pubKey: pubKey
-                            )
-                        ),
-                        registeredFrom: .MSDK_PAYMENT
-                    )
-                    
-                    let sdkCore = SdkCore()
-                    let paymentToken = sdkCore.generateWithConfig(config: sdkCoreConfig).token
-                    
-                    paymentNewCard(paymentToken: paymentToken, paymentInfo: info) { [weak self] error in
-                        guard let self else { return }
-                        
-                        let paymentResultData = PaymentResultData(isSuccess: false, exception: error)
-                        finishWithResult(paymentData: paymentResultData)
-                    }
-                } catch {
-                    let paymentResultData = PaymentResultData(isSuccess: false, exception: error as? SDKException)
-                    finishWithResult(paymentData: paymentResultData)
-                }
-
-            case let info as PaymentInfoBindCard:
-                do {
-                    let keyProvider = RemoteKeyProvider(url: sdkPaymentConfig.keyProviderUrl)
-                    let pubKey = try keyProvider.provideKey().value
-                    
-                    let sdkCoreConfig = SDKCoreConfig(
-                        paymentMethodParams: .bindingParams(
-                            params: BindingParams(
-                                pubKey: pubKey,
-                                bindingId: info.bindingId,
-                                cvc: info.cvc,
-                                mdOrder: info.order
-                            )
-                        )
-                    )
-                    
-                    let sdkCore = SdkCore()
-                    let paymentToken = sdkCore.generateWithConfig(config: sdkCoreConfig).token
-                    
-                    paymentBindingCard(paymentToken: paymentToken, paymentInfo: info) { [weak self] error in
-                        guard let self else { return }
-                        
-                        let paymentResultData = PaymentResultData(isSuccess: false, exception: error)
-                        finishWithResult(paymentData: paymentResultData)
-                    }
-                } catch {
-                    let paymentResultData = PaymentResultData(isSuccess: false, exception: error as? SDKException)
-                    finishWithResult(paymentData: paymentResultData)
-                }
-
-            case let info as PaymentInfoApplePay:
-                paymentApplePay(paymentInfo: info) { [weak self] error in
+                paymentNewCard(seToken: result.seToken, paymentInfo: info) { [weak self] error in
                     guard let self else { return }
                     
-                    let paymentResultData = PaymentResultData(isSuccess: false, exception: error)
-                    finishWithResult(paymentData: paymentResultData)
+                    let paymentResult = PaymentResult(mdOrder: mdOrder, isSuccess: false, exception: error)
+                    finishWithResult(paymentData: paymentResult)
+                }
+            case let info as PaymentInfoBindCard:
+                paymentBindingCard(seToken: result.seToken, paymentInfo: info) { [weak self] error in
+                    guard let self else { return }
+                    
+                    let paymentResult = PaymentResult(mdOrder: mdOrder, isSuccess: false, exception: error)
+                    finishWithResult(paymentData: paymentResult)
+                }
+            case let info as PaymentInfoApplePay:
+                paymentApplePay(seToken: result.seToken, paymentInfo: info) { [weak self] error in
+                    guard let self else { return }
+                    
+                    let paymentResult = PaymentResult(mdOrder: mdOrder, isSuccess: false, exception: error)
+                    finishWithResult(paymentData: paymentResult)
                 }
             default:
                 break

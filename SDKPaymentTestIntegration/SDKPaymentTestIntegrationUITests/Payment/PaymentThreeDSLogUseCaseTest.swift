@@ -18,11 +18,7 @@ final class PaymentThreeDSLogUseCaseTest: BaseTestCase {
         XCTAssertTrue(paymentBottomSheet.clickOnAddNewCard())
         
         let newCardScreen = NewCardScreen(app: app)
-        XCTAssertTrue(
-            newCardScreen.fillOutForm(
-                with: TestCardHelper.successFull3DS
-            )
-        )
+        XCTAssertTrue(newCardScreen.fillOutForm(with: TestCardHelper.successFull3DS))
         XCTAssertTrue(newCardScreen.clickOnActionButton())
         
         var threeDSScreen = ThreeDSS2creen(app: app)

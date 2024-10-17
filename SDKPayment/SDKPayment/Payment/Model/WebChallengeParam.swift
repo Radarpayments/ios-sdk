@@ -14,7 +14,7 @@ import Foundation
 ///     - acsUrl automatic configuration server url.
 ///     - paReq params request.
 ///     - termUrl terminal url.
-struct WebChallengeParam {
+public struct WebChallengeParam {
 
     let mdOrder: String
     let acsUrl: String
