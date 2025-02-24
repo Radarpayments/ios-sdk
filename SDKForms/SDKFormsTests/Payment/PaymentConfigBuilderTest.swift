@@ -36,50 +36,44 @@ final class PaymentConfigBuilderTest: XCTestCase {
     func testShouldReturnLocale() {
         XCTAssertEqual(
             PaymentConfigBuilder(order: "18818587-aa98-4149-8780-3816afbd67f7")
-                .locale(locale: .init(identifier: "en"))
+                .locale(locale: .en)
                 .build()
-                .locale
-                .identifier, "en"
+                .locale, .en
         )
         
         XCTAssertEqual(
             PaymentConfigBuilder(order: "18818587-aa98-4149-8780-3816afbd67f7")
-                .locale(locale: .init(identifier: "de"))
+                .locale(locale: .de)
                 .build()
-                .locale
-                .identifier, "de"
+                .locale, .de
         )
         
         XCTAssertEqual(
             PaymentConfigBuilder(order: "18818587-aa98-4149-8780-3816afbd67f7")
-                .locale(locale: .init(identifier: "fr"))
+                .locale(locale: .fr)
                 .build()
-                .locale
-                .identifier, "fr"
+                .locale, .fr
         )
         
         XCTAssertEqual(
             PaymentConfigBuilder(order: "18818587-aa98-4149-8780-3816afbd67f7")
-                .locale(locale: .init(identifier: "es"))
+                .locale(locale: .es)
                 .build()
-                .locale
-                .identifier, "es"
+                .locale, .es
         )
         
         XCTAssertEqual(
             PaymentConfigBuilder(order: "18818587-aa98-4149-8780-3816afbd67f7")
-                .locale(locale: .init(identifier: "ru"))
+                .locale(locale: .ru)
                 .build()
-                .locale
-                .identifier, "ru"
+                .locale, .ru
         )
         
         XCTAssertEqual(
             PaymentConfigBuilder(order: "18818587-aa98-4149-8780-3816afbd67f7")
-                .locale(locale: .init(identifier: "uk"))
+                .locale(locale: .uk)
                 .build()
-                .locale
-                .identifier, "uk"
+                .locale, .uk
         )
     }
     
@@ -250,27 +244,27 @@ final class PaymentConfigBuilderTest: XCTestCase {
         XCTAssertEqual(firstTimestamp, secondTimestamp)
     }
     
-    func testShouldReturnBindingCvcRequired() {
+    func testShouldReturnStoredPaymentMethodCVCRequired() {
         XCTAssertEqual(
             PaymentConfigBuilder(order: "5eec2dec-b86a-48b3-b296-a772eb5ff77f")
-                .bindingCVCRequired(required: true)
+                .storedPaymentMethodCVCRequired(required: true)
                 .build()
-                .bindingCVCRequired, true
+                .storedPaymentMethodCVCRequired, true
         )
 
         XCTAssertEqual(
             PaymentConfigBuilder(order: "5eec2dec-b86a-48b3-b296-a772eb5ff77f")
-                .bindingCVCRequired(required: false)
+                .storedPaymentMethodCVCRequired(required: false)
                 .build()
-                .bindingCVCRequired, false
+                .storedPaymentMethodCVCRequired, false
         )
     }
     
-    func testShouldReturnBindingCvcRequiredByDefault() {
+    func testShouldReturnStoredPaymentMethodCVCRequiredByDefault() {
         XCTAssertEqual(
             PaymentConfigBuilder(order: "5eec2dec-b86a-48b3-b296-a772eb5ff77f")
                 .build()
-                .bindingCVCRequired, true
+                .storedPaymentMethodCVCRequired, true
         )
     }
     

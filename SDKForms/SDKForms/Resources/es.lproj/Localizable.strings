@@ -10,6 +10,16 @@
 "expiry" = "Validez de la tarjeta";
 "cvcDescription" = "Últimas 3 cifras del código sobre la raya de la firma";
 
+"email" = "Correo electrónico";
+"phoneNumber" = "Número de teléfono";
+"country" = "Pais";
+"state" = "Estado";
+"city" = "Ciudad";
+"postalCode" = "Código postal";
+"addressLine1" = "Dirección Línea 1";
+"addressLine2" = "Dirección Línea 2";
+"addressLine3" = "Dirección Línea 3";
+
 "incorrectLength" = "La longitud del número de tarjeta debe ser de 16-19 dígitos.";
 "incorrectCardNumber" = "Falso número indicado de la tarjeta";
 "incorrectExpiry" = "Falsa validez indicada de la tarjeta";

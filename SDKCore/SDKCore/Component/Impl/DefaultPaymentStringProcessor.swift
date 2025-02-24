@@ -8,11 +8,11 @@
 import Foundation
 
 /// Implementation of a processor for generating a line with payment information using a template.
-public final class DefaultPaymentStringProcessor: PaymentStringProcessor {
+final class DefaultPaymentStringProcessor: PaymentStringProcessor {
 
     private let SPLASH = "/"
     
-    public init() {}
+    init() {}
 
     /// Generates a list of payment data using a template.
     ///
@@ -34,7 +34,7 @@ public final class DefaultPaymentStringProcessor: PaymentStringProcessor {
         return formatter
     }()
     
-    public func createPaymentString(order: String,
+    func createPaymentString(order: String,
                                     timestamp: Int64,
                                     uuid: String,
                                     cardInfo: CoreCardInfo,
@@ -42,7 +42,7 @@ public final class DefaultPaymentStringProcessor: PaymentStringProcessor {
     ) -> String {
         let cardIdentifier = cardInfo.identifier
         let bindingId: String = {
-            if case let .cardBindingIdIdentifier(value) = cardIdentifier {
+            if case let .storedPaymentMethodIdentifier(value) = cardIdentifier {
                 return value
             }
             return ""
@@ -57,9 +57,14 @@ public final class DefaultPaymentStringProcessor: PaymentStringProcessor {
         str.append(uuid)
         str.append(SPLASH)
         // pan (3)
-        if case let .cardPanIdentifier(value) = cardIdentifier {
-            str.append(value)
-        }
+        let panIdentifier: String = {
+            if case let .newPaymentMethodIdentifier(value) = cardIdentifier {
+                return value
+            }
+            return ""
+        }()
+        str.append(panIdentifier)
+
         str.append(SPLASH)
         // cvv(4)
         str.append(cardInfo.cvv ?? "")

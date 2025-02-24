@@ -14,6 +14,7 @@ final class ThreeDS1Screen: BaseScreen {
     
     private lazy var successButton = app.buttons["Success"]
     private lazy var failButton = app.buttons["Fail"]
+    private lazy var returnLink = app.links["Return to Merchant"]
     
     init(app: XCUIApplication!) {
         self.app = app
@@ -27,6 +28,12 @@ final class ThreeDS1Screen: BaseScreen {
     
     func clickOnFail() -> Bool {
         performWithTimeout(element: failButton) { element in
+            element.tap()
+        }
+    }
+    
+    func clickOnReturnToMerchant() -> Bool {
+        performWithTimeout(element: returnLink) { element in
             element.tap()
         }
     }

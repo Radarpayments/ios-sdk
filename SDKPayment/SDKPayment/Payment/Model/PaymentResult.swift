@@ -11,21 +11,27 @@ import SDKForms
 /// The result of a full payment cycle.
 ///
 /// - Parameters:
-///     - mdOrder order number.
-///     - status payment status.
+///     - paymentId payment identifier.
+///     - isSuccess payment finish status.
+///     - exception error if exist.
 public struct PaymentResult {
 
-    public let mdOrder: String
+    public let paymentId: String
     public var isSuccess = false
     public let exception: SDKException?
     
-    init(
-        mdOrder: String,
-        isSuccess: Bool = false,
-        exception: SDKException? = nil
-    ) {
-        self.mdOrder = mdOrder
+    init(paymentId: String,
+         isSuccess: Bool = false,
+         exception: SDKException?) {
+        self.paymentId = paymentId
         self.isSuccess = isSuccess
         self.exception = exception
+    }
+
+    init(paymentId: String,
+         paymentResultData: PaymentResultData) {
+        self.paymentId = paymentId
+        self.isSuccess = paymentResultData.isSuccess
+        self.exception = paymentResultData.exception
     }
 }

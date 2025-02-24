@@ -16,6 +16,11 @@ import Foundation
 public struct PaymentInfoNewCard: PaymentInfo {
     
     public var order = ""
-    public let saveCard: Bool
+    public let pan: String
+    public let cvc: String
+    public let expiry: String
     public let holder: String
+    public let mandatoryFieldsValues: [String: String]
+    public let saveCard: Bool
+    
 }

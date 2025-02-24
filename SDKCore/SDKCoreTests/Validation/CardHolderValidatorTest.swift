@@ -36,7 +36,7 @@ final class CardHolderValidatorTest: XCTestCase {
         let result = cardHolderValidator.validate(data: "Guðmundur Halima")
         
         XCTAssertFalse(result.isValid)
-        XCTAssertEqual(String.cardIncorrectCardHolder(), result.errorMessage)
+        XCTAssertEqual(String.cardIncorrectCardHolder().localized, result.errorMessage)
         XCTAssertEqual(ValidationCodes.invalidFormat, result.errorCode)
     }
 
@@ -44,7 +44,7 @@ final class CardHolderValidatorTest: XCTestCase {
         let result = cardHolderValidator.validate(data: "665361 165654")
         
         XCTAssertFalse(result.isValid)
-        XCTAssertEqual(String.cardIncorrectCardHolder(), result.errorMessage)
+        XCTAssertEqual(String.cardIncorrectCardHolder().localized, result.errorMessage)
         XCTAssertEqual(ValidationCodes.invalidFormat, result.errorCode)
     }
 
@@ -52,7 +52,7 @@ final class CardHolderValidatorTest: XCTestCase {
         let result = cardHolderValidator.validate(data: "John DoeEEEEEEEEEEEEEEEEEEEEEEE")
         
         XCTAssertFalse(result.isValid)
-        XCTAssertEqual(String.cardIncorrectCardHolder(), result.errorMessage)
+        XCTAssertEqual(String.cardIncorrectCardHolder().localized, result.errorMessage)
         XCTAssertEqual(ValidationCodes.invalid, result.errorCode)
     }
 }

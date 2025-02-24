@@ -35,7 +35,7 @@ final class RSACryptogramCipherTest: XCTestCase {
             timestamp: 1594009580,
             uuid: "fd4b1011-727a-41e8-95b4-d7092d729022",
             cardInfo: CoreCardInfo(
-                identifier: .cardPanIdentifier("4532896701439077"),
+                identifier: .newPaymentMethodIdentifier("4532896701439077"),
                 expDate: ExpiryDate(expYear: 2020, expMonth: 12),
                 cardHolder: "CardHolderName"
             ),

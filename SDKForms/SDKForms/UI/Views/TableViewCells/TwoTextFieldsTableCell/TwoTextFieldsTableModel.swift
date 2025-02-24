@@ -7,11 +7,19 @@
 
 import Foundation
 
-struct TwoTextFieldsTableModel: Hashable {
+protocol TwoTextFieldsTableModelProtocol: Hashable {
+    
+    var id: String { get }
+    
+    var leadingTextFieldViewConfig: CardDataTextFieldViewState? { get }
+    var trailingTextFieldViewConfig: CardDataTextFieldViewState? { get }
+}
+
+struct TwoTextFieldsTableModel: TwoTextFieldsTableModelProtocol {
     
     let id: String
-    let cardExpiryViewConfig: CardDataTextFieldViewState
-    let cardCVCViewConfig: CardDataTextFieldViewState
+    let leadingTextFieldViewConfig: CardDataTextFieldViewState?
+    let trailingTextFieldViewConfig: CardDataTextFieldViewState?
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)

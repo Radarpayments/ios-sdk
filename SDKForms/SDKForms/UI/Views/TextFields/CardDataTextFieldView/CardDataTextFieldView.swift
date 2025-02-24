@@ -15,6 +15,9 @@ final class CardDataTextFieldView: UIView {
     private let NUMBER_MAX_LENGTH = 19
     private let CARD_HOLDER_MAX_LENGTH = 30
     
+    private var _isFilled = false
+    private var _id = ""
+    
     private lazy var textField: UITextField = {
         let textField = UITextField()
         
@@ -82,6 +85,7 @@ final class CardDataTextFieldView: UIView {
     }
     
     func setState(_ config: CardDataTextFieldViewState) {
+        self._id = config.id
         self.config = config
         self.pattern = config.pattern
         updateView()
@@ -116,12 +120,16 @@ final class CardDataTextFieldView: UIView {
         textChangingHandler = handler
     }
     
-    private func updateView() {
+    private func updateView() {        
+        if !(config?.inputIsAvailable ?? true) || config?.isFilled ?? false {
+            setFilled(true)
+        }
+
+        updateTextField()
         errorMessageLabel.text = config?.errorMessage
         dividerLine.backgroundColor = config?.errorMessage != ""
             ? ThemeSetting.shared.colorErrorLabel()
             : ThemeSetting.shared.colorSeparator()
-        updateTextField()
         setNeedsLayout()
     }
     
@@ -186,10 +194,15 @@ final class CardDataTextFieldView: UIView {
         textField.isUserInteractionEnabled = config?.inputIsAvailable ?? true
         
         switch pattern {
-        case .cardHolder:
+        case .cardHolder, .mandatoryField, .plain:
             textField.keyboardType = .default
         case .cardNumber, .cardExpiry, .cardCVC:
             textField.keyboardType = .numberPad
+        case .phoneNumber:
+            textField.keyboardType = .phonePad
+        case .email:
+            textField.keyboardType = .emailAddress
+            textField.autocapitalizationType = .none
         }
 
         if let text = config?.text {
@@ -222,6 +235,38 @@ extension CardDataTextFieldView: UITextFieldDelegate {
             return (textField.text?.digitsOnly().count ?? .zero) < MAX_CARD_CVC_LENGTH
         case .cardHolder:
             return (textField.text?.count ?? .zero) < CARD_HOLDER_MAX_LENGTH
+        case .mandatoryField, .phoneNumber, .email, .plain:
+            return true
         }
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        config?.textFieldDoneButtonHandler?(self)
+        return true
+    }
+}
+
+extension CardDataTextFieldView: InputView {
+    
+    var id: String {
+        _id
+    }
+
+    var isFilled: Bool {
+        _isFilled
+    }
+    
+    var value: String {
+        textField.text ?? ""
+    }
+    
+    func setActive(_ active: Bool) {
+        active
+            ? textField.becomeFirstResponder()
+            : textField.endEditing(true)
+    }
+    
+    func setFilled(_ filled: Bool) {
+        _isFilled = filled
     }
 }

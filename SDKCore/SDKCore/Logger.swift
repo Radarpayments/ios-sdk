@@ -21,7 +21,7 @@ public class Logger {
         logInterfaces.append(logger)
     }
 
-    public func log(classMethod: AnyClass, tag: String = TAG, message: String = "", exception: Error? = nil) {
+    public func log(classMethod: Any, tag: String = TAG, message: String = "", exception: Error? = nil) {
         logInterfaces.forEach {
             $0.log(class: classMethod, tag: tag, message: message, exception: exception)
         }

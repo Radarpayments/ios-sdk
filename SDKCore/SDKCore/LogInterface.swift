@@ -16,5 +16,5 @@ public protocol LogInterface {
     ///     - Class: class where the method was called.
     ///     - Message: log message.
     ///     - Exception: caused exception.
-    func log(class: AnyClass, tag: String, message: String, exception: Error?)
+    func log(class: Any, tag: String, message: String, exception: Error?)
 }

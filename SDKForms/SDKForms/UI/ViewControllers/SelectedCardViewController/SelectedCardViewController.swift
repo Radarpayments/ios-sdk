@@ -13,11 +13,13 @@ public final class SelectedCardViewController: FormsBaseViewController {
     private struct Constants {
         static let cardNumber = "cardNumber"
         static let expiryCVCData = "expiryCVCData"
+        static let expiryData = "expiryData"
+        static let cvcData = "cvcData"
         static let cardHolder = "cardHolder"
         static let submitModel = "submitModel"
     }
     
-    private lazy var tableView: UITableView = {
+    internal lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.backgroundColor = ThemeSetting.shared.colorTableBackground()
         
@@ -43,8 +45,6 @@ public final class SelectedCardViewController: FormsBaseViewController {
     private let cardCodeValidator = CardCodeValidator()
     private let cardHolderValidator = CardHolderValidator()
 
-    private let cryptogramProcessor = try? SdkForms.shared.cryptogramProcessor()
-
     private var cardCVCValidation = ValidationResult.VALID
     private var cardHolderValidation = ValidationResult.VALID
 
@@ -54,15 +54,22 @@ public final class SelectedCardViewController: FormsBaseViewController {
     private var cardCVCEntered = ""
     private var cardHolderEntered = ""
     
+    private var mandatoryFieldsValues = [String: String]()
+    private var mandatoryFieldsValidations = [String: ValidationResult]()
+    
+    private var mandatoryFieldsProvider: (any MandatoryFieldsProvider)?
+    
     convenience public init(
         paymentConfig: PaymentConfig?,
         card: Card?,
+        mandatoryFieldsProvider: (any MandatoryFieldsProvider)?,
         callbackHandler: (any ResultCryptogramCallback<CryptogramData>)?
     ) {
         self.init()
 
         self.paymentConfig = paymentConfig
         self.card = card
+        self.mandatoryFieldsProvider = mandatoryFieldsProvider
         self.callbackHandler = callbackHandler
     }
     
@@ -80,6 +87,16 @@ public final class SelectedCardViewController: FormsBaseViewController {
         
         setupNavigationController()
         updateSections()
+    }
+    
+    override public func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        nextInputView()?.setActive(true)
+    }
+    
+    override func handleKeyboardChanging(keyboardFrame: CGRect) {
+        tableView.setBottomInset(keyboardFrame.height)
     }
     
     private func setupNavigationController() {
@@ -101,11 +118,16 @@ public final class SelectedCardViewController: FormsBaseViewController {
             cardHolderValidation = cardHolderValidator.validate(data: cardHolderEntered)
         }
 
-        if paymentConfig?.bindingCVCRequired ?? true {
+        if paymentConfig?.storedPaymentMethodCVCRequired ?? true {
             cardCVCValidation = cardCodeValidator.validate(data: cardCVCEntered)
         }
         
-        return cardCVCValidation.isValid && cardHolderValidation.isValid
+        mandatoryFieldsValidations = mandatoryFieldsProvider?.validateFieldsValues(fieldValues: mandatoryFieldsValues) ?? [:]
+        let mandatoryFieldsAllValid = !mandatoryFieldsValidations.values.contains(where: { !$0.isValid })
+        
+        return cardCVCValidation.isValid
+            && cardHolderValidation.isValid
+            && mandatoryFieldsAllValid
     }
     
     private func preparePaymentData() {
@@ -116,23 +138,13 @@ public final class SelectedCardViewController: FormsBaseViewController {
         actionWasCalled = true
 
         do {
-            let seToken = try cryptogramProcessor?.create(
-                order: config.order,
-                timestamp: config.timestamp,
-                uuid: config.uuid,
-                cardInfo: CoreCardInfo(
-                    identifier: .cardBindingIdIdentifier(card.bindingId),
-                    cvv: cardCVCEntered
-                ),
-                registeredFrom: config.registeredFrom
-            )
-            
             let cryptogramData = CryptogramData(
                 status: PaymentDataStatus.succeeded,
-                seToken: seToken ?? "",
                 info: PaymentInfoBindCard(
                     order: config.order,
-                    bindingId: card.bindingId
+                    bindingId: card.bindingId,
+                    cvc: cardCVCEntered,
+                    mandatoryFieldsValues: mandatoryFieldsValues
                 ),
                 deletedCardList: config.cardsToDelete
             )
@@ -147,57 +159,67 @@ public final class SelectedCardViewController: FormsBaseViewController {
     private func updateSections() {
         guard let card else { return }
         
-        var items = [AnyHashable]()
+        var sections = [SelectedCardVCSection]()
         
-        items.append(cardNumberFieldModel(card: card))
-        items.append(cardExpiryCvcFieldsModel(card: card))
+        var cardInfoSection = SelectedCardVCSection(type: .cardInfo, items: [])
+        cardInfoSection.items.append(cardNumberFieldModel(card: card))
+        cardInfoSection.items.append(cardExpiryCvcFieldsModel(card: card))
         
         if paymentConfig?.holderInputOptions == .visible {
-            items.append(cardHolderFieldModel())
+            cardInfoSection.items.append(cardHolderFieldModel())
         }
+        sections.append(cardInfoSection)
         
-        items.append(actionButtonModel())
+        var mandatoryFieldsItems = mandatoryFieldsModels()
+        if !mandatoryFieldsItems.isEmpty {
+            var mandatoryFieldsSection = SelectedCardVCSection(type: .mandatoryFields, items: [])
+            mandatoryFieldsSection.items = mandatoryFieldsItems
+            sections.append(mandatoryFieldsSection)
+        }
+
+        var actionsSection = SelectedCardVCSection(type: .actions, items: [])
+        actionsSection.items.append(actionButtonModel())
+        sections.append(actionsSection)
         
-        factory.updateSections(
-            sections: [
-                SelectedCardVCSection(
-                    type: .cardInfo,
-                    items: items
-                )
-            ]
-        )
+        factory.updateSections(sections: sections)
     }
     
     private func cardNumberFieldModel(card: Card) -> TextFieldTableModel {
         TextFieldTableModel(
             id: Constants.cardNumber,
             textFieldViewConfig: CardDataTextFieldViewState(
+                id: Constants.cardNumber,
                 placeholder: .cardNumber(),
                 text: card.pan,
                 pattern: .cardNumber,
                 hideleftImageView: false,
                 isSecureInput: true,
-                inputIsAvailable: false
+                inputIsAvailable: false, 
+                textFieldViewTextDidChange: nil
             )
         )
     }
     private func cardExpiryCvcFieldsModel(card: Card) -> TwoTextFieldsTableModel {
         TwoTextFieldsTableModel(
             id: Constants.expiryCVCData,
-            cardExpiryViewConfig: CardDataTextFieldViewState(
+            leadingTextFieldViewConfig: CardDataTextFieldViewState(
+                id: Constants.expiryData,
                 placeholder: .mmYY(),
                 text: card.expiryDate?.formatExpiryDate() ?? "",
                 pattern: .cardExpiry,
                 isSecureInput: true,
-                inputIsAvailable: false
+                inputIsAvailable: false, 
+                textFieldViewTextDidChange: nil
             ),
-            cardCVCViewConfig: CardDataTextFieldViewState(
+            trailingTextFieldViewConfig: CardDataTextFieldViewState(
+                id: Constants.cvcData,
                 placeholder: .cvcTitle(),
-                text: !(paymentConfig?.bindingCVCRequired ?? false) ? "   " : cardCVCEntered,
+                text: !(paymentConfig?.storedPaymentMethodCVCRequired ?? false) ? "   " : cardCVCEntered,
                 pattern: .cardCVC,
                 errorMessage: cardCVCValidation.errorMessage ?? "",
                 isSecureInput: true,
-                inputIsAvailable: (paymentConfig?.bindingCVCRequired ?? false)
+                inputIsAvailable: (paymentConfig?.storedPaymentMethodCVCRequired ?? false),
+                textFieldViewTextDidChange: cardCVCTextDidChange
             )
         )
     }
@@ -209,23 +231,102 @@ public final class SelectedCardViewController: FormsBaseViewController {
         )
     }
     
-    private func cardHolderFieldModel() -> CardHolderTableModel {
-        CardHolderTableModel(
+    private func cardHolderFieldModel() -> TextFieldTableModel {
+        TextFieldTableModel(
             id: Constants.cardHolder,
             textFieldViewConfig: CardDataTextFieldViewState(
+                id: Constants.cardHolder,
                 placeholder: .cardholderPlaceholder(),
+                text: cardHolderEntered,
                 pattern: .cardHolder,
-                errorMessage: cardHolderValidation.errorMessage ?? ""
+                errorMessage: cardHolderValidation.errorMessage ?? "", 
+                textFieldViewTextDidChange: cardHolderTextDidChange
             )
         )
+    }
+    
+    private func mandatoryFieldsModels() -> [AnyHashable] {
+        var tableModels = [AnyHashable]()
+        
+        guard let card else { return tableModels }
+        
+        mandatoryFieldsProvider?.resolveFields(forPaymentSystem: card.paymentSystem)
+            .forEach { mandatoryItem in
+                switch mandatoryItem {
+                case let .singleField(field):
+                    if mandatoryFieldsValues[field.id] == nil {
+                        mandatoryFieldsValues[field.id] = field.preFilledValue
+                    }
+                    
+                    tableModels.append(
+                        TextFieldTableModel(
+                            id: field.id,
+                            textFieldViewConfig: CardDataTextFieldViewState(
+                                id: field.id,
+                                placeholder: field.placeholder,
+                                text: mandatoryFieldsValues[field.id] ?? "",
+                                pattern: mandatoryFieldsProvider?.textPattern(forFieldId: field.id) ?? .plain,
+                                errorMessage: mandatoryFieldsValidations[field.id]?.errorMessage ?? "",
+                                textFieldViewTextDidChange: mandatoryFieldTextDidChange,
+                                textFieldDoneButtonHandler: doneButtonHandler
+                            )
+                        )
+                    )
+                case let .twoFields(fields):
+                    var leadingConfig: CardDataTextFieldViewState?
+                    var trailingConfig: CardDataTextFieldViewState?
+                    
+                    if let leadingField = fields.leadingField {
+                        if mandatoryFieldsValues[leadingField.id] == nil {
+                            mandatoryFieldsValues[leadingField.id] = leadingField.preFilledValue
+                        }
+                        
+                        leadingConfig = CardDataTextFieldViewState(
+                            id: leadingField.id,
+                            placeholder: leadingField.placeholder,
+                            text: mandatoryFieldsValues[leadingField.id] ?? "",
+                            pattern: mandatoryFieldsProvider?.textPattern(forFieldId: leadingField.id) ?? .plain,
+                            errorMessage: mandatoryFieldsValidations[leadingField.id]?.errorMessage ?? "",
+                            textFieldViewTextDidChange: mandatoryFieldTextDidChange,
+                            textFieldDoneButtonHandler: doneButtonHandler
+                        )
+                    }
+                    
+                    if let trailingField = fields.trailingField {
+                        if mandatoryFieldsValues[trailingField.id] == nil {
+                            mandatoryFieldsValues[trailingField.id] = trailingField.preFilledValue
+                        }
+                        
+                        trailingConfig = CardDataTextFieldViewState(
+                            id: trailingField.id,
+                            placeholder: trailingField.placeholder,
+                            text: mandatoryFieldsValues[trailingField.id] ?? "",
+                            pattern: mandatoryFieldsProvider?.textPattern(forFieldId: trailingField.id) ?? .plain,
+                            errorMessage: mandatoryFieldsValidations[trailingField.id]?.errorMessage ?? "",
+                            textFieldViewTextDidChange: mandatoryFieldTextDidChange,
+                            textFieldDoneButtonHandler: doneButtonHandler
+                        )
+                    }
+                    tableModels.append(
+                        TwoTextFieldsTableModel(
+                            id: (leadingConfig?.id ?? "") + (trailingConfig?.id ?? ""),
+                            leadingTextFieldViewConfig: leadingConfig,
+                            trailingTextFieldViewConfig: trailingConfig
+                        )
+                    )
+                }
+            }
+        
+        return tableModels
     }
 }
 
 extension SelectedCardViewController {
     
     private func setupSubviews() {
+        view.backgroundColor = .systemColorTableBackgroundColor
         view.addSubview(tableView)
-        tableView.addSubview(footerView)
+        view.addSubview(footerView)
         
         tableView.delegate = factory
         tableView.dataSource = factory
@@ -238,14 +339,14 @@ extension SelectedCardViewController {
         
         NSLayoutConstraint.activate(
             [
+                footerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
+                footerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                footerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                
                 tableView.topAnchor.constraint(equalTo: view.topAnchor),
                 tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                 tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-                tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-                
-                footerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
-                footerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                footerView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+                tableView.bottomAnchor.constraint(equalTo: footerView.topAnchor)
             ]
         )
     }
@@ -264,21 +365,53 @@ extension SelectedCardViewController: ButtonTableCellDelegate {
     }
 }
 
-extension SelectedCardViewController: TextFieldTableCellDelegate {
+// MARK: - Inputs text changing handlers
+extension SelectedCardViewController {
     
-    func textDidChange(id: String, _ text: String) {
-        switch id {
-        case Constants.cardHolder: cardHolderEntered = text
-        default: break
+    private func cardCVCTextDidChange(_ inputView: InputView) {
+        cardCVCEntered = inputView.value
+        cardCVCValidation = .VALID 
+        let cardCVCValidation = checkValidation(value: cardCVCEntered, validator: cardCodeValidator)
+        setActiveNextInputIfValid(cardCVCValidation, activeInput: inputView)
+        if let card {
+            factory.updateTwoTextFieldsModel(model: cardExpiryCvcFieldsModel(card: card))
         }
+    }
+    
+    private func cardHolderTextDidChange(_ inputView: InputView) {
+        cardHolderEntered = inputView.value
+        cardHolderValidation = .VALID
+        let cardHolderValidation = checkValidation(value: cardHolderEntered, validator: cardHolderValidator)
+        factory.updateTextFieldModel(model: cardHolderFieldModel())
+    }
+    
+    private func mandatoryFieldTextDidChange(_ inputView: InputView) {
+        mandatoryFieldsValues[inputView.id] = inputView.value
+        let validation = mandatoryFieldsProvider?.validateFieldValue(fieldId: inputView.id, inputView.value)
+        if let mandatoryField = mandatoryFieldsProvider?.mandatoryField(forId: inputView.id) {
+            let tableModel = TextFieldTableModel(
+                id: mandatoryField.id,
+                textFieldViewConfig: CardDataTextFieldViewState(
+                    id: mandatoryField.id,
+                    placeholder: mandatoryField.placeholder,
+                    text: mandatoryFieldsValues[mandatoryField.id] ?? "",
+                    pattern: .mandatoryField,
+                    errorMessage: mandatoryFieldsValidations[mandatoryField.id]?.errorMessage ?? "",
+                    textFieldViewTextDidChange: mandatoryFieldTextDidChange,
+                    textFieldDoneButtonHandler: doneButtonHandler
+                )
+            )
+            
+            factory.updateTextFieldModel(
+                model: tableModel
+            )
+        }
+    }
+    
+    private func doneButtonHandler(_ inputView: InputView) {
+        inputView.setFilled(!inputView.value.isEmpty)
+        view.endEditing(true)
     }
 }
 
-extension SelectedCardViewController: TwoTextFieldsTableCellDelegate {
-    
-    func cardExpiryTextDidChange(_ text: String) {}
-    
-    func cardCVCTextDidChange(_ text: String) {
-        cardCVCEntered = text
-    }
-}
+extension SelectedCardViewController: InputTableVC {}

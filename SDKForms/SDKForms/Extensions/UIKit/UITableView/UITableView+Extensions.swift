@@ -24,4 +24,11 @@ extension UITableView {
     func dequeReusableView(_ viewClass: UITableViewHeaderFooterView.Type) -> UITableViewHeaderFooterView? {
         dequeueReusableHeaderFooterView(withIdentifier: viewClass.description())
     }
+    
+    func setBottomInset(_ value: CGFloat) {
+        let edgeInset = UIEdgeInsets(top: 0, left: 0, bottom: value, right: 0)
+
+        contentInset = edgeInset
+        scrollIndicatorInsets = edgeInset
+    }
 }

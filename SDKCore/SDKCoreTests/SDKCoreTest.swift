@@ -31,7 +31,8 @@ final class SDKCoreTest: XCTestCase {
             pubKey: testPubKey
         )
 
-        let result = sdkCore.generateWithCard(params: params)
+        let config = SDKCoreConfig(paymentMethodParams: .cardParams(params: params))
+        let result = sdkCore.generateWithConfig(config: config)
         
         XCTAssertNotNil(result.token)
         XCTAssertEqual(result.errors, [ParamField: String]())
@@ -47,7 +48,8 @@ final class SDKCoreTest: XCTestCase {
             pubKey: testPubKey
         )
 
-        let result = sdkCore.generateWithCard(params: params)
+        let config = SDKCoreConfig(paymentMethodParams: .cardParams(params: params))
+        let result = sdkCore.generateWithConfig(config: config)
         
         XCTAssertNotNil(result.token)
         XCTAssertEqual(result.errors, [ParamField: String]())
@@ -63,7 +65,8 @@ final class SDKCoreTest: XCTestCase {
             pubKey: testPubKey
         )
         
-        let result = sdkCore.generateWithCard(params: params)
+        let config = SDKCoreConfig(paymentMethodParams: .cardParams(params: params))
+        let result = sdkCore.generateWithConfig(config: config)
         
         XCTAssertNil(result.token)
         XCTAssertFalse(result.errors.isEmpty)
@@ -80,7 +83,9 @@ final class SDKCoreTest: XCTestCase {
             pubKey: testPubKey
         )
 
-        let result = sdkCore.generateWithCard(params: params)
+        let config = SDKCoreConfig(paymentMethodParams: .cardParams(params: params))
+        let result = sdkCore.generateWithConfig(config: config)
+
         XCTAssertNil(result.token)
         XCTAssertFalse(result.errors.isEmpty)
         XCTAssertEqual(ValidationCodes.invalid, result.errors[ParamField.CARDHOLDER])
@@ -96,7 +101,8 @@ final class SDKCoreTest: XCTestCase {
             pubKey: testPubKey
         )
 
-        let result = sdkCore.generateWithCard(params: params)
+        let config = SDKCoreConfig(paymentMethodParams: .cardParams(params: params))
+        let result = sdkCore.generateWithConfig(config: config)
 
         XCTAssertNil(result.token)
         XCTAssertFalse(result.errors.isEmpty)
@@ -113,7 +119,8 @@ final class SDKCoreTest: XCTestCase {
             pubKey: testPubKey
         )
 
-        let result = sdkCore.generateWithCard(params: params)
+        let config = SDKCoreConfig(paymentMethodParams: .cardParams(params: params))
+        let result = sdkCore.generateWithConfig(config: config)
 
         XCTAssertNil(result.token)
         XCTAssertFalse(result.errors.isEmpty)
@@ -130,7 +137,8 @@ final class SDKCoreTest: XCTestCase {
             pubKey: testPubKey
         )
         
-        let result = sdkCore.generateWithCard(params: params)
+        let config = SDKCoreConfig(paymentMethodParams: .cardParams(params: params))
+        let result = sdkCore.generateWithConfig(config: config)
 
         XCTAssertNil(result.token)
         XCTAssertFalse(result.errors.isEmpty)
@@ -147,7 +155,8 @@ final class SDKCoreTest: XCTestCase {
             pubKey: testPubKey
         )
 
-        let result = sdkCore.generateWithCard(params: params)
+        let config = SDKCoreConfig(paymentMethodParams: .cardParams(params: params))
+        let result = sdkCore.generateWithConfig(config: config)
 
         XCTAssertNil(result.token)
         XCTAssertFalse(result.errors.isEmpty)
@@ -164,7 +173,8 @@ final class SDKCoreTest: XCTestCase {
             pubKey: ""
         )
         
-        let result = sdkCore.generateWithCard(params: params)
+        let config = SDKCoreConfig(paymentMethodParams: .cardParams(params: params))
+        let result = sdkCore.generateWithConfig(config: config)
 
         XCTAssertNil(result.token)
         XCTAssertFalse(result.errors.isEmpty)
@@ -181,7 +191,8 @@ final class SDKCoreTest: XCTestCase {
             pubKey: testPubKey
         )
         
-        let result = sdkCore.generateWithCard(params: params)
+        let config = SDKCoreConfig(paymentMethodParams: .cardParams(params: params))
+        let result = sdkCore.generateWithConfig(config: config)
 
         XCTAssertNil(result.token)
         XCTAssertFalse(result.errors.isEmpty)
@@ -198,7 +209,8 @@ final class SDKCoreTest: XCTestCase {
             pubKey: testPubKey
         )
 
-        let result = sdkCore.generateWithCard(params: params)
+        let config = SDKCoreConfig(paymentMethodParams: .cardParams(params: params))
+        let result = sdkCore.generateWithConfig(config: config)
 
         XCTAssertNil(result.token)
         XCTAssertFalse(result.errors.isEmpty)
@@ -215,7 +227,8 @@ final class SDKCoreTest: XCTestCase {
             pubKey: testPubKey
         )
         
-        let result = sdkCore.generateWithCard(params: params)
+        let config = SDKCoreConfig(paymentMethodParams: .cardParams(params: params))
+        let result = sdkCore.generateWithConfig(config: config)
 
         XCTAssertNil(result.token)
         XCTAssertFalse(result.errors.isEmpty)
@@ -232,7 +245,8 @@ final class SDKCoreTest: XCTestCase {
             pubKey: testPubKey
         )
         
-        let result = sdkCore.generateWithCard(params: params)
+        let config = SDKCoreConfig(paymentMethodParams: .cardParams(params: params))
+        let result = sdkCore.generateWithConfig(config: config)
 
         XCTAssertNotNil(result.token)
         XCTAssertTrue(result.errors.isEmpty)
@@ -248,7 +262,8 @@ final class SDKCoreTest: XCTestCase {
             pubKey: "INVALIDPUBKEY"
         )
         
-        let result = sdkCore.generateWithCard(params: params)
+        let config = SDKCoreConfig(paymentMethodParams: .cardParams(params: params))
+        let result = sdkCore.generateWithConfig(config: config)
 
         XCTAssertNil(result.token)
         XCTAssertFalse(result.errors.isEmpty)
@@ -263,7 +278,8 @@ final class SDKCoreTest: XCTestCase {
             mdOrder: "39ce26e1-5fd0-4784-9e6c-25c9f2c2d09e"
         )
         
-        let result = sdkCore.generateWithBinding(params: params)
+        let config = SDKCoreConfig(paymentMethodParams: .bindingParams(params: params))
+        let result = sdkCore.generateWithConfig(config: config)
 
         XCTAssertNotNil(result.token)
         XCTAssertEqual(result.errors, [ParamField: String]())
@@ -276,7 +292,8 @@ final class SDKCoreTest: XCTestCase {
             mdOrder: "39ce26e1-5fd0-4784-9e6c-25c9f2c2d09e"
         )
         
-        let result = sdkCore.generateWithBinding(params: params)
+        let config = SDKCoreConfig(paymentMethodParams: .bindingParams(params: params))
+        let result = sdkCore.generateWithConfig(config: config)
 
         XCTAssertNotNil(result.token)
         XCTAssertEqual(result.errors, [ParamField: String]())
@@ -290,7 +307,8 @@ final class SDKCoreTest: XCTestCase {
             mdOrder: ""
         )
         
-        let result = sdkCore.generateWithBinding(params: params)
+        let config = SDKCoreConfig(paymentMethodParams: .bindingParams(params: params))
+        let result = sdkCore.generateWithConfig(config: config)
 
         XCTAssertNil(result.token)
         XCTAssertFalse(result.errors.isEmpty)
@@ -305,7 +323,8 @@ final class SDKCoreTest: XCTestCase {
             mdOrder: "39ce26e1-5fd0-4784-9e6c-25c9f2c2d09e"
         )
         
-        let result = sdkCore.generateWithBinding(params: params)
+        let config = SDKCoreConfig(paymentMethodParams: .bindingParams(params: params))
+        let result = sdkCore.generateWithConfig(config: config)
 
         XCTAssertNil(result.token)
         XCTAssertFalse(result.errors.isEmpty)
@@ -320,7 +339,8 @@ final class SDKCoreTest: XCTestCase {
             mdOrder: "39ce26e1-5fd0-4784-9e6c-25c9f2c2d09e"
         )
         
-        let result = sdkCore.generateWithBinding(params: params)
+        let config = SDKCoreConfig(paymentMethodParams: .bindingParams(params: params))
+        let result = sdkCore.generateWithConfig(config: config)
 
         XCTAssertNil(result.token)
         XCTAssertFalse(result.errors.isEmpty)
@@ -335,7 +355,8 @@ final class SDKCoreTest: XCTestCase {
             mdOrder: "39ce26e1-5fd0-4784-9e6c-25c9f2c2d09e"
         )
         
-        let result = sdkCore.generateWithBinding(params: params)
+        let config = SDKCoreConfig(paymentMethodParams: .bindingParams(params: params))
+        let result = sdkCore.generateWithConfig(config: config)
 
         XCTAssertNil(result.token)
         XCTAssertFalse(result.errors.isEmpty)
@@ -350,7 +371,8 @@ final class SDKCoreTest: XCTestCase {
             mdOrder: "39ce26e1-5fd0-4784-9e6c-25c9f2c2d09e"
         )
         
-        let result = sdkCore.generateWithBinding(params: params)
+        let config = SDKCoreConfig(paymentMethodParams: .bindingParams(params: params))
+        let result = sdkCore.generateWithConfig(config: config)
 
         XCTAssertNil(result.token)
         XCTAssertFalse(result.errors.isEmpty)
@@ -358,23 +380,23 @@ final class SDKCoreTest: XCTestCase {
     }
 
     func testShouldGenerateInstanceWithCard() {
-        let params = CardParams(
+        let params = CardParamsInstant(
             pan: "5391119268214792",
             cvc: "123",
             expiryMMYY: "12/25",
             cardholder: "Joe Doe",
-            mdOrder: "c400b41a-aa3d-43db-8727-ac4ca9e8f701",
             pubKey: testPubKey
         )
         
-        let result = sdkCore.generateInstanceWithCard(params: params)
+        let config = SDKCoreConfig(paymentMethodParams: .cardParamsInstant(params: params))
+        let result = sdkCore.generateWithConfig(config: config)
 
         XCTAssertNotNil(result.token)
         XCTAssertEqual(result.errors, [ParamField: String]())
     }
 
     func testShouldGenerateInstanceWithCardWithoutCardHolder() {
-        let params = CardParams(
+        let params = CardParamsInstant(
             pan: "5391119268214792",
             cvc: "123",
             expiryMMYY: "12/25",
@@ -382,14 +404,15 @@ final class SDKCoreTest: XCTestCase {
             pubKey: testPubKey
         )
         
-        let result = sdkCore.generateInstanceWithCard(params: params)
+        let config = SDKCoreConfig(paymentMethodParams: .cardParamsInstant(params: params))
+        let result = sdkCore.generateWithConfig(config: config)
 
         XCTAssertNotNil(result.token)
         XCTAssertEqual(result.errors, [ParamField: String]())
     }
 
     func testShouldGenerateInstanceWithCardWithInvalidSymbolsInCardHolder() {
-        let params = CardParams(
+        let params = CardParamsInstant(
             pan: "5391119268214792",
             cvc: "123",
             expiryMMYY: "12/25",
@@ -397,7 +420,8 @@ final class SDKCoreTest: XCTestCase {
             pubKey: testPubKey
         )
         
-        let result = sdkCore.generateInstanceWithCard(params: params)
+        let config = SDKCoreConfig(paymentMethodParams: .cardParamsInstant(params: params))
+        let result = sdkCore.generateWithConfig(config: config)
 
         XCTAssertNil(result.token)
         XCTAssertFalse(result.errors.isEmpty)
@@ -405,7 +429,7 @@ final class SDKCoreTest: XCTestCase {
     }
 
     func testShouldGenerateInstanceWithCardWithMaxLengthInCardHolder() {
-        let params = CardParams(
+        let params = CardParamsInstant(
             pan: "5391119268214792",
             cvc: "123",
             expiryMMYY: "12/25",
@@ -413,7 +437,8 @@ final class SDKCoreTest: XCTestCase {
             pubKey: testPubKey
         )
         
-        let result = sdkCore.generateInstanceWithCard(params: params)
+        let config = SDKCoreConfig(paymentMethodParams: .cardParamsInstant(params: params))
+        let result = sdkCore.generateWithConfig(config: config)
 
         XCTAssertNil(result.token)
         XCTAssertFalse(result.errors.isEmpty)
@@ -421,7 +446,7 @@ final class SDKCoreTest: XCTestCase {
     }
 
     func testShouldReturnErrorWhileGenerateInstanceWithCardWithEmptyPan() {
-        let params = CardParams(
+        let params = CardParamsInstant(
             pan: "",
             cvc: "123",
             expiryMMYY: "12/25",
@@ -429,7 +454,8 @@ final class SDKCoreTest: XCTestCase {
             pubKey: testPubKey
         )
         
-        let result = sdkCore.generateInstanceWithCard(params: params)
+        let config = SDKCoreConfig(paymentMethodParams: .cardParamsInstant(params: params))
+        let result = sdkCore.generateWithConfig(config: config)
 
         XCTAssertNil(result.token)
         XCTAssertFalse(result.errors.isEmpty)
@@ -437,7 +463,7 @@ final class SDKCoreTest: XCTestCase {
     }
 
     func testShouldReturnErrorWhileGenerateInstanceWithCardWithEmptyCVC() {
-        let params = CardParams(
+        let params = CardParamsInstant(
             pan: "5391119268214792",
             cvc: "",
             expiryMMYY: "12/25",
@@ -445,7 +471,8 @@ final class SDKCoreTest: XCTestCase {
             pubKey: testPubKey
         )
         
-        let result = sdkCore.generateInstanceWithCard(params: params)
+        let config = SDKCoreConfig(paymentMethodParams: .cardParamsInstant(params: params))
+        let result = sdkCore.generateWithConfig(config: config)
 
         XCTAssertNil(result.token)
         XCTAssertFalse(result.errors.isEmpty)
@@ -453,7 +480,7 @@ final class SDKCoreTest: XCTestCase {
     }
 
     func testShouldReturnErrorWhileGenerateInstanceWithCardWithEmptyExpiry() {
-        let params = CardParams(
+        let params = CardParamsInstant(
             pan: "5391119268214792",
             cvc: "123",
             expiryMMYY: "",
@@ -461,7 +488,8 @@ final class SDKCoreTest: XCTestCase {
             pubKey: testPubKey
         )
         
-        let result = sdkCore.generateInstanceWithCard(params: params)
+        let config = SDKCoreConfig(paymentMethodParams: .cardParamsInstant(params: params))
+        let result = sdkCore.generateWithConfig(config: config)
 
         XCTAssertNil(result.token)
         XCTAssertFalse(result.errors.isEmpty)
@@ -469,7 +497,7 @@ final class SDKCoreTest: XCTestCase {
     }
 
     func testShouldReturnErrorWhileGenerateInstanceWithCardWithEmptyPubKey() {
-        let params = CardParams(
+        let params = CardParamsInstant(
             pan: "5391119268214792",
             cvc: "123",
             expiryMMYY: "12/25",
@@ -477,7 +505,8 @@ final class SDKCoreTest: XCTestCase {
             pubKey: ""
         )
         
-        let result = sdkCore.generateInstanceWithCard(params: params)
+        let config = SDKCoreConfig(paymentMethodParams: .cardParamsInstant(params: params))
+        let result = sdkCore.generateWithConfig(config: config)
 
         XCTAssertNil(result.token)
         XCTAssertFalse(result.errors.isEmpty)
@@ -485,7 +514,7 @@ final class SDKCoreTest: XCTestCase {
     }
 
     func testShouldReturnErrorWhileGenerateInstanceWithCardWithInvalidPan() {
-        let params = CardParams(
+        let params = CardParamsInstant(
             pan: "5INVALID19268PAN14792",
             cvc: "123",
             expiryMMYY: "12/25",
@@ -493,7 +522,8 @@ final class SDKCoreTest: XCTestCase {
             pubKey: testPubKey
         )
         
-        let result = sdkCore.generateInstanceWithCard(params: params)
+        let config = SDKCoreConfig(paymentMethodParams: .cardParamsInstant(params: params))
+        let result = sdkCore.generateWithConfig(config: config)
 
         XCTAssertNil(result.token)
         XCTAssertFalse(result.errors.isEmpty)
@@ -501,7 +531,7 @@ final class SDKCoreTest: XCTestCase {
     }
 
     func testShouldReturnErrorWhileGenerateInstanceWithCardWithInvalidCVC() {
-        let params = CardParams(
+        let params = CardParamsInstant(
             pan: "5391119268214792",
             cvc: "1AA",
             expiryMMYY: "12/25",
@@ -509,7 +539,8 @@ final class SDKCoreTest: XCTestCase {
             pubKey: testPubKey
         )
         
-        let result = sdkCore.generateInstanceWithCard(params: params)
+        let config = SDKCoreConfig(paymentMethodParams: .cardParamsInstant(params: params))
+        let result = sdkCore.generateWithConfig(config: config)
 
         XCTAssertNil(result.token)
         XCTAssertFalse(result.errors.isEmpty)
@@ -517,7 +548,7 @@ final class SDKCoreTest: XCTestCase {
     }
 
     func testShouldReturnErrorWhileGenerateInstanceWithCardWithInvalidExpiry() {
-        let params = CardParams(
+        let params = CardParamsInstant(
             pan: "5391119268214792",
             cvc: "123",
             expiryMMYY: "DDD",
@@ -525,7 +556,8 @@ final class SDKCoreTest: XCTestCase {
             pubKey: testPubKey
         )
         
-        let result = sdkCore.generateInstanceWithCard(params: params)
+        let config = SDKCoreConfig(paymentMethodParams: .cardParamsInstant(params: params))
+        let result = sdkCore.generateWithConfig(config: config)
 
         XCTAssertNil(result.token)
         XCTAssertFalse(result.errors.isEmpty)
@@ -533,7 +565,7 @@ final class SDKCoreTest: XCTestCase {
     }
 
     func testShouldNotReturnErrorWhileGenerateInstanceWithCardWithOutDateExpiry() {
-        let params = CardParams(
+        let params = CardParamsInstant(
             pan: "5391119268214792",
             cvc: "123",
             expiryMMYY: "12/15",
@@ -541,14 +573,15 @@ final class SDKCoreTest: XCTestCase {
             pubKey: testPubKey
         )
         
-        let result = sdkCore.generateInstanceWithCard(params: params)
+        let config = SDKCoreConfig(paymentMethodParams: .cardParamsInstant(params: params))
+        let result = sdkCore.generateWithConfig(config: config)
 
         XCTAssertNotNil(result.token)
         XCTAssertTrue(result.errors.isEmpty)
     }
 
     func testShouldNotReturnErrorWhileGenerateInstanceWithCardWithMaxOutDateExpiry() {
-        let params = CardParams(
+        let params = CardParamsInstant(
             pan: "5391119268214792",
             cvc: "123",
             expiryMMYY: "12/35",
@@ -556,14 +589,15 @@ final class SDKCoreTest: XCTestCase {
             pubKey: testPubKey
         )
         
-        let result = sdkCore.generateInstanceWithCard(params: params)
+        let config = SDKCoreConfig(paymentMethodParams: .cardParamsInstant(params: params))
+        let result = sdkCore.generateWithConfig(config: config)
 
         XCTAssertNotNil(result.token)
         XCTAssertTrue(result.errors.isEmpty)
     }
     
     func testShouldReturnErrorWhileGenerateInstanceWithCardWithInvalidPubKey() {
-        let params = CardParams(
+        let params = CardParamsInstant(
             pan: "5391119268214792",
             cvc: "123",
             expiryMMYY: "12/25",
@@ -571,91 +605,461 @@ final class SDKCoreTest: XCTestCase {
             pubKey: "INVALIDPUBKEY"
         )
         
-        let result = sdkCore.generateInstanceWithCard(params: params)
+        let config = SDKCoreConfig(paymentMethodParams: .cardParamsInstant(params: params))
+        let result = sdkCore.generateWithConfig(config: config)
 
         XCTAssertNil(result.token)
         XCTAssertFalse(result.errors.isEmpty)
         XCTAssertEqual(ValidationCodes.invalid, result.errors[ParamField.PUB_KEY])
     }
 
-    func testShouldGenerateInstanceWithBinding() {
-        let params = BindingParams(
+    func testShouldGenerateInstantWithBindingParamsInstant() {
+        let params = BindingParamsInstant(
             pubKey: testPubKey,
             bindingId: "513b17f4-e32e-414f-8c74-936fd7027baa",
             cvc: "123"
         )
         
-        let result = sdkCore.generateInstanceWithBinding(params: params)
+        let config = SDKCoreConfig(paymentMethodParams: .bindingParamsInstant(params: params))
+        let result = sdkCore.generateWithConfig(config: config)
 
         XCTAssertNotNil(result.token)
         XCTAssertTrue(result.errors.isEmpty)
     }
 
-    func testShouldGenerateInstanceWithBindingWithoutCVC() {
-        let params = BindingParams(
+    func testShouldGenerateInstantWithBindingParamsInstantWithoutCVC() {
+        let params = BindingParamsInstant(
             pubKey: testPubKey,
             bindingId: "513b17f4-e32e-414f-8c74-936fd7027baa"
         )
         
-        let result = sdkCore.generateInstanceWithBinding(params: params)
+        let config = SDKCoreConfig(paymentMethodParams: .bindingParamsInstant(params: params))
+        let result = sdkCore.generateWithConfig(config: config)
 
         XCTAssertNotNil(result.token)
         XCTAssertTrue(result.errors.isEmpty)
     }
     
-    func testShouldReturnErrorGenerateInstanceWithBindingWithEmptyBindingID() {
-        let params = BindingParams(
+    func testShouldReturnErrorGenerateInstantWithBindingParamsInstantWithEmptyBindingID() {
+        let params = BindingParamsInstant(
             pubKey: testPubKey,
             bindingId: "",
             cvc: "123"
         )
         
-        let result = sdkCore.generateInstanceWithBinding(params: params)
+        let config = SDKCoreConfig(paymentMethodParams: .bindingParamsInstant(params: params))
+        let result = sdkCore.generateWithConfig(config: config)
 
         XCTAssertNil(result.token)
         XCTAssertFalse(result.errors.isEmpty)
         XCTAssertEqual(ValidationCodes.required, result.errors[ParamField.BINDING_ID])
     }
 
-    func testShouldReturnErrorGenerateInstanceWithBindingWithEmptyPubKey() {
-        let params = BindingParams(
+    func testShouldReturnErrorGenerateInstantWithBindingParamsInstantWithEmptyPubKey() {
+        let params = BindingParamsInstant(
             pubKey: "",
             bindingId: "513b17f4-e32e-414f-8c74-936fd7027baa",
             cvc: "123"
         )
         
-        let result = sdkCore.generateInstanceWithBinding(params: params)
+        let config = SDKCoreConfig(paymentMethodParams: .bindingParamsInstant(params: params))
+        let result = sdkCore.generateWithConfig(config: config)
 
         XCTAssertNil(result.token)
         XCTAssertFalse(result.errors.isEmpty)
         XCTAssertEqual(ValidationCodes.required, result.errors[ParamField.PUB_KEY])
     }
 
-    func testShouldReturnErrorGenerateInstanceWithBindingWithInvalidCVC() {
-        let params = BindingParams(
+    func testShouldReturnErrorGenerateInstantWithBindingParamsInstantWithInvalidCVC() {
+        let params = BindingParamsInstant(
             pubKey: testPubKey,
             bindingId: "513b17f4-e32e-414f-8c74-936fd7027baa",
             cvc: "aaD"
         )
         
-        let result = sdkCore.generateInstanceWithBinding(params: params)
+        let config = SDKCoreConfig(paymentMethodParams: .bindingParamsInstant(params: params))
+        let result = sdkCore.generateWithConfig(config: config)
 
         XCTAssertNil(result.token)
         XCTAssertFalse(result.errors.isEmpty)
         XCTAssertEqual(ValidationCodes.invalid, result.errors[ParamField.CVC])
     }
 
-    func testShouldReturnErrorGenerateInstanceWithBindingWithInvalidPubKey() {
-        let params = BindingParams(
+    func testShouldReturnErrorGenerateInstantWithBindingParamsInstantWithInvalidPubKey() {
+        let params = BindingParamsInstant(
             pubKey: "INVALIDPUBKEY",
             bindingId: "513b17f4-e32e-414f-8c74-936fd7027baa",
             cvc: "123"
         )
         
-        let result = sdkCore.generateInstanceWithBinding(params: params)
+        let config = SDKCoreConfig(paymentMethodParams: .bindingParamsInstant(params: params))
+        let result = sdkCore.generateWithConfig(config: config)
 
         XCTAssertNil(result.token)
         XCTAssertFalse(result.errors.isEmpty)
         XCTAssertEqual(ValidationCodes.invalid, result.errors[ParamField.PUB_KEY])
+    }
+    
+    func testShouldGenerateWithNewPaymentMethod() {
+        let params = NewPaymentMethodParams(
+            pan: "5391119268214792",
+            cvc: "123",
+            expiryMMYY: "12/25",
+            cardholder: "Joe Doe",
+            pubKey: testPubKey
+        )
+        
+        let config = SDKCoreConfig(paymentMethodParams: .newPaymentMethodParams(params: params))
+        let result = sdkCore.generateWithConfig(config: config)
+
+        XCTAssertNotNil(result.token)
+        XCTAssertEqual(result.errors, [ParamField: String]())
+    }
+
+    func testShouldGenerateWithNewPaymentMethodWithoutCardHolder() {
+        let params = NewPaymentMethodParams(
+            pan: "5391119268214792",
+            cvc: "123",
+            expiryMMYY: "12/25",
+            cardholder: nil,
+            pubKey: testPubKey
+        )
+        
+        let config = SDKCoreConfig(paymentMethodParams: .newPaymentMethodParams(params: params))
+        let result = sdkCore.generateWithConfig(config: config)
+
+        XCTAssertNotNil(result.token)
+        XCTAssertEqual(result.errors, [ParamField: String]())
+    }
+
+    func testShouldGenerateWithNewPaymentMethodWithInvalidSymbolsInCardHolder() {
+        let params = NewPaymentMethodParams(
+            pan: "5391119268214792",
+            cvc: "123",
+            expiryMMYY: "12/25",
+            cardholder: "4554Pav",
+            pubKey: testPubKey
+        )
+        
+        let config = SDKCoreConfig(paymentMethodParams: .newPaymentMethodParams(params: params))
+        let result = sdkCore.generateWithConfig(config: config)
+
+        XCTAssertNil(result.token)
+        XCTAssertFalse(result.errors.isEmpty)
+        XCTAssertEqual(ValidationCodes.invalidFormat, result.errors[ParamField.CARDHOLDER])
+    }
+
+    func testShouldGenerateWithNewPaymentMethodWithMaxLengthInCardHolder() {
+        let params = NewPaymentMethodParams(
+            pan: "5391119268214792",
+            cvc: "123",
+            expiryMMYY: "12/25",
+            cardholder: String(repeating: "G", count: 31),
+            pubKey: testPubKey
+        )
+        
+        let config = SDKCoreConfig(paymentMethodParams: .newPaymentMethodParams(params: params))
+        let result = sdkCore.generateWithConfig(config: config)
+
+        XCTAssertNil(result.token)
+        XCTAssertFalse(result.errors.isEmpty)
+        XCTAssertEqual(ValidationCodes.invalid, result.errors[ParamField.CARDHOLDER])
+    }
+
+    func testShouldReturnErrorWhileGenerateWithNewPaymentMethodWithEmptyPan() {
+        let params = NewPaymentMethodParams(
+            pan: "",
+            cvc: "123",
+            expiryMMYY: "12/25",
+            cardholder: "Joe Doe",
+            pubKey: testPubKey
+        )
+        
+        let config = SDKCoreConfig(paymentMethodParams: .newPaymentMethodParams(params: params))
+        let result = sdkCore.generateWithConfig(config: config)
+
+        XCTAssertNil(result.token)
+        XCTAssertFalse(result.errors.isEmpty)
+        XCTAssertEqual(ValidationCodes.required, result.errors[ParamField.PAN])
+    }
+
+    func testShouldReturnErrorWhileGenerateWithNewPaymentMethodWithEmptyCVC() {
+        let params = NewPaymentMethodParams(
+            pan: "5391119268214792",
+            cvc: "",
+            expiryMMYY: "12/25",
+            cardholder: "Joe Doe",
+            pubKey: testPubKey
+        )
+        
+        let config = SDKCoreConfig(paymentMethodParams: .newPaymentMethodParams(params: params))
+        let result = sdkCore.generateWithConfig(config: config)
+
+        XCTAssertNil(result.token)
+        XCTAssertFalse(result.errors.isEmpty)
+        XCTAssertEqual(ValidationCodes.required, result.errors[ParamField.CVC])
+    }
+
+    func testShouldReturnErrorWhileGenerateWithNewPaymentMethodWithEmptyExpiry() {
+        let params = NewPaymentMethodParams(
+            pan: "5391119268214792",
+            cvc: "123",
+            expiryMMYY: "",
+            cardholder: "Joe Doe",
+            pubKey: testPubKey
+        )
+        
+        let config = SDKCoreConfig(paymentMethodParams: .newPaymentMethodParams(params: params))
+        let result = sdkCore.generateWithConfig(config: config)
+
+        XCTAssertNil(result.token)
+        XCTAssertFalse(result.errors.isEmpty)
+        XCTAssertEqual(ValidationCodes.required, result.errors[ParamField.EXPIRY])
+    }
+
+    func testShouldReturnErrorWhileGenerateWithNewPaymentMethodWithEmptyPubKey() {
+        let params = NewPaymentMethodParams(
+            pan: "5391119268214792",
+            cvc: "123",
+            expiryMMYY: "12/25",
+            cardholder: "Joe Doe",
+            pubKey: ""
+        )
+        
+        let config = SDKCoreConfig(paymentMethodParams: .newPaymentMethodParams(params: params))
+        let result = sdkCore.generateWithConfig(config: config)
+
+        XCTAssertNil(result.token)
+        XCTAssertFalse(result.errors.isEmpty)
+        XCTAssertEqual(ValidationCodes.required, result.errors[ParamField.PUB_KEY])
+    }
+
+    func testShouldReturnErrorWhileGenerateWithNewPaymentMethodWithInvalidPan() {
+        let params = NewPaymentMethodParams(
+            pan: "5INVALID19268PAN14792",
+            cvc: "123",
+            expiryMMYY: "12/25",
+            cardholder: "Joe Doe",
+            pubKey: testPubKey
+        )
+        
+        let config = SDKCoreConfig(paymentMethodParams: .newPaymentMethodParams(params: params))
+        let result = sdkCore.generateWithConfig(config: config)
+
+        XCTAssertNil(result.token)
+        XCTAssertFalse(result.errors.isEmpty)
+        XCTAssertEqual(ValidationCodes.invalidFormat, result.errors[ParamField.PAN])
+    }
+
+    func testShouldReturnErrorWhileGenerateWithNewPaymentMethodWithInvalidCVC() {
+        let params = NewPaymentMethodParams(
+            pan: "5391119268214792",
+            cvc: "1AA",
+            expiryMMYY: "12/25",
+            cardholder: "Joe Doe",
+            pubKey: testPubKey
+        )
+        
+        let config = SDKCoreConfig(paymentMethodParams: .newPaymentMethodParams(params: params))
+        let result = sdkCore.generateWithConfig(config: config)
+
+        XCTAssertNil(result.token)
+        XCTAssertFalse(result.errors.isEmpty)
+        XCTAssertEqual(ValidationCodes.invalid, result.errors[ParamField.CVC])
+    }
+
+    func testShouldReturnErrorWhileGenerateWithNewPaymentMethodWithInvalidExpiry() {
+        let params = NewPaymentMethodParams(
+            pan: "5391119268214792",
+            cvc: "123",
+            expiryMMYY: "DDD",
+            cardholder: "Joe Doe",
+            pubKey: testPubKey
+        )
+        
+        let config = SDKCoreConfig(paymentMethodParams: .newPaymentMethodParams(params: params))
+        let result = sdkCore.generateWithConfig(config: config)
+
+        XCTAssertNil(result.token)
+        XCTAssertFalse(result.errors.isEmpty)
+        XCTAssertEqual(ValidationCodes.invalidFormat, result.errors[ParamField.EXPIRY])
+    }
+
+    func testShouldNotReturnErrorWhileGenerateWithNewPaymentMethodWithOutDateExpiry() {
+        let params = NewPaymentMethodParams(
+            pan: "5391119268214792",
+            cvc: "123",
+            expiryMMYY: "12/15",
+            cardholder: "Joe Doe",
+            pubKey: testPubKey
+        )
+        
+        let config = SDKCoreConfig(paymentMethodParams: .newPaymentMethodParams(params: params))
+        let result = sdkCore.generateWithConfig(config: config)
+
+        XCTAssertNotNil(result.token)
+        XCTAssertTrue(result.errors.isEmpty)
+    }
+
+    func testShouldNotReturnErrorWhileGenerateWithNewPaymentMethodWithMaxOutDateExpiry() {
+        let params = NewPaymentMethodParams(
+            pan: "5391119268214792",
+            cvc: "123",
+            expiryMMYY: "12/35",
+            cardholder: "Joe Doe",
+            pubKey: testPubKey
+        )
+        
+        let config = SDKCoreConfig(paymentMethodParams: .newPaymentMethodParams(params: params))
+        let result = sdkCore.generateWithConfig(config: config)
+
+        XCTAssertNotNil(result.token)
+        XCTAssertTrue(result.errors.isEmpty)
+    }
+    
+    func testShouldReturnErrorWhileGenerateWithNewPaymentMethodWithInvalidPubKey() {
+        let params = NewPaymentMethodParams(
+            pan: "5391119268214792",
+            cvc: "123",
+            expiryMMYY: "12/25",
+            cardholder: "Joe Doe",
+            pubKey: "INVALIDPUBKEY"
+        )
+        
+        let config = SDKCoreConfig(paymentMethodParams: .newPaymentMethodParams(params: params))
+        let result = sdkCore.generateWithConfig(config: config)
+
+        XCTAssertNil(result.token)
+        XCTAssertFalse(result.errors.isEmpty)
+        XCTAssertEqual(ValidationCodes.invalid, result.errors[ParamField.PUB_KEY])
+    }
+    
+    func testShouldGenerateWithStoredPaymentMethod() {
+        let params = StoredPaymentMethodParams(
+            pubKey: testPubKey,
+            storePaymentMethodId: "pm_QRiwYPoAGtbRrETy1uP6RovMnsF2W3aA2xbeRhG8F4Sf6b9vY",
+            cvc: "123"
+        )
+        
+        let config = SDKCoreConfig(paymentMethodParams: .storedPaymentMethodParams(params: params))
+        let result = sdkCore.generateWithConfig(config: config)
+
+        XCTAssertNotNil(result.token)
+        XCTAssertTrue(result.errors.isEmpty)
+    }
+
+    func testShouldGenerateWithStoredPaymentMethodWithoutCVC() {
+        let params = StoredPaymentMethodParams(
+            pubKey: testPubKey,
+            storePaymentMethodId: "pm_QRiwYPoAGtbRrETy1uP6RovMnsF2W3aA2xbeRhG8F4Sf6b9vY"
+        )
+        
+        let config = SDKCoreConfig(paymentMethodParams: .storedPaymentMethodParams(params: params))
+        let result = sdkCore.generateWithConfig(config: config)
+
+        XCTAssertNotNil(result.token)
+        XCTAssertTrue(result.errors.isEmpty)
+    }
+    
+    func testShouldReturnErrorGenerateWithStoredPaymentMethodWithEmptyBindingID() {
+        let params = StoredPaymentMethodParams(
+            pubKey: testPubKey,
+            storePaymentMethodId: "",
+            cvc: "123"
+        )
+        
+        let config = SDKCoreConfig(paymentMethodParams: .storedPaymentMethodParams(params: params))
+        let result = sdkCore.generateWithConfig(config: config)
+
+        XCTAssertNil(result.token)
+        XCTAssertFalse(result.errors.isEmpty)
+        XCTAssertEqual(ValidationCodes.required, result.errors[ParamField.STORED_PAYMENT_METHOD_ID])
+    }
+
+    func testShouldReturnErrorGenerateWithStoredPaymentMethodWithEmptyPubKey() {
+        let params = StoredPaymentMethodParams(
+            pubKey: "",
+            storePaymentMethodId: "pm_QRiwYPoAGtbRrETy1uP6RovMnsF2W3aA2xbeRhG8F4Sf6b9vY",
+            cvc: "123"
+        )
+        
+        let config = SDKCoreConfig(paymentMethodParams: .storedPaymentMethodParams(params: params))
+        let result = sdkCore.generateWithConfig(config: config)
+
+        XCTAssertNil(result.token)
+        XCTAssertFalse(result.errors.isEmpty)
+        XCTAssertEqual(ValidationCodes.required, result.errors[ParamField.PUB_KEY])
+    }
+
+    func testShouldReturnErrorGenerateWithStoredPaymentMethodWithInvalidCVC() {
+        let params = StoredPaymentMethodParams(
+            pubKey: testPubKey,
+            storePaymentMethodId: "pm_QRiwYPoAGtbRrETy1uP6RovMnsF2W3aA2xbeRhG8F4Sf6b9vY",
+            cvc: "aaD"
+        )
+        
+        let config = SDKCoreConfig(paymentMethodParams: .storedPaymentMethodParams(params: params))
+        let result = sdkCore.generateWithConfig(config: config)
+
+        XCTAssertNil(result.token)
+        XCTAssertFalse(result.errors.isEmpty)
+        XCTAssertEqual(ValidationCodes.invalid, result.errors[ParamField.CVC])
+    }
+
+    func testShouldReturnErrorGenerateWithStoredPaymentMethodWithInvalidPubKey() {
+        let params = StoredPaymentMethodParams(
+            pubKey: "INVALIDPUBKEY",
+            storePaymentMethodId: "pm_QRiwYPoAGtbRrETy1uP6RovMnsF2W3aA2xbeRhG8F4Sf6b9vY",
+            cvc: "123"
+        )
+        
+        let config = SDKCoreConfig(paymentMethodParams: .storedPaymentMethodParams(params: params))
+        let result = sdkCore.generateWithConfig(config: config)
+
+        XCTAssertNil(result.token)
+        XCTAssertFalse(result.errors.isEmpty)
+        XCTAssertEqual(ValidationCodes.invalid, result.errors[ParamField.PUB_KEY])
+    }
+
+    func testShouldReturnBindingIdFromStoredPaymentMethodIdString() {
+        let clearStoredPaymentMethodId = "pm_m8sc17tRcbsZMpG4esfdDdD5pAMXsxrJgeseAcS1KmefqY7y3"
+        let result = BindingUtils().extractValue(from: clearStoredPaymentMethodId)
+        XCTAssertEqual(result, "d707897c-188c-45ca-8665-487e614e42bb")
+    }
+    
+    func testShouldReturnEmptyStringFromStoredPaymentMethodIdStringWithIncorrectPrefix1() {
+        let incorrectString1 = "pmm8sc17tRcbsZMpG4esfdDdD5pAMXsxrJgeseAcS1KmefqY7y3"
+        let result1 = BindingUtils().extractValue(from: incorrectString1)
+        XCTAssertEqual(result1, "")
+    }
+    
+    func testShouldReturnEmptyStringFromStoredPaymentMethodIdStringWithIncorrectPrefix2() {
+        let incorrectString2 = "p_m8sc17tRcbsZMpG4esfdDdD5pAMXsxrJgeseAcS1KmefqY7y3"
+        let result2 = BindingUtils().extractValue(from: incorrectString2)
+        XCTAssertEqual(result2, "")
+    }
+    
+    func testShouldReturnEmptyStringFromStoredPaymentMethodIdStringWithIncorrectPrefix3() {
+        let incorrectString3 = "m_m8sc17tRcbsZMpG4esfdDdD5pAMXsxrJgeseAcS1KmefqY7y3"
+        let result3 = BindingUtils().extractValue(from: incorrectString3)
+        XCTAssertEqual(result3, "")
+    }
+    
+    func testShouldReturnEmptyStringFromStoredPaymentMethodIdStringWithIncorrectPrefix4() {
+        let incorrectString4 = "pm_8sc17tRcbsZMpG4esfdDdD5pAMXsxrJgeseAcS1KmefqY7y3"
+        let result4 = BindingUtils().extractValue(from: incorrectString4)
+        XCTAssertEqual(result4, "")
+    }
+    
+    func testShouldReturnEmptyStringFromIncorrectStoredPaymentMethodId() {
+        let incorrectStoredPaymentMethodId = "pm_m8sc17RcbsZMpG4esfdDdD5pAMXsxrJgeseAcS1KmefqY7y3"
+        let result1 = BindingUtils().extractValue(from: incorrectStoredPaymentMethodId)
+        XCTAssertEqual(result1, "")
+    }
+    
+    func testShouldReturnBindingIdFromStoredPaymentMethodIdWithMagicNewLines() {
+        let incorrectStoredPaymentMethodId = "pm_FNzdHRMmfDoDSJDJK2P91DkEa4K7TSXkmeqpQ1Yk1iKAivwTRUQh"
+        let result1 = BindingUtils().extractValue(from: incorrectStoredPaymentMethodId)
+        XCTAssertEqual(result1, "a4266a22-b558-46b4-82c1-9e4a50f6a679")
     }
 }

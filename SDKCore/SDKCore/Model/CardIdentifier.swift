@@ -5,22 +5,22 @@ import Foundation
 /// - Parameters:
 ///     - value: Identifier value.
 public enum CardIdentifier: Codable, Equatable {
-    case cardPanIdentifier(String)
-    case cardBindingIdIdentifier(String)
+    case newPaymentMethodIdentifier(String)
+    case storedPaymentMethodIdentifier(String)
 
     enum CodingKeys: CodingKey {
-        case cardPanIdentifier
-        case cardBindingIdIdentifier
+        case newPaymentMethodIdentifier
+        case storedPaymentMethodIdentifier
     }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        if let value = try? container.decode(String.self, forKey: .cardPanIdentifier) {
-            self = .cardPanIdentifier(value)
+        if let value = try? container.decode(String.self, forKey: .newPaymentMethodIdentifier) {
+            self = .newPaymentMethodIdentifier(value)
             return
         }
-        if let value = try? container.decode(String.self, forKey: .cardBindingIdIdentifier) {
-            self = .cardBindingIdIdentifier(value)
+        if let value = try? container.decode(String.self, forKey: .storedPaymentMethodIdentifier) {
+            self = .storedPaymentMethodIdentifier(value)
             return
         }
         throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Unknown type of card identifier"))
@@ -29,10 +29,10 @@ public enum CardIdentifier: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         switch self {
-            case .cardPanIdentifier(let value):
-                try container.encode(value, forKey: .cardPanIdentifier)
-            case .cardBindingIdIdentifier(let value):
-                try container.encode(value, forKey: .cardBindingIdIdentifier)
+            case .newPaymentMethodIdentifier(let value):
+                try container.encode(value, forKey: .newPaymentMethodIdentifier)
+            case .storedPaymentMethodIdentifier(let value):
+                try container.encode(value, forKey: .storedPaymentMethodIdentifier)
         }
     }
 }

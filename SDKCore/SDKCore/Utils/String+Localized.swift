@@ -60,4 +60,16 @@ public extension String {
     static func bindingIncorrect() -> String {
         NSLocalizedString("payrdr_binding_incorrect", comment: "")
     }
+    
+    static func requiredField() -> String {
+        NSLocalizedString("payrdr_field_required", comment: "")
+    }
+    
+    static func emailIncorrect() -> String {
+        NSLocalizedString("payrdr_email_incorrect", comment: "")
+    }
+    
+    static func phoneNumberIncorrect() -> String {
+        NSLocalizedString("payrdr_phone_number_incorrect", comment: "")
+    }
 }

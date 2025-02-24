@@ -18,6 +18,7 @@ final class TestMainScreen: BaseScreen {
     
     private lazy var checkoutButton = app.buttons["Checkout"]
     private lazy var resultLabel = app.staticTexts["resultLabel"]
+    private lazy var checkoutSessionButton = app.buttons["Checkout Session"]
     
     init(app: XCUIApplication) {
         self.app = app
@@ -25,6 +26,12 @@ final class TestMainScreen: BaseScreen {
     
     func clickOnCheckout() -> Bool {
         performWithTimeout(element: checkoutButton) { element in
+            element.tap()
+        }
+    }
+    
+    func clickOnCheckoutSession() -> Bool {
+        performWithTimeout(element: checkoutSessionButton) { element in
             element.tap()
         }
     }

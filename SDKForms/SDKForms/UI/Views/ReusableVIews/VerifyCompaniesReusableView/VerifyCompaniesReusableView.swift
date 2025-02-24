@@ -82,7 +82,7 @@ final class VerifyCompaniesReusableView: UIView {
         NSLayoutConstraint.activate(
             [
                 heightAnchor.constraint(equalToConstant: 44),
-                stack.topAnchor.constraint(equalTo: topAnchor),
+                stack.topAnchor.constraint(equalTo: topAnchor, constant: 16),
                 stack.bottomAnchor.constraint(equalTo: bottomAnchor),
                 stack.centerXAnchor.constraint(equalTo: centerXAnchor),
                 stack.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor, constant: 20),
