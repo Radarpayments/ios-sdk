@@ -23,7 +23,8 @@ final class PaymentController {
     private lazy var cardFormDelegate: CardFormDelegate = {
         CardFormDelegateImpl(
             parentController: parentController,
-            resultCryptogramCallback: self
+            resultCryptogramCallback: self,
+            removeCardHandler: deleteBindingCard
         )
     }()
     
@@ -158,16 +159,12 @@ final class PaymentController {
         }
     }
     
-    private func deleteBindingCards(cards: Set<Card>) {
-        paymentQueue.async { [weak self] in
-            guard let self else { return }
+    private func deleteBindingCard(_ bindingId: String) {
+        paymentQueue.async {
+            let success = self.paymentManager.unbindCard(bindingId: bindingId)
             
-            cards.forEach { card in
-                let success = self.paymentManager.unbindCard(bindingId: card.bindingId)
-                
-                if !success {
-                    LogDebug.shared.logIfDebug(message: "Error unbind card")
-                }
+            if !success {
+                LogDebug.shared.logIfDebug(message: "Error unbind card")
             }
         }
     }
@@ -278,7 +275,6 @@ extension PaymentController: ResultCryptogramCallback {
 
         switch result.status {
         case .succeeded:
-            deleteBindingCards(cards: result.deletedCardList)
             let info = result.info
             
             switch info {
@@ -357,7 +353,6 @@ extension PaymentController: ResultCryptogramCallback {
             }
         case .canceled:
             LogDebug.shared.logIfDebug(message: "Cryptogram canceled")
-            deleteBindingCards(cards: result.deletedCardList)
             paymentManager.finishWithError(exception: SDKCryptogramException())
         }
     }

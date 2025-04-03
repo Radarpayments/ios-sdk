@@ -9,6 +9,8 @@ import UIKit
 import SDKCore
 import PassKit
 
+public typealias RemoveCardHandler = (_ bindingId: String) -> Void
+
 /// The main class for working with the functionality of the user interface library from a mobile application.
 public final class SdkForms: NSObject {
     
@@ -20,6 +22,7 @@ public final class SdkForms: NSObject {
     private var mandatoryFieldsProvider: (any MandatoryFieldsProvider)?
     private var applePayPaymentConfig: ApplePayPaymentConfig?
     private var callbackHandler: (any ResultCryptogramCallback<CryptogramData>)?
+    private var removeCardHandler: RemoveCardHandler?
     
     private var applePayData: Data?
     
@@ -52,7 +55,8 @@ public final class SdkForms: NSObject {
         navigationController: UINavigationController,
         config: PaymentConfig,
         mandatoryFieldsProvider: (any MandatoryFieldsProvider)?,
-        callbackHandler: any ResultCryptogramCallback<CryptogramData>
+        callbackHandler: any ResultCryptogramCallback<CryptogramData>,
+        removeCardHandler: RemoveCardHandler?
     ) {
         LocalizationSetting.shared.setLanguage(locale: config.locale)
         ThemeSetting.shared.setTheme(config.theme)
@@ -61,6 +65,7 @@ public final class SdkForms: NSObject {
         self.paymentConfig = config
         self.mandatoryFieldsProvider = mandatoryFieldsProvider
         self.callbackHandler = callbackHandler
+        self.removeCardHandler = removeCardHandler
         
         if config.cards.isEmpty {
             Logger.shared.log(
@@ -91,7 +96,8 @@ public final class SdkForms: NSObject {
             CardListViewController(
                 paymentConfig: config,
                 mandatoryFieldsProvider: self.mandatoryFieldsProvider,
-                callbackHandler: callbackHandler
+                callbackHandler: callbackHandler,
+                removeCardHandler: removeCardHandler
             ),
             animated: true
         )
@@ -107,7 +113,8 @@ public final class SdkForms: NSObject {
         config: PaymentConfig,
         mandatoryFieldsProvider: (any MandatoryFieldsProvider)?,
         applePayPaymentConfig: ApplePayPaymentConfig?,
-        callbackHandler: (any ResultCryptogramCallback<CryptogramData>)
+        callbackHandler: (any ResultCryptogramCallback<CryptogramData>),
+        removeCardHandler: RemoveCardHandler?
     ) {
         LocalizationSetting.shared.setLanguage(locale: config.locale)
         ThemeSetting.shared.setTheme(config.theme)
@@ -117,7 +124,8 @@ public final class SdkForms: NSObject {
         self.mandatoryFieldsProvider = mandatoryFieldsProvider
         self.applePayPaymentConfig = applePayPaymentConfig
         self.callbackHandler = callbackHandler
-
+        self.removeCardHandler = removeCardHandler
+        
         Logger.shared.log(
             classMethod: type(of: self),
             tag: Constants.TAG,
@@ -184,7 +192,8 @@ extension SdkForms: PaymentBottomSheetDelegate {
         let allPaymentsMethodsVC = CardListViewController(
             paymentConfig: paymentConfig, 
             mandatoryFieldsProvider: self.mandatoryFieldsProvider,
-            callbackHandler: callbackHandler
+            callbackHandler: callbackHandler,
+            removeCardHandler: self.removeCardHandler
         )
 
         DispatchQueue.main.async { [weak self] in
@@ -248,9 +257,7 @@ extension SdkForms: PKPaymentAuthorizationViewControllerDelegate {
         }
 
         let applePayPaymentInfo = PaymentInfoApplePay(order: order, paymentToken: paymentToken)
-        let cryptogramData = CryptogramData(status: .succeeded,
-                                            info: applePayPaymentInfo,
-                                            deletedCardList: [])
+        let cryptogramData = CryptogramData(status: .succeeded, info: applePayPaymentInfo)
         
         controller.dismiss(animated: true) { [weak self] in
             guard let self else { return }

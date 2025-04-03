@@ -2,8 +2,6 @@
 //  PaymentsMethodsTableCell.swift
 //  SDKForms
 //
-// 
-//
 
 import UIKit
 
@@ -37,6 +35,7 @@ final class PaymentsMethodsTableCell: UITableViewCell {
         self.model = model
         titleLabel.text = model.title
         accessoryType = .disclosureIndicator
+        accessibilityIdentifier = model.title
         
         return self
     }

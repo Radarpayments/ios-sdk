@@ -108,22 +108,14 @@ class ViewController: UIViewController {
     
     @objc
     private func payOrderClick() {
-        let billingPayerData = BillingPayerData(
-            billingCountry: "AF",
-            billingState: "DE-BE",
-            billingCity: "Berlin",
-            billingAddressLine1: "MainStreet 1st"
-        )
-
         // You don't need to use .registerNewOrder()
         // This method needs only for creating order for SDKPayment in the SampleApp
         OrderCreator.registerNewOrder(baseUrl: baseUrl,
                                       amount: amount,
                                       userName: login,
-                                      password: password,
-                                      billingPayerData: billingPayerData) { [weak self] orderId in
+                                      password: password) { [weak self] orderId in
             guard let self else { return }
-
+            
             self.orderId = orderId
             
             DispatchQueue.main.async {

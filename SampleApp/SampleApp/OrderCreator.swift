@@ -14,24 +14,16 @@ final class OrderCreator {
                                  amount: String,
                                  userName: String,
                                  password: String,
-                                 billingPayerData: BillingPayerData = BillingPayerData(),
                                  completionHandler: @escaping (_ orderId: String) -> Void) {
         let headers = ["content-type": "application/x-www-form-urlencoded"]
-        
-        let mobilePhoneJson = ["mobilePhone": "+35799902871"]
-        let encodedMobilePhone = try? JSONEncoder().encode(mobilePhoneJson)
-        let encodedBillingPayerData = try? JSONEncoder().encode(billingPayerData)
         
         let body = [
             "amount": amount,
             "userName": userName,
             "password": password,
             "returnUrl": "sdk://done",
-            "email": "test@test.com",
             "clientId": "ClientIdTestIOS",
             "orderNumber": "\(Int64.random(in: Int64.min...Int64.max))",
-            "orderPayerData": String(data: encodedMobilePhone!, encoding: .utf8)!,
-            "billingPayerData":  String(data: encodedBillingPayerData!, encoding: .utf8)!
         ]
 
         

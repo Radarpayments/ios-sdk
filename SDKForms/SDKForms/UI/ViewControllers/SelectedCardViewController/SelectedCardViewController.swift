@@ -2,8 +2,6 @@
 //  SelectedCardViewController.swift
 //  SDKForms
 //
-// 
-//
 
 import UIKit
 import SDKCore
@@ -145,8 +143,7 @@ public final class SelectedCardViewController: FormsBaseViewController {
                     bindingId: card.bindingId,
                     cvc: cardCVCEntered,
                     mandatoryFieldsValues: mandatoryFieldsValues
-                ),
-                deletedCardList: config.cardsToDelete
+                )
             )
             callbackHandler?.onSuccess(result: cryptogramData)
         } catch let error as SDKException {

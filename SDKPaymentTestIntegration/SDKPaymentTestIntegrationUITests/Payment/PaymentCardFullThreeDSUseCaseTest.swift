@@ -147,11 +147,9 @@ final class PaymentCardFullThreeDSUseCaseTest: BaseTestCase {
         XCTAssertTrue(newCardScreen.clickOnActionButton())
         
         let webViewScreen = ThreeDS1Screen(app: app)
-        XCTAssertTrue(webViewScreen.clickOnSuccess())
+        awaitAssert { XCTAssertTrue(webViewScreen.clickOnSuccess()) }
         
-        awaitAssert {
-            XCTAssertEqual("false", mainScreen.resultText)
-        }
+        awaitAssert { XCTAssertEqual("false", mainScreen.resultText) }
     }
     
     func testShouldReturnSuccessPaymentWithNewCardFullThreeDSUse3DS2SDKWithSessionId() {
@@ -294,11 +292,57 @@ final class PaymentCardFullThreeDSUseCaseTest: BaseTestCase {
         XCTAssertTrue(newCardScreen.clickOnActionButton())
         
         let webViewScreen = ThreeDS1Screen(app: app)
-        XCTAssertTrue(webViewScreen.clickOnSuccess())
-        XCTAssertTrue(webViewScreen.clickOnReturnToMerchant())
+        awaitAssert { XCTAssertTrue(webViewScreen.clickOnSuccess()) }
+        awaitAssert { XCTAssertTrue(webViewScreen.clickOnReturnToMerchant()) }
+        
+        awaitAssert { XCTAssertEqual("false", mainScreen.resultText) }
+    }
+    
+    func testShouldReturnSuccessPaymentWithNewCardFullThreeDSNoUse3DS2SDKAndRemoveBindingCard() {
+        let clientId = testClientIdHelper.getNewTestClientId()
+        var orderId = registerOrderAndLaunchApp(clientId: clientId, use3DS2SDK: false)
+        
+        let mainScreen = TestMainScreen(app: app)
+        XCTAssertTrue(mainScreen.clickOnCheckout())
+        
+        let paymentBottomSheet = PaymentBottomSheetScreen(app: app)
+        XCTAssertTrue(paymentBottomSheet.clickOnAddNewCard())
+        
+        let newCardScreen = NewCardScreen(app: app)
+        XCTAssertTrue(newCardScreen.fillOutForm(
+            with: TestCardHelper.successFull3DS
+        ))
+        XCTAssertTrue(newCardScreen.clickOnActionButton())
+        
+        let threeDS1Screen = ThreeDS1Screen(app: app)
+        
+        awaitAssert { XCTAssertTrue(threeDS1Screen.clickOnSuccess()) }
+        awaitAssert { XCTAssertEqual("true", mainScreen.resultText) }
+        
+        let labelForSavedBindingItem = TestCardHelper.getLabelForSavedBindingItemFrom(
+            testCard: TestCardHelper.successFull3DS
+        )
+        
+        orderId = registerOrderAndLaunchApp(clientId: clientId, use3DS2SDK: false)
+        var sessionStatus = try! testOrderHelper.getSessionStatus(mdOrder: orderId)
+        
+        let bindingItemLabel = sessionStatus.bindingItems.first?.label
+        awaitAssert { XCTAssertEqual(bindingItemLabel, labelForSavedBindingItem) }
+        
+        XCTAssertTrue(mainScreen.clickOnCheckout())
+        awaitAssert { XCTAssertTrue(paymentBottomSheet.clickOnAllPaymentMethods()) }
+        
+        let cardListScreen = CardListScreen(app: app)
+        let labelForSavedCard = TestCardHelper.getLabelForSavedCardFrom(testCard: TestCardHelper.successFull3DS)
+        
+        awaitAssert { XCTAssertTrue(cardListScreen.swipeOnSavedCard(labelForSavedCard)) }
+        awaitAssert { XCTAssertTrue(cardListScreen.tapToDelete()) }
+        
+        orderId = registerOrderAndLaunchApp(clientId: clientId, use3DS2SDK: false)
+        sessionStatus = try! testOrderHelper.getSessionStatus(mdOrder: orderId)
         
         awaitAssert {
-            XCTAssertEqual("false", mainScreen.resultText)
+            XCTAssertNil(sessionStatus.bindingItems.first(where: { $0.label == labelForSavedBindingItem }))
         }
     }
 }

@@ -14,13 +14,16 @@ final class CardFormDelegateImpl: CardFormDelegate {
     
     private var parentController: UINavigationController
     private weak var resultCryptogramCallback: (any ResultCryptogramCallback<CryptogramData>)!
+    private var removeCardHandler: RemoveCardHandler?
     
     init(
         parentController: UINavigationController,
-        resultCryptogramCallback: any ResultCryptogramCallback<CryptogramData>
+        resultCryptogramCallback: any ResultCryptogramCallback<CryptogramData>,
+        removeCardHandler: RemoveCardHandler?
     ) {
         self.parentController = parentController
         self.resultCryptogramCallback = resultCryptogramCallback
+        self.removeCardHandler = removeCardHandler
     }
     
     func openBottomSheet(
@@ -46,7 +49,8 @@ final class CardFormDelegateImpl: CardFormDelegate {
             config: paymentConfig,
             mandatoryFieldsProvider: MandatoryFieldsDefaultProvider(sessionStatus: sessionStatus),
             applePayPaymentConfig: applePayPaymentConfig,
-            callbackHandler: resultCryptogramCallback
+            callbackHandler: resultCryptogramCallback,
+            removeCardHandler: removeCardHandler
         )
     }
 }

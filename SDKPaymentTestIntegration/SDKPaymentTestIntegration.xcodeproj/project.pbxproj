@@ -42,6 +42,7 @@
 		22A011672BF378FB00F892DE /* SDKPayment in Frameworks */ = {isa = PBXBuildFile; productRef = 22A011662BF378FB00F892DE /* SDKPayment */; };
 		22A011692BF3790000F892DE /* SDKPayment in Frameworks */ = {isa = PBXBuildFile; productRef = 22A011682BF3790000F892DE /* SDKPayment */; };
 		22C063EA2BDB5DCA000F47CA /* BaseScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C063E92BDB5DCA000F47CA /* BaseScreen.swift */; };
+		22D384EB2D9AECC30081DD57 /* CardListScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22D384EA2D9AECBC0081DD57 /* CardListScreen.swift */; };
 		22FBC99D2C259235000A401F /* NewCardScreenUseCaseTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FBC99C2C259235000A401F /* NewCardScreenUseCaseTest.swift */; };
 		22FBC9A12C259D44000A401F /* SelectedCardScreenUseCaseTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FBC9A02C259D44000A401F /* SelectedCardScreenUseCaseTest.swift */; };
 /* End PBXBuildFile section */
@@ -124,6 +125,7 @@
 		22A0113E2BF3411500F892DE /* TestProcessFormResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestProcessFormResponse.swift; sourceTree = "<group>"; };
 		22A011422BF344C300F892DE /* TestBindingItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestBindingItem.swift; sourceTree = "<group>"; };
 		22C063E92BDB5DCA000F47CA /* BaseScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseScreen.swift; sourceTree = "<group>"; };
+		22D384EA2D9AECBC0081DD57 /* CardListScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardListScreen.swift; sourceTree = "<group>"; };
 		22FBC99C2C259235000A401F /* NewCardScreenUseCaseTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCardScreenUseCaseTest.swift; sourceTree = "<group>"; };
 		22FBC9A02C259D44000A401F /* SelectedCardScreenUseCaseTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedCardScreenUseCaseTest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -158,6 +160,7 @@
 		22148C022BD0FE83001390B3 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				22D384EA2D9AECBC0081DD57 /* CardListScreen.swift */,
 				22C063E92BDB5DCA000F47CA /* BaseScreen.swift */,
 				22148C002BD0F934001390B3 /* NewCardScreen.swift */,
 				22148C032BD0FE91001390B3 /* TestMainScreen.swift */,
@@ -455,6 +458,7 @@
 				2270EB332BCF8AC5002C8B34 /* TestOrderHelper.swift in Sources */,
 				22148C172BD23EBF001390B3 /* PaymentCardFullThreeDSUseCaseTest.swift in Sources */,
 				22148C112BD22062001390B3 /* ThreeDS1Screen.swift in Sources */,
+				22D384EB2D9AECC30081DD57 /* CardListScreen.swift in Sources */,
 				22148C0A2BD20E27001390B3 /* PaymentCardAttemptThreeDSUseCaseTest.swift in Sources */,
 				22A0113B2BF3406B00F892DE /* TestCryptogramApiData.swift in Sources */,
 				22A011392BF3401B00F892DE /* TestSessionStatusResponse.swift in Sources */,

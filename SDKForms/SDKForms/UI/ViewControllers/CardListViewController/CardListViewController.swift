@@ -48,17 +48,20 @@ public final class CardListViewController: FormsBaseViewController {
     
     private var mandatoryFieldsProvider: (any MandatoryFieldsProvider)?
     private var paymentConfig: PaymentConfig?
+    private var removeCardHandler: RemoveCardHandler?
     
     convenience public init(
         paymentConfig: PaymentConfig?,
         mandatoryFieldsProvider: (any MandatoryFieldsProvider)?,
-        callbackHandler: (any ResultCryptogramCallback<CryptogramData>)?
+        callbackHandler: (any ResultCryptogramCallback<CryptogramData>)?,
+        removeCardHandler: RemoveCardHandler?
     ) {
         self.init()
 
         self.mandatoryFieldsProvider = mandatoryFieldsProvider
         self.paymentConfig = paymentConfig
         self.callbackHandler = callbackHandler
+        self.removeCardHandler = removeCardHandler
     }
     
     override public func loadView() {
@@ -149,13 +152,9 @@ public final class CardListViewController: FormsBaseViewController {
     private func cardsItemsModels() -> [AnyHashable] {
         guard let cards = paymentConfig?.cards else { return [] }
 
-        let items = cards
-            .filter { card in
-                !(paymentConfig?.cardsToDelete.contains { card.bindingId != $0.bindingId } ?? false)
-            }
-            .compactMap {
+        let items = cards.compactMap {
             let cardLogoName = cardLogoResolver.resolveByPan(pan: $0.pan)
-
+            
             return BindingCardTableModel(
                 id: $0.bindingId,
                 cardSystemImageName: cardLogoName,
@@ -237,10 +236,8 @@ extension CardListViewController: CardListSelectable {
 extension CardListViewController: CardListRemovable {
     
     func clickOnRemoveCell(_ id: String) {
-        guard let card = paymentConfig?.cards
-            .first(where: { $0.bindingId == id })
-        else { return }
-
-        paymentConfig?.cardsToDelete.insert(card)
+        guard let card = paymentConfig?.cards.first(where: { $0.bindingId == id }) else { return }
+        
+        removeCardHandler?(card.bindingId)
     }
 }

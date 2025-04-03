@@ -39,7 +39,6 @@ public struct PaymentConfig: Codable {
     let buttonText: String?
     let storedPaymentMethodCVCRequired: Bool
     let cardDeleteOptions: CardDeleteOptions
-    var cardsToDelete = Set<Card>()
     var displayApplePay = false
     var registeredFrom: MSDKRegisteredFrom = .MSDK_FORMS
     let editingBindingsIsEnabled: Bool

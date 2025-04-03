@@ -154,8 +154,7 @@ public final class NewCardViewController: FormsBaseViewController {
                     holder: cardHolderEntered,
                     mandatoryFieldsValues: mandatoryFieldsValues,
                     saveCard: saveSwitchIsOn
-                ),
-                deletedCardList: config.cardsToDelete
+                )
             )
             
             callbackHandler?.onSuccess(result: cryptogramData)

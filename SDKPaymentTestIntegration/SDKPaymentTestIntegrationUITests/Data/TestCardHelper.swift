@@ -3,36 +3,27 @@
 //  SDKPaymentIntegrationUITests
 //
 
-//
-
 import Foundation
 
 struct TestCardHelper {
-    
-    static let testCardWith3DS = TestCard(
-        pan: "5000001111111115",
-        expiry: "12/30",
-        cvc: "123",
-        holder: "CARD HOLDER"
-    )
 
     static let successFull3DS = TestCard(
         pan: "5555555555555599",
-        expiry: "12/24",
+        expiry: "12/34",
         cvc: "123",
         holder: "CARD HOLDER"
     )
 
     static let successFrictionless3DS2 = TestCard(
         pan: "4111111111111111",
-        expiry: "12/24",
+        expiry: "12/26",
         cvc: "123",
         holder: "CARD HOLDER"
     )
 
     static let failFrictionless3DS = TestCard(
         pan: "5168494895055780",
-        expiry: "12/24",
+        expiry: "12/26",
         cvc: "123",
         holder: "CARD HOLDER"
     )
@@ -46,7 +37,7 @@ struct TestCardHelper {
 
     static let successSSL = TestCard(
         pan: "4444555511113333",
-        expiry: "12/24",
+        expiry: "12/26",
         cvc: "123",
         holder: "CARD HOLDER"
     )
