@@ -2,8 +2,6 @@
 //  LoginTableCell.swift
 //  SampleApp
 //
-//
-//
 
 import UIKit
 

@@ -2,8 +2,6 @@
 //  AmountTableCell.swift
 //  SampleApp
 //
-//
-//
 
 import UIKit
 

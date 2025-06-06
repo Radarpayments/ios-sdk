@@ -2,16 +2,10 @@
 //  ViewController.swift
 //  SampleApp
 //
-//
-//
 
-// For build app you need download ThreeDSSDK from the link
-// https://github.com/Radarpayments/ios-sdk/releases
-// And you need save ThreeDSSDK.xcframework to path "../Frameworks/ThreeDSSDK.xcframework"
 import UIKit
 import SDKForms
 import SDKPayment
-import ThreeDSSDK
 import SDKCore
 
 class ViewController: UIViewController {
@@ -166,14 +160,11 @@ class ViewController: UIViewController {
     
     // MARK: - Start of payment
     private func checkout(orderId: String) {
-        // For uploading logs you need to setup `LogUploadingConfigProvider` for ThreeDSLogger
-        ThreeDSLogger.shared.setupLogUploaderConfigProvider(configProvider: self)
 
         // To begin checkout, first of all - we need to configure SDKPaymentConfig
         // For example:
         let paymentConfig = SDKPaymentConfig(
             baseURL: baseUrl,
-            use3DSConfig: .noUse3ds2sdk,
             keyProviderUrl: "\(baseUrl)/se/keys.do",
             applePaySettings: nil
         )
@@ -191,14 +182,10 @@ class ViewController: UIViewController {
     }
     
     private func checkout(sessionId: String) {
-        // For uploading logs you need to setup `LogUploadingConfigProvider` for ThreeDSLogger
-        ThreeDSLogger.shared.setupLogUploaderConfigProvider(configProvider: self)
-
         // To begin checkout, first of all - we need to configure SDKPaymentConfig
         // For example:
         let paymentConfig = SDKPaymentConfig(
             baseURL: baseUrl,
-            use3DSConfig: .noUse3ds2sdk,
             keyProviderUrl: "\(baseUrl)/se/keys.do",
             applePaySettings: nil
         )
@@ -291,12 +278,5 @@ extension ViewController: CellDelegate {
         case "amount": amount = value
         default: break
         }
-    }
-}
-
-extension ViewController: LogUploaderConfigProvider {
-    
-    func provideConfig(sdkAppId: String?) -> ThreeDSSDK.LogUploaderConfig? {
-        .sentry(url: "SentryURL", key: "SentryKey")
     }
 }

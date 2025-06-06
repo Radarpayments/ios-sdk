@@ -2,8 +2,6 @@
 //  OrderCreator.swift
 //  SampleApp
 //
-//
-//
 
 import Foundation
 import SDKPayment
@@ -49,7 +47,7 @@ final class OrderCreator {
                        "X-Version": "2023-10-31",
                        "X-Api-Key": "9yVrffWNAiHUUVUCQoX4NFHMxmRHYA2yB"]
         
-        let body: [String: Any] = ["amount": 2000,
+        let body: [String: Any] = ["amount": Int(amount) ?? 111,
                     "currency": "USD",
                     "successUrl": "sdk://done",
                     "failureUrl": "sdk://failure"]

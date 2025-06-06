@@ -8,7 +8,7 @@ import XCTest
 final class NewCardScreenUseCaseTest: BaseTestCase {
     
     func testShouldSwitchToNextField() {
-        _ = registerOrderAndLaunchApp(use3DS2SDK: false)
+        _ = registerOrderAndLaunchApp()
         
         let mainScreen = TestMainScreen(app: app)
         XCTAssertTrue(mainScreen.clickOnCheckout())
@@ -43,7 +43,7 @@ final class NewCardScreenUseCaseTest: BaseTestCase {
     }
     
     func testShouldNotSwitchToExpiryField() {
-        _ = registerOrderAndLaunchApp(use3DS2SDK: false)
+        _ = registerOrderAndLaunchApp()
         
         let mainScreen = TestMainScreen(app: app)
         XCTAssertTrue(mainScreen.clickOnCheckout())
@@ -62,7 +62,7 @@ final class NewCardScreenUseCaseTest: BaseTestCase {
     }
     
     func testShouldEndEditingAfterInputTextAndTapReturn() {
-        _ = registerOrderAndLaunchApp(use3DS2SDK: false)
+        _ = registerOrderAndLaunchApp()
         
         let mainScreen = TestMainScreen(app: app)
         XCTAssertTrue(mainScreen.clickOnCheckout())

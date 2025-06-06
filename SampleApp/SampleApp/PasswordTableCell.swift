@@ -2,8 +2,6 @@
 //  PasswordTableCell.swift
 //  SampleApp
 //
-//
-//
 
 import UIKit
 

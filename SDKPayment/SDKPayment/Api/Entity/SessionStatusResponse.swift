@@ -21,7 +21,6 @@ import Foundation
 ///     - feeEnabled tax is included.
 ///     - backUrl url for back redirect.
 ///     - orderExpired order expired.
-///     - is3DSVer2 there is 3DS.
 ///     - expirationDateCustomValidation is own validation enabled for card expiration.
 ///     - currencyAlphaCode Country currency code.
 ///     - merchantInfo information about merchant.
@@ -41,7 +40,6 @@ struct SessionStatusResponse: Codable {
     var feeEnabled: Bool = false
     let backUrl: String?
     var orderExpired: Bool = false
-    var is3DSVer2: Bool = false
     var expirationDateCustomValidation: Bool = false
     var bindingDeactivationEnabled: Bool = false
     let currencyAlphaCode: String?
@@ -66,7 +64,6 @@ struct SessionStatusResponse: Codable {
         self.feeEnabled = (try? container.decode(Bool.self, forKey: .feeEnabled)) ?? false
         self.backUrl = try? container.decodeIfPresent(String.self, forKey: .backUrl)
         self.orderExpired = (try? container.decode(Bool.self, forKey: .orderExpired)) ?? false
-        self.is3DSVer2 = (try? container.decode(Bool.self, forKey: .is3DSVer2)) ?? false
         self.expirationDateCustomValidation = try container.decode(Bool.self, forKey: .expirationDateCustomValidation)
         self.bindingDeactivationEnabled = (try? container.decode(Bool.self, forKey: .bindingDeactivationEnabled)) ?? false
         self.currencyAlphaCode = try? container.decodeIfPresent(String.self, forKey: .currencyAlphaCode)

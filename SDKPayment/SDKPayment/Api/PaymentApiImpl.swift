@@ -48,15 +48,14 @@ final class PaymentApiImpl: NSObject, PaymentApi {
     }
     
     func processForm(
-        cryptogramApiData: CryptogramApiData,
-        threeDSSDK: Bool
+        cryptogramApiData: CryptogramApiData
     ) throws -> ProcessFormResponse {
         let preparedBody = [
             "seToken": cryptogramApiData.paymentToken,
             "MDORDER": cryptogramApiData.mdOrder,
             "TEXT": cryptogramApiData.holder,
             "bindingNotNeeded": "\(!cryptogramApiData.saveCard)",
-            "threeDSSDK": "\(threeDSSDK)"
+            "threeDSSDK": "false"
         ]
         
         return try startRunCatchingProcessForm(urlString: "\(baseUrl)/rest/processform.do",
@@ -66,67 +65,19 @@ final class PaymentApiImpl: NSObject, PaymentApi {
     }
     
     func processBindingForm(
-        cryptogramApiData: CryptogramApiData,
-        threeDSSDK: Bool
+        cryptogramApiData: CryptogramApiData
     ) throws -> ProcessFormResponse {
         let preparedBody = [
             "seToken": cryptogramApiData.paymentToken,
             "MDORDER": cryptogramApiData.mdOrder,
             "TEXT": cryptogramApiData.holder,
-            "threeDSSDK": "\(threeDSSDK)"
+            "threeDSSDK": "false"
         ]
         
         return try startRunCatchingProcessForm(urlString: "\(baseUrl)/rest/processBindingForm.do",
                                                preparedBody: preparedBody,
                                                cryptogramApiData: cryptogramApiData,
                                                type: ProcessFormResponse.self)
-    }
-    
-    func processFormSecond(
-        cryptogramApiData: CryptogramApiData,
-        threeDSParams: PaymentThreeDSInfo
-    ) throws -> ProcessFormSecondResponse {
-        let preparedBody = [
-            "seToken": cryptogramApiData.paymentToken,
-            "MDORDER": cryptogramApiData.mdOrder,
-            "TEXT": cryptogramApiData.holder,
-            "bindingNotNeeded": "\(!cryptogramApiData.saveCard)",
-            "threeDSSDK": "\(threeDSParams.threeDSSDK)",
-            "threeDSServerTransId": threeDSParams.threeDSServerTransId,
-            "threeDSSDKEncData": threeDSParams.threeDSSDKEncData,
-            "threeDSSDKEphemPubKey": threeDSParams.threeDSSDKEphemPubKey,
-            "threeDSSDKAppId": threeDSParams.threeDSSDKAppId,
-            "threeDSSDKTransId": threeDSParams.threeDSSDKTransId,
-            "threeDSSDKReferenceNumber": threeDSParams.threeDSSDKReferenceNumber
-        ]
-        
-        return try startRunCatchingProcessForm(urlString: "\(baseUrl)/rest/processform.do",
-                                               preparedBody: preparedBody,
-                                               cryptogramApiData: cryptogramApiData,
-                                               type: ProcessFormSecondResponse.self)
-    }
-    
-    func processBindingFormSecond(
-        cryptogramApiData: CryptogramApiData,
-        threeDSParams: PaymentThreeDSInfo
-    ) throws -> ProcessFormSecondResponse {
-        let preparedBody = [
-            "seToken": cryptogramApiData.paymentToken,
-            "MDORDER": cryptogramApiData.mdOrder,
-            "TEXT": cryptogramApiData.holder,
-            "threeDSSDK": "\(threeDSParams.threeDSSDK)",
-            "threeDSServerTransId": threeDSParams.threeDSServerTransId,
-            "threeDSSDKEncData": threeDSParams.threeDSSDKEncData,
-            "threeDSSDKEphemPubKey": threeDSParams.threeDSSDKEphemPubKey,
-            "threeDSSDKAppId": threeDSParams.threeDSSDKAppId,
-            "threeDSSDKTransId": threeDSParams.threeDSSDKTransId,
-            "threeDSSDKReferenceNumber": threeDSParams.threeDSSDKReferenceNumber
-        ]
-        
-        return try startRunCatchingProcessForm(urlString: "\(baseUrl)/rest/processBindingForm.do",
-                                           preparedBody: preparedBody,
-                                           cryptogramApiData: cryptogramApiData,
-                                           type: ProcessFormSecondResponse.self)
     }
     
     func finish3dsVer2PaymentAnonymous(threeDSServerTransId: String) throws {

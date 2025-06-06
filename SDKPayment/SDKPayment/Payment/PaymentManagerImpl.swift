@@ -7,7 +7,6 @@
 
 import Foundation
 import SDKForms
-import ThreeDSSDK
 import PassKit
 
 final class PaymentManagerImpl: PaymentManager {
@@ -15,47 +14,27 @@ final class PaymentManagerImpl: PaymentManager {
     private var paymentQueue: DispatchQueue
     private weak var cardFormDelegate: CardFormDelegate!
     private weak var threeDS2WebFormDelegate: ThreeDS2WebFormDelegate!
-    private weak var threeDS2SDKFormDelegate: ThreeDS2SDKFormDelegate!
     private weak var viewControllerDelegate: ViewControllerDelegate!
     
     private var checkoutConfig: CheckoutConfig!
     private var mdOrder: String!
 
     private var applePaySettings: ApplePaySettings?
-
-    private lazy var dsRoot: String? = {
-        if case let .use3ds2sdk(dsRoot) = viewControllerDelegate.getPaymentConfig().use3DSConfig {
-            return dsRoot
-        } else {
-            return nil
-        }
-    }()
     
     private lazy var paymentApi: PaymentApi = {
         PaymentApiImpl(baseUrl: viewControllerDelegate.getPaymentConfig().baseURL)
     }()
     
-    private var threeDS2Service: ThreeDS2Service = Ecom3DS2Service()
-    private var transaction: Transaction?
-    
     init(
         paymentQueue: DispatchQueue,
         cardFormDelegate: CardFormDelegate,
         threeDS2WebFormDelegate: ThreeDS2WebFormDelegate,
-        threeDS2SDKFormDelegate: ThreeDS2SDKFormDelegate,
         viewControllerDelegate: ViewControllerDelegate
     ) {
         self.paymentQueue = paymentQueue
         self.cardFormDelegate = cardFormDelegate
         self.threeDS2WebFormDelegate = threeDS2WebFormDelegate
-        self.threeDS2SDKFormDelegate = threeDS2SDKFormDelegate
         self.viewControllerDelegate = viewControllerDelegate
-        
-        paymentQueue.async { [weak self] in
-            guard let self else { return }
-
-            try? threeDS2SDKFormDelegate.initThreeDS2Service(threeDS2Service: threeDS2Service)
-        }
     }
     
     func checkout(config: CheckoutConfig) throws {
@@ -170,16 +149,13 @@ final class PaymentManagerImpl: PaymentManager {
     ///     - cryptogramApiData result of the creating a cryptogram.
     func processFormData(cryptogramApiData: CryptogramApiData, isBinding: Bool) throws {
         do {
-            let isUse3DS2 = if case .use3ds2sdk(_) = viewControllerDelegate.getPaymentConfig().use3DSConfig { true } else { false }
             let paymentResult = if isBinding {
                 try paymentApi.processBindingForm(
-                    cryptogramApiData: cryptogramApiData,
-                    threeDSSDK: isUse3DS2
+                    cryptogramApiData: cryptogramApiData
                 )
             } else {
                 try paymentApi.processForm(
-                    cryptogramApiData: cryptogramApiData,
-                    threeDSSDK: isUse3DS2
+                    cryptogramApiData: cryptogramApiData
                 )
             }
             
@@ -218,7 +194,6 @@ final class PaymentManagerImpl: PaymentManager {
     /// Canceling the process of creating a cryptogram.
     func finishWithError<T: SDKException>(exception: T?) {
         do {
-            try threeDS2SDKFormDelegate.cleanup(transaction: transaction, threeDS2Service: threeDS2Service)
             try finishWithCheckOrderStatus(exception: exception)
         } catch {
             let paymentResultData = PaymentResultData(isSuccess: false,
@@ -242,18 +217,6 @@ final class PaymentManagerImpl: PaymentManager {
         }
         
         do {
-            if processFormResponse.is3DSVer2 {
-                LogDebug.shared.logIfDebug(
-                    message: "processForm - Payment need 3DSVer2: \(processFormResponse)"
-                )
-                try processThreeDSData(
-                    cryptogramApiData: cryptogramApiData,
-                    processFormResponse: processFormResponse,
-                    isBinding: isBinding
-                )
-                return
-            }
-            
             if let acsUrl = processFormResponse.acsUrl,
                let paReq = processFormResponse.paReq,
                let termUrl = processFormResponse.termUrl {
@@ -285,146 +248,8 @@ final class PaymentManagerImpl: PaymentManager {
         try paymentApi.getFinishedPaymentInfo(orderId: mdOrder)
     }
     
-    private func processThreeDSData(
-        cryptogramApiData: CryptogramApiData,
-        processFormResponse: ProcessFormResponse,
-        isBinding: Bool
-    ) throws {
-        guard let threeDSSDKKey = processFormResponse.threeDSSDKKey,
-              let threeDSServerTransId = processFormResponse.threeDSServerTransId
-        else { throw SDKTransactionException() }
-        
-        do {
-            try transaction?.close() // Close the previous transaction if there was one.
-            guard let dsRoot = dsRoot else { 
-                throw SDKException.init(message: "Please configure Use3DSConfig.use3DS2 with SDKPaymentConfig to use 3DS2")
-            }
-            transaction = try threeDS2Service.createTransaction(
-                directoryServerID: "A000000658",
-                messageVersion: "2.2.0",
-                pemPublicKey: threeDSSDKKey,
-                dsRoot: dsRoot,
-                logoBase64: ""
-            )
-            
-            _ = try paymentApi.getSessionStatus(mdOrder: mdOrder)
-            _ = try paymentApi.getFinishedPaymentInfo(orderId: mdOrder)
-            
-            let paymentResult = try getProcessFormSecondResponse(
-                threeDSServerTransId: threeDSServerTransId,
-                transaction: transaction,
-                processFormResponse: processFormResponse,
-                cryptogramApiData: cryptogramApiData,
-                isBinding: isBinding
-            )
-            
-            if paymentResult.redirect?.hasPrefix("sdk://done") ?? false {
-                try finishWithCheckOrderStatus()
-            } else if paymentResult.errorTypeName != nil, !(paymentResult.errorTypeName?.isEmpty ?? false) {
-                finishWithError(
-                    exception: SDKException(message: paymentResult.errorTypeName)
-                )
-            } else if let _ = paymentResult.threeDSAcsRefNumber,
-                      let _ = paymentResult.threeDSAcsTransactionId,
-                      let _ = paymentResult.threeDSAcsSignedContent {
-
-                try threeDS2SDKFormDelegate.openChallengeFlow(
-                    transaction: transaction,
-                    challengeParameters: createChallengeParameters(paymentResult: paymentResult, processFormResponse: processFormResponse),
-                    challengeStatusReceiver: createChallengeStatusReceiver(processFormResponse: processFormResponse)
-                )
-            } else {
-                finishWithError(
-                    exception: SDKPaymentApiException(message: "Wrong api response from second form \(paymentResult)")
-                )
-            }
-        } catch {
-            throw error
-        }
-    }
-    
-    private func getProcessFormSecondResponse(
-        threeDSServerTransId: String,
-        transaction: Transaction?,
-        processFormResponse: ProcessFormResponse,
-        cryptogramApiData: CryptogramApiData,
-        isBinding: Bool
-    ) throws -> ProcessFormSecondResponse {
-        guard let transaction else { throw SDKTransactionException() }
-
-        do {
-            let authRequestParams = try transaction.getAuthenticationRequestParameters()
-            
-            let paymentThreeDsInfo = PaymentApiImpl.PaymentThreeDSInfo(
-                threeDSSDK: true,
-                threeDSServerTransId: threeDSServerTransId,
-                threeDSSDKEncData: authRequestParams.getDeviceData(),
-                threeDSSDKEphemPubKey: authRequestParams.getSDKEphemeralPublicKey(),
-                threeDSSDKAppId: authRequestParams.getSDKAppID(),
-                threeDSSDKTransId: authRequestParams.getSDKTransactionID(),
-                threeDSSDKReferenceNumber: authRequestParams.getSDKReferenceNumber()
-            )
-            
-            let paymentResult = if isBinding {
-                try paymentApi.processBindingFormSecond(
-                    cryptogramApiData: cryptogramApiData,
-                    threeDSParams: paymentThreeDsInfo
-                )
-            } else {
-                try paymentApi.processFormSecond(
-                    cryptogramApiData: cryptogramApiData,
-                    threeDSParams: paymentThreeDsInfo
-                )
-            }
-            
-            return paymentResult
-        } catch {
-            throw error
-        }
-    }
-    
     private func getSessionStatus() throws -> SessionStatusResponse {
         try paymentApi.getSessionStatus(mdOrder: mdOrder)
-    }
-    
-    private func createChallengeParameters(
-        paymentResult: ProcessFormSecondResponse,
-        processFormResponse: ProcessFormResponse
-    ) -> ChallengeParameters {
-        let challengeParameters = ChallengeParameters()
-        
-        LogDebug.shared.logIfDebug(message: "\(paymentResult)")
-        
-        guard let threeDSAcsTransactionId = paymentResult.threeDSAcsTransactionId,
-              let threeDSAcsRefNumber = paymentResult.threeDSAcsRefNumber,
-              let threeDSAcsSignedContent = paymentResult.threeDSAcsSignedContent
-        else { return challengeParameters }
-        
-        challengeParameters.setAcsTransactionID(threeDSAcsTransactionId)
-        challengeParameters.setAcsRefNumber(threeDSAcsRefNumber)
-        challengeParameters.setAcsSignedContent(threeDSAcsSignedContent)
-
-        if let threeDSServerTransId = processFormResponse.threeDSServerTransId {
-            challengeParameters.set3DSServerTransactionID(threeDSServerTransId)
-        }
-        
-        return challengeParameters
-    }
-    
-    /// Listener to handle the Challenge Flow execution process.
-    private func createChallengeStatusReceiver(
-        processFormResponse: ProcessFormResponse
-    ) -> ChallengeStatusReceiver {
-        ChallengeStatusReceiverImpl(
-            mdOrder: mdOrder,
-            paymentQueue: paymentQueue,
-            threeDS2SDKFormDelegate: threeDS2SDKFormDelegate,
-            transaction: transaction,
-            threeDS2Service: threeDS2Service,
-            processFormResponse: processFormResponse,
-            paymentApi: paymentApi,
-            viewControllerDelegate: viewControllerDelegate
-        )
     }
     
     private func createApplePayPaymentConfig(applePaySettings: ApplePaySettings?, currencyCode: String?) -> ApplePayPaymentConfig? {

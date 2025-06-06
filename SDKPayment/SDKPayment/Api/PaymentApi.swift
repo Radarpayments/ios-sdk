@@ -23,8 +23,7 @@ protocol PaymentApi {
     ///     - cryptogramApiData cryptogram and data for its creation.
     /// - Returns: [ProcessFormResponse] payment status data for first payment try.
     func processForm(
-        cryptogramApiData: CryptogramApiData,
-        threeDSSDK: Bool
+        cryptogramApiData: CryptogramApiData
     ) throws -> ProcessFormResponse
 
     ///API method for making payments with a binding card.
@@ -33,31 +32,8 @@ protocol PaymentApi {
     ///    - cryptogramApiData cryptogram and data for its creation.
     ///- Returns: [ProcessFormResponse] payment status data for first payment try.
     func processBindingForm(
-        cryptogramApiData: CryptogramApiData,
-        threeDSSDK: Bool
+        cryptogramApiData: CryptogramApiData
     ) throws -> ProcessFormResponse
-
-     ///API method for making card payments with 3DS.
-     ///
-    /// - Parameters:
-     ///    - cryptogramApiData cryptogram and data for its creation.
-     ///    - threeDSParams 3DS parameters.
-     /// - Returns: [ProcessFormSecondResponse] payment status data for new card for second payment try.
-    func processFormSecond(
-        cryptogramApiData: CryptogramApiData,
-        threeDSParams: PaymentApiImpl.PaymentThreeDSInfo
-    ) throws -> ProcessFormSecondResponse
-
-     ///API method for making payments with a binding card with 3DS.
-     ///
-    /// - Parameters:
-     ///    - cryptogramApiData cryptogram and data for its creation.
-     ///    - threeDSParams 3DS parameters.
-     ///- Returns: [ProcessFormSecondResponse] payment status data for binding card for second payment try.
-    func processBindingFormSecond(
-        cryptogramApiData: CryptogramApiData,
-        threeDSParams: PaymentApiImpl.PaymentThreeDSInfo
-    ) throws -> ProcessFormSecondResponse
 
     /// API method for completing payment.
     ///

@@ -2,8 +2,6 @@
 //  BaseUrlTableCell.swift
 //  SampleApp
 //
-//
-//
 
 import UIKit
 

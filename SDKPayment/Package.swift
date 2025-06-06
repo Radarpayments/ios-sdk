@@ -21,12 +21,10 @@ let package = Package(
             name: "SDKPayment",
             dependencies: [
                 .product(name: "SDKCore", package: "SDKCore"),
-                .product(name: "SDKForms", package: "SDKForms"),
-                .target(name: "ThreeDSSDK")
+                .product(name: "SDKForms", package: "SDKForms")
             ],
             path: "SDKPayment"
         ),
-        .binaryTarget(name: "ThreeDSSDK", path: "../Frameworks/ThreeDSSDK.xcframework"),
         .testTarget(
             name: "SDKPaymentTests",
             dependencies: ["SDKPayment"],

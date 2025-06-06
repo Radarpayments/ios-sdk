@@ -11,7 +11,6 @@ import Foundation
 ///
 /// - Parameters:
 ///     - errorCode error code.
-///     - is3DSVer2 there is 3DS.
 ///     - threeDSServerTransId transaction identifier for 3DS Server.
 ///     - threeDSSDKKey key to encrypt device data.
 ///     - acsUrl automatic configuration server url.
@@ -21,7 +20,6 @@ import Foundation
 struct ProcessFormResponse: Codable {
 
     let errorCode: Int
-    var is3DSVer2: Bool = false
     let threeDSServerTransId: String?
     let threeDSSDKKey: String?
     let acsUrl: String?
@@ -33,7 +31,6 @@ struct ProcessFormResponse: Codable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         self.errorCode = try container.decode(Int.self, forKey: .errorCode)
-        self.is3DSVer2 = (try? container.decode(Bool.self, forKey: .is3DSVer2)) ?? false
         self.threeDSServerTransId = try? container.decodeIfPresent(String.self, forKey: .threeDSServerTransId)
         self.threeDSSDKKey = try? container.decodeIfPresent(String.self, forKey: .threeDSSDKKey)
         self.acsUrl = try? container.decodeIfPresent(String.self, forKey: .acsUrl)

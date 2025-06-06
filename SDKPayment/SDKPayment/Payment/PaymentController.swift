@@ -34,20 +34,12 @@ final class PaymentController {
             viewControllerDelegate: self
         )
     }()
-
-    private lazy var threeDS2SDKFormDelegate: ThreeDS2SDKFormDelegate = {
-        ThreeDS2SDKFormDelegateImpl(
-            parentController: parentController,
-            viewControllerDelegate: self
-        )
-    }()
     
     private lazy var paymentManager: PaymentManagerImpl = {
         PaymentManagerImpl(
             paymentQueue: paymentQueue,
             cardFormDelegate: cardFormDelegate,
             threeDS2WebFormDelegate: threeDS2WebFormDelegate,
-            threeDS2SDKFormDelegate: threeDS2SDKFormDelegate,
             viewControllerDelegate: self
         )
     }()

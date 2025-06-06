@@ -19,20 +19,6 @@ class BaseTestCase: XCTestCase {
     var testClientIdHelper: TestClientIdHelper!
     
     private let baseUrl = "https://dev.bpcbt.com/payment"
-    private let dsRoot = """
-    MIICDTCCAbOgAwIBAgIUOO3a573khC9kCsQJGKj/PpKOSl8wCgYIKoZIzj0EA
-    wIwXDELMAkGA1UEBhMCQVUxEzARBgNVBAgMClNvbWUtU3RhdGUxITAfBgNVBA
-    oMGEludGVybmV0IFdpZGdpdHMgUHR5IEx0ZDEVMBMGA1UEAwwMZHVtbXkzZHN
-    yb290MB4XDTIxMDkxNDA2NDQ1OVoXDTMxMDkxMjA2NDQ1OVowXDELMAkGA1UE
-    BhMCQVUxEzARBgNVBAgMClNvbWUtU3RhdGUxITAfBgNVBAoMGEludGVybmV0I
-    FdpZGdpdHMgUHR5IEx0ZDEVMBMGA1UEAwwMZHVtbXkzZHNyb290MFkwEwYHKo
-    ZIzj0CAQYIKoZIzj0DAQcDQgAE//e+MhwdgWxkFpexkjBCx8FtJ24KznHRXMS
-    WabTrRYwdSZMScgwdpG1QvDO/ErTtW8IwouvDRlR2ViheGr02bqNTMFEwHQYD
-    VR0OBBYEFHK/QzMXw3kW9UzY5w9LVOXr+6YpMB8GA1UdIwQYMBaAFHK/QzMXw
-    3kW9UzY5w9LVOXr+6YpMA8GA1UdEwEB/wQFMAMBAf8wCgYIKoZIzj0EAwIDSA
-    AwRQIhAOPEiotH3HJPIjlrj9/0m3BjlgvME0EhGn+pBzoX7Z3LAiAOtAFtkip
-    d9T5c9qwFAqpjqwS9sSm5odIzk7ug8wow4Q==
-    """.trimmingCharacters(in: .whitespacesAndNewlines)
     private let keyProviderUrl = "https://dev.bpcbt.com/payment/se/keys.do"
     
     override func setUp() {
@@ -58,19 +44,12 @@ class BaseTestCase: XCTestCase {
         returnUrl: String = "sdk://done",
         userName: String = "mobile-sdk-api",
         password: String = "vkyvbG0",
-        clientId: String? = nil,
-        use3DS2SDK: Bool,
-        needsToLog: Bool = false
+        clientId: String? = nil
     ) -> String {
         app = XCUIApplication()
         app.launchArguments = ["-uiTesting"]
-        
-        let config: Use3DSConfig = use3DS2SDK
-            ? .use3ds2sdk(dsRoot: dsRoot)
-            : .noUse3ds2sdk
 
         paymentConfig = SDKPaymentConfig(baseURL: baseUrl,
-                                         use3DSConfig: config,
                                          keyProviderUrl: keyProviderUrl)
         _ = SdkPayment.getSDKVersion()
 
@@ -87,8 +66,7 @@ class BaseTestCase: XCTestCase {
         )
         app.launchEnvironment = [
             "paymentConfig": paymentConfig,
-            "orderId": orderId,
-            "needsToLog": "\(needsToLog)"
+            "orderId": orderId
         ]
         app.launch()
         
@@ -101,21 +79,14 @@ class BaseTestCase: XCTestCase {
         userName: String = "mobile-sdk-api",
         password: String = "vkyvbG0",
         clientId: String? = nil,
-        use3DS2SDK: Bool,
-        needsToLog: Bool = false,
         email: String = "test@test.com",
         mobilePhone: String = "+35799902871",
         billingPayerData: BillingPayerData = BillingPayerData()
     ) -> String {
         app = XCUIApplication()
         app.launchArguments = ["-uiTesting"]
-        
-        let config: Use3DSConfig = use3DS2SDK
-            ? .use3ds2sdk(dsRoot: dsRoot)
-            : .noUse3ds2sdk
 
         paymentConfig = SDKPaymentConfig(baseURL: baseUrl,
-                                         use3DSConfig: config,
                                          keyProviderUrl: keyProviderUrl)
         _ = SdkPayment.getSDKVersion()
 
@@ -136,7 +107,6 @@ class BaseTestCase: XCTestCase {
         app.launchEnvironment = [
             "paymentConfig": paymentConfig,
             "orderId": orderId,
-            "needsToLog": "\(needsToLog)"
         ]
         app.launch()
         
@@ -146,19 +116,12 @@ class BaseTestCase: XCTestCase {
     func registerSessionAndLaunchApp(
         createSessionbaseUrl: String = "https://dev.bpcbt.com",
         amount: Int = 2000,
-        apiKey: String = "9yVrffWNAiHUUVUCQoX4NFHMxmRHYA2yB",
-        use3DS2SDK: Bool,
-        needsToLog: Bool = false
+        apiKey: String = "9yVrffWNAiHUUVUCQoX4NFHMxmRHYA2yB"
     ) -> String {
         app = XCUIApplication()
         app.launchArguments = ["-uiTesting"]
         
-        let config: Use3DSConfig = use3DS2SDK
-            ? .use3ds2sdk(dsRoot: dsRoot)
-            : .noUse3ds2sdk
-        
         paymentConfig = SDKPaymentConfig(baseURL: self.baseUrl,
-                                         use3DSConfig: config,
                                          keyProviderUrl: keyProviderUrl)
         _ = SdkPayment.getSDKVersion()
         
@@ -169,8 +132,7 @@ class BaseTestCase: XCTestCase {
         )
         app.launchEnvironment = [
             "paymentConfig": paymentConfig,
-            "sessionId": sessionId,
-            "needsToLog": "\(needsToLog)"
+            "sessionId": sessionId
         ]
         app.launch()
         
@@ -180,7 +142,6 @@ class BaseTestCase: XCTestCase {
     func getDefaultPaymentConfig() -> SDKPaymentConfig {
         guard let paymentConfig else {
             paymentConfig = SDKPaymentConfig(baseURL: baseUrl,
-                                             use3DSConfig: .use3ds2sdk(dsRoot: dsRoot),
                                              keyProviderUrl: keyProviderUrl)
             return paymentConfig
         }

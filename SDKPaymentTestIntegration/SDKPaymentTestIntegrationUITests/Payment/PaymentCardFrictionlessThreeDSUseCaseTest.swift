@@ -11,70 +11,8 @@ import SDKPayment
 
 final class PaymentCardFrictionlessThreeDSUseCaseTest: BaseTestCase {
     
-    func testShouldReturnSuccessPaymentWithNewCardFrictionlessThreeDSUse3DS2SDK() {
-        let orderId = registerOrderAndLaunchApp(use3DS2SDK: true)
-        
-        let mainScreen = TestMainScreen(app: app)
-        XCTAssertTrue(mainScreen.clickOnCheckout())
-        
-        let paymentBottomSheet = PaymentBottomSheetScreen(app: app)
-        XCTAssertTrue(paymentBottomSheet.clickOnAddNewCard())
-        
-        let newCardScreen = NewCardScreen(app: app)
-        XCTAssertTrue(newCardScreen.fillOutForm(
-            with: TestCardHelper.successFrictionless3DS2,
-            phoneNumber: "+35799902871",
-            email: "test@test.com"
-        ))
-        XCTAssertTrue(newCardScreen.clickOnActionButton())
-        
-        awaitAssert { XCTAssertEqual("true", mainScreen.resultText) }
-    }
-    
-    func testShouldReturnErrorPaymentWithNewCardFrictionlessThreeDSUse3DS2SDKWithInvalidCVC() {
-        let orderId = registerOrderAndLaunchApp(use3DS2SDK: true)
-        
-        let mainScreen = TestMainScreen(app: app)
-        XCTAssertTrue(mainScreen.clickOnCheckout())
-        
-        let paymentBottomSheet = PaymentBottomSheetScreen(app: app)
-        XCTAssertTrue(paymentBottomSheet.clickOnAddNewCard())
-        
-        let newCardScreen = NewCardScreen(app: app)
-        XCTAssertTrue(newCardScreen.fillOutForm(
-            with: TestCardHelper.successFrictionless3DS2,
-            overrideCvc: "000",
-            phoneNumber: "+35799902871",
-            email: "test@test.com"
-        ))
-        XCTAssertTrue(newCardScreen.clickOnActionButton())
-        
-        awaitAssert { XCTAssertEqual("false", mainScreen.resultText) }
-    }
-    
-    func testShouldReturnErrorPaymentWithNewCardFrictionlessThreeDSUse3DS2SDKWithInvalidExpiry() {
-        let orderId = registerOrderAndLaunchApp(use3DS2SDK: true)
-        
-        let mainScreen = TestMainScreen(app: app)
-        XCTAssertTrue(mainScreen.clickOnCheckout())
-        
-        let paymentBottomSheet = PaymentBottomSheetScreen(app: app)
-        XCTAssertTrue(paymentBottomSheet.clickOnAddNewCard())
-        
-        let newCardScreen = NewCardScreen(app: app)
-        XCTAssertTrue(newCardScreen.fillOutForm(
-            with: TestCardHelper.successFrictionless3DS2,
-            overrideExpiry: "10/35",
-            phoneNumber: "+35799902871",
-            email: "test@test.com"
-        ))
-        XCTAssertTrue(newCardScreen.clickOnActionButton())
-        
-        awaitAssert { XCTAssertEqual("false", mainScreen.resultText) }
-    }
-    
     func testShouldReturnSuccessPaymentWithNewCardFrictionlessThreeDSNoUse3DS2SDK() {
-        let _ = registerOrderAndLaunchApp(use3DS2SDK: false)
+        let _ = registerOrderAndLaunchApp()
         
         let mainScreen = TestMainScreen(app: app)
         XCTAssertTrue(mainScreen.clickOnCheckout())
@@ -94,7 +32,7 @@ final class PaymentCardFrictionlessThreeDSUseCaseTest: BaseTestCase {
     }
     
     func testShouldReturnErrorPaymentWithNewCardFrictionlessThreeDSNoUse3DS2SDKWithInvalidCVC() {
-        let _ = registerOrderAndLaunchApp(use3DS2SDK: false)
+        let _ = registerOrderAndLaunchApp()
         
         let mainScreen = TestMainScreen(app: app)
         XCTAssertTrue(mainScreen.clickOnCheckout())
@@ -117,7 +55,7 @@ final class PaymentCardFrictionlessThreeDSUseCaseTest: BaseTestCase {
     }
     
     func testShouldReturnErrorPaymentWithNewCardFrictionlessThreeDSNoUse3DS2SDKWithInvalidExpiry() {
-        let _ = registerOrderAndLaunchApp(use3DS2SDK: false)
+        let _ = registerOrderAndLaunchApp()
         
         let mainScreen = TestMainScreen(app: app)
         XCTAssertTrue(mainScreen.clickOnCheckout())
@@ -139,28 +77,8 @@ final class PaymentCardFrictionlessThreeDSUseCaseTest: BaseTestCase {
         }
     }
     
-    func testShouldReturnErrorPaymentWithNewCardFrictionlessFailThreeDSUse3DS2SDK() {
-        let orderId = registerOrderAndLaunchApp(use3DS2SDK: true)
-        
-        let mainScreen = TestMainScreen(app: app)
-        XCTAssertTrue(mainScreen.clickOnCheckout())
-        
-        let paymentBottomSheet = PaymentBottomSheetScreen(app: app)
-        XCTAssertTrue(paymentBottomSheet.clickOnAddNewCard())
-        
-        let newCardScreen = NewCardScreen(app: app)
-        XCTAssertTrue(newCardScreen.fillOutForm(
-            with: TestCardHelper.failFrictionless3DS
-        ))
-        XCTAssertTrue(newCardScreen.clickOnActionButton())
-        
-        awaitAssert {
-            XCTAssertEqual("false", mainScreen.resultText)
-        }
-    }
-    
     func testShouldReturnErrorPaymentWithNewCardFrictionlessFailThreeDSNoUse3DS2SDK() {
-        let _ = registerOrderAndLaunchApp(use3DS2SDK: false)
+        let _ = registerOrderAndLaunchApp()
         
         let mainScreen = TestMainScreen(app: app)
         XCTAssertTrue(mainScreen.clickOnCheckout())
@@ -181,7 +99,7 @@ final class PaymentCardFrictionlessThreeDSUseCaseTest: BaseTestCase {
 
     func testShouldSaveNewCardFrictionlessThreeDSNoUse3DS2SDK() {
         let clientId = testClientIdHelper.getNewTestClientId()
-        var orderId = registerOrderAndLaunchApp(clientId: clientId, use3DS2SDK: false)
+        var orderId = registerOrderAndLaunchApp(clientId: clientId)
         
         let mainScreen = TestMainScreen(app: app)
         XCTAssertTrue(mainScreen.clickOnCheckout())
@@ -201,7 +119,7 @@ final class PaymentCardFrictionlessThreeDSUseCaseTest: BaseTestCase {
             XCTAssertEqual("true", mainScreen.resultText)
         }
         
-        orderId = registerOrderAndLaunchApp(clientId: clientId, use3DS2SDK: false)
+        orderId = registerOrderAndLaunchApp(clientId: clientId)
         let sessionStatus = try! testOrderHelper.getSessionStatus(mdOrder: orderId)
 
         awaitAssert {
@@ -216,7 +134,7 @@ final class PaymentCardFrictionlessThreeDSUseCaseTest: BaseTestCase {
 
     func testShouldSaveNewCardFrictionlessThreeDSUse3Ds2() {
         let clientId = testClientIdHelper.getNewTestClientId()
-        var orderId = registerOrderAndLaunchApp(clientId: clientId, use3DS2SDK: true)
+        var orderId = registerOrderAndLaunchApp(clientId: clientId)
         
         let mainScreen = TestMainScreen(app: app)
         XCTAssertTrue(mainScreen.clickOnCheckout())
@@ -234,7 +152,7 @@ final class PaymentCardFrictionlessThreeDSUseCaseTest: BaseTestCase {
         
         awaitAssert { XCTAssertEqual("true", mainScreen.resultText) }
         
-        orderId = registerOrderAndLaunchApp(clientId: clientId, use3DS2SDK: true)
+        orderId = registerOrderAndLaunchApp(clientId: clientId)
         let sessionStatus = try! testOrderHelper.getSessionStatus(mdOrder: orderId)
         
         awaitAssert {
@@ -246,70 +164,8 @@ final class PaymentCardFrictionlessThreeDSUseCaseTest: BaseTestCase {
         }
     }
     
-    func testShouldReturnSuccessPaymentWithNewCardFrictionlessThreeDSUse3DS2SDKWithSessionId() {
-        let sessionId = registerSessionAndLaunchApp(use3DS2SDK: true)
-        
-        let mainScreen = TestMainScreen(app: app)
-        XCTAssertTrue(mainScreen.clickOnCheckout())
-        
-        let paymentBottomSheet = PaymentBottomSheetScreen(app: app)
-        XCTAssertTrue(paymentBottomSheet.clickOnAddNewCard())
-        
-        let newCardScreen = NewCardScreen(app: app)
-        XCTAssertTrue(newCardScreen.fillOutForm(
-            with: TestCardHelper.successFrictionless3DS2,
-            phoneNumber: "+35799902871",
-            email: "test@test.com"
-        ))
-        XCTAssertTrue(newCardScreen.clickOnActionButton())
-        
-        awaitAssert { XCTAssertEqual("true", mainScreen.resultText) }
-    }
-    
-    func testShouldReturnErrorPaymentWithNewCardFrictionlessThreeDSUse3DS2SDKWithInvalidCVCWithSessionId() {
-        let sessionId = registerSessionAndLaunchApp(use3DS2SDK: true)
-        
-        let mainScreen = TestMainScreen(app: app)
-        XCTAssertTrue(mainScreen.clickOnCheckout())
-        
-        let paymentBottomSheet = PaymentBottomSheetScreen(app: app)
-        XCTAssertTrue(paymentBottomSheet.clickOnAddNewCard())
-        
-        let newCardScreen = NewCardScreen(app: app)
-        XCTAssertTrue(newCardScreen.fillOutForm(
-            with: TestCardHelper.successFrictionless3DS2,
-            overrideCvc: "000",
-            phoneNumber: "+35799902871",
-            email: "test@test.com"
-        ))
-        XCTAssertTrue(newCardScreen.clickOnActionButton())
-        
-        awaitAssert { XCTAssertEqual("false", mainScreen.resultText) }
-    }
-    
-    func testShouldReturnErrorPaymentWithNewCardFrictionlessThreeDSUse3DS2SDKWithInvalidExpiryWithSessionId() {
-        let sessionId = registerSessionAndLaunchApp(use3DS2SDK: true)
-        
-        let mainScreen = TestMainScreen(app: app)
-        XCTAssertTrue(mainScreen.clickOnCheckout())
-        
-        let paymentBottomSheet = PaymentBottomSheetScreen(app: app)
-        XCTAssertTrue(paymentBottomSheet.clickOnAddNewCard())
-        
-        let newCardScreen = NewCardScreen(app: app)
-        XCTAssertTrue(newCardScreen.fillOutForm(
-            with: TestCardHelper.successFrictionless3DS2,
-            overrideExpiry: "10/35",
-            phoneNumber: "+35799902871",
-            email: "test@test.com"
-        ))
-        XCTAssertTrue(newCardScreen.clickOnActionButton())
-        
-        awaitAssert { XCTAssertEqual("false", mainScreen.resultText) }
-    }
-    
     func testShouldReturnSuccessPaymentWithNewCardFrictionlessThreeDSNoUse3DS2SDKWithSessionId() {
-        let sessionId = registerSessionAndLaunchApp(use3DS2SDK: false)
+        let sessionId = registerSessionAndLaunchApp()
         
         let mainScreen = TestMainScreen(app: app)
         XCTAssertTrue(mainScreen.clickOnCheckout())
@@ -334,7 +190,7 @@ final class PaymentCardFrictionlessThreeDSUseCaseTest: BaseTestCase {
     }
     
     func testShouldReturnErrorPaymentWithNewCardFrictionlessThreeDSNoUse3DS2SDKWithInvalidCVCWithSessionId() {
-        let sessionId = registerSessionAndLaunchApp(use3DS2SDK: false)
+        let sessionId = registerSessionAndLaunchApp()
         
         let mainScreen = TestMainScreen(app: app)
         XCTAssertTrue(mainScreen.clickOnCheckout())
@@ -360,7 +216,7 @@ final class PaymentCardFrictionlessThreeDSUseCaseTest: BaseTestCase {
     }
     
     func testShouldReturnErrorPaymentWithNewCardFrictionlessThreeDSNoUse3DS2SDKWithInvalidExpiryWithSessionId() {
-        let sessionId = registerSessionAndLaunchApp(use3DS2SDK: false)
+        let sessionId = registerSessionAndLaunchApp()
         
         let mainScreen = TestMainScreen(app: app)
         XCTAssertTrue(mainScreen.clickOnCheckout())
@@ -385,28 +241,8 @@ final class PaymentCardFrictionlessThreeDSUseCaseTest: BaseTestCase {
         }
     }
     
-    func testShouldReturnErrorPaymentWithNewCardFrictionlessFailThreeDSUse3DS2SDKWithSessionId() {
-        let sessionId = registerSessionAndLaunchApp(use3DS2SDK: true)
-        
-        let mainScreen = TestMainScreen(app: app)
-        XCTAssertTrue(mainScreen.clickOnCheckout())
-        
-        let paymentBottomSheet = PaymentBottomSheetScreen(app: app)
-        XCTAssertTrue(paymentBottomSheet.clickOnAddNewCard())
-        
-        let newCardScreen = NewCardScreen(app: app)
-        XCTAssertTrue(newCardScreen.fillOutForm(
-            with: TestCardHelper.failFrictionless3DS
-        ))
-        XCTAssertTrue(newCardScreen.clickOnActionButton())
-        
-        awaitAssert {
-            XCTAssertEqual("false", mainScreen.resultText)
-        }
-    }
-    
     func testShouldReturnErrorPaymentWithNewCardFrictionlessFailThreeDSNoUse3DS2SDKWithSessionId() {
-        let sessionId = registerSessionAndLaunchApp(use3DS2SDK: false)
+        let sessionId = registerSessionAndLaunchApp()
         
         let mainScreen = TestMainScreen(app: app)
         XCTAssertTrue(mainScreen.clickOnCheckout())
@@ -442,7 +278,6 @@ final class PaymentCardFrictionlessThreeDSUseCaseTest: BaseTestCase {
         )
         
         let orderId = registerOrderAndLaunchAppWithPreFilledBiilingData(
-            use3DS2SDK: false,
             email: email,
             mobilePhone: mobilePhone,
             billingPayerData: billingPayerData
@@ -478,7 +313,7 @@ final class PaymentCardFrictionlessThreeDSUseCaseTest: BaseTestCase {
     func testShouldReturnSuccessPaymentWithSavedCardFrictionlessThreeDSNoUse3DS2SDKWithPreFilledMandatoryFields() {
         let clientId = testClientIdHelper.getNewTestClientId()
         
-        var orderId = registerOrderAndLaunchApp(clientId: clientId, use3DS2SDK: false)
+        var orderId = registerOrderAndLaunchApp(clientId: clientId)
         
         var mainScreen = TestMainScreen(app: app)
         XCTAssertTrue(mainScreen.clickOnCheckout())
@@ -512,7 +347,6 @@ final class PaymentCardFrictionlessThreeDSUseCaseTest: BaseTestCase {
         
         orderId = registerOrderAndLaunchAppWithPreFilledBiilingData(
             clientId: clientId,
-            use3DS2SDK: false,
             email: email,
             mobilePhone: mobilePhone,
             billingPayerData: billingPayerData

@@ -10,7 +10,7 @@ final class SelectedCardScreenUseCaseTest: BaseTestCase {
     
     func testShouldSwitchToNextField() {
         let clientId = testClientIdHelper.getNewTestClientId()
-        _ = registerOrderAndLaunchApp(clientId: clientId, use3DS2SDK: false)
+        _ = registerOrderAndLaunchApp(clientId: clientId)
         
         var mainScreen = TestMainScreen(app: app)
         XCTAssertTrue(mainScreen.clickOnCheckout())
@@ -30,7 +30,7 @@ final class SelectedCardScreenUseCaseTest: BaseTestCase {
             XCTAssertEqual("true", mainScreen.resultText)
         }
         
-        _ = registerOrderAndLaunchApp(clientId: clientId, use3DS2SDK: false)
+        _ = registerOrderAndLaunchApp(clientId: clientId)
         mainScreen = TestMainScreen(app: app)
         XCTAssertTrue(mainScreen.clickOnCheckout())
         
@@ -63,7 +63,7 @@ final class SelectedCardScreenUseCaseTest: BaseTestCase {
     
     func testShouldEndEditingAfterInputTextAndTapReturn() {
         let clientId = testClientIdHelper.getNewTestClientId()
-        _ = registerOrderAndLaunchApp(clientId: clientId, use3DS2SDK: false)
+        _ = registerOrderAndLaunchApp(clientId: clientId)
         
         var mainScreen = TestMainScreen(app: app)
         XCTAssertTrue(mainScreen.clickOnCheckout())
@@ -83,7 +83,7 @@ final class SelectedCardScreenUseCaseTest: BaseTestCase {
             XCTAssertEqual("true", mainScreen.resultText)
         }
         
-        _ = registerOrderAndLaunchApp(clientId: clientId, use3DS2SDK: false)
+        _ = registerOrderAndLaunchApp(clientId: clientId)
         mainScreen = TestMainScreen(app: app)
         XCTAssertTrue(mainScreen.clickOnCheckout())
         

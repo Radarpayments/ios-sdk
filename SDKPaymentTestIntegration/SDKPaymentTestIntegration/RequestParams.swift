@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import ThreeDSSDK
 
 struct RequestParams {
     var userName: String?
@@ -21,8 +20,6 @@ struct RequestParams {
     var threeDSSDK: String?
     var threeDSServerTransId: String?
     var threeDSSDKKey: String?
-    
-    var authParams: ThreeDSSDK.AuthenticationRequestParameters?
     
     var clientId: String?
 }
@@ -40,6 +37,5 @@ let requestParamsTest = RequestParams(
     threeDSSDK: "true",
     threeDSServerTransId: nil,
     threeDSSDKKey: nil,
-    authParams: nil,
     clientId: "ClientIdTestIOS"
 )

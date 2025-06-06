@@ -11,7 +11,7 @@ import XCTest
 final class PaymentCommonUseCaseTest: BaseTestCase {
 
     func testShouldReturnAlreadyPaymentException() {
-        let orderId = registerOrderAndLaunchApp(use3DS2SDK: false)
+        let orderId = registerOrderAndLaunchApp()
         
         var mainScreen = TestMainScreen(app: app)
         XCTAssertTrue(mainScreen.clickOnCheckout())
@@ -77,7 +77,7 @@ final class PaymentCommonUseCaseTest: BaseTestCase {
     }
     
     func testShouldReturnErrorPaymentExceptionWhenPressBackButtonAtCardForm() {
-        let orderId = registerOrderAndLaunchApp(use3DS2SDK: true)
+        let orderId = registerOrderAndLaunchApp()
         
         let mainScreen = TestMainScreen(app: app)
         XCTAssertTrue(mainScreen.clickOnCheckout())
