@@ -184,7 +184,13 @@ final class PaymentApiImpl: NSObject, PaymentApi {
         }
         
         if let mobilePhone = cryptogramApiData.fullPayerData?.mobilePhone {
-            body["mobilePhone"] = mobilePhone
+            let encodedMobilePhone = ["mobilePhone": mobilePhone].reduce("") {
+                if let key = $1.key.urlEncoded, let value = $1.value.urlEncoded {
+                    return $0 + "\(key)=\(value)"
+                }
+                return $0
+            }
+            body["orderPayerData"] = encodedMobilePhone
         }
         
         if let billingPayerData = cryptogramApiData.fullPayerData?.billingPayerData {
