@@ -184,23 +184,23 @@ final class PaymentApiImpl: NSObject, PaymentApi {
         }
         
         if let mobilePhone = cryptogramApiData.fullPayerData?.mobilePhone {
-            let encodedMobilePhone = ["mobilePhone": mobilePhone].reduce("") {
-                if let key = $1.key.urlEncoded, let value = $1.value.urlEncoded {
-                    return $0 + "\(key)=\(value)"
-                }
-                return $0
+            let encodedMobilePhone = ["mobilePhone": mobilePhone]
+            let json:Data? = try? JSONEncoder().encode(encodedMobilePhone)
+            let jsonString = String(data: json ?? Data(), encoding: .utf8)
+            if jsonString?.isEmpty == false {
+                body["orderPayerData"] = jsonString
             }
-            body["orderPayerData"] = encodedMobilePhone
         }
         
-        if let billingPayerData = cryptogramApiData.fullPayerData?.billingPayerData {
-            body["billingPayerData"] = encodedBillingPayerData(billingPayerData: billingPayerData)
+        if let billingPayerData = cryptogramApiData.fullPayerData?.billingPayerData,
+            let encoded = encodedBillingPayerData(billingPayerData: billingPayerData) {
+            body["billingPayerData"] = encoded
         }
         
         return try startRunCatching(urlString: urlString, body: body, type: type)
     }
     
-    private func encodedBillingPayerData(billingPayerData: BillingPayerData) -> String {
+    private func encodedBillingPayerData(billingPayerData: BillingPayerData) -> String? {
         var billingPayerDataBody = [String: String]()
         
         if let country = billingPayerData.billingCountry {
@@ -230,18 +230,13 @@ final class PaymentApiImpl: NSObject, PaymentApi {
         if let addressLine3 = billingPayerData.billingAddressLine3 {
             billingPayerDataBody["billingAddressLine3"] = addressLine3
         }
+        if !billingPayerDataBody.isEmpty {
+            let json = try? JSONEncoder().encode(billingPayerDataBody)
+            let jsonString = String(data: json ?? Data(), encoding: .utf8)
             
-        var encodedBillingPayerData = billingPayerDataBody
-            .reduce("") {
-                if let key = $1.key.urlEncoded, let value = $1.value.urlEncoded {
-                    return $0 + "&\(key)=\(value)"
-                }
-                
-                return $0
-            }
+            return jsonString
+        }
         
-        if !encodedBillingPayerData.isEmpty { encodedBillingPayerData.removeFirst() }
-        
-        return encodedBillingPayerData
+        return nil
     }
 }
