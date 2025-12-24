@@ -11,7 +11,7 @@ public extension URLSession {
     
     typealias ApiResponse = (data: Data?, response: URLResponse?, error: Error?)
     
-    private func syncDataTask(
+    func syncDataTask(
         request: URLRequest
     ) -> ApiResponse {
         var data: Data?
@@ -31,6 +31,11 @@ public extension URLSession {
         
         semaphore.wait()
         
+        // Check if we should invalidate the session due to connection errors
+        if let error = error, NetworkSessionManager.shared.shouldInvalidate(error: error) {
+            NetworkSessionManager.shared.invalidateAndRecreate()
+        }
+        
         return (data, response, error)
     }
     
@@ -39,8 +44,10 @@ public extension URLSession {
         
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
+        request.timeoutInterval = 30.0
         
-        return syncDataTask(request: request)
+        // Use the managed session instead of self
+        return NetworkSessionManager.shared.getSession().syncDataTask(request: request)
     }
     
     func executePost(urlString: String, body: Encodable) -> ApiResponse {
@@ -52,8 +59,9 @@ public extension URLSession {
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpBody = body
+        request.timeoutInterval = 30.0
         
-        return syncDataTask(request: request)
+        return NetworkSessionManager.shared.getSession().syncDataTask(request: request)
     }
     
     func executePostParams(
@@ -71,8 +79,9 @@ public extension URLSession {
         request.httpMethod = "POST"
         request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         request.httpBody = params.data(using: .utf8)
+        request.timeoutInterval = 30.0
         
-        return syncDataTask(request: request)
+        return NetworkSessionManager.shared.getSession().syncDataTask(request: request)
     }
 }
 
