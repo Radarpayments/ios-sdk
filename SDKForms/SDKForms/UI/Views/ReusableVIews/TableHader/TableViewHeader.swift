@@ -41,9 +41,7 @@ final class TableViewHeader: UITableViewHeaderFooterView {
     }
     
     private func setupSubviews() {
-        backgroundColor = ThemeSetting.shared.colorCellBackground()
-        contentView.backgroundColor = ThemeSetting.shared.colorCellBackground()
-        
+        applyBackgroundAppearance()
         contentView.addSubview(titleLabel)
     }
     
@@ -52,11 +50,26 @@ final class TableViewHeader: UITableViewHeaderFooterView {
         
         NSLayoutConstraint.activate(
             [
-                titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 36),
+                titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
                 titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
                 titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
                 titleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12)
             ]
         )
+    }
+    
+    private func applyBackgroundAppearance() {
+        let color = ThemeSetting.shared.colorCellBackground()
+        contentView.backgroundColor = color
+        if #available(iOS 15.0, *) {
+            var configuration = UIBackgroundConfiguration.listPlainHeaderFooter()
+            configuration.backgroundColor = color
+            backgroundConfiguration = configuration
+        } else {
+            let backgroundView = UIView()
+            backgroundView.backgroundColor = color
+            self.backgroundView = backgroundView
+            contentView.backgroundColor = color
+        }
     }
 }

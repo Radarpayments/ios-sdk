@@ -55,9 +55,7 @@ final class DividerTableHeader: UITableViewHeaderFooterView {
     }
     
     private func setupSubviews() {
-        backgroundColor = ThemeSetting.shared.colorCellBackground()
-        contentView.backgroundColor = ThemeSetting.shared.colorCellBackground()
-
+        applyBackgroundAppearance()
         contentView.addSubview(leadingDivider)
         contentView.addSubview(titleLabel)
         contentView.addSubview(trailingDivider)
@@ -86,5 +84,20 @@ final class DividerTableHeader: UITableViewHeaderFooterView {
                 trailingDivider.heightAnchor.constraint(equalToConstant: 0.5)
             ]
         )
+    }
+    
+    private func applyBackgroundAppearance() {
+        let color = ThemeSetting.shared.colorCellBackground()
+        contentView.backgroundColor = color
+        
+        if #available(iOS 15.0, *) {
+            var configuration = UIBackgroundConfiguration.listPlainHeaderFooter()
+            configuration.backgroundColor = color
+            backgroundConfiguration = configuration
+        } else {
+            let backgroundView = UIView()
+            backgroundView.backgroundColor = color
+            self.backgroundView = backgroundView
+        }
     }
 }

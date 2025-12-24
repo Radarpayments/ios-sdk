@@ -195,7 +195,9 @@ public final class PaymentBottomSheetViewController: FormsBaseViewController {
     private func setupLayout() {
         view.subviews.forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
         
-        tableViewMinHeightConstraint = tableView.heightAnchor.constraint(equalToConstant: 44)
+        tableViewMinHeightConstraint = tableView
+            .heightAnchor
+            .constraint(greaterThanOrEqualToConstant: 44)
         
         NSLayoutConstraint.activate(
             [
