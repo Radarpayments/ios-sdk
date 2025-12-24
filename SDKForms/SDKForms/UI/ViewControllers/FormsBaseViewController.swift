@@ -20,7 +20,7 @@ public class FormsBaseViewController: UIViewController {
     
     override public func viewDidDisappear(_ animated: Bool) {
         if !actionWasCalled {
-            callbackHandler?.onFail(error: SDKException())
+            callbackHandler?.onFail(error: SDKCancelledException())
         }
         removeKeyboardObservers()
 

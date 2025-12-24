@@ -351,7 +351,12 @@ extension PaymentController: ResultCryptogramCallback {
     
     func onFail(error: SDKException) {
         LogDebug.shared.logIfDebug(message: "Cryptogram error: \(error.message) \(error.cause)")
-        paymentManager.finishWithError(exception: SDKCryptogramException())
+        
+        if error is SDKCancelledException {
+            paymentManager.finishWithError(exception: error)
+        } else {
+            paymentManager.finishWithError(exception: SDKCryptogramException())
+        }
     }
 }
 

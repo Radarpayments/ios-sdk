@@ -28,6 +28,7 @@ final class OrderCreator {
         var request = URLRequest(url: NSURL(string: "\(baseUrl)/rest/register.do")! as URL)
         request.httpMethod = "POST"
         request.allHTTPHeaderFields = headers
+        request.timeoutInterval = 30.0
         request.encodeParameters(parameters: body)
         
         
@@ -56,6 +57,7 @@ final class OrderCreator {
         request.httpMethod = "POST"
         request.allHTTPHeaderFields = headers
         request.httpBody = try? JSONSerialization.data(withJSONObject: body)
+        request.timeoutInterval = 30.0
         
         URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data,

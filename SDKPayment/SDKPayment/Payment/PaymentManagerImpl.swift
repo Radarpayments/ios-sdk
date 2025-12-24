@@ -194,7 +194,13 @@ final class PaymentManagerImpl: PaymentManager {
     /// Canceling the process of creating a cryptogram.
     func finishWithError<T: SDKException>(exception: T?) {
         do {
-            try finishWithCheckOrderStatus(exception: exception)
+            if exception is SDKCancelledException {
+                let paymentResultData = PaymentResultData(isSuccess: false,
+                                                          exception: exception as? SDKCancelledException)
+                viewControllerDelegate?.finishWithResult(paymentData: paymentResultData)
+            } else {
+                try finishWithCheckOrderStatus(exception: exception)
+            }
         } catch {
             let paymentResultData = PaymentResultData(isSuccess: false,
                                                       exception: error as? SDKException)

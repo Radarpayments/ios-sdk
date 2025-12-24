@@ -9,12 +9,11 @@ import SDKPayment
 import SDKCore
 
 class ViewController: UIViewController {
-    
     private lazy var cellConfigs: [CellConfig] = []
     
     private lazy var tableView: UITableView = {
         let scrollView = UITableView()
-
+        
         return scrollView
     }()
     
@@ -160,7 +159,7 @@ class ViewController: UIViewController {
     
     // MARK: - Start of payment
     private func checkout(orderId: String) {
-
+        
         // To begin checkout, first of all - we need to configure SDKPaymentConfig
         // For example:
         let paymentConfig = SDKPaymentConfig(
@@ -200,34 +199,31 @@ class ViewController: UIViewController {
             checkoutConfig: CheckoutConfig(id: .sessionId(id: sessionId)),
             callbackHandler: self)
     }
-    
-    
 }
 
 extension ViewController: ResultPaymentCallback {
-
     typealias T = PaymentResult
-
+    
     func onResult(result: PaymentResult) {
+        var title = "Checkout result";
+        var message = "Success: \(result.isSuccess),\n PaymentId: \(result.paymentId),\n Exception: \(result.exception?.message ?? "No message")";
+        
         // To get result of payment we need to meet the requirements of protocol 'ResultPaymentCallback'
         // After the payment is completed we'll get 'PaymentResult'
         // This result contains 3 properties: isSuccess: Bool, mdOrder: String
         // and if it exists - exception: SDKException(message: String?, cause: Error?)
-        let alert = UIAlertController(
-            title: "Checkout result",
-            message: "Success: \(result.isSuccess),\n PaymentId: \(result.paymentId),\n Exception: \(result.exception?.message)",
-            preferredStyle: .alert
-        )
+        if (result.exception is SDKCancelledException) {
+            title = "Action cancelled";
+            message = "User cancelled the payment";
+        }
         
-        let okAction = UIAlertAction(title: "Ok", style: .default)
-        alert.addAction(okAction)
-        
-        present(alert, animated: true)
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert);
+        alert.addAction(UIAlertAction(title: "Ok", style: .default))
+        present(alert, animated: true);
     }
 }
 
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { cellConfigs.count }
     
     

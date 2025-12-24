@@ -22,3 +22,6 @@ open class SDKException: Error {
         self.cause = cause
     }
 }
+
+/// Represents a user-initiated cancellation of the payment flow UI.
+public final class SDKCancelledException: SDKException {}
