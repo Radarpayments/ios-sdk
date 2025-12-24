@@ -28,14 +28,14 @@ struct SDKPaymentDefaults {
 
     // API V1
     static let apiOrderUrl = "https://dev.bpcbt.com/payment/rest/register.do"
-    static let merchantUserName = "i.malenko-v1-api"
-    static let merchantPassword = "rkrvj-W3"
+    static let merchantUserName = ""
+    static let merchantPassword = ""
     static let returnUrl = "sdk://done"
     static let merchantOrderId = "1234567890"
 
     // API V2
     static let apiSessionUrl = "https://dev.bpcbt.com/api2/sessions"
-    static let apiKey = "9yVrffWNAiHUUVUCQoX4NFHMxmRHYA2yB"
+    static let apiKey = ""
     static let apiVersion = "2023-10-31"
     static let successUrl = "sdk://done"
     static let failureUrl = "sdk://done"
