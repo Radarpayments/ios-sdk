@@ -51,7 +51,7 @@ final class OrderCreator {
         let body: [String: Any] = ["amount": Int(amount) ?? 111,
                     "currency": "USD",
                     "successUrl": "sdk://done",
-                    "failureUrl": "sdk://failure"]
+                    "failureUrl": "sdk://done"]
         
         var request = URLRequest(url: NSURL(string: "https://dev.bpcbt.com/api2/sessions")! as URL)
         request.httpMethod = "POST"

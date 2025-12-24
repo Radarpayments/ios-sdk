@@ -8,6 +8,14 @@ import SDKPayment
 import UIKit
 
 class ViewController: UIViewController {
+    private var baseUrl = ""
+    private var login = ""
+    private var password = ""
+    private var amount = ""
+
+    private var orderId = ""
+    private var sessionId = ""
+
     private lazy var cellConfigs: [CellConfig] = []
 
     private lazy var tableView: UITableView = {
@@ -37,14 +45,6 @@ class ViewController: UIViewController {
 
         return button
     }()
-
-    private var baseUrl = ""
-    private var login = ""
-    private var password = ""
-    private var amount = ""
-
-    private var orderId = ""
-    private var sessionId = ""
 
     override func loadView() {
         super.loadView()
@@ -113,8 +113,7 @@ class ViewController: UIViewController {
             self.orderId = orderId
 
             DispatchQueue.main.async {
-                // After creating order in an application we can start payment with SDKPayment
-                self.checkout(orderId: self.orderId)
+                self.checkout(checkoutConfig: CheckoutConfig(id: .mdOrder(id: orderId)))
             }
         }
     }
@@ -130,7 +129,7 @@ class ViewController: UIViewController {
             self.sessionId = sessionId
 
             DispatchQueue.main.async {
-                self.checkout(sessionId: sessionId)
+                self.checkout(checkoutConfig: CheckoutConfig(id: .sessionId(id: sessionId)))
             }
         }
     }
@@ -145,8 +144,7 @@ class ViewController: UIViewController {
 
         configs.forEach { config in
             if let value = UserDefaults.standard.value(forKey: config.placeholder) as? String {
-                cellConfigs.append(
-                    CellConfig(placeholder: config.placeholder, value: value))
+                cellConfigs.append(CellConfig(placeholder: config.placeholder, value: value))
 
                 switch config.placeholder {
                 case "baseUrl": baseUrl = value
@@ -161,8 +159,7 @@ class ViewController: UIViewController {
         }
     }
 
-    // MARK: - Start of payment
-    private func checkout(orderId: String) {
+    private func checkout(checkoutConfig: CheckoutConfig) {
         // To begin checkout, first of all - we need to configure SDKPaymentConfig
         // For example:
         let paymentConfig = SDKPaymentConfig(
@@ -171,35 +168,12 @@ class ViewController: UIViewController {
             applePaySettings: nil
         )
 
-        // The second step - to initialize object SdkPayment
-        // For example:
         _ = SdkPayment.initialize(sdkPaymentConfig: paymentConfig)
 
         // And the third step - we need to call method 'checkoutWithBottomSheet' on the 'shared' object
         SdkPayment.shared.checkoutWithBottomSheet(
             controller: navigationController!,
-            checkoutConfig: CheckoutConfig(id: .mdOrder(id: orderId)),
-            callbackHandler: self
-        )
-    }
-
-    private func checkout(sessionId: String) {
-        // To begin checkout, first of all - we need to configure SDKPaymentConfig
-        // For example:
-        let paymentConfig = SDKPaymentConfig(
-            baseURL: baseUrl,
-            keyProviderUrl: "\(baseUrl)/se/keys.do",
-            applePaySettings: nil
-        )
-
-        // The second step - to initialize object SdkPayment
-        // For example:
-        _ = SdkPayment.initialize(sdkPaymentConfig: paymentConfig)
-
-        // And the third step - we need to call method 'checkoutWithBottomSheet' on the 'shared' object
-        SdkPayment.shared.checkoutWithBottomSheet(
-            controller: navigationController!,
-            checkoutConfig: CheckoutConfig(id: .sessionId(id: sessionId)),
+            checkoutConfig: checkoutConfig,
             callbackHandler: self
         )
     }
@@ -215,7 +189,7 @@ extension ViewController: ResultPaymentCallback {
 
         // To get result of payment we need to meet the requirements of protocol 'ResultPaymentCallback'
         // After the payment is completed we'll get 'PaymentResult'
-        // This result contains 3 properties: isSuccess: Bool, mdOrder: String
+        // This result contains 3 properties: isSuccess: Bool, paymentId: String
         // and if it exists - exception: SDKException(message: String?, cause: Error?)
         if result.exception is SDKCancelledException {
             title = "Action cancelled"
@@ -223,6 +197,7 @@ extension ViewController: ResultPaymentCallback {
         }
 
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+
         alert.addAction(UIAlertAction(title: "Ok", style: .default))
         present(alert, animated: true)
     }
