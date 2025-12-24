@@ -1,8 +1,16 @@
+//
+//  Base58.swift
+//  SDKCore
+//
+//
+//
+
+
 import CommonCrypto
 import Foundation
 
 private struct _Base58: Encoding {
-    
+
     static let baseAlphabets = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"
     static var zeroAlphabet: Character = "1"
     static var base: Int = 58
@@ -17,7 +25,7 @@ private struct _Base58: Encoding {
 }
 
 public struct Base58 {
-    
+
     public static func encode(_ bytes: Data) -> String {
         return _Base58.encode(bytes)
     }

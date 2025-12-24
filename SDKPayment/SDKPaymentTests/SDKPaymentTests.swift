@@ -9,7 +9,7 @@ import XCTest
 @testable import SDKPayment
 
 class SDKPaymentTests: XCTestCase {
-
+    
     func testShouldReturnMdOrderFromClearSessionIdString() {
         let correctSessionId = "ps_2GRSj5Du5xYehmv6Pxp48VHDbgnE4zEW6JxrroqVsQGzMtoE1Pvfmj"
         let result = SessionIdUtils().extractValue(from: correctSessionId)

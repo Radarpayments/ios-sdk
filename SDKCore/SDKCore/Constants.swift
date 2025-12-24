@@ -2,12 +2,12 @@
 //  Constants.swift
 //  SDKCore
 //
-// 
+//
 //
 
 import Foundation
 
 struct Constants {
-    
-    static let CARDHOLDER = "CARDHOLDER"
+    // SDK Version
+    static let SDK_VERSION = "3.0.10"
 }

@@ -2,7 +2,7 @@
 //  CardCodeValidator.swift
 //  SDKCore
 //
-// 
+//
 //
 
 import Foundation
@@ -13,7 +13,7 @@ public class CardCodeValidator: BaseValidator<String> {
     private let minLength = 3
     private let maxLength = 3
     private let PATTERN = "^[0-9]+$"
-    
+
     override public init() {
         super.init()
 

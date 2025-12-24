@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import SDKForms
 
 /// Interface describing the operation of the card data entry form.
 protocol CardFormDelegate: AnyObject {

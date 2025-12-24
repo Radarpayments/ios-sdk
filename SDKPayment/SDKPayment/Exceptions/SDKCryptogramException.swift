@@ -2,10 +2,8 @@
 //  SDKCryptogramException.swift
 //  SDKPayment
 //
-// 
 //
-
-import SDKForms
+//
 
 /// An error that occurs during the creating a cryptogram.
 ///

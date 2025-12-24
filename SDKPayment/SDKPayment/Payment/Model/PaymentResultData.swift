@@ -1,9 +1,11 @@
 //
-//  File.swift
+//  PaymentResultData.swift
+//  SDKPayment
+//
+//
 //
 
 import Foundation
-import SDKForms
 
 struct PaymentResultData {
     

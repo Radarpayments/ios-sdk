@@ -2,7 +2,7 @@
 //  CardInfo.swift
 //  SDKCore
 //
-// 
+//
 //
 
 import Foundation
@@ -14,7 +14,6 @@ import Foundation
 ///     - expDate: expiration date of the card.
 ///     - cvv: security code.
 public struct CoreCardInfo: Codable {
-
     public let identifier: CardIdentifier
     public let expDate: ExpiryDate?
     public let cvv: String?

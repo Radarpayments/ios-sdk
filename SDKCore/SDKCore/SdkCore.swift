@@ -2,11 +2,13 @@
 //  SdkCore.swift
 //  SdkCore
 //
+//
+//
 
 import Foundation
 
 public class SdkCore {
-    
+
     private let paymentStringProcessor = DefaultPaymentStringProcessor()
     private let cryptogramCipher = RSACryptogramCipher()
     private let orderNumberValidator = OrderNumberValidator()
@@ -16,9 +18,9 @@ public class SdkCore {
     private let cardCodeValidator = CardCodeValidator()
     private let cardHolderValidator = CardHolderValidator()
     private let pubKeyValidator = PubKeyValidator()
-    
+
     public init() {}
-    
+
     /// Token generation method for SDKCoreConfig.
     ///
     /// - Parameters:
@@ -32,27 +34,27 @@ public class SdkCore {
             message: "generateWithConfig(\(config)): Token generation method for a new card.",
             exception: nil
         )
-        
+
         let validatorsMap = prepareValidatorsMap(for: config.paymentMethodParams)
         let fieldErrors = prepareFieldErrors(for: config.paymentMethodParams)
-        
+
         if let errorTokenResult = validateFields(validatorsMap: validatorsMap,
                                                  fieldErrors: fieldErrors) {
             return errorTokenResult
         }
-        
+
         do {
             let cardInfo = try prepareCoreCardInfo(for: config.paymentMethodParams)
             let mdOrder = prepareMdOrder(for: config.paymentMethodParams)
             let pubKey = preparePubKey(for: config.paymentMethodParams)
-            
+
             return prepareToken(mdOrder: mdOrder,
                                 cardInfo: cardInfo,
                                 pubKey: pubKey,
                                 timestamp: config.timestamp,
                                 registeredFrom: config.registeredFrom)
-            
-            
+
+
         } catch {
             Logger.shared.log(
                 classMethod: type(of: self),
@@ -60,100 +62,147 @@ public class SdkCore {
                 message: "generateWithConfig(\(config)): Error \(error.localizedDescription)",
                 exception: error
             )
-            
+
             let errorDescription = (error as NSError).localizedDescription
+
             return TokenResult(errors: [ParamField.UNKNOWN : errorDescription])
         }
     }
-    
+
     private func prepareValidatorsMap(for params: PaymentParamsVariant) -> [String?: BaseValidator<String>] {
         switch params {
         case let .cardParams(params):
-            return [ params.cardholder: cardHolderValidator,
-                     params.mdOrder: orderNumberValidator,
-                     params.expiryMMYY: cardExpiryValidator,
-                     params.pan: cardNumberValidator,
-                     params.cvc: cardCodeValidator,
-                     params.pubKey: pubKeyValidator ]
+            var result: [String?: BaseValidator<String>] = [:]
+
+            result[params.cardholder] = cardHolderValidator
+            result[params.mdOrder] = orderNumberValidator
+            result[params.expiryMMYY] = cardExpiryValidator
+            result[params.pan] = cardNumberValidator
+            result[params.cvc] = cardCodeValidator
+            result[params.pubKey] = pubKeyValidator
+
+            return result
 
         case let .cardParamsInstant(params):
-            return [ params.cardholder: cardHolderValidator,
-                     params.expiryMMYY: cardExpiryValidator,
-                     params.pan: cardNumberValidator,
-                     params.cvc: cardCodeValidator,
-                     params.pubKey: pubKeyValidator ]
-            
+            var result: [String?: BaseValidator<String>] = [:]
+
+            result[params.cardholder] = cardHolderValidator
+            result[params.expiryMMYY] = cardExpiryValidator
+            result[params.pan] = cardNumberValidator
+            result[params.cvc] = cardCodeValidator
+            result[params.pubKey] = pubKeyValidator
+
+            return result
+
         case let .bindingParams(params):
-            return [ params.mdOrder: orderNumberValidator,
-                     params.bindingId: cardBindingIdValidator,
-                     params.cvc: cardCodeValidator,
-                     params.pubKey: pubKeyValidator ]
+            var result: [String?: BaseValidator<String>] = [:]
+
+            result[params.mdOrder] = orderNumberValidator
+            result[params.bindingId] = cardBindingIdValidator
+            result[params.cvc] = cardCodeValidator
+            result[params.pubKey] = pubKeyValidator
+
+            return result
 
         case let .bindingParamsInstant(params):
-            return [ params.bindingId: cardBindingIdValidator,
-                     params.cvc: cardCodeValidator,
-                     params.pubKey: pubKeyValidator ]
+            var result: [String?: BaseValidator<String>] = [:]
+
+            result[params.bindingId] = cardBindingIdValidator
+            result[params.cvc] = cardCodeValidator
+            result[params.pubKey] = pubKeyValidator
+
+            return result
 
         case let .newPaymentMethodParams(params):
-            return [ params.cardholder: cardHolderValidator,
-                     params.expiryMMYY: cardExpiryValidator,
-                     params.pan: cardNumberValidator,
-                     params.cvc: cardCodeValidator,
-                     params.pubKey: pubKeyValidator ]
+            var result: [String?: BaseValidator<String>] = [:]
+
+            result[params.cardholder] = cardHolderValidator
+            result[params.expiryMMYY] = cardExpiryValidator
+            result[params.pan] = cardNumberValidator
+            result[params.cvc] = cardCodeValidator
+            result[params.pubKey] = pubKeyValidator
+
+            return result
 
         case let .storedPaymentMethodParams(params):
             let extractedBindingId = extractBindingId(storedPaymentMethod: params)
+            var result: [String?: BaseValidator<String>] = [:]
 
-            return [ extractedBindingId: cardBindingIdValidator,
-                     params.cvc: cardCodeValidator,
-                     params.pubKey: pubKeyValidator ]
+            result[extractedBindingId] = cardBindingIdValidator
+            result[params.cvc] = cardCodeValidator
+            result[params.pubKey] = pubKeyValidator
+
+            return result
         }
     }
-    
+
     private func prepareFieldErrors(for params: PaymentParamsVariant) -> [String?: ParamField] {
         switch params {
         case let .cardParams(params):
-            return [ params.cardholder: .CARDHOLDER,
-                     params.mdOrder: .MD_ORDER,
-                     params.expiryMMYY: .EXPIRY,
-                     params.pan: .PAN,
-                     params.cvc: .CVC,
-                     params.pubKey: .PUB_KEY ]
+            var result: [String?: ParamField] = [:]
+
+            result[params.cardholder] = .CARDHOLDER
+            result[params.mdOrder] = .MD_ORDER
+            result[params.expiryMMYY] = .EXPIRY
+            result[params.pan] = .PAN
+            result[params.cvc] = .CVC
+            result[params.pubKey] = .PUB_KEY
+
+            return result
 
         case let .cardParamsInstant(params):
-            return [ params.cardholder: .CARDHOLDER,
-                     params.expiryMMYY: .EXPIRY,
-                     params.pan: .PAN,
-                     params.cvc: .CVC,
-                     params.pubKey: .PUB_KEY ]
+            var result: [String?: ParamField] = [:]
+
+            result[params.cardholder] = .CARDHOLDER
+            result[params.expiryMMYY] = .EXPIRY
+            result[params.pan] = .PAN
+            result[params.cvc] = .CVC
+            result[params.pubKey] = .PUB_KEY
+
+            return result
 
         case let .bindingParams(params):
-            return [ params.mdOrder: .MD_ORDER,
-                     params.bindingId: .BINDING_ID,
-                     params.cvc: .CVC,
-                     params.pubKey: .PUB_KEY ]
-            
+            var result: [String?: ParamField] = [:]
+
+            result[params.mdOrder] = .MD_ORDER
+            result[params.bindingId] = .BINDING_ID
+            result[params.cvc] = .CVC
+            result[params.pubKey] = .PUB_KEY
+
+            return result
+
         case let .bindingParamsInstant(params):
-            return [ params.bindingId: .BINDING_ID,
-                     params.cvc: .CVC,
-                     params.pubKey: .PUB_KEY ]
+            var result: [String?: ParamField] = [:]
+
+            result[params.bindingId] = .BINDING_ID
+            result[params.cvc] = .CVC
+            result[params.pubKey] = .PUB_KEY
+
+            return result
 
         case let .newPaymentMethodParams(params):
-            return [ params.cardholder: .CARDHOLDER,
-                     params.expiryMMYY: .EXPIRY,
-                     params.pan: .PAN,
-                     params.cvc: .CVC,
-                     params.pubKey: .PUB_KEY ]
+            var result: [String?: ParamField] = [:]
+
+            result[params.cardholder] = .CARDHOLDER
+            result[params.expiryMMYY] = .EXPIRY
+            result[params.pan] = .PAN
+            result[params.cvc] = .CVC
+            result[params.pubKey] = .PUB_KEY
+
+            return result
 
         case let .storedPaymentMethodParams(params):
             let extractedBindingId = extractBindingId(storedPaymentMethod: params)
-            
-            return [ extractedBindingId: .STORED_PAYMENT_METHOD_ID,
-                     params.cvc: .CVC,
-                     params.pubKey: .PUB_KEY ]
+            var result: [String?: ParamField] = [:]
+
+            result[extractedBindingId] = .STORED_PAYMENT_METHOD_ID
+            result[params.cvc] = .CVC
+            result[params.pubKey] = .PUB_KEY
+
+            return result
         }
     }
-    
+
     private func validateFields(validatorsMap: [String?: BaseValidator<String>],
                                 fieldErrors: [String?: ParamField]
     ) -> TokenResult? {
@@ -164,31 +213,32 @@ public class SdkCore {
                 message: "validateField(\(fieldValue)): Validate \(fieldErrors[fieldValue])",
                 exception: fieldErrors[fieldValue] ?? .UNKNOWN
             )
-            
+
             if let fieldValue {
                 let result = validator.validate(data: fieldValue)
+
                 if !result.isValid {
                     let errorField = fieldErrors[fieldValue] ?? .UNKNOWN
-                    
+
                     Logger.shared.log(
                         classMethod: type(of: self),
                         tag: Logger.TAG,
                         message: "validateField(\(fieldValue)): Error \(errorField)",
                         exception: errorField
                     )
-                    
+
                     return TokenResult(errors: [errorField: result.errorCode!])
                 }
             }
         }
-        
+
         return nil
     }
-    
+
     private func extractBindingId(storedPaymentMethod: StoredPaymentMethodParams) -> String {
         BindingUtils().extractValue(from: storedPaymentMethod.storedPaymentMethodId)
     }
-    
+
     private func prepareCoreCardInfo(for params: PaymentParamsVariant) throws -> CoreCardInfo {
         do {
             switch params {
@@ -227,7 +277,7 @@ public class SdkCore {
                 )
             case let .storedPaymentMethodParams(params):
                 let extractedBindingId = extractBindingId(storedPaymentMethod: params)
-                
+
                 return CoreCardInfo(
                     identifier: .storedPaymentMethodIdentifier(extractedBindingId),
                     cvv: params.cvc,
@@ -238,7 +288,7 @@ public class SdkCore {
             throw error
         }
     }
-    
+
     private func prepareMdOrder(for params: PaymentParamsVariant) -> String {
         switch params {
         case let .cardParams(params): params.mdOrder
@@ -249,7 +299,7 @@ public class SdkCore {
         case .storedPaymentMethodParams(_): ""
         }
     }
-    
+
     private func preparePubKey(for params: PaymentParamsVariant) -> String {
         switch params {
         case let .cardParams(params): params.pubKey
@@ -260,21 +310,20 @@ public class SdkCore {
         case let .storedPaymentMethodParams(params): params.pubKey
         }
     }
-    
+
     private func prepareToken(mdOrder: String = "",
                               cardInfo: CoreCardInfo,
                               pubKey: String,
                               timestamp: TimeInterval,
                               registeredFrom: MSDKRegisteredFrom = .MSDK_CORE
     ) -> TokenResult {
-        
         Logger.shared.log(
             classMethod: type(of: self),
             tag: Logger.TAG,
             message: "generation method:",
             exception: nil
         )
-        
+
         let paymentString = paymentStringProcessor.createPaymentString(
             order: mdOrder,
             timestamp: Int64(timestamp),
@@ -287,8 +336,10 @@ public class SdkCore {
             protocol: "RSA",
             expiration: Int64.max
         )
+
         do {
             let token = try cryptogramCipher.encode(data: paymentString, key: key)
+
             return TokenResult(token: token)
         } catch CryptogramCipherError.keyCreationFailed {
             Logger.shared.log(
@@ -297,7 +348,7 @@ public class SdkCore {
                 message: "generation method: Error \(ParamField.PUB_KEY) is invalid",
                 exception: ParamField.PUB_KEY
             )
-            
+
             return TokenResult(errors: [ParamField.PUB_KEY: "invalid"])
         } catch {
             Logger.shared.log(
@@ -306,11 +357,11 @@ public class SdkCore {
                 message: "generation method: Error \(ParamField.UNKNOWN) is invalid",
                 exception: ParamField.UNKNOWN
             )
-            
+
             return TokenResult(errors: [ParamField.UNKNOWN: "unknown"])
         }
     }
-    
+
     /// - Returns: SDKCore version
-    public static func getSDKVersion() -> String { "3.0.9" }
+    public static func getSDKVersion() -> String { Constants.SDK_VERSION }
 }

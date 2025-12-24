@@ -1,5 +1,8 @@
 //
-//  File.swift
+//  BindingParams.swift
+//  SDKCore
+//
+//
 //
 
 import Foundation
@@ -12,12 +15,11 @@ import Foundation
 ///     - cvc: secret code for card.
 ///     - pubKey: public key.
 public struct BindingParams {
-    
     public let mdOrder: String
     public let bindingId: String
     public let cvc: String?
     public let pubKey: String
-    
+
     public init(
         pubKey: String,
         bindingId: String,

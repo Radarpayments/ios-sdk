@@ -2,7 +2,7 @@
 //  CardParams.swift
 //  SDKCore
 //
-// 
+//
 //
 
 import Foundation
@@ -17,7 +17,6 @@ import Foundation
 ///     - mdOrder: order number.
 ///     - pubKey: public key.
 public struct CardParams {
-    
     public let mdOrder: String
     public let pan: String
     public let cvc: String

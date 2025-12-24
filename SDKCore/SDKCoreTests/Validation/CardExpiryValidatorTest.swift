@@ -2,7 +2,7 @@
 //  CardExpiryValidatorTest.swift
 //  SDKCoreTests
 //
-// 
+//
 //
 
 import XCTest
@@ -41,7 +41,7 @@ final class CardExpiryValidatorTest: XCTestCase {
 
     func testShouldAcceptMaxExpiryDate() {
         let result = cardExpiryValidator.validate(data:"12/99")
-        
+
         XCTAssertTrue(result.isValid)
         XCTAssertNil(result.errorMessage)
         XCTAssertNil(result.errorCode)

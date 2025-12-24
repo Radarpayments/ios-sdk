@@ -1,15 +1,18 @@
 //
-//  File.swift
+//  AddressLine3Validator.swift
+//  SDKCore
+//
+//
 //
 
 import Foundation
 
 /// AddressLine3 value validator
 public final class AddressLine3Validator: BaseValidator<String> {
-    
+
     override public init() {
         super.init()
-        
+
         addRules(
             AnyBaseValidationRule(
                 baseRule: StringRequiredRule(

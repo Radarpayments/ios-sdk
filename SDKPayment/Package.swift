@@ -8,22 +8,23 @@ let package = Package(
     platforms: [.iOS(.v12)],
     products: [
         .library(
-            name: "SDKPayment",
+            name: "SDKPayment", type: .dynamic,  
             targets: ["SDKPayment"]
         )
     ],
     dependencies: [
-        .package(name: "SDKCore", path: "../SDKCore"),
-        .package(name: "SDKForms", path: "../SDKForms")
+        .package(name: "SDKCore", path: "../SDKCore")
     ],
     targets: [
         .target(
             name: "SDKPayment",
             dependencies: [
-                .product(name: "SDKCore", package: "SDKCore"),
-                .product(name: "SDKForms", package: "SDKForms")
+                .product(name: "SDKCore", package: "SDKCore")
             ],
-            path: "SDKPayment"
+            path: "SDKPayment",
+            resources: [
+                .process("UI/Resources")
+            ]
         ),
         .testTarget(
             name: "SDKPaymentTests",

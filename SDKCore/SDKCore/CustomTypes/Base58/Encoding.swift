@@ -1,11 +1,14 @@
 //
-//  File.swift
-//  
+//  Encoding.swift
+//  SDKCore
+//
+//
+//
 
 import Foundation
 
 protocol Encoding {
-    
+
     static var baseAlphabets: String { get }
     static var zeroAlphabet: Character { get }
     static var base: Int { get }
@@ -23,7 +26,7 @@ protocol Encoding {
 // The Base encoding used is home made, and has some differences. Especially,
 // leading zeros are kept as single zeros when conversion happens.
 extension Encoding {
-    
+
     static func convertBytesToBase(_ bytes: Data) -> [UInt8] {
         var length = 0
         let size = sizeFromByte(size: bytes.count)

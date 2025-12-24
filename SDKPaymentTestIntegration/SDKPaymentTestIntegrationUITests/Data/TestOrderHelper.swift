@@ -8,7 +8,6 @@
 import XCTest
 import Foundation
 import SDKPayment
-import SDKForms
 import SDKCore
 
 final class TestOrderHelper {

@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import SDKForms
 import PassKit
 
 final class PaymentManagerImpl: PaymentManager {

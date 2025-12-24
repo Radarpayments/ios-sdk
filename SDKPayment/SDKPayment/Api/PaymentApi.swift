@@ -2,14 +2,14 @@
 //  PaymentApi.swift
 //  SDKPayment
 //
-// 
+//
 //
 
 import Foundation
 
 /// Interface for carrying out a full payment cycle.
 protocol PaymentApi {
-    
+
     ///API method for getting information about order status .
     ///
     /// - Parameters:
@@ -22,18 +22,14 @@ protocol PaymentApi {
     /// - Parameters:
     ///     - cryptogramApiData cryptogram and data for its creation.
     /// - Returns: [ProcessFormResponse] payment status data for first payment try.
-    func processForm(
-        cryptogramApiData: CryptogramApiData
-    ) throws -> ProcessFormResponse
+    func processForm(cryptogramApiData: CryptogramApiData) throws -> ProcessFormResponse
 
     ///API method for making payments with a binding card.
     ///
     /// - Parameters:
     ///    - cryptogramApiData cryptogram and data for its creation.
     ///- Returns: [ProcessFormResponse] payment status data for first payment try.
-    func processBindingForm(
-        cryptogramApiData: CryptogramApiData
-    ) throws -> ProcessFormResponse
+    func processBindingForm(cryptogramApiData: CryptogramApiData) throws -> ProcessFormResponse
 
     /// API method for completing payment.
     ///
@@ -47,7 +43,7 @@ protocol PaymentApi {
     ///     - orderId order number.
     /// - Returns: [FinishedPaymentInfoResponse] payment finish status data.
     func getFinishedPaymentInfo(orderId: String) throws -> FinishedPaymentInfoResponse
-    
+
     /// API method for making payment with an ApplePay payment
     ///
     /// - Parameters:
@@ -55,11 +51,11 @@ protocol PaymentApi {
     /// - Returns: [ProcessFOrmApplePayResponse] payment status data
     func processApplePay(cryptogramApplePayApiData: CryptogramApplePayApiData) throws -> ProcessFormApplePayResponse
 
-     ///API method for unbinding card by id.
-     ///
+    ///API method for unbinding card by id.
+    ///
     /// - Parameters:
-     ///    - bindingId card identifier.
-     ///    - mdOrder order identifier.
-     /// - Returns: [UnbindCardResponse] card unbind result.
+    ///    - bindingId card identifier.
+    ///    - mdOrder order identifier.
+    /// - Returns: [UnbindCardResponse] card unbind result.
     func unbindCardAnonymous(bindingId: String, mdOrder: String) throws -> UnbindCardResponse
 }

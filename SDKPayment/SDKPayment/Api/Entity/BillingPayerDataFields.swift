@@ -1,6 +1,9 @@
 //
-//  File.swift
-//  
+//  BillingPayerDataFields.swift
+//  SDKPayment
+//
+//
+//
 
 import Foundation
 

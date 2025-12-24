@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import SDKForms
 
 /// Manager interface for managing the payment process.
 protocol PaymentManager {

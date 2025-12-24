@@ -2,7 +2,7 @@
 //  ExpiryRule.swift
 //  SDKCore
 //
-// 
+//
 //
 
 import Foundation
@@ -20,7 +20,7 @@ class ExpiryRule: BaseValidationRule {
     private var message: String
     private let monthChecker: IntRangeRule
     private let yearChecker: IntRangeRule
-    
+
     private let MONTH_MIN = 1
     private let MONTH_MAX = 12
     private let INVALID_FIELD_VALUE = -1
@@ -30,13 +30,13 @@ class ExpiryRule: BaseValidationRule {
     init(code: String, message: String) {
         self.code = code
         self.message = message
-        
+
         self.monthChecker = IntRangeRule(
             code: code,
             message: self.message,
             min: MONTH_MIN, max: MONTH_MAX
         )
-        
+
         self.yearChecker = IntRangeRule(
             code: code,
             message: message,
@@ -47,7 +47,7 @@ class ExpiryRule: BaseValidationRule {
 
     func validateForError(data: String) -> ValidationResult {
         let digits = data.digitsOnly()
-        
+
         let month = digits.take(2).toIntOrNil() ?? INVALID_FIELD_VALUE
         let year = digits.takeLast(2).toIntOrNil() ?? INVALID_FIELD_VALUE
 
@@ -56,8 +56,8 @@ class ExpiryRule: BaseValidationRule {
 
         if !monthValidationResult.isValid {
             return monthValidationResult
-        } 
-        
+        }
+
         if !yearValidationResult.isValid {
             return yearValidationResult
         }

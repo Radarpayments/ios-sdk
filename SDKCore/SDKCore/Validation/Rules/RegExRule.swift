@@ -2,7 +2,7 @@
 //  RegExRule.swift
 //  SDKCore
 //
-// 
+//
 //
 
 import Foundation
@@ -14,7 +14,7 @@ import Foundation
 ///     - message: message displayed in case of mismatch of regular expression .
 ///     - regex: regex to test a string .
 class RegExRule: BaseValidationRule {
-    
+
     typealias DATA = String
 
     private let code: String
@@ -40,7 +40,7 @@ class RegExRule: BaseValidationRule {
                 errorMessage: message
             )
         }
-        
+
         return .VALID
     }
 }

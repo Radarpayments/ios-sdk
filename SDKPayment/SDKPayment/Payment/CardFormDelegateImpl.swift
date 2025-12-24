@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import SDKForms
 import SDKCore
 
 // Controller for payment cycle

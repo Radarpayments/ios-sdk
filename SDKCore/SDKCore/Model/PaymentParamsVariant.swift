@@ -1,11 +1,14 @@
 //
-//  File.swift
-//  
+//  PaymentParamsVariant.swift
+//  SDKCore
+//
+//
+//
+
 
 import Foundation
 
 public enum PaymentParamsVariant {
-    
     case cardParams(params: CardParams)
     case cardParamsInstant(params: CardParamsInstant)
     case bindingParams(params: BindingParams)

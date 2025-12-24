@@ -1,6 +1,9 @@
 //
-//  File.swift
-//  
+//  OrderPayerData.swift
+//  SDKPayment
+//
+//
+//
 
 import Foundation
 

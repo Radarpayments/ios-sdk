@@ -2,7 +2,7 @@
 //  StringLengthRule.swift
 //  SDKCore
 //
-// 
+//
 //
 
 import Foundation
@@ -15,7 +15,7 @@ import Foundation
 ///     - minLength: minimum allowed line length.
 ///     - maxLength: maximum allowed line length.
 class StringLengthRule: BaseValidationRule {
-    
+
     typealias DATA = String
 
     private let code: String

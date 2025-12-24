@@ -1,11 +1,3 @@
-/* 
-  Localizable.strings
-  SDKCore
-
-  
-  
-*/
-
 "payrdr_card_incorrect_cvc" = "CVC2/CVV2 is incorrect";
 "payrdr_card_incorrect_length" = "Card number length should be 16–19 digit";
 "payrdr_card_incorrect_number" = "The card number is incorrect";

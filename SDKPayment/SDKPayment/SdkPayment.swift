@@ -2,45 +2,44 @@
 //  SDKPayment.swift
 //  SDKPayment
 //
-// 
+//
 //
 
 import Foundation
 import UIKit
-import SDKForms
 import SDKCore
 
 public final class SdkPayment {
-    
+
     public static let shared = SdkPayment()
-    
+
     private var innerSDKPaymentConfig: SDKPaymentConfig?
     private var paymentController: PaymentController?
-    
+
     private init() {}
-    
+
     public static func initialize(sdkPaymentConfig: SDKPaymentConfig) -> SdkPayment {
         shared.innerSDKPaymentConfig = sdkPaymentConfig
-        
+
         let sdkConfigBuilder = SDKConfigBuilder()
         let keyProvider = RemoteKeyProvider(url: sdkPaymentConfig.keyProviderUrl)
-        
+
         if let sdkConfig = try? sdkConfigBuilder
             .keyProvider(provider: keyProvider)
             .build() {
 
             _ = SdkForms.initialize(sdkConfig: sdkConfig)
         }
-        
+
         return shared
     }
-    
+
     public func sdkPaymnetConfig() throws -> SDKPaymentConfig {
         if let innerSDKPaymentConfig { return innerSDKPaymentConfig }
-        
+
         throw SDKException(message: "Please call SDKPayment.initialize(sdkPaymentConfig:) before.")
     }
-    
+
     /// Starting the billing cycle process via SDK from controller.
     ///
     /// - Parameters:
@@ -52,20 +51,20 @@ public final class SdkPayment {
         callbackHandler: any ResultPaymentCallback<PaymentResult>
     ) {
         let paymentId: String
-        
+
         switch checkoutConfig.id {
         case let .sessionId(id),
-             let .mdOrder(id):
+            let .mdOrder(id):
             paymentId = id
         }
-        
+
         Logger.shared.log(
             classMethod: type(of: self),
             tag: Constants.TAG,
             message: "checkoutWithBottomSheet(\(controller), \(paymentId): ",
             exception: nil
         )
-        
+
         do {
             let sdkPaymentConfig = try sdkPaymnetConfig()
 
@@ -83,7 +82,7 @@ public final class SdkPayment {
             paymentController = nil
         }
     }
-    
+
     private func getExceptionTypesMessage(exception: SDKException?) -> String? {
         if let exception {
             switch exception {
@@ -97,16 +96,14 @@ public final class SdkPayment {
             default: return nil
             }
         }
-        
+
         return nil
     }
-    
+
     public static func getSDKVersion() -> String {
-        let version = "3.0.9"
-        LogDebug.shared.logIfDebug(message: "SDKPayment version is: \(version)")
-        LogDebug.shared.logIfDebug(message: "SDKForms version is: \(SdkForms.getSDKVersion())")
+        LogDebug.shared.logIfDebug(message: "SDKPayment version is: \(Constants.SDK_VERSION)")
         LogDebug.shared.logIfDebug(message: "SDKCore version is: \(SdkCore.getSDKVersion())")
-        
-        return version
+
+        return Constants.SDK_VERSION
     }
 }

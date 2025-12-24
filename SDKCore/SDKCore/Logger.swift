@@ -2,7 +2,7 @@
 //  Logger.swift
 //  SDKCore
 //
-// 
+//
 //
 
 import Foundation

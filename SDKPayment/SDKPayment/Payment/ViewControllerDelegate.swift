@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import SDKForms
 
 /// Interface describing viewController delegates methods.
 protocol ViewControllerDelegate: AnyObject {

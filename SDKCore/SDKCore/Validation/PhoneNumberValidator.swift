@@ -1,17 +1,20 @@
 //
-//  File.swift
+//  PhoneNumberValidator.swift
+//  SDKCore
+//
+//
 //
 
 import Foundation
 
 /// Phone number value validator
 public final class PhoneNumberValidator: BaseValidator<String> {
-    
+
     private let PATTERN = "^\\+?[0-9]+$"
-    
+
     override public init() {
         super.init()
-        
+
         addRules(
             AnyBaseValidationRule(
                 baseRule: StringRequiredRule(

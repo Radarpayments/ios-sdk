@@ -2,7 +2,7 @@
 //  CardBindingIdValidator.swift
 //  SDKCore
 //
-// 
+//
 //
 
 import Foundation

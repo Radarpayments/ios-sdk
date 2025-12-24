@@ -2,7 +2,7 @@
 //  OrderNumberValidator.swift
 //  SDKCore
 //
-// 
+//
 //
 
 import Foundation
@@ -12,7 +12,7 @@ class OrderNumberValidator: BaseValidator<String> {
 
     private let MIN_LENGTH = 1
     private let PATTERN = "^\\S+$"
-    
+
     override init() {
         super.init()
 

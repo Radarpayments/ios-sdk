@@ -2,7 +2,7 @@
 //  ValidationCodes.swift
 //  SDKCore
 //
-// 
+//
 //
 
 import Foundation

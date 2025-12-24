@@ -2,7 +2,7 @@
 //  CardNumberValidatorTest.swift
 //  SDKCoreTests
 //
-// 
+//
 //
 
 import XCTest
@@ -32,7 +32,7 @@ final class CardNumberValidatorTest: XCTestCase {
 
     func testShouldNotAcceptLessThanMinLength() {
         let result = cardNumberValidator.validate(data: "455673360410674")
-        
+
         XCTAssertFalse(result.isValid)
         XCTAssertEqual(String.cardIncorrectLength().localized, result.errorMessage)
         XCTAssertEqual(ValidationCodes.invalid, result.errorCode)
@@ -40,7 +40,7 @@ final class CardNumberValidatorTest: XCTestCase {
 
     func testShouldNotAcceptEmptyLine() {
         let result = cardNumberValidator.validate(data: "")
-        
+
         XCTAssertFalse(result.isValid)
         XCTAssertEqual(String.cardIncorrectNumber().localized, result.errorMessage)
         XCTAssertEqual(ValidationCodes.required, result.errorCode)
@@ -48,7 +48,7 @@ final class CardNumberValidatorTest: XCTestCase {
 
     func testShouldNotAcceptMoreThanMaxLength() {
         let result = cardNumberValidator.validate(data: "45399859847410559971")
-        
+
         XCTAssertFalse(result.isValid)
         XCTAssertEqual(String.cardIncorrectLength().localized, result.errorMessage)
         XCTAssertEqual(ValidationCodes.invalid, result.errorCode)
@@ -56,7 +56,7 @@ final class CardNumberValidatorTest: XCTestCase {
 
     func testShouldNotAcceptNotDigits() {
         let result = cardNumberValidator.validate(data: "IncorrectCardNum")
-        
+
         XCTAssertFalse(result.isValid)
         XCTAssertEqual(String.cardIncorrectNumber().localized, result.errorMessage)
         XCTAssertEqual(ValidationCodes.invalidFormat, result.errorCode)

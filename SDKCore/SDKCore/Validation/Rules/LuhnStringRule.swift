@@ -2,7 +2,7 @@
 //  LuhnStringRule.swift
 //  SDKCore
 //
-// 
+//
 //
 
 import Foundation
@@ -37,8 +37,8 @@ class LuhnStringRule: BaseValidationRule {
             }
             .reduce(0, +) % 10 == 0
 
-        return !isValid 
-            ? ValidationResult.error(errorCode: code, errorMessage: message)
-            : .VALID
+        return !isValid
+        ? ValidationResult.error(errorCode: code, errorMessage: message)
+        : .VALID
     }
 }

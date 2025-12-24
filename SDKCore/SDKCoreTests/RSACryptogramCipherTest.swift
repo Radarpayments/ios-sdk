@@ -2,7 +2,7 @@
 //  RSACryptogramCipherTest.swift
 //  SDKCoreTests
 //
-// 
+//
 //
 
 import XCTest
@@ -17,7 +17,7 @@ final class RSACryptogramCipherTest: XCTestCase {
 
     override func setUp() {
         super.setUp()
-        
+
         NSTimeZone.default = TimeZone(identifier: "Europe/Moscow")!
         key = Key(value: pubKey, protocol: "RSA", expiration: 1598689996644)
         paymentStringProcessor = DefaultPaymentStringProcessor()
@@ -46,6 +46,7 @@ final class RSACryptogramCipherTest: XCTestCase {
 
         do {
             let cryptogram = try self.cryptogramCipher.encode(data: paymentString, key: self.key)
+
             print(cryptogram)
         } catch {
             XCTFail("Encryption failed with error: \(error)")

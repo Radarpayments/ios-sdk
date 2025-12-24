@@ -1,15 +1,18 @@
 //
-//  File.swift
+//  StateValidator.swift
+//  SDKCore
+//
+//
 //
 
 import Foundation
 
 /// State value validator
 public final class StateValidator: BaseValidator<String> {
-    
+
     override public init() {
         super.init()
-        
+
         addRules(
             AnyBaseValidationRule(
                 baseRule: StringRequiredRule(
