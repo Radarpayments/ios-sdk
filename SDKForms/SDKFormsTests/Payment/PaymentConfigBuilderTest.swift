@@ -33,6 +33,14 @@ final class PaymentConfigBuilderTest: XCTestCase {
         )
     }
     
+    func testShouldReturnThemeSystemByDefault() {
+        XCTAssertEqual(
+            PaymentConfigBuilder(order: "63d17325-4a9a-4ef6-9fd3-613a6f5b8492")
+                .build()
+                .theme, .system
+        )
+    }
+    
     func testShouldReturnLocale() {
         XCTAssertEqual(
             PaymentConfigBuilder(order: "18818587-aa98-4149-8780-3816afbd67f7")

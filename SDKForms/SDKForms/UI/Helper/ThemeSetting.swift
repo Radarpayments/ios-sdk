@@ -11,7 +11,7 @@ final class ThemeSetting {
     
     static let shared = ThemeSetting()
     
-    private var theme: Theme = .light
+    private var theme: Theme = .system
     
     private init() {}
     

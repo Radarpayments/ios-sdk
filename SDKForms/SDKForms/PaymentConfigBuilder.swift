@@ -20,7 +20,7 @@ public final class PaymentConfigBuilder {
     private var cardSaveOptions: CardSaveOptions = .hide
     private var holderInputOptions: HolderInputOptions = .hide
     private var cameraScannerOptions: CameraScannerOptions = .enabled
-    private var theme: Theme = .light
+    private var theme: Theme = .system
     private var uuid: String = UUID().uuidString
     private var timestamp = Int64(Date().timeIntervalSince1970)
     private var locale: Locales = .en
