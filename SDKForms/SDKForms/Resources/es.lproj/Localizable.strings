@@ -39,6 +39,7 @@
 "cardNumber" = "Número de tarjeta";
 "pay" = "Pagar";
 "allCards" = "Todas las tarjetas";
+"yourCards" = "Tus tarjetas";
 "removeBindingAlertTitle" = "¿Confirma que desea eliminar esta tarjeta?";
 "removeBindingAlertDescription" = "Si más adelante cambia de opinión, deberá volver a agregarla.";
 "cancel" = "Cancelar";

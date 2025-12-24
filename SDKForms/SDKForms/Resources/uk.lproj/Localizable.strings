@@ -39,6 +39,7 @@
 "cardNumber" = "Номер картки";
 "pay" = "Сплатити";
 "allCards" = "Усі картки";
+"yourCards" = "Ваші картки";
 "removeBindingAlertTitle" = "Точно вилучити цю картку?";
 "removeBindingAlertDescription" = "Якщо ви захочете скористатися цією карткою, вам доведеться знову додати її.";
 "cancel" = "Скасувати";

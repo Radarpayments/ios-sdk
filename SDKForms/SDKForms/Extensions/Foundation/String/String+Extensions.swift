@@ -129,6 +129,10 @@ public extension String {
         NSLocalizedString("allCards", comment: "").localized
     }
     
+    static func yourCards() -> String {
+        NSLocalizedString("yourCards", comment: "").localized
+    }
+    
     static  func removeBindingAlertTitle() -> String {
         NSLocalizedString("removeBindingAlertTitle", comment: "").localized
     }

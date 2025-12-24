@@ -39,6 +39,7 @@
 "cardNumber" = "Номер карты";
 "pay" = "Оплатить";
 "allCards" = "Все карты";
+"yourCards" = "Ваши карты";
 "removeBindingAlertTitle" = "Вы точно хотите удалить эту карту?";
 "removeBindingAlertDescription" = "Чтобы снова использовать эту карту, нужно будет добавить ее еще раз.";
 "cancel" = "Отмена";

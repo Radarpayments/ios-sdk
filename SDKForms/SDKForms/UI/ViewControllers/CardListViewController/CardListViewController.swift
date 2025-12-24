@@ -21,10 +21,6 @@ protocol CardListRemovable {
 
 public final class CardListViewController: FormsBaseViewController {
     
-    private struct Constants {
-        static let yourCards = "Your cards"
-    }
-    
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.backgroundColor = ThemeSetting.shared.colorTableBackground()
@@ -95,7 +91,7 @@ public final class CardListViewController: FormsBaseViewController {
         
         if paymentConfig?.editingBindingsIsEnabled ?? false {
             navigationController?.topViewController?.navigationItem.rightBarButtonItem = UIBarButtonItem(
-                title: "Edit",
+                title: .editTitle(),
                 style: .plain,
                 target: self,
                 action: #selector(clickOnEditButton)
@@ -108,7 +104,7 @@ public final class CardListViewController: FormsBaseViewController {
         tableView.setEditing(true, animated: true)
         
         navigationController?.topViewController?.navigationItem.rightBarButtonItem = UIBarButtonItem(
-            title: "Save",
+            title: .saveTitle(),
             style: .plain,
             target: self,
             action: #selector(clickOnSaveButton)
@@ -120,7 +116,7 @@ public final class CardListViewController: FormsBaseViewController {
         tableView.setEditing(false, animated: true)
         
         navigationController?.topViewController?.navigationItem.rightBarButtonItem = UIBarButtonItem(
-            title: "Edit",
+            title: .editTitle(),
             style: .plain,
             target: self,
             action: #selector(clickOnEditButton)
@@ -144,8 +140,8 @@ public final class CardListViewController: FormsBaseViewController {
     
     private func cardsSectionHeader() -> TableViewHeaderModel {
         TableViewHeaderModel(
-            id: Constants.yourCards,
-            title: Constants.yourCards
+            id: .yourCards(),
+            title: .yourCards()
         )
     }
     

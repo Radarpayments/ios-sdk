@@ -39,6 +39,7 @@
 "cardNumber" = "Kartennummer";
 "pay" = "Pay";
 "allCards" = "Alle Karten";
+"yourCards" = "Ihre Karten";
 "removeBindingAlertTitle" = "Sind Sie sicher, dass Sie diese Karte entfernen wollen?";
 "removeBindingAlertDescription" = "Wenn Sie es sich später anders überlegen, müssen Sie sie wieder hinzufügen.";
 "cancel" = "Abbrechen";

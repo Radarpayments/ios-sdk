@@ -32,6 +32,8 @@ public final class PaymentConfigBuilder {
     
     public init(order: String = "") {
         self.order = order
+        let deviceLanguage = String((Locale.preferredLanguages.first ?? "en").prefix(2));
+        self.locale = Locales(stringValue: deviceLanguage);
     }
     
     ///Change the text of the payment button.
