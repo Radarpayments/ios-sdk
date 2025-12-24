@@ -2,7 +2,7 @@
 //  CardFormDelegateImpl.swift
 //  SDKPayment
 //
-// 
+//
 //
 
 import UIKit
@@ -10,11 +10,11 @@ import SDKCore
 
 // Controller for payment cycle
 final class CardFormDelegateImpl: CardFormDelegate {
-    
+
     private var parentController: UINavigationController
     private weak var resultCryptogramCallback: (any ResultCryptogramCallback<CryptogramData>)!
     private var removeCardHandler: RemoveCardHandler?
-    
+
     init(
         parentController: UINavigationController,
         resultCryptogramCallback: any ResultCryptogramCallback<CryptogramData>,
@@ -24,7 +24,7 @@ final class CardFormDelegateImpl: CardFormDelegate {
         self.resultCryptogramCallback = resultCryptogramCallback
         self.removeCardHandler = removeCardHandler
     }
-    
+
     func openBottomSheet(
         mdOrder: String,
         bindingEnabled: Bool,
@@ -42,7 +42,7 @@ final class CardFormDelegateImpl: CardFormDelegate {
             .displayApplePay(isDisplay: applePayPaymentConfig != nil)
             .registeredFrom(registeredFrom: .MSDK_PAYMENT)
             .build()
-        
+
         SdkForms.shared.cryptogramWithBottomSheet(
             parent: parentController,
             config: paymentConfig,
@@ -55,22 +55,22 @@ final class CardFormDelegateImpl: CardFormDelegate {
 }
 
 private extension Array where Element == BindingItem {
-    
+
     func toCards() -> [Card] {
         self.map { $0.toCard() }
     }
 }
 
 private extension BindingItem {
-    
+
     // TODO: - replace with two separated fields month and year.
     /// Example of the label filed in [BindingItem]: "654654***3843 12/24".
     func toCard() -> Card {
-        let label = self.label.split(separator: " ")
-            .compactMap { String($0) }
+        let label = self.label.split(separator: " ").compactMap { String($0) }
 
         if label.count > 1 {
             let expiryDate = Array(label[1].split(separator: "/"))
+
             if let expMonth = Int(expiryDate[0]), let expYear = Int(expiryDate[1]) {
                 return Card(
                     pan: label[0],

@@ -2,16 +2,16 @@
 //  ThreeDS2WebFormDelegateImpl.swift
 //  SDKPayment
 //
-// 
+//
 //
 
 import UIKit
 
 final class ThreeDS2WebFormDelegateImpl: ThreeDS2WebFormDelegate {
-    
+
     private var parentController: UINavigationController
     private weak var viewControllerDelegate: ViewControllerDelegate?
-    
+
     init(
         parentController: UINavigationController,
         viewControllerDelegate: ViewControllerDelegate?
@@ -28,7 +28,7 @@ final class ThreeDS2WebFormDelegateImpl: ThreeDS2WebFormDelegate {
                 webChallengeParam: webChallengeParam,
                 viewControllerDelegate: viewControllerDelegate
             )
-            
+
             parentController.present(webChallengeVC, animated: true)
         }
     }

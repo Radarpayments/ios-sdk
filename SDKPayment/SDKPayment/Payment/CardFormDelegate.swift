@@ -2,14 +2,14 @@
 //  CardFormDelegate.swift
 //  SDKPayment
 //
-// 
+//
 //
 
 import Foundation
 
 /// Interface describing the operation of the card data entry form.
 protocol CardFormDelegate: AnyObject {
-    
+
     /// Method for starting a form with binding cards.
     ///
     /// - Parameters:
@@ -19,13 +19,13 @@ protocol CardFormDelegate: AnyObject {
     ///     - cvcNotRequired cvc not required.
     ///     - bindingDeactivationEnabled possible to delete cards.
     ///     - googlePayConfig configuration for google pay payment.
-   func openBottomSheet(
-       mdOrder: String,
-       bindingEnabled: Bool,
-       bindingCards: [BindingItem],
-       cvcNotRequired: Bool,
-       bindingDeactivationEnabled: Bool,
-       applePayPaymentConfig: ApplePayPaymentConfig?,
-       sessionStatus: SessionStatusResponse
-   ) throws
+    func openBottomSheet(
+        mdOrder: String,
+        bindingEnabled: Bool,
+        bindingCards: [BindingItem],
+        cvcNotRequired: Bool,
+        bindingDeactivationEnabled: Bool,
+        applePayPaymentConfig: ApplePayPaymentConfig?,
+        sessionStatus: SessionStatusResponse
+    ) throws
 }

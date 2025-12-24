@@ -8,13 +8,13 @@
 import Foundation
 
 struct BillingPayerDataHelper {
-    
+
     private let payerData: BillingPayerData
-    
+
     init(payerData: BillingPayerData) {
         self.payerData = payerData
     }
-    
+
     func value(for field: BillingPayerDataFields) -> String? {
         switch field {
         case .BILLING_COUNTRY:              payerData.billingCountry

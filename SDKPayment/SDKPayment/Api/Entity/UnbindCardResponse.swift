@@ -2,7 +2,7 @@
 //  UnbindCardResponse.swift
 //  SDKPayment
 //
-// 
+//
 //
 
 import Foundation
@@ -13,12 +13,12 @@ import Foundation
 /// - Parameters:
 ///     - errorCode error code.
 struct UnbindCardResponse: Codable {
-    
+
     private let succesErrorCode = 0
     var errorCode: Int
-    
+
     var isSuccess: Bool { errorCode == succesErrorCode }
-    
+
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 

@@ -16,14 +16,14 @@ final class SessionIdUtils {
               let convertedValue = String(bytes: decodedValue, encoding: .utf8)
         else { return nil }
 
-        return processDecodedValue(convertedValue)?
-            .trimmingCharacters(in: .whitespacesAndNewlines)
+        return processDecodedValue(convertedValue)?.trimmingCharacters(in: .whitespacesAndNewlines)
     }
 
     private func encodedValue(for id: String) -> String? {
         guard id.hasPrefix("ps_"), id.count > 3 else { return nil }
 
         let stringIndex = id.index(id.startIndex, offsetBy: 3)
+
         return String(id.suffix(from: stringIndex))
     }
 
@@ -31,6 +31,7 @@ final class SessionIdUtils {
         guard id.hasPrefix("ps:"), id.count > 3 else { return nil }
 
         let stringIndex = id.index(id.startIndex, offsetBy: 3)
+
         return String(id.suffix(from: stringIndex))
     }
 }

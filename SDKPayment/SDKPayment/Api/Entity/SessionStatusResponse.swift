@@ -2,7 +2,7 @@
 //  SessionStatusResponse.swift
 //  SDKPayment
 //
-// 
+//
 //
 
 import Foundation
@@ -49,10 +49,10 @@ struct SessionStatusResponse: Codable {
     var billingPayerData: BillingPayerData?
     var orderPayerData: OrderPayerData?
     var customerDetails: CustomerDetails?
-    
+
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        
+
         self.redirect = try? container.decodeIfPresent(String.self, forKey: .redirect)
         self.remainingSecs = try? container.decodeIfPresent(Int64.self, forKey: .remainingSecs)
         self.orderNumber = try? container.decodeIfPresent(String.self, forKey: .orderNumber)
@@ -68,6 +68,7 @@ struct SessionStatusResponse: Codable {
         self.bindingDeactivationEnabled = (try? container.decode(Bool.self, forKey: .bindingDeactivationEnabled)) ?? false
         self.currencyAlphaCode = try? container.decodeIfPresent(String.self, forKey: .currencyAlphaCode)
         self.merchantInfo = try container.decode(MerchantInfo.self, forKey: .merchantInfo)
+
         if let options = try? container.decodeIfPresent([String].self, forKey: .merchantOptions) {
             options.forEach { item in
                 if let option = MerchantOption(rawValue: item) {

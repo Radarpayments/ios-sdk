@@ -2,28 +2,28 @@
 //  PaymentManagerImpl.swift
 //  SDKPayment
 //
-// 
+//
 //
 
 import Foundation
 import PassKit
 
 final class PaymentManagerImpl: PaymentManager {
-    
+
     private var paymentQueue: DispatchQueue
     private weak var cardFormDelegate: CardFormDelegate!
     private weak var threeDS2WebFormDelegate: ThreeDS2WebFormDelegate!
     private weak var viewControllerDelegate: ViewControllerDelegate!
-    
+
     private var checkoutConfig: CheckoutConfig!
     private var mdOrder: String!
 
     private var applePaySettings: ApplePaySettings?
-    
+
     private lazy var paymentApi: PaymentApi = {
         PaymentApiImpl(baseUrl: viewControllerDelegate.getPaymentConfig().baseURL)
     }()
-    
+
     init(
         paymentQueue: DispatchQueue,
         cardFormDelegate: CardFormDelegate,
@@ -35,7 +35,7 @@ final class PaymentManagerImpl: PaymentManager {
         self.threeDS2WebFormDelegate = threeDS2WebFormDelegate
         self.viewControllerDelegate = viewControllerDelegate
     }
-    
+
     func checkout(config: CheckoutConfig) throws {
         // start PaymentActivity
         // The first step is to call the getSessionStatus method
@@ -59,89 +59,100 @@ final class PaymentManagerImpl: PaymentManager {
         case let .sessionId(id):
             guard let extractedMdOrder = SessionIdUtils().extractValue(from: id) else {
                 finishWithError(exception: SDKIncorrectSessionIdException())
+
                 return
             }
+
             mdOrder = extractedMdOrder
 
         case let .mdOrder(id):
             mdOrder = id
         }
-        
+
         do {
             let sessionStatusResponse = try getSessionStatus()
             let isApplePayAccepted = sessionStatusResponse.merchantOptions.contains(.applePay)
-            
+
             if isApplePayAccepted {
                 self.applePaySettings = viewControllerDelegate.getPaymentConfig().applePaySettings
             }
-            
+
             if sessionStatusResponse.remainingSecs == nil {
                 let response = try getFinishedPaymentInfo(mdOrder: mdOrder)
                 let successPaymentStatusList = [OrderStatus.deposited.rawValue, OrderStatus.approved.rawValue]
-                
+
                 if let status = response.status {
                     if status.containsAnyOfKeywordIgnoreCase(keywords: successPaymentStatusList) {
                         finishWithError(exception: SDKAlreadyPaymentException())
+
                         return
                     }
-                    
+
                     if status.containsAnyOfKeywordIgnoreCase(keywords: [OrderStatus.declined.rawValue]) {
                         finishWithError(exception: SDKDeclinedException())
+
                         return
                     }
                 } else {
                     let exception: SDKException
+
                     switch checkoutConfig.id {
                     case .sessionId(_):
                         exception = SDKSessionNotExistException()
                     case .mdOrder(_):
                         exception = SDKOrderNotExistException()
                     }
+
                     finishWithError(exception: exception)
                 }
-                
+
                 return
             }
-            
+
             if sessionStatusResponse.bindingItems.isEmpty {
                 LogDebug.shared.logIfDebug(message: "Creating cryptogram with New Card")
             } else {
                 LogDebug.shared.logIfDebug(message: "Creating cryptogram with Binding Card")
             }
-            
+
             try cardFormDelegate.openBottomSheet(
                 mdOrder: mdOrder,
                 bindingEnabled: sessionStatusResponse.bindingEnabled,
                 bindingCards: sessionStatusResponse.bindingItems,
                 cvcNotRequired: sessionStatusResponse.cvcNotRequired,
                 bindingDeactivationEnabled: sessionStatusResponse.bindingDeactivationEnabled,
-                applePayPaymentConfig: createApplePayPaymentConfig(applePaySettings: applePaySettings, 
-                                                                   currencyCode: sessionStatusResponse.currencyAlphaCode),
+                applePayPaymentConfig: createApplePayPaymentConfig(
+                    applePaySettings: applePaySettings,
+                    currencyCode: sessionStatusResponse.currencyAlphaCode
+                ),
                 sessionStatus: sessionStatusResponse
             )
         } catch {
             finishWithError(exception: error as? SDKException)
         }
     }
-    
+
     func finishWithCheckOrderStatus(exception: SDKException? = nil) throws {
         do {
             let orderStatus = try getSessionStatus()
             let paymentFinishInfo = try getFinishedPaymentInfo(mdOrder: mdOrder)
-            
+
             LogDebug.shared.logIfDebug(
                 message: "getSessionStatus - Remaining sec \(String(describing: orderStatus.remainingSecs))"
             )
 
             let isSuccess = paymentFinishInfo.status?
                 .containsAnyOfKeywordIgnoreCase(keywords: OrderStatuses.payedStatuses) ?? false
-            
-            let paymentResultData = PaymentResultData(isSuccess: isSuccess,
-                                                      exception: exception)
+
+            let paymentResultData = PaymentResultData(
+                isSuccess: isSuccess,
+                exception: exception
+            )
+
             viewControllerDelegate?.finishWithResult(paymentData: paymentResultData)
         } catch { throw error }
     }
-    
+
     /// Start the payment process by calling the API methods.
     ///
     /// - Parameters:
@@ -157,7 +168,7 @@ final class PaymentManagerImpl: PaymentManager {
                     cryptogramApiData: cryptogramApiData
                 )
             }
-            
+
             try handleProcessFormResponse(
                 cryptogramApiData: cryptogramApiData,
                 processFormResponse: paymentResult,
@@ -167,7 +178,7 @@ final class PaymentManagerImpl: PaymentManager {
             throw error
         }
     }
-    
+
     /// Start the payment process with ApplePay by calling the API methods
     ///
     ///  - Parameters:
@@ -175,11 +186,12 @@ final class PaymentManagerImpl: PaymentManager {
     func processApplePay(cryptogramApplePayApiData: CryptogramApplePayApiData) throws {
         do {
             _ = try paymentApi.processApplePay(cryptogramApplePayApiData: cryptogramApplePayApiData)
+
             try finishWithCheckOrderStatus()
         }
         catch { throw error }
     }
-    
+
     /// Unbind card on server.
     ///
     /// - Parameters:
@@ -187,26 +199,33 @@ final class PaymentManagerImpl: PaymentManager {
     /// - Returns: true if success, otherwise false
     func unbindCard(bindingId: String) -> Bool {
         let isSuccess = try? paymentApi.unbindCardAnonymous(bindingId: bindingId, mdOrder: mdOrder).isSuccess
+
         return isSuccess ?? false
     }
-    
+
     /// Canceling the process of creating a cryptogram.
     func finishWithError<T: SDKException>(exception: T?) {
         do {
             if exception is SDKCancelledException {
-                let paymentResultData = PaymentResultData(isSuccess: false,
-                                                          exception: exception as? SDKCancelledException)
+                let paymentResultData = PaymentResultData(
+                    isSuccess: false,
+                    exception: exception as? SDKCancelledException
+                )
+
                 viewControllerDelegate?.finishWithResult(paymentData: paymentResultData)
             } else {
                 try finishWithCheckOrderStatus(exception: exception)
             }
         } catch {
-            let paymentResultData = PaymentResultData(isSuccess: false,
-                                                      exception: error as? SDKException)
+            let paymentResultData = PaymentResultData(
+                isSuccess: false,
+                exception: error as? SDKException
+            )
+
             viewControllerDelegate?.finishWithResult(paymentData: paymentResultData)
         }
     }
-    
+
     private func handleProcessFormResponse(
         cryptogramApiData: CryptogramApiData,
         processFormResponse: ProcessFormResponse,
@@ -216,19 +235,17 @@ final class PaymentManagerImpl: PaymentManager {
             LogDebug.shared.logIfDebug(
                 message: "Merchant is not configured to be used without 3DS2SDK: \(processFormResponse)"
             )
-            throw SDKNotConfigureException(
-                message: "Merchant is not configured to be used without 3DS2SDK"
-            )
+
+            throw SDKNotConfigureException(message: "Merchant is not configured to be used without 3DS2SDK")
         }
-        
+
         do {
             if let acsUrl = processFormResponse.acsUrl,
                let paReq = processFormResponse.paReq,
                let termUrl = processFormResponse.termUrl {
 
-                LogDebug.shared.logIfDebug(
-                    message: "processForm - Payment need 3DSVer1: \(processFormResponse)"
-                )
+                LogDebug.shared.logIfDebug(message: "processForm - Payment need 3DSVer1: \(processFormResponse)")
+
                 threeDS2WebFormDelegate.openWebChallenge(
                     webChallengeParam: WebChallengeParam(
                         mdOrder: cryptogramApiData.mdOrder,
@@ -237,32 +254,32 @@ final class PaymentManagerImpl: PaymentManager {
                         termUrl: termUrl
                     )
                 )
+
                 return
             }
-            
-            LogDebug.shared.logIfDebug(
-                message: "processForm - Payment without 3DS: \(processFormResponse)"
-            )
+
+            LogDebug.shared.logIfDebug(message: "processForm - Payment without 3DS: \(processFormResponse)")
+
             try finishWithCheckOrderStatus()
         } catch {
             throw error
         }
     }
-    
+
     private func getFinishedPaymentInfo(mdOrder: String) throws -> FinishedPaymentInfoResponse {
         try paymentApi.getFinishedPaymentInfo(orderId: mdOrder)
     }
-    
+
     private func getSessionStatus() throws -> SessionStatusResponse {
         try paymentApi.getSessionStatus(mdOrder: mdOrder)
     }
-    
+
     private func createApplePayPaymentConfig(applePaySettings: ApplePaySettings?, currencyCode: String?) -> ApplePayPaymentConfig? {
         guard let applePaySettings, let currencyCode else { return nil }
 
         let mapper = NetworkSystemMapper()
         let supportedNetworks = applePaySettings.availablePaymentSystems.compactMap(mapper.networktSystem)
-        
+
         return ApplePayPaymentConfig(
             merchantId: applePaySettings.merchantId,
             currencyCode: currencyCode,

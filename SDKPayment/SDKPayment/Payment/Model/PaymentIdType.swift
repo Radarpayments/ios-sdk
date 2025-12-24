@@ -2,9 +2,8 @@
 //  PaymentIdType.swift
 //  SDKPayment
 //
-//  
 //
-
+//
 
 import Foundation
 import SDKCore

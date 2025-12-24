@@ -78,6 +78,7 @@ public final class SdkPayment {
             try paymentController?.startPaymentFlow()
         } catch {
             let resultPayment = PaymentResult(paymentId: paymentId, isSuccess: false, exception: error as? SDKException)
+
             callbackHandler.onResult(result: resultPayment)
             paymentController = nil
         }

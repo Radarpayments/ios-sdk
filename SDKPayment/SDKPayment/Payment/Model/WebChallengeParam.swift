@@ -2,7 +2,7 @@
 //  WebChallengeParam.swift
 //  SDKPayment
 //
-// 
+//
 //
 
 import Foundation

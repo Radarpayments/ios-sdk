@@ -1,14 +1,14 @@
 //
 //  BillingPayerData.swift
 //  SDKPayment
-//  
-//  
-//  
+//
+//
+//
 
 import Foundation
 
 public struct BillingPayerData: Codable {
-    
+
     public var billingCountry: String?
     public var billingState: String?
     public var billingCity: String?
@@ -16,7 +16,7 @@ public struct BillingPayerData: Codable {
     public var billingAddressLine1: String?
     public var billingAddressLine2: String?
     public var billingAddressLine3: String?
-    
+
     public init(
         billingCountry: String? = nil,
         billingState: String? = nil,
@@ -38,7 +38,6 @@ public struct BillingPayerData: Codable {
 
 
 struct FullPayerData: Codable {
-    
     var email: String?
     var mobilePhone: String?
     var billingPayerData = BillingPayerData()

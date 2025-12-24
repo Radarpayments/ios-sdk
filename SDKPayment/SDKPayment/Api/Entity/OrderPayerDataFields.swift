@@ -14,8 +14,10 @@ enum OrderPayerDataFields: String {
     init?(stringValue: String) {
         if let targetCase = OrderPayerDataFields(rawValue: stringValue) {
             self = targetCase
+
             return
         }
+
         return nil
     }
 }

@@ -29,7 +29,8 @@ final class MandatoryFieldsDefaultProvider: MandatoryFieldsProvider {
         let validationResult = cardNumberValidator.validate(data: number.digitsOnly())
 
         if let resolvedPaymentSystem = resolvePaymentSystem(for: number.digitsOnly()),
-           validationResult.isValid {
+           validationResult.isValid
+        {
             return resolveFields(forPaymentSystem: resolvedPaymentSystem)
         }
 
@@ -40,7 +41,8 @@ final class MandatoryFieldsDefaultProvider: MandatoryFieldsProvider {
         var mandatoryItems = [MandatoryItem]()
 
         if let targetPaymentSystem = PaymentSystem.allCases
-            .first(where: { $0.rawValue == system }) {
+            .first(where: { $0.rawValue == system })
+        {
 
             switch targetPaymentSystem {
             case .visa:
@@ -53,6 +55,7 @@ final class MandatoryFieldsDefaultProvider: MandatoryFieldsProvider {
                 break
             }
         }
+
         self.mandatoryItems = mandatoryItems
 
         return mandatoryItems
@@ -125,7 +128,6 @@ final class MandatoryFieldsDefaultProvider: MandatoryFieldsProvider {
             }
         }
 
-
         mandatoryFields.forEach { field in
             if field.isRequired {
                 validationsResult[field.id] = validateFieldValue(
@@ -181,6 +183,7 @@ final class MandatoryFieldsDefaultProvider: MandatoryFieldsProvider {
                         .BILLING_ADDRESS_LINE3:
                     if let billingPayerData = sessionStatus.billingPayerData {
                         let helper = BillingPayerDataHelper(payerData: billingPayerData)
+
                         preFilledValue = helper.value(for: billingPayerDataField)
                     }
                 }
@@ -203,13 +206,10 @@ final class MandatoryFieldsDefaultProvider: MandatoryFieldsProvider {
         if let mandatoryItem = items.first(where: { mandatoryItem in
             switch mandatoryItem {
             case let .singleField(field):
-                if field.id == fieldId { return true }
-                return false
+                return field.id == fieldId
 
             case let .twoFields(fields):
-                if fields.leadingField?.id == fieldId { return true }
-                if fields.trailingField?.id == fieldId { return true }
-                return false
+                return (fields.leadingField?.id == fieldId) || (fields.trailingField?.id == fieldId)
             }
         }) {
             return mandatoryItem
@@ -233,7 +233,10 @@ final class MandatoryFieldsDefaultProvider: MandatoryFieldsProvider {
                     mandatoryItems.append(.singleField(field: mandatoryField))
 
                 case .BILLING_COUNTRY:
-                    if let mandatoryItem = mandatoryItem(items: mandatoryItems, withFieldId: BillingPayerDataFields.BILLING_STATE.rawValue) {
+                    if let mandatoryItem = mandatoryItem(
+                        items: mandatoryItems,
+                        withFieldId: BillingPayerDataFields.BILLING_STATE.rawValue
+                    ) {
                         if case let .twoFields(fields) = mandatoryItem {
                             fields.leadingField = mandatoryField
                         }
@@ -248,7 +251,10 @@ final class MandatoryFieldsDefaultProvider: MandatoryFieldsProvider {
                     }
 
                 case .BILLING_STATE:
-                    if let mandatoryItem = mandatoryItem(items: mandatoryItems, withFieldId: BillingPayerDataFields.BILLING_COUNTRY.rawValue) {
+                    if let mandatoryItem = mandatoryItem(
+                        items: mandatoryItems,
+                        withFieldId: BillingPayerDataFields.BILLING_COUNTRY.rawValue
+                    ) {
                         if case let .twoFields(fields) = mandatoryItem {
                             fields.trailingField = mandatoryField
                         }
@@ -263,7 +269,10 @@ final class MandatoryFieldsDefaultProvider: MandatoryFieldsProvider {
                     }
 
                 case .BILLING_CITY:
-                    if let mandatoryItem = mandatoryItem(items: mandatoryItems, withFieldId: BillingPayerDataFields.BILLING_POSTAL_CODE.rawValue) {
+                    if let mandatoryItem = mandatoryItem(
+                        items: mandatoryItems,
+                        withFieldId: BillingPayerDataFields.BILLING_POSTAL_CODE.rawValue
+                    ) {
                         if case let .twoFields(fields) = mandatoryItem {
                             fields.trailingField = mandatoryField
                         }
@@ -278,7 +287,10 @@ final class MandatoryFieldsDefaultProvider: MandatoryFieldsProvider {
                     }
 
                 case .BILLING_POSTAL_CODE:
-                    if let mandatoryItem = mandatoryItem(items: mandatoryItems, withFieldId: BillingPayerDataFields.BILLING_CITY.rawValue) {
+                    if let mandatoryItem = mandatoryItem(
+                        items: mandatoryItems,
+                        withFieldId: BillingPayerDataFields.BILLING_CITY.rawValue
+                    ) {
                         if case let .twoFields(fields) = mandatoryItem {
                             fields.leadingField = mandatoryField
                         }

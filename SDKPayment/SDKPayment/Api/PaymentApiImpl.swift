@@ -46,9 +46,7 @@ final class PaymentApiImpl: NSObject, PaymentApi {
         )
     }
 
-    func processForm(
-        cryptogramApiData: CryptogramApiData
-    ) throws -> ProcessFormResponse {
+    func processForm(cryptogramApiData: CryptogramApiData) throws -> ProcessFormResponse {
         let preparedBody = [
             "seToken": cryptogramApiData.paymentToken,
             "MDORDER": cryptogramApiData.mdOrder,
@@ -57,15 +55,14 @@ final class PaymentApiImpl: NSObject, PaymentApi {
             "threeDSSDK": "false"
         ]
 
-        return try startRunCatchingProcessForm(urlString: "\(baseUrl)/rest/processform.do",
-                                               preparedBody: preparedBody,
-                                               cryptogramApiData: cryptogramApiData,
-                                               type: ProcessFormResponse.self)
+        return try startRunCatchingProcessForm(
+            urlString: "\(baseUrl)/rest/processform.do",
+            preparedBody: preparedBody,
+            cryptogramApiData: cryptogramApiData,
+            type: ProcessFormResponse.self)
     }
 
-    func processBindingForm(
-        cryptogramApiData: CryptogramApiData
-    ) throws -> ProcessFormResponse {
+    func processBindingForm(cryptogramApiData: CryptogramApiData) throws -> ProcessFormResponse {
         let preparedBody = [
             "seToken": cryptogramApiData.paymentToken,
             "MDORDER": cryptogramApiData.mdOrder,
@@ -73,10 +70,12 @@ final class PaymentApiImpl: NSObject, PaymentApi {
             "threeDSSDK": "false"
         ]
 
-        return try startRunCatchingProcessForm(urlString: "\(baseUrl)/rest/processBindingForm.do",
-                                               preparedBody: preparedBody,
-                                               cryptogramApiData: cryptogramApiData,
-                                               type: ProcessFormResponse.self)
+        return try startRunCatchingProcessForm(
+            urlString: "\(baseUrl)/rest/processBindingForm.do",
+            preparedBody: preparedBody,
+            cryptogramApiData: cryptogramApiData,
+            type: ProcessFormResponse.self
+        )
     }
 
     func finish3dsVer2PaymentAnonymous(threeDSServerTransId: String) throws {
@@ -94,9 +93,7 @@ final class PaymentApiImpl: NSObject, PaymentApi {
         LogDebug.shared.logIfDebug(message: "\(response)")
     }
 
-    func getFinishedPaymentInfo(
-        orderId: String
-    ) throws -> FinishedPaymentInfoResponse {
+    func getFinishedPaymentInfo(orderId: String) throws -> FinishedPaymentInfoResponse {
         let body = ["orderId": orderId]
 
         return try startRunCatching(
@@ -106,9 +103,7 @@ final class PaymentApiImpl: NSObject, PaymentApi {
         )
     }
 
-    func processApplePay(
-        cryptogramApplePayApiData: CryptogramApplePayApiData
-    ) throws -> ProcessFormApplePayResponse {
+    func processApplePay(cryptogramApplePayApiData: CryptogramApplePayApiData) throws -> ProcessFormApplePayResponse {
         let jsonBodyDict = [
             "paymentToken": cryptogramApplePayApiData.paymentToken,
             "mdOrder": cryptogramApplePayApiData.mdOrder
@@ -116,24 +111,22 @@ final class PaymentApiImpl: NSObject, PaymentApi {
 
         LogDebug.shared.logIfDebug(message: "\(jsonBodyDict)")
 
-        let response = URLSession.shared.executePost(urlString: "\(baseUrl)/applepay/paymentOrder.do",
-                                                     body: jsonBodyDict)
+        let response = URLSession.shared.executePost(
+            urlString: "\(baseUrl)/applepay/paymentOrder.do",
+            body: jsonBodyDict
+        )
 
         if let data = response.data,
-           let processFormResponse = try? JSONDecoder()
-            .decode(ProcessFormApplePayResponse.self, from: data) {
+           let processFormResponse = try? JSONDecoder().decode(ProcessFormApplePayResponse.self, from: data)
+        {
 
             return processFormResponse
         }
 
-        throw SDKPaymentApiException(message: response.error?.localizedDescription,
-                                     cause: response.error)
+        throw SDKPaymentApiException(message: response.error?.localizedDescription,cause: response.error)
     }
 
-    func unbindCardAnonymous(
-        bindingId: String,
-        mdOrder: String
-    ) throws -> UnbindCardResponse {
+    func unbindCardAnonymous(bindingId: String, mdOrder: String) throws -> UnbindCardResponse {
         let body = [
             "mdOrder": mdOrder,
             "bindingId": bindingId
@@ -159,8 +152,8 @@ final class PaymentApiImpl: NSObject, PaymentApi {
         LogDebug.shared.logIfDebug(message: "\(response)")
 
         if let data = response.data,
-           let entity = try? JSONDecoder()
-            .decode(type, from: data) {
+           let entity = try? JSONDecoder().decode(type, from: data)
+        {
 
             return entity
         }
@@ -194,7 +187,8 @@ final class PaymentApiImpl: NSObject, PaymentApi {
         }
 
         if let billingPayerData = cryptogramApiData.fullPayerData?.billingPayerData,
-           let encoded = encodedBillingPayerData(billingPayerData: billingPayerData) {
+           let encoded = encodedBillingPayerData(billingPayerData: billingPayerData)
+        {
             body["billingPayerData"] = encoded
         }
 

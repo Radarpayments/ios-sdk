@@ -2,7 +2,7 @@
 //  BindingItem.swift
 //  SDKPayment
 //
-// 
+//
 //
 
 import Foundation
@@ -28,7 +28,7 @@ struct BindingItem: Codable {
     let payerEmail: String
     let payerPhone: String
     var isMaestro: Bool = false
-    
+
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 

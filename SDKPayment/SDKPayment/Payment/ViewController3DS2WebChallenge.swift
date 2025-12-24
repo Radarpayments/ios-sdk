@@ -17,8 +17,7 @@ final class ViewController3DS2WebChallenge: UIViewController {
     private weak var viewControllerDelegate: ViewControllerDelegate!
 
     private lazy var paymentApi: PaymentApi = {
-        PaymentApiImpl(
-            baseUrl: viewControllerDelegate.getPaymentConfig().baseURL)
+        PaymentApiImpl(baseUrl: viewControllerDelegate.getPaymentConfig().baseURL)
     }()
 
     convenience init(
@@ -49,8 +48,9 @@ final class ViewController3DS2WebChallenge: UIViewController {
 
                 let paymentResultData = PaymentResultData(
                     isSuccess: false,
-                    exception: SDKTransactionException(
-                        message: "Transaction Timed Out."))
+                    exception: SDKTransactionException(message: "Transaction Timed Out.")
+                )
+
                 viewControllerDelegate?.finishWithResult(
                     paymentData: paymentResultData)
             })
@@ -65,11 +65,11 @@ final class ViewController3DS2WebChallenge: UIViewController {
     }
 
     private func setupSubviews() {
-        #if DEBUG
-            if #available(iOS 16.4, *) {
-                webView.isInspectable = true
-            }
-        #endif
+#if DEBUG
+        if #available(iOS 16.4, *) {
+            webView.isInspectable = true
+        }
+#endif
 
         view = webView
     }
@@ -99,34 +99,24 @@ final class ViewController3DS2WebChallenge: UIViewController {
 
     private func finishPayment() {
         do {
-            let orderStatus =
-                try paymentApi
-                .getSessionStatus(mdOrder: webChallengeParam.mdOrder)
+            let orderStatus = try paymentApi.getSessionStatus(mdOrder: webChallengeParam.mdOrder)
+            let paymentFinishedInfo = try paymentApi.getFinishedPaymentInfo(orderId: webChallengeParam.mdOrder)
 
-            let paymentFinishedInfo =
-                try paymentApi
-                .getFinishedPaymentInfo(orderId: webChallengeParam.mdOrder)
-
-            let isSuccess =
-                paymentFinishedInfo.status?
-                .containsAnyOfKeywordIgnoreCase(
-                    keywords: OrderStatuses.payedStatuses) ?? false
+            let isSuccess = paymentFinishedInfo.status?
+                .containsAnyOfKeywordIgnoreCase(keywords: OrderStatuses.payedStatuses) ?? false
 
             let paymentResultData = PaymentResultData(isSuccess: isSuccess)
-            LogDebug.shared.logIfDebug(
-                message:
-                    "getSessionStatus - Remaining sec \(orderStatus.remainingSecs)"
-            )
 
-            viewControllerDelegate?.finishWithResult(
-                paymentData: paymentResultData)
+            LogDebug.shared.logIfDebug(message: "getSessionStatus - Remaining sec \(orderStatus.remainingSecs)")
 
+            viewControllerDelegate?.finishWithResult(paymentData: paymentResultData)
         } catch {
             let paymentResultData = PaymentResultData(
                 isSuccess: false,
-                exception: error as? SDKException)
-            viewControllerDelegate?.finishWithResult(
-                paymentData: paymentResultData)
+                exception: error as? SDKException
+            )
+
+            viewControllerDelegate?.finishWithResult(paymentData: paymentResultData)
         }
 
         dismissController()
@@ -157,13 +147,16 @@ extension ViewController3DS2WebChallenge: WKNavigationDelegate {
         guard let absoluteString = request.url?.absoluteString
         else {
             decisionHandler(.allow)
+
             return
         }
 
         print("absoluteString: \(absoluteString)")
+
         if absoluteString.contains("sdk://done") {
             finishPayment()
             decisionHandler(.cancel)
+
             return
         }
 
