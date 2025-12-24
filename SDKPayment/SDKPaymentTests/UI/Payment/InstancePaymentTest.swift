@@ -2,7 +2,7 @@
 //  InstancePaymentTest.swift
 //  SDKPaymentTests
 //
-// 
+//
 //
 
 import XCTest
@@ -10,22 +10,22 @@ import XCTest
 @testable import SDKCore
 
 final class InstancePaymentTest: XCTestCase {
-    
-    var sdkForms: SdkForms!
-    
+
+    var paymentUI: PaymentUI!
+
     override func setUp() {
         super.setUp()
-        
-        sdkForms = SdkForms.initialize(
-            sdkConfig: try! SDKConfigBuilder()
+
+        paymentUI = PaymentUI.initialize(
+            paymentUIConfig: try! PaymentUIConfigBuilder()
                 .keyProviderUrl(providerUrl: "https://dev.bpcbt.com/payment/se/keys.do")
                 .build()
         )
     }
-    
+
     func testShouldReturnSuccessPaymentWithoutOrder() {
         let config = PaymentConfigTestProvider.defaultConfig()
-        let seToken = try! sdkForms.cryptogramProcessor()
+        let seToken = try! paymentUI.cryptogramProcessor()
             .create(
                 order: "",
                 timestamp: config.timestamp,
@@ -40,7 +40,7 @@ final class InstancePaymentTest: XCTestCase {
         let response = makeInstancePayment(seToken)
         XCTAssertEqual("Success", response)
     }
-    
+
     private func makeInstancePayment(_ seToken: String) -> String? {
         let url = "https://dev.bpcbt.com/payment/rest/instantPayment.do"
         let body = [
@@ -52,9 +52,9 @@ final class InstancePaymentTest: XCTestCase {
             "cardHolderName": "CARD HOLDER",
             "backUrl": "https://thebestmerchanturl.com"
         ]
-        
+
         let (data, _, _) = URLSession.shared.executePostParams(urlString: url, paramBody: body)
-        
+
         let jsonObject = try? JSONSerialization.jsonObject(with: data ?? Data()) as? [String: Any]
         let orderStatus = jsonObject?["orderStatus"] as? [String: Any]
         let status = orderStatus?["ErrorMessage"] as? String

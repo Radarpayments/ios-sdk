@@ -40,10 +40,7 @@ final class MandatoryFieldsDefaultProvider: MandatoryFieldsProvider {
     func resolveFields(forPaymentSystem system: String) -> [MandatoryItem] {
         var mandatoryItems = [MandatoryItem]()
 
-        if let targetPaymentSystem = PaymentSystem.allCases
-            .first(where: { $0.rawValue == system })
-        {
-
+        if let targetPaymentSystem = PaymentSystem.allCases.first(where: { $0.rawValue == system }) {
             switch targetPaymentSystem {
             case .visa:
                 mandatoryItems.append(contentsOf: prepareMandatoryItems(for: targetPaymentSystem))

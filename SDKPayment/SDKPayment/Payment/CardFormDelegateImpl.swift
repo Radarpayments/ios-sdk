@@ -43,7 +43,7 @@ final class CardFormDelegateImpl: CardFormDelegate {
             .registeredFrom(registeredFrom: .MSDK_PAYMENT)
             .build()
 
-        SdkForms.shared.cryptogramWithBottomSheet(
+        PaymentUI.shared.cryptogramWithBottomSheet(
             parent: parentController,
             config: paymentConfig,
             mandatoryFieldsProvider: MandatoryFieldsDefaultProvider(sessionStatus: sessionStatus),

@@ -21,14 +21,14 @@ public final class SdkPayment {
     public static func initialize(sdkPaymentConfig: SDKPaymentConfig) -> SdkPayment {
         shared.innerSDKPaymentConfig = sdkPaymentConfig
 
-        let sdkConfigBuilder = SDKConfigBuilder()
+        let paymentUIConfigBuilder = PaymentUIConfigBuilder()
         let keyProvider = RemoteKeyProvider(url: sdkPaymentConfig.keyProviderUrl)
 
-        if let sdkConfig = try? sdkConfigBuilder
+        if let paymentUIConfig = try? paymentUIConfigBuilder
             .keyProvider(provider: keyProvider)
             .build() {
 
-            _ = SdkForms.initialize(sdkConfig: sdkConfig)
+            _ = PaymentUI.initialize(paymentUIConfig: paymentUIConfig)
         }
 
         return shared

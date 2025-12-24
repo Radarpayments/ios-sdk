@@ -23,7 +23,7 @@ let package = Package(
             ],
             path: "SDKPayment",
             resources: [
-                .process("UI/Resources")
+                .process("Resources")
             ]
         ),
         .testTarget(
