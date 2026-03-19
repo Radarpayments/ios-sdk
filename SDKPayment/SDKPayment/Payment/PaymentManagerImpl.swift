@@ -246,6 +246,8 @@ final class PaymentManagerImpl: PaymentManager {
 
                 LogDebug.shared.logIfDebug(message: "processForm - Payment need 3DSVer1: \(processFormResponse)")
 
+                viewControllerDelegate?.hidePaymentPreloader()
+
                 threeDS2WebFormDelegate.openWebChallenge(
                     webChallengeParam: WebChallengeParam(
                         mdOrder: cryptogramApiData.mdOrder,

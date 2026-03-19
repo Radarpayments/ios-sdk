@@ -59,7 +59,8 @@ final class PaymentApiImpl: NSObject, PaymentApi {
             urlString: "\(baseUrl)/rest/processform.do",
             preparedBody: preparedBody,
             cryptogramApiData: cryptogramApiData,
-            type: ProcessFormResponse.self)
+            type: ProcessFormResponse.self
+        )
     }
 
     func processBindingForm(cryptogramApiData: CryptogramApiData) throws -> ProcessFormResponse {

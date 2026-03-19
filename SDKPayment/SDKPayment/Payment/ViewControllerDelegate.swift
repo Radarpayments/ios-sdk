@@ -17,6 +17,9 @@ protocol ViewControllerDelegate: AnyObject {
     ///     - paymentData result of payment completion.
     func finishWithResult(paymentData: PaymentResultData)
 
+    /// Hides the preloader shown during payment processing.
+    func hidePaymentPreloader()
+
     /// Getting a configuration object for the Payment SDK.
     ///
     /// - Returns: configuration object.

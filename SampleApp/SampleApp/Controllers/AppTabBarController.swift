@@ -1,6 +1,6 @@
 //
 //  AppTabBarController.swift
-//  MyStore
+//  SampleApp
 //
 
 import UIKit

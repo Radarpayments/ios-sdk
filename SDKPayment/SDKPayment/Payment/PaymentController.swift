@@ -19,6 +19,8 @@ final class PaymentController {
     private var callbackHandler: any ResultPaymentCallback<PaymentResult>
     private let paymentQueue = DispatchQueue(label: "paymentQueue", attributes: .concurrent)
 
+    private lazy var paymentPreloader: PaymentPreloaderView = PaymentPreloaderView()
+
     private lazy var cardFormDelegate: CardFormDelegate = {
         CardFormDelegateImpl(
             parentController: parentController,
@@ -191,6 +193,8 @@ extension PaymentController: ViewControllerDelegate {
                   let topViewController = UIApplication.shared.topViewController
             else { return }
 
+            paymentPreloader.hide()
+
             switch topViewController {
             case let topViewController as UINavigationController:
                 if popLastIfNeed(navigationController: topViewController) {
@@ -246,6 +250,12 @@ extension PaymentController: ViewControllerDelegate {
         }
     }
 
+    func hidePaymentPreloader() {
+        DispatchQueue.main.async { [weak self] in
+            self?.paymentPreloader.hide()
+        }
+    }
+
     func getPaymentConfig() -> SDKPaymentConfig { try! SdkPayment.shared.sdkPaymnetConfig() }
 
     @discardableResult
@@ -268,6 +278,7 @@ extension PaymentController: ViewControllerDelegate {
 extension PaymentController: ResultCryptogramCallback {
 
     func onSuccess(result: CryptogramData) {
+        paymentPreloader.show(on: parentController.view.window)
         popLastIfNeed(navigationController: parentController)
 
         switch result.status {

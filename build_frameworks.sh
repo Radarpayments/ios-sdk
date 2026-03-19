@@ -3,8 +3,8 @@
 set -x
 set -e
 
+./build_clean.sh
 mkdir -p Frameworks/
-rm -rf Frameworks/*
 
 ./build_xcframework.sh SDKCore
 sleep 8

@@ -38,8 +38,7 @@ public class SdkCore {
         let validatorsMap = prepareValidatorsMap(for: config.paymentMethodParams)
         let fieldErrors = prepareFieldErrors(for: config.paymentMethodParams)
 
-        if let errorTokenResult = validateFields(validatorsMap: validatorsMap,
-                                                 fieldErrors: fieldErrors) {
+        if let errorTokenResult = validateFields(validatorsMap: validatorsMap, fieldErrors: fieldErrors) {
             return errorTokenResult
         }
 
@@ -48,13 +47,13 @@ public class SdkCore {
             let mdOrder = prepareMdOrder(for: config.paymentMethodParams)
             let pubKey = preparePubKey(for: config.paymentMethodParams)
 
-            return prepareToken(mdOrder: mdOrder,
-                                cardInfo: cardInfo,
-                                pubKey: pubKey,
-                                timestamp: config.timestamp,
-                                registeredFrom: config.registeredFrom)
-
-
+            return prepareToken(
+                mdOrder: mdOrder,
+                cardInfo: cardInfo,
+                pubKey: pubKey,
+                timestamp: config.timestamp,
+                registeredFrom: config.registeredFrom
+            )
         } catch {
             Logger.shared.log(
                 classMethod: type(of: self),
@@ -203,8 +202,9 @@ public class SdkCore {
         }
     }
 
-    private func validateFields(validatorsMap: [String?: BaseValidator<String>],
-                                fieldErrors: [String?: ParamField]
+    private func validateFields(
+        validatorsMap: [String?: BaseValidator<String>],
+        fieldErrors: [String?: ParamField]
     ) -> TokenResult? {
         for (fieldValue, validator) in validatorsMap {
             Logger.shared.log(
@@ -311,11 +311,12 @@ public class SdkCore {
         }
     }
 
-    private func prepareToken(mdOrder: String = "",
-                              cardInfo: CoreCardInfo,
-                              pubKey: String,
-                              timestamp: TimeInterval,
-                              registeredFrom: MSDKRegisteredFrom = .MSDK_CORE
+    private func prepareToken(
+        mdOrder: String = "",
+        cardInfo: CoreCardInfo,
+        pubKey: String,
+        timestamp: TimeInterval,
+        registeredFrom: MSDKRegisteredFrom = .MSDK_CORE
     ) -> TokenResult {
         Logger.shared.log(
             classMethod: type(of: self),

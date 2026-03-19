@@ -13,8 +13,8 @@
 		225DF7012BF5EFC600A8D75D /* SampleAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225DF7002BF5EFC600A8D75D /* SampleAppTests.swift */; };
 		225DF70B2BF5EFC600A8D75D /* SampleAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225DF70A2BF5EFC600A8D75D /* SampleAppUITests.swift */; };
 		225DF70D2BF5EFC600A8D75D /* SampleAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225DF70C2BF5EFC600A8D75D /* SampleAppUITestsLaunchTests.swift */; };
-		225DF7252BF601CC00A8D75D /* SDKPayment in Frameworks */ = {isa = PBXBuildFile; productRef = 225DF7242BF601CC00A8D75D /* SDKPayment */; };
-		7AA6EF5C2EF56D4700BA317D /* SDKCore in Frameworks */ = {isa = PBXBuildFile; productRef = 7AA6EF5B2EF56D4700BA317D /* SDKCore */; };
+		7A98FD2B2F40F0D100A1968E /* SDKPayment in Frameworks */ = {isa = PBXBuildFile; productRef = 7A98FD2A2F40F0D100A1968E /* SDKPayment */; };
+		7A98FD2D2F40F0D400A1968E /* SDKCore in Frameworks */ = {isa = PBXBuildFile; productRef = 7A98FD2C2F40F0D400A1968E /* SDKCore */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,8 +73,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7AA6EF5C2EF56D4700BA317D /* SDKCore in Frameworks */,
-				225DF7252BF601CC00A8D75D /* SDKPayment in Frameworks */,
+				7A98FD2D2F40F0D400A1968E /* SDKCore in Frameworks */,
+				7A98FD2B2F40F0D100A1968E /* SDKPayment in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -181,8 +181,8 @@
 			);
 			name = SampleApp;
 			packageProductDependencies = (
-				225DF7242BF601CC00A8D75D /* SDKPayment */,
-				7AA6EF5B2EF56D4700BA317D /* SDKCore */,
+				7A98FD2A2F40F0D100A1968E /* SDKPayment */,
+				7A98FD2C2F40F0D400A1968E /* SDKCore */,
 			);
 			productName = SampleApp;
 			productReference = 225DF6E62BF5EFC400A8D75D /* SampleApp.app */;
@@ -476,7 +476,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = M8J93M3U27;
+				DEVELOPMENT_TEAM = K583FCGT6Z;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SampleApp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -490,7 +490,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.rbs.SampleApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bpc.SampleApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -505,7 +505,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = M8J93M3U27;
+				DEVELOPMENT_TEAM = K583FCGT6Z;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SampleApp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -519,7 +519,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.rbs.SampleApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bpc.SampleApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -537,7 +537,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.rbs.SampleAppTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bpc.SampleAppTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
@@ -556,7 +556,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.rbs.SampleAppTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bpc.SampleAppTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
@@ -573,7 +573,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.rbs.SampleAppUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bpc.SampleAppUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
@@ -590,7 +590,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.rbs.SampleAppUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bpc.SampleAppUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
@@ -652,11 +652,12 @@
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		225DF7242BF601CC00A8D75D /* SDKPayment */ = {
+		7A98FD2A2F40F0D100A1968E /* SDKPayment */ = {
 			isa = XCSwiftPackageProductDependency;
+			package = 225DF7232BF601CC00A8D75D /* XCLocalSwiftPackageReference "../SDKPayment" */;
 			productName = SDKPayment;
 		};
-		7AA6EF5B2EF56D4700BA317D /* SDKCore */ = {
+		7A98FD2C2F40F0D400A1968E /* SDKCore */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 7A5A0F2D2EF56C5B00E411B5 /* XCLocalSwiftPackageReference "../SDKCore" */;
 			productName = SDKCore;

@@ -69,8 +69,6 @@ xcodebuild -create-xcframework \
 -framework build/Release-iphonesimulator.xcarchive/Products/usr/local/lib/$NAME.framework \
 -output build/$NAME.xcframework
 
-
-# TODO: Process removing type: .dynamic from package file
-# Rewrite Package.swift without .dynamic
-# perl -i -p0e 's/type: .dynamic,//g' Package.swift
-# perl -i -p0e 's/(library[^,]*,)/$1 /g' Package.swift
+# Restore Package.swift: remove .dynamic and clean extra spaces
+perl -i -pe 's/type: \.dynamic,//g' Package.swift
+perl -i -pe 's/[ \t]+$//g' Package.swift
