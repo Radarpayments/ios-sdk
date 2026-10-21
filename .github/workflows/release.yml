@@ -1,0 +1,140 @@
+name: Release
+
+# Actions → Release → Run workflow, or: gh workflow run release.yml --ref <branch> -f version=3.0.11 -f dry_run=false
+#
+# dry_run (default) runs every check and builds the zips as workflow artifacts, but creates no tag and no release.
+# A pre-release version (3.0.11-rc.1) can be published from any branch: SPM never picks it up for integrators
+# using "Up to Next Major" and resolves it only when it is requested exactly.
+# A stable version (3.0.11) is published only from master.
+# Pull requests that touch the release pipeline run it as a dry run.
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to release, e.g. 3.0.11 or 3.0.11-rc.1'
+        required: true
+        type: string
+      dry_run:
+        description: 'Only check and build, do not create the tag and the release'
+        required: true
+        default: true
+        type: boolean
+  pull_request:
+    paths:
+      - '.github/workflows/release.yml'
+      - '.github/spm-check/**'
+      - '.github/scripts/**'
+      - 'Package.swift'
+      - 'build_*.sh'
+
+concurrency:
+  group: release-${{ github.ref }}
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: macos-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Resolve version
+        env:
+          INPUT_VERSION: ${{ inputs.version }}
+          INPUT_DRY_RUN: ${{ inputs.dry_run }}
+        run: |
+          core=$(sed -nE 's/.*SDK_VERSION = "([^"]+)".*/\1/p' SDKCore/SDKCore/Constants.swift)
+          payment=$(sed -nE 's/.*SDK_VERSION = "([^"]+)".*/\1/p' SDKPayment/SDKPayment/Constants.swift)
+
+          if [[ "$GITHUB_EVENT_NAME" == "pull_request" ]]; then
+            version="$core"
+            dry_run=true
+          else
+            version="$INPUT_VERSION"
+            dry_run="$INPUT_DRY_RUN"
+          fi
+          base="${version%%-*}"
+
+          echo "version=$version base=$base dry_run=$dry_run SDKCore=$core SDKPayment=$payment ref=$GITHUB_REF"
+
+          if [[ ! "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.]+)?$ ]]; then
+            echo "::error::'$version' is not a semantic version"; exit 1
+          fi
+          if [[ "$core" != "$base" || "$payment" != "$base" ]]; then
+            echo "::error::SDK_VERSION is SDKCore=$core SDKPayment=$payment, expected $base. Bump both Constants.swift first."; exit 1
+          fi
+          if git rev-parse -q --verify "refs/tags/$version" >/dev/null; then
+            if [[ "$dry_run" == "true" ]]; then
+              echo "::warning::Tag $version already exists"
+            else
+              echo "::error::Tag $version already exists"; exit 1
+            fi
+          fi
+          if [[ "$dry_run" != "true" && "$version" == "$base" && "$GITHUB_REF" != "refs/heads/master" ]]; then
+            echo "::error::Stable versions are released only from master. Use a pre-release version like $base-rc.1."; exit 1
+          fi
+
+          {
+            echo "VERSION=$version"
+            echo "BASE_VERSION=$base"
+            echo "DRY_RUN=$dry_run"
+            [[ "$version" != "$base" ]] && echo "PRERELEASE=true" || echo "PRERELEASE=false"
+          } >> "$GITHUB_ENV"
+
+      - name: Pick simulator
+        run: echo "DESTINATION=$(.github/scripts/simulator.sh)" >> "$GITHUB_ENV"
+
+      - name: SDKCore unit tests
+        working-directory: SDKCore
+        run: xcodebuild test -scheme SDKCore -destination "$DESTINATION" -quiet
+
+      - name: Integrator check (local checkout)
+        working-directory: .github/spm-check
+        env:
+          TEST_RUNNER_EXPECTED_SDK_VERSION: ${{ env.BASE_VERSION }}
+        run: xcodebuild test -scheme SPMCheck-Package -destination "$DESTINATION" -quiet
+
+      - name: Build XCFrameworks
+        run: ./build_frameworks.sh
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: xcframeworks-${{ env.VERSION }}
+          path: Frameworks/output/*.zip
+          retention-days: 14
+
+      - name: Create tag and GitHub release
+        if: env.DRY_RUN != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          flags=(--title "$VERSION" --generate-notes --target "$GITHUB_SHA")
+          [[ "$PRERELEASE" == "true" ]] && flags+=(--prerelease)
+          gh release create "$VERSION" Frameworks/output/*.zip "${flags[@]}"
+
+      - name: Integrator check (released version from GitHub)
+        if: env.DRY_RUN != 'true'
+        working-directory: .github/spm-check
+        env:
+          PAYRDR_SDK_URL: ${{ github.server_url }}/${{ github.repository }}.git
+          PAYRDR_SDK_VERSION: ${{ env.VERSION }}
+          TEST_RUNNER_EXPECTED_SDK_VERSION: ${{ env.BASE_VERSION }}
+        run: xcodebuild test -scheme SPMCheck-Package -destination "$DESTINATION" -quiet
+
+      - name: Summary
+        run: |
+          {
+            echo "### iOS SDK $VERSION"
+            if [[ "$DRY_RUN" == "true" ]]; then
+              echo "Dry run: nothing was published. The zips are in the workflow artifacts."
+            else
+              echo "Released: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/releases/tag/$VERSION"
+              echo ""
+              echo "SPM: \`$GITHUB_SERVER_URL/$GITHUB_REPOSITORY\`, version \`$VERSION\`"
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"

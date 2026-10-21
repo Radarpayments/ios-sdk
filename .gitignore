@@ -89,3 +89,6 @@ dist
 .mocky*
 .buildServer.json
 
+
+# SwiftPM (root Package.swift)
+.build/
