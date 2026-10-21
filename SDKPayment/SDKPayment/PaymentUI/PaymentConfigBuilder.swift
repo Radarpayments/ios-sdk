@@ -27,7 +27,7 @@ final class PaymentConfigBuilder {
     private var storedPaymentMethodCVCRequired = true
     private var cardDeleteOptions: CardDeleteOptions = .noDelete
     private var displayApplePay = false
-    private var registeredFrom: MSDKRegisteredFrom = MSDKRegisteredFrom.MSDK_PAYMENT_UI
+    private var registeredFrom: MSDKRegisteredFrom = MSDKRegisteredFrom.MSDK_PAYMENT
     private var editingBindingsIsEnabled = false
     
     init(order: String = "") {
@@ -257,7 +257,7 @@ final class PaymentConfigBuilder {
     
     /// Option to manage the source.
     ///
-    /// Optional, default MSDK_PAYMENT_UI
+    /// Optional, default MSDK_PAYMENT
     ///
     /// - Parameters:
     /// - registeredFrom setting the source.
