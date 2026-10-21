@@ -23,6 +23,4 @@ struct Constants {
     // Maximum connections per host
     static let HTTP_MAX_CONNECTIONS_PER_HOST: Int = 4
 
-    static let URL_CARD_INFO_BIN = "https://mrbin.io/bins/"
-    static let URL_CARD_INFO_BIN_DISPLAY = "https://mrbin.io/bins/display"
 }

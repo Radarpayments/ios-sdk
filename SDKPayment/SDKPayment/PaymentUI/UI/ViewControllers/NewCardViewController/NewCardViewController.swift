@@ -11,7 +11,6 @@ import SDKCore
 public final class NewCardViewController: FormsBaseViewController {
     
     private struct Constants {
-        static let bankLogo = "bankLogo"
         static let cardNumber = "cardNumber"
         static let expiryCVCData = "expiryCVCData"
         static let expiryData = "expiryData"
@@ -173,13 +172,6 @@ public final class NewCardViewController: FormsBaseViewController {
         
         var sections = [NewCardVCSection]()
 
-        sections.append(
-            NewCardVCSection(
-                type: .logo,
-                items: [ BankLogoTableModel(id: Constants.bankLogo) ]
-            )
-        )
-        
         var cardInfoSection = NewCardVCSection(type: .cardInfo, items: [])
         cardInfoSection.items.append(cardNumberFieldModel())
         cardInfoSection.items.append(cardExpiryCvcFieldsModel())

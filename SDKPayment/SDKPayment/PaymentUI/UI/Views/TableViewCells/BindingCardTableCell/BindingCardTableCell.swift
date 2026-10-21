@@ -58,8 +58,8 @@ final class BindingCardTableCell: UITableViewCell {
     func bind(model: BindingCardTableModel) -> Self {
         self.model = model
         
-        if let imageName = model.cardSystemImageName {
-            cardSystemImageView.image = UIImage(resource: ImageResource(name: imageName, bundle: .sdkPaymentBundle))
+        cardSystemImageView.image = model.cardSystemImageName.map {
+            UIImage(resource: ImageResource(name: $0, bundle: .sdkPaymentBundle))
         }
         
         cardNumberLabel.text = model.cardNumberText

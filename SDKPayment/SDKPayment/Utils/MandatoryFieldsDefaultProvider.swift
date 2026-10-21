@@ -10,11 +10,6 @@ import SDKCore
 
 final class MandatoryFieldsDefaultProvider: MandatoryFieldsProvider {
 
-    private let paymentSystems: [String: String] = [
-        "^(5[1-5]|222[1-9]|2[3-6]|27[0-1]|2720)\\d*$": "MASTERCARD",
-        "^4\\d*$": "VISA"
-    ]
-
     private let sessionStatus: SessionStatusResponse
     private var mandatoryItems = [MandatoryItem]()
 
@@ -140,20 +135,11 @@ final class MandatoryFieldsDefaultProvider: MandatoryFieldsProvider {
     }
 
     private func resolvePaymentSystem(for value: String) -> String? {
-        let acceptedSystem = paymentSystems.keys
-            .filter {
-                let range = NSRange(location: 0, length: value.count)
-                let regex = try? NSRegularExpression(pattern: $0)
-
-                return !(regex?.matches(in: value, range: range).isEmpty ?? true)
-            }
-            .first
-
-        if let acceptedSystem, let paymentSystem = paymentSystems[acceptedSystem] {
-            return paymentSystem
+        switch CardNetworkResolver.resolve(value) {
+        case .visa: return PaymentSystem.visa.rawValue
+        case .mastercard: return PaymentSystem.masterCard.rawValue
+        default: return nil
         }
-
-        return nil
     }
 
     private func resolveBillingFields(for paymentSystem: PaymentSystem) -> [MandatorySingleField] {

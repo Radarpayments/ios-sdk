@@ -32,20 +32,6 @@ final class PaymentUIConfigBuilderTest: XCTestCase {
         )
     }
     
-    func testSucceedBuildWithCustomCardInfoProvider() {
-        XCTAssertNoThrow(
-            try PaymentUIConfigBuilder()
-                .keyProviderUrl(providerUrl: "https://dev.bpcbt.com/payment/se/keys.do")
-                .cardInfoProvider(
-                    provider: RemoteCardInfoProvider(
-                        url: "https://mrbin.io/bins/display",
-                        urlBin: "https://mrbin.io/bins/"
-                    )
-                )
-                .build()
-        )
-    }
-    
     func testBuildWithoutKeyProviderShouldThrowException() {
         XCTAssertThrowsError(try PaymentUIConfigBuilder().build())
     }

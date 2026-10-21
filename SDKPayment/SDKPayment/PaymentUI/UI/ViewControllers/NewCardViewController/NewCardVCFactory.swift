@@ -69,7 +69,6 @@ final class NewCardVCFactory: NSObject {
     }
     
     private func registerCells() {
-        tableView?.registerClass(BankLogoTableCell.self)
         tableView?.registerClass(TextFieldTableCell.self)
         tableView?.registerClass(TwoTextFieldsTableCell.self)
         tableView?.registerClass(SwitchTableCell.self)
@@ -80,10 +79,6 @@ final class NewCardVCFactory: NSObject {
         let itemModel = sections[indexPath.section].items[indexPath.row]
         
         switch itemModel {
-        case let itemModel as BankLogoTableModel:
-            let cell = tableView?.dequeueReusableCell(BankLogoTableCell.self, for: indexPath) as? BankLogoTableCell
-            return cell?.bind(model: itemModel)
-            
         case let itemModel as TextFieldTableModel:
             let cell = TextFieldTableCell()
             return cell.bind(model: itemModel)

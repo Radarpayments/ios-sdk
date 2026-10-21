@@ -9,7 +9,6 @@ import Foundation
 
 enum NewCardVCSectionType {
     
-    case logo
     case cardInfo
     case mandatoryFields
     case actions

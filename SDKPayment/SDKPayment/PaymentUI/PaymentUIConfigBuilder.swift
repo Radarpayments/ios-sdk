@@ -12,10 +12,6 @@ import SDKCore
 final class PaymentUIConfigBuilder {
 
     private var keyProvider: KeyProvider? = nil
-    private var cardInfoProvider: CardInfoProvider = RemoteCardInfoProvider(
-        url: Constants.URL_CARD_INFO_BIN_DISPLAY,
-        urlBin: Constants.URL_CARD_INFO_BIN
-    )
 
     init() {}
 
@@ -75,25 +71,12 @@ final class PaymentUIConfigBuilder {
         return self
     }
 
-    /// Change the provider of card information.
-    ///
-    /// - Parameters:
-    ///     - provider: Provider for getting information about the style and type of the card.
-    func cardInfoProvider(provider: CardInfoProvider) -> PaymentUIConfigBuilder {
-        self.cardInfoProvider = provider
-
-        return self
-    }
-
     /// Creates a PaymentUI configuration.
     ///
     /// - Returns: PaymentUI configuration.
     func build() throws -> PaymentUIConfig {
         if let keyProvider {
-            return PaymentUIConfig(
-                keyProvider: keyProvider,
-                cardInfoProvider: self.cardInfoProvider
-            )
+            return PaymentUIConfig(keyProvider: keyProvider)
         }
 
         throw SDKException(message: "You must initialize keyProvider!")
