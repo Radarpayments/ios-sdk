@@ -53,10 +53,19 @@ final class CardDataTextFieldView: UIView {
     
     private lazy var errorMessageLabel: UILabel = {
         let label = UILabel()
-        label.font = .sfPro13
+        label.font = .systemFont(ofSize: 13)
         label.textColor = ThemeSetting.shared.colorErrorLabel()
-        label.adjustsFontSizeToFitWidth = true
-        label.minimumScaleFactor = 0.8
+        label.lineBreakMode = .byTruncatingTail
+
+        return label
+    }()
+
+    private lazy var titleLabel: UILabel = {
+        let label = UILabel()
+        // .sfPro13 is nil: SF Pro is not bundled
+        label.font = .systemFont(ofSize: 13)
+        label.alpha = 0
+        label.isAccessibilityElement = false
 
         return label
     }()
@@ -134,6 +143,7 @@ final class CardDataTextFieldView: UIView {
     }
     
     private func setupSubviews() {
+        addSubview(titleLabel)
         addSubview(stackView)
         addSubview(dividerLine)
         addSubview(errorMessageLabel)
@@ -147,15 +157,19 @@ final class CardDataTextFieldView: UIView {
                 leftImageView.heightAnchor.constraint(equalToConstant: 36),
                 leftImageView.widthAnchor.constraint(equalToConstant: 36),
 
+                titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: 4),
+                titleLabel.leadingAnchor.constraint(equalTo: textField.leadingAnchor),
+                titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
+
                 stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
                 stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
-                stackView.topAnchor.constraint(equalTo: topAnchor, constant: 12),
+                stackView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 2),
                 
                 dividerLine.topAnchor.constraint(equalTo: stackView.bottomAnchor),
                 dividerLine.heightAnchor.constraint(equalToConstant: 1),
                 dividerLine.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
                 dividerLine.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
-                dividerLine.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -36),
+                dividerLine.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -28),
                 
                 errorMessageLabel.topAnchor.constraint(equalTo: dividerLine.bottomAnchor, constant: 8),
                 errorMessageLabel.leadingAnchor.constraint(equalTo: dividerLine.leadingAnchor),
@@ -179,6 +193,13 @@ final class CardDataTextFieldView: UIView {
         
         textChangingHandler?(textField.text ?? "")
         updateCardLogo(withText: textField.text ?? "")
+        updateTitleVisibility()
+    }
+
+    private func updateTitleVisibility() {
+        // a stored card without required CVC gets "   "
+        let hasText = !(textField.text ?? "").trimmingCharacters(in: .whitespaces).isEmpty
+        titleLabel.alpha = hasText ? 1 : 0
     }
     
     private func updateTextField() {
@@ -189,7 +210,9 @@ final class CardDataTextFieldView: UIView {
         let attributtedPlaceholder = NSAttributedString(string: config?.placeholder ?? "", attributes: attributes)
 
         textField.attributedPlaceholder = attributtedPlaceholder
-        textField.textColor = ThemeSetting.shared.colorLabel()
+        textField.textColor = (config?.inputIsAvailable ?? true)
+            ? ThemeSetting.shared.colorLabel()
+            : ThemeSetting.shared.colorLabel().withAlphaComponent(0.7)
         textField.isSecureTextEntry = config?.isSecureInput ?? false
         textField.isUserInteractionEnabled = config?.inputIsAvailable ?? true
         
@@ -212,6 +235,10 @@ final class CardDataTextFieldView: UIView {
         
         textField.delegate = self
         textField.accessibilityIdentifier = config?.placeholder
+
+        titleLabel.text = config?.placeholder
+        titleLabel.textColor = ThemeSetting.shared.colorPlaceholder()
+        updateTitleVisibility()
     }
 }
 

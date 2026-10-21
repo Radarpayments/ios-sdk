@@ -187,11 +187,12 @@ public final class SelectedCardViewController: FormsBaseViewController {
             textFieldViewConfig: CardDataTextFieldViewState(
                 id: Constants.cardNumber,
                 placeholder: .cardNumber(),
-                text: card.pan,
-                pattern: .cardNumber,
+                // .cardNumber would strip the mask characters
+                text: card.pan.maskedPanForDisplay(),
+                pattern: .plain,
                 hideleftImageView: false,
-                isSecureInput: true,
-                inputIsAvailable: false, 
+                isSecureInput: false,
+                inputIsAvailable: false,
                 textFieldViewTextDidChange: nil
             )
         )
@@ -204,8 +205,8 @@ public final class SelectedCardViewController: FormsBaseViewController {
                 placeholder: .mmYY(),
                 text: card.expiryDate?.formatExpiryDate() ?? "",
                 pattern: .cardExpiry,
-                isSecureInput: true,
-                inputIsAvailable: false, 
+                isSecureInput: false,
+                inputIsAvailable: false,
                 textFieldViewTextDidChange: nil
             ),
             trailingTextFieldViewConfig: CardDataTextFieldViewState(
@@ -412,3 +413,11 @@ extension SelectedCardViewController {
 }
 
 extension SelectedCardViewController: InputTableVC {}
+
+private extension String {
+
+    func maskedPanForDisplay() -> String {
+        guard count >= 8 else { return self }
+        return "\(prefix(4)) •••• •••• \(suffix(4))"
+    }
+}
