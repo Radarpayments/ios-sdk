@@ -24,7 +24,6 @@ struct PaymentConfigTestProvider {
             buttonText: nil,
             storedPaymentMethodCVCRequired: true,
             cardDeleteOptions: .noDelete,
-            cardsToDelete: [], 
             editingBindingsIsEnabled: true
         )
     }

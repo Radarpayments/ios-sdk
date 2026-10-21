@@ -131,7 +131,7 @@ final class PaymentConfigBuilderTest: XCTestCase {
 
     func testShouldReturnDefinedCards() {
         let expectedCards: Set<Card> = [
-            Card(pan: "492980xxxxxx7724", bindingId: "ee199a55-cf16-41b2-ac9e-cc1c731edd19")
+            Card(pan: "492980xxxxxx7724", bindingId: "ee199a55-cf16-41b2-ac9e-cc1c731edd19", paymentSystem: "VISA")
         ]
 
         let actualCards = PaymentConfigBuilder(order: "08aba475-1291-4f22-b593-e359487b431d")

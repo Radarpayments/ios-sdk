@@ -11,42 +11,42 @@ import XCTest
 
 final class InstancePaymentTest: XCTestCase {
 
-    var paymentUI: PaymentUI!
+    private let keyProviderUrl = "https://dev.bpcbt.com/payment/se/keys.do"
 
-    override func setUp() {
-        super.setUp()
+    func testShouldReturnSuccessPaymentWithoutOrder() throws {
+        let environment = ProcessInfo.processInfo.environment
+        guard let login = environment["MSDK_TEST_MERCHANT_LOGIN"], !login.isEmpty,
+              let password = environment["MSDK_TEST_MERCHANT_PASSWORD"], !password.isEmpty else {
+            throw XCTSkip("MSDK_TEST_MERCHANT_LOGIN / MSDK_TEST_MERCHANT_PASSWORD are not set")
+        }
 
-        paymentUI = PaymentUI.initialize(
-            paymentUIConfig: try! PaymentUIConfigBuilder()
-                .keyProviderUrl(providerUrl: "https://dev.bpcbt.com/payment/se/keys.do")
-                .build()
-        )
-    }
-
-    func testShouldReturnSuccessPaymentWithoutOrder() {
-        let config = PaymentConfigTestProvider.defaultConfig()
-        let seToken = try! paymentUI.cryptogramProcessor()
-            .create(
-                order: "",
-                timestamp: config.timestamp,
-                uuid: config.uuid,
-                cardInfo: CoreCardInfo(
-                    identifier: .newPaymentMethodIdentifier("5000001111111115"),
-                    expDate: "12/30".toExpDate(),
-                    cvv: "123"
+        let pubKey = try RemoteKeyProvider(url: keyProviderUrl).provideKey().value
+        let tokenResult = SdkCore().generateWithConfig(
+            config: SDKCoreConfig(
+                paymentMethodParams: .cardParamsInstant(
+                    params: CardParamsInstant(
+                        pan: "5000001111111115",
+                        cvc: "123",
+                        expiryMMYY: "12/30",
+                        cardholder: "CARD HOLDER",
+                        pubKey: pubKey
+                    )
                 ),
-                registeredFrom: .MSDK_PAYMENT_UI
+                registeredFrom: .MSDK_PAYMENT
             )
-        let response = makeInstancePayment(seToken)
+        )
+        let seToken = try XCTUnwrap(tokenResult.token, "seToken errors: \(tokenResult.errors)")
+
+        let response = makeInstancePayment(seToken, login: login, password: password)
         XCTAssertEqual("Success", response)
     }
 
-    private func makeInstancePayment(_ seToken: String) -> String? {
+    private func makeInstancePayment(_ seToken: String, login: String, password: String) -> String? {
         let url = "https://dev.bpcbt.com/payment/rest/instantPayment.do"
         let body = [
             "amount": "20000",
-            "userName": "mobile-sdk-api",
-            "password": "vkyvbG0",
+            "userName": login,
+            "password": password,
             "currency": "643",
             "seToken": seToken,
             "cardHolderName": "CARD HOLDER",

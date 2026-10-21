@@ -40,14 +40,19 @@ jobs:
         working-directory: SDKCore
         run: xcodebuild test -scheme SDKCore -destination "$DESTINATION" -quiet
 
-      # SDKPayment unit tests are not run: their SPM test target does not declare the SwiftyMocky dependency.
+      # InstancePaymentTest pays on dev.bpcbt.com and is skipped when the secrets are not set (e.g. PRs from forks).
+      - name: SDKPayment unit tests
+        working-directory: SDKPayment
+        env:
+          TEST_RUNNER_MSDK_TEST_MERCHANT_LOGIN: ${{ secrets.MSDK_TEST_MERCHANT_LOGIN }}
+          TEST_RUNNER_MSDK_TEST_MERCHANT_PASSWORD: ${{ secrets.MSDK_TEST_MERCHANT_PASSWORD }}
+        run: xcodebuild test -scheme SDKPayment -destination "$DESTINATION" -quiet
 
       - name: Integrator check (local checkout)
         working-directory: .github/spm-check
         run: xcodebuild test -scheme SPMCheck-Package -destination "$DESTINATION" -quiet
 
   spm-remote:
-    # Resolves the SDK from GitHub by commit, exactly as an integrator's Xcode would.
     if: github.event_name == 'push'
     runs-on: macos-latest
     timeout-minutes: 30

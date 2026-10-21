@@ -23,19 +23,3 @@ struct RequestParams {
     
     var clientId: String?
 }
-
-
-let requestParamsTest = RequestParams(
-    userName: "mobile-sdk-api",
-    password: "vkyvbG0",
-    amount: "111",
-    returnUrl: "sdk://done",
-    email: "test@test.com",
-    orderId: nil,
-    seToken: nil,
-    text: "DE DE",
-    threeDSSDK: "true",
-    threeDSServerTransId: nil,
-    threeDSSDKKey: nil,
-    clientId: "ClientIdTestIOS"
-)
