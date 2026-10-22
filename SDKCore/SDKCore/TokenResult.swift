@@ -2,18 +2,18 @@
 //  TokenResult.swift
 //  SDKCore
 //
-// 
+//
 //
 
 import Foundation
 
 /// Token description.
-/// 
+///
 /// - Parameters:
 ///     - token: token as string.
 ///     - errors: error while generating token.
 public struct TokenResult {
-    
+
     public var token: String? = nil
     public var errors: Dictionary<ParamField, String> = [:]
 

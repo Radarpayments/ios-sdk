@@ -2,7 +2,7 @@
 //  PaymentStringProcessor.swift
 //  SDKCore
 //
-// 
+//
 //
 
 import Foundation
@@ -17,6 +17,7 @@ import Foundation
 ///
 /// - Returns: prepared line with payment information.
 protocol PaymentStringProcessor {
+
     func createPaymentString(
         order: String,
         timestamp: Int64,

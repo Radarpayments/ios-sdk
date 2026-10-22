@@ -2,23 +2,23 @@
 //  BaseValidator.swift
 //  SDKCore
 //
-// 
+//
 //
 
 import Foundation
 
 /// Base class for creating data validators.
 public class BaseValidator<DATA> {
-    
+
     typealias Rules = AnyBaseValidationRule<DATA>
-    
+
     private var rules: [Rules] = []
-    
+
     /// Adding validation rules to the validator.
     func addRules(_ checkers: Rules...) {
         rules.append(contentsOf: checkers)
     }
-    
+
     /// Data validation [data] against a list of predefined validation rules.
     /// - Parameters:
     ///     - data: data for checking.

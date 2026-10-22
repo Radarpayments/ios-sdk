@@ -2,10 +2,8 @@
 //  SDKDeclinedException.swift
 //  SDKPayment
 //
-// 
 //
-
-import SDKForms
+//
 
 /// Error when paying for a canceled order.
 ///

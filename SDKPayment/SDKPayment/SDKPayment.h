@@ -2,7 +2,7 @@
 //  SDKPayment.h
 //  SDKPayment
 //
-// 
+//
 //
 
 #import <Foundation/Foundation.h>

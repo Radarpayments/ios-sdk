@@ -2,10 +2,8 @@
 //  SDKAlreadyPaymentException.swift
 //  SDKPayment
 //
-// 
 //
-
-import SDKForms
+//
 
 /// An error that occurs when trying to re-pay order.
 ///

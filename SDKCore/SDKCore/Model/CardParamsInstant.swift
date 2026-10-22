@@ -1,6 +1,9 @@
 //
-//  File.swift
-//  
+//  CardParamsInstant.swift
+//  SDKCore
+//
+//
+//
 
 import Foundation
 
@@ -13,7 +16,6 @@ import Foundation
 ///     - cardHolder: first and last name of cardholder.
 ///     - pubKey: public key.
 public struct CardParamsInstant {
-
     public let pan: String
     public let cvc: String
     public let expiryMMYY: String

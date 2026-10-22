@@ -2,7 +2,7 @@
 //  PubKeyValidatorTest.swift
 //  SDKCoreTests
 //
-// 
+//
 //
 
 import XCTest
@@ -22,7 +22,7 @@ final class PubKeyValidatorTest: XCTestCase {
 
     func testShouldAcceptCorrectPubKey() {
         let result = pubKeyValidator.validate(data: testPubKey)
-        
+
         XCTAssertTrue(result.isValid)
         XCTAssertNil(result.errorMessage)
         XCTAssertNil(result.errorCode)
@@ -30,7 +30,7 @@ final class PubKeyValidatorTest: XCTestCase {
 
     func testShouldNotAcceptEmptyPubKey() {
         let result = pubKeyValidator.validate(data: "")
-        
+
         XCTAssertFalse(result.isValid)
         XCTAssertEqual(String.pubKeyRequired().localized, result.errorMessage)
         XCTAssertEqual(ValidationCodes.required, result.errorCode)
@@ -38,7 +38,7 @@ final class PubKeyValidatorTest: XCTestCase {
 
     func testShouldNotAcceptBlankPubKey() {
         let result = pubKeyValidator.validate(data: "        ")
-        
+
         XCTAssertFalse(result.isValid)
         XCTAssertEqual(String.pubKeyRequired().localized, result.errorMessage)
         XCTAssertEqual(ValidationCodes.required, result.errorCode)

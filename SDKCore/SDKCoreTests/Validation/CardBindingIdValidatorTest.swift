@@ -2,7 +2,7 @@
 //  CardBindingIdValidatorTest.swift
 //  SDKCoreTests
 //
-// 
+//
 //
 
 import XCTest
@@ -20,7 +20,7 @@ final class CardBindingIdValidatorTest: XCTestCase {
 
     func testShouldAcceptCorrectBindingId() {
         let result = cardBindongValidator.validate(data: "513b17f4-e32e-414f-8c74-936fd7027baa")
-        
+
         XCTAssertTrue(result.isValid)
         XCTAssertNil(result.errorMessage)
         XCTAssertNil(result.errorCode)
@@ -28,7 +28,7 @@ final class CardBindingIdValidatorTest: XCTestCase {
 
     func testShouldNotAcceptEmptyBindingId() {
         let result = cardBindongValidator.validate(data: "")
-        
+
         XCTAssertFalse(result.isValid)
         XCTAssertEqual(String.bindingRequired().localized, result.errorMessage)
         XCTAssertEqual(ValidationCodes.required, result.errorCode)
@@ -36,7 +36,7 @@ final class CardBindingIdValidatorTest: XCTestCase {
 
     func testShouldNotAcceptBlankBindingId() {
         let result = cardBindongValidator.validate(data: "   ")
-        
+
         XCTAssertFalse(result.isValid)
         XCTAssertEqual(String.bindingRequired().localized, result.errorMessage)
         XCTAssertEqual(ValidationCodes.required, result.errorCode)
@@ -44,10 +44,9 @@ final class CardBindingIdValidatorTest: XCTestCase {
 
     func testShouldNotAcceptWithSpaceBindingId() {
         let result = cardBindongValidator.validate(data: "513b17f4 - e32e-414f-8c74-936fd7027baa")
-        
+
         XCTAssertFalse(result.isValid)
         XCTAssertEqual(String.bindingIncorrect().localized, result.errorMessage)
         XCTAssertEqual(ValidationCodes.invalid, result.errorCode)
     }
-
 }

@@ -2,14 +2,14 @@
 //  NetworkSystemMapper.swift
 //  SDKPayment
 //
-// 
+//
 //
 
 import Foundation
 import PassKit
 
 final class NetworkSystemMapper {
-    
+
     func networktSystem(paymentSystem: PaymentSystem) -> PKPaymentNetwork {
         switch paymentSystem {
         case .visa: return .visa

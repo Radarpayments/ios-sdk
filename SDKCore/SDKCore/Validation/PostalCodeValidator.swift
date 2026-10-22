@@ -1,15 +1,18 @@
 //
-//  File.swift
+//  PostalCodeValidator.swift
+//  SDKCore
+//
+//
 //
 
 import Foundation
 
 /// Postal code value validator
 public final class PostalCodeValidator: BaseValidator<String> {
-    
+
     override public init() {
         super.init()
-        
+
         addRules(
             AnyBaseValidationRule(
                 baseRule: StringRequiredRule(

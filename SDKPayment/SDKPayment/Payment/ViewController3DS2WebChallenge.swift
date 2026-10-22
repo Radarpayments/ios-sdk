@@ -2,15 +2,14 @@
 //  ViewController3DS2WebChallenge.swift
 //  SDKPayment
 //
-// 
+//
 //
 
 import UIKit
 import WebKit
-import SDKForms
 
 final class ViewController3DS2WebChallenge: UIViewController {
-    
+
     private lazy var webView: WKWebView = { WKWebView() }()
     private var noActionTimer: Timer?
 
@@ -20,7 +19,7 @@ final class ViewController3DS2WebChallenge: UIViewController {
     private lazy var paymentApi: PaymentApi = {
         PaymentApiImpl(baseUrl: viewControllerDelegate.getPaymentConfig().baseURL)
     }()
-    
+
     convenience init(
         webChallengeParam: WebChallengeParam,
         viewControllerDelegate: ViewControllerDelegate?
@@ -30,46 +29,58 @@ final class ViewController3DS2WebChallenge: UIViewController {
         self.webChallengeParam = webChallengeParam
         self.viewControllerDelegate = viewControllerDelegate
     }
-    
+
     override public func loadView() {
         super.loadView()
-        
+
         setupSubviews()
     }
-    
+
     override public func viewDidLoad() {
         super.viewDidLoad()
-        
-        noActionTimer = Timer.scheduledTimer(withTimeInterval: 300, repeats: false, block: { [weak self] timer in
-            guard let self else { return }
-            
-            timer.invalidate()
-            
-            let paymentResultData = PaymentResultData(isSuccess: false,
-                                                      exception: SDKTransactionException(message: "Transaction Timed Out."))
-            viewControllerDelegate?.finishWithResult(paymentData: paymentResultData)
-        })
-        
+
+        noActionTimer = Timer.scheduledTimer(
+            withTimeInterval: 300, repeats: false,
+            block: { [weak self] timer in
+                guard let self else { return }
+
+                timer.invalidate()
+
+                let paymentResultData = PaymentResultData(
+                    isSuccess: false,
+                    exception: SDKTransactionException(message: "Transaction Timed Out.")
+                )
+
+                viewControllerDelegate?.finishWithResult(
+                    paymentData: paymentResultData)
+            })
+
         setupWebView()
     }
-    
+
     override public func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        
+
         noActionTimer?.invalidate()
     }
-    
+
     private func setupSubviews() {
+#if DEBUG
+        if #available(iOS 16.4, *) {
+            webView.isInspectable = true
+        }
+#endif
+
         view = webView
     }
-    
+
     private func setupWebView() {
         webView.navigationDelegate = self
-        
+
         let html = getHtmlString()
         webView.loadHTMLString(html, baseURL: nil)
     }
-    
+
     private func getHtmlString() -> String {
         """
         <html>
@@ -85,67 +96,70 @@ final class ViewController3DS2WebChallenge: UIViewController {
         </html>
         """
     }
-    
+
     private func finishPayment() {
         do {
-            let orderStatus = try paymentApi
-                .getSessionStatus(mdOrder: webChallengeParam.mdOrder)
-            
-            let paymentFinishedInfo = try paymentApi
-                .getFinishedPaymentInfo(orderId: webChallengeParam.mdOrder)
-            
+            let orderStatus = try paymentApi.getSessionStatus(mdOrder: webChallengeParam.mdOrder)
+            let paymentFinishedInfo = try paymentApi.getFinishedPaymentInfo(orderId: webChallengeParam.mdOrder)
+
             let isSuccess = paymentFinishedInfo.status?
                 .containsAnyOfKeywordIgnoreCase(keywords: OrderStatuses.payedStatuses) ?? false
-            
+
             let paymentResultData = PaymentResultData(isSuccess: isSuccess)
+
             LogDebug.shared.logIfDebug(message: "getSessionStatus - Remaining sec \(orderStatus.remainingSecs)")
-            
+
             viewControllerDelegate?.finishWithResult(paymentData: paymentResultData)
-            
         } catch {
-            let paymentResultData = PaymentResultData(isSuccess: false,
-                                                  exception: error as? SDKException)
+            let paymentResultData = PaymentResultData(
+                isSuccess: false,
+                exception: error as? SDKException
+            )
+
             viewControllerDelegate?.finishWithResult(paymentData: paymentResultData)
         }
 
         dismissController()
     }
-    
+
     private func dismissController() {
         dismiss(animated: true) { [weak self] in
             guard let self else { return }
-            
+
             self.noActionTimer?.invalidate()
         }
     }
-    
+
     private func finishTimer() {
         noActionTimer?.invalidate()
     }
 }
 
 extension ViewController3DS2WebChallenge: WKNavigationDelegate {
-    
+
     public func webView(
         _ webView: WKWebView,
         decidePolicyFor navigationAction: WKNavigationAction,
         decisionHandler: @escaping (WKNavigationActionPolicy) -> Void
     ) {
         let request = navigationAction.request
-        
+
         guard let absoluteString = request.url?.absoluteString
         else {
             decisionHandler(.allow)
+
             return
         }
-        
+
         print("absoluteString: \(absoluteString)")
+
         if absoluteString.contains("sdk://done") {
             finishPayment()
             decisionHandler(.cancel)
+
             return
         }
-        
+
         decisionHandler(.allow)
     }
 }

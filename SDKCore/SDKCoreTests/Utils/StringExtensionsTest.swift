@@ -2,14 +2,14 @@
 //  StringExtensionsTest.swift
 //  SDKCoreTests
 //
-// 
+//
 //
 
 import XCTest
 @testable import SDKCore
 
 final class StringExtensionsTest: XCTestCase {
-    
+
     func testToExpDateShouldReturnCorrectValue() {
         XCTAssertEqual(ExpiryDate(expYear: 2000, expMonth: 1), try "01/00".toExpDate())
         XCTAssertEqual(ExpiryDate(expYear: 2001, expMonth: 1), try "01/01".toExpDate())
@@ -26,19 +26,19 @@ final class StringExtensionsTest: XCTestCase {
         XCTAssertEqual(ExpiryDate(expYear: 2022, expMonth: 12), try "12/22".toExpDate())
         XCTAssertEqual(ExpiryDate(expYear: 2099, expMonth: 12), try "12/99".toExpDate())
     }
-    
+
     func testToExpDateShouldThrowExceptionForEmptyString() {
         XCTAssertThrowsError(try "".toExpDate(), "Error Domain=Incorrect format, should be MM/YY. Code=-1 (null)")
     }
-    
+
     func testToExpDateShouldThrowExceptionForNotDigitsSymbols() {
         XCTAssertThrowsError(try "abcd".toExpDate(), "Error Domain=Invalid month or year. Code=-1 (null)")
     }
-    
+
     func testToExpDateShouldThrowExceptionForLongString() {
         XCTAssertThrowsError(try "01/2004".toExpDate(), "Error Domain=Incorrect format, should be MM/YY. Code=-1 (null)")
     }
-    
+
     func testPemKeyContentShouldRemoveSpacesHeaderAndFooter() {
         let pem = """
         -----BEGIN PUBLIC KEY-----

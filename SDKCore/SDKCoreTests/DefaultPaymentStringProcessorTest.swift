@@ -2,6 +2,8 @@
 //  DefaultPaymentStringProcessorTest.swift
 //  SDKCoreTests
 //
+//
+//
 
 import XCTest
 @testable import SDKCore
@@ -31,7 +33,7 @@ final class DefaultPaymentStringProcessorTest: XCTestCase {
             ),
             registeredFrom: .MSDK_CORE
         )
-        
+
         XCTAssertEqual(template, "2020-07-06T07:26:20+03:00/fd4b1011-727a-41e8-95b4-d7092d729022/4532896701439077/444/202012/7f472085-399e-414e-b51c-a7b538aee497//CardHolderName/MSDK_CORE")
     }
 
@@ -98,7 +100,7 @@ final class DefaultPaymentStringProcessorTest: XCTestCase {
             ),
             registeredFrom: .MSDK_CORE
         )
-        
+
         XCTAssertEqual(template, "2020-07-06T07:26:20+03:00/fd4b1011-727a-41e8-95b4-d7092d729022//444/202012/7f472085-399e-414e-b51c-a7b538aee497/47eb0336-5ad9-4e03-8a1e-b9f3656ec768//MSDK_CORE")
     }
 
@@ -114,7 +116,7 @@ final class DefaultPaymentStringProcessorTest: XCTestCase {
             ),
             registeredFrom: .MSDK_CORE
         )
-        
+
         XCTAssertEqual(template, "2020-07-06T07:26:20+03:00/fd4b1011-727a-41e8-95b4-d7092d729022///202012/7f472085-399e-414e-b51c-a7b538aee497/47eb0336-5ad9-4e03-8a1e-b9f3656ec768//MSDK_CORE")
     }
 
@@ -130,7 +132,7 @@ final class DefaultPaymentStringProcessorTest: XCTestCase {
             ),
             registeredFrom: .MSDK_CORE
         )
-        
+
         XCTAssertEqual(template, "2020-07-06T07:26:20+03:00/fd4b1011-727a-41e8-95b4-d7092d729022//444//7f472085-399e-414e-b51c-a7b538aee497/47eb0336-5ad9-4e03-8a1e-b9f3656ec768//MSDK_CORE")
     }
 
@@ -145,7 +147,7 @@ final class DefaultPaymentStringProcessorTest: XCTestCase {
             ),
             registeredFrom: .MSDK_CORE
         )
-        
+
         XCTAssertEqual(template, "2020-07-06T07:26:20+03:00/fd4b1011-727a-41e8-95b4-d7092d729022////7f472085-399e-414e-b51c-a7b538aee497/47eb0336-5ad9-4e03-8a1e-b9f3656ec768//MSDK_CORE")
     }
 
@@ -163,7 +165,7 @@ final class DefaultPaymentStringProcessorTest: XCTestCase {
             ),
             registeredFrom: .MSDK_CORE
         )
-        
+
         XCTAssertEqual(template, "2020-07-06T07:26:20+03:00/fd4b1011-727a-41e8-95b4-d7092d729022/4532896701439077/444/202012///CardHolderName/MSDK_CORE")
     }
 
@@ -180,7 +182,7 @@ final class DefaultPaymentStringProcessorTest: XCTestCase {
             ),
             registeredFrom: .MSDK_CORE
         )
-        
+
         XCTAssertEqual(template, "2020-07-06T07:26:20+03:00/fd4b1011-727a-41e8-95b4-d7092d729022/4532896701439077//202012///CardHolderName/MSDK_CORE")
     }
 
@@ -197,7 +199,7 @@ final class DefaultPaymentStringProcessorTest: XCTestCase {
             ),
             registeredFrom: .MSDK_CORE
         )
-        
+
         XCTAssertEqual(template, "2020-07-06T07:26:20+03:00/fd4b1011-727a-41e8-95b4-d7092d729022/4532896701439077/444////CardHolderName/MSDK_CORE")
     }
 
@@ -213,7 +215,7 @@ final class DefaultPaymentStringProcessorTest: XCTestCase {
             ),
             registeredFrom: .MSDK_CORE
         )
-        
+
         XCTAssertEqual(template, "2020-07-06T07:26:20+03:00/fd4b1011-727a-41e8-95b4-d7092d729022/4532896701439077/////CardHolderName/MSDK_CORE")
     }
 
@@ -231,7 +233,7 @@ final class DefaultPaymentStringProcessorTest: XCTestCase {
             ),
             registeredFrom: .MSDK_CORE
         )
-        
+
         XCTAssertEqual(template, "2020-07-06T07:26:20+03:00/fd4b1011-727a-41e8-95b4-d7092d729022//444/202012//47eb0336-5ad9-4e03-8a1e-b9f3656ec768/CardHolderName/MSDK_CORE")
     }
 
@@ -248,7 +250,7 @@ final class DefaultPaymentStringProcessorTest: XCTestCase {
             ),
             registeredFrom: .MSDK_CORE
         )
-        
+
         XCTAssertEqual(template, "2020-07-06T07:26:20+03:00/fd4b1011-727a-41e8-95b4-d7092d729022///202012//47eb0336-5ad9-4e03-8a1e-b9f3656ec768/CardHolderName/MSDK_CORE")
     }
 
@@ -265,7 +267,7 @@ final class DefaultPaymentStringProcessorTest: XCTestCase {
             ),
             registeredFrom: .MSDK_CORE
         )
-        
+
         XCTAssertEqual(template, "2020-07-06T07:26:20+03:00/fd4b1011-727a-41e8-95b4-d7092d729022//444///47eb0336-5ad9-4e03-8a1e-b9f3656ec768/CardHolderName/MSDK_CORE")
     }
 
@@ -281,7 +283,7 @@ final class DefaultPaymentStringProcessorTest: XCTestCase {
             ),
             registeredFrom: .MSDK_CORE
         )
-        
+
         XCTAssertEqual(template, "2020-07-06T07:26:20+03:00/fd4b1011-727a-41e8-95b4-d7092d729022/////47eb0336-5ad9-4e03-8a1e-b9f3656ec768/CardHolderName/MSDK_CORE")
     }
 }

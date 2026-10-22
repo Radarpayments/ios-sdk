@@ -2,7 +2,7 @@
 //  ProcessBindingFormResponse.swift
 //  SDKPayment
 //
-// 
+//
 //
 
 import Foundation

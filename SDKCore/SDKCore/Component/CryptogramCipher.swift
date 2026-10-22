@@ -2,14 +2,14 @@
 //  CryptogramCipher.swift
 //  SDKCore
 //
-// 
+//
 //
 
 import Foundation
 
- ///Interface for cryptogram encryptor.
+///Interface for cryptogram encryptor.
 protocol CryptogramCipher {
-    
+
     /// Encrypt [data] by public key [key].
     /// - Returns: cryptogram.
     func encode(

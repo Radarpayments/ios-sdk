@@ -1,23 +1,15 @@
-/* 
-  Localizable.strings
-  SDKCore
+"payrdr_card_incorrect_cvc" = "CVC2/CVV2 ist falsch";
+"payrdr_card_incorrect_length" = "Die Kartennummer sollte 16–19 Ziffern lang sein";
+"payrdr_card_incorrect_number" = "Die Kartennummer ist falsch";
+"payrdr_card_incorrect_expiry" = "Das Ablaufdatum der Karte ist falsch";
+"payrdr_card_incorrect_card_holder" = "Der Karteninhaber ist falsch";
+"payrdr_order_incorrect_length" = "Die Bestellnummer darf nicht leer sein";
+"payrdr_binding_incorrect_length" = "Falsche bindingId-Länge";
+"payrdr_pub_key_required" = "Öffentlicher Schlüssel erforderlich";
+"payrdr_binding_required" = "Binding-ID erforderlich";
+"payrdr_binding_incorrect" = "Binding-ID hat falsches Format";
 
-  
-  
-*/
+"payrdr_field_required" = "Feld ist erforderlich";
 
-"payrdr_card_incorrect_cvc" = "CVC2/CVV2 is incorrect";
-"payrdr_card_incorrect_length" = "Card number length should be 16–19 digit";
-"payrdr_card_incorrect_number" = "The card number is incorrect";
-"payrdr_card_incorrect_expiry" = "Card expiry date is incorrect";
-"payrdr_card_incorrect_card_holder" = "The card holder is incorrect";
-"payrdr_order_incorrect_length" = "Order number should not be empty";
-"payrdr_binding_incorrect_length" = "Incorrect bindingId length";
-"payrdr_pub_key_required" = "Public key required";
-"payrdr_binding_required" = "Binding id required";
-"payrdr_binding_incorrect" = "Binding id has incorrect format";
-
-"payrdr_field_required" = "Field is required";
-
-"payrdr_email_incorrect" = "Email is incorrect";
-"payrdr_phone_number_incorrect" = "Phone number is incorrect";
+"payrdr_email_incorrect" = "E-Mail ist falsch";
+"payrdr_phone_number_incorrect" = "Telefonnummer ist falsch";

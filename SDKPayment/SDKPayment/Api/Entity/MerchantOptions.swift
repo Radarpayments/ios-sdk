@@ -2,13 +2,13 @@
 //  MerchantOptions.swift
 //  SDKPayment
 //
-// 
+//
 //
 
 import Foundation
 
 enum MerchantOption: String, Codable {
-    
+
     case googlePay     = "GOOGLEPAY"
     case masterCardTDS = "MASTERCARD_TDS"
     case mir           = "MIR"

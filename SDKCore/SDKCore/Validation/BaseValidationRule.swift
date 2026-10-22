@@ -2,7 +2,7 @@
 //  BaseValidationRule.swift
 //  SDKCore
 //
-// 
+//
 //
 
 import Foundation
@@ -10,7 +10,7 @@ import Foundation
 /// Protocol for creating data validation rules
 protocol BaseValidationRule {
     associatedtype DATA
-    
+
     /// The method is called when validating data [data].
     ///
     /// - Parameters:
@@ -22,11 +22,11 @@ protocol BaseValidationRule {
 
 struct AnyBaseValidationRule<DATA>: BaseValidationRule {
     private let validateForErrorClosure: (DATA) -> ValidationResult
-    
+
     init<R: BaseValidationRule>(baseRule: R) where R.DATA == DATA {
-            validateForErrorClosure = baseRule.validateForError
-        }
-    
+        validateForErrorClosure = baseRule.validateForError
+    }
+
     func validateForError(data: DATA) -> ValidationResult {
         validateForErrorClosure(data)
     }

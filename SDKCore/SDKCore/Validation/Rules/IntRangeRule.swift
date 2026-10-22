@@ -2,7 +2,7 @@
 //  IntRangeRule.swift
 //  SDKCore
 //
-// 
+//
 //
 
 import Foundation

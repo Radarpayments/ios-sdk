@@ -13,17 +13,18 @@ let package = Package(
         )
     ],
     dependencies: [
-        .package(name: "SDKCore", path: "../SDKCore"),
-        .package(name: "SDKForms", path: "../SDKForms")
+        .package(name: "SDKCore", path: "../SDKCore")
     ],
     targets: [
         .target(
             name: "SDKPayment",
             dependencies: [
-                .product(name: "SDKCore", package: "SDKCore"),
-                .product(name: "SDKForms", package: "SDKForms")
+                .product(name: "SDKCore", package: "SDKCore")
             ],
-            path: "SDKPayment"
+            path: "SDKPayment",
+            resources: [
+                .process("Resources")
+            ]
         ),
         .testTarget(
             name: "SDKPaymentTests",

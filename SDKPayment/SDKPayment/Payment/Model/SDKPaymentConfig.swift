@@ -2,7 +2,7 @@
 //  SDKPaymentConfig.swift
 //  SDKPayment
 //
-// 
+//
 //
 
 import Foundation
@@ -18,12 +18,8 @@ public struct SDKPaymentConfig: Codable {
     let baseURL: String
     let keyProviderUrl: String
     let applePaySettings: ApplePaySettings?
-    
-    public init(
-        baseURL: String,
-        keyProviderUrl: String,
-        applePaySettings: ApplePaySettings? = nil
-    ) {
+
+    public init(baseURL: String, keyProviderUrl: String, applePaySettings: ApplePaySettings? = nil) {
         self.baseURL = baseURL
         self.keyProviderUrl = keyProviderUrl
         self.applePaySettings = applePaySettings

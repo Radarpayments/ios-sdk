@@ -1,6 +1,9 @@
 //
-//  File.swift
-//  
+//  SDKCoreConfig.swift
+//  SDKCore
+//
+//
+//
 
 import Foundation
 
@@ -11,11 +14,11 @@ import Foundation
 ///     - registeredFrom: the source of tokent generation
 ///     - timestamp: the timestamp used in the token generation
 public struct SDKCoreConfig {
-    
+
     var paymentMethodParams: PaymentParamsVariant
     var registeredFrom: MSDKRegisteredFrom
     var timestamp: Double
-    
+
     public init(
         paymentMethodParams: PaymentParamsVariant,
         registeredFrom: MSDKRegisteredFrom = .MSDK_CORE,

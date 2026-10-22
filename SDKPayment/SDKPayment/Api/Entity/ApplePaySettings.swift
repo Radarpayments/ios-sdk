@@ -2,13 +2,13 @@
 //  ApplePaySettings.swift
 //  SDKPayment
 //
-// 
+//
 //
 
 import Foundation
 
 public struct ApplePaySettings: Codable {
-    
+
     let merchantId: String
     let availablePaymentSystems: [PaymentSystem]
     let countryCode: String

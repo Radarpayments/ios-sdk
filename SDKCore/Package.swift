@@ -8,7 +8,7 @@ let package = Package(
     platforms: [.iOS(.v12)],
     products: [
         .library(
-            name: "SDKCore",               
+            name: "SDKCore",
             targets: ["SDKCore"]
         )
     ],
@@ -25,5 +25,3 @@ let package = Package(
     ],
     swiftLanguageVersions: [.v5]
 )
-
-

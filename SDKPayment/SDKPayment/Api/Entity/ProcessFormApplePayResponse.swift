@@ -2,16 +2,16 @@
 //  ProcessFormApplePayResponse.swift
 //  SDKPayment
 //
-// 
+//
 //
 
 import Foundation
 
 struct ProcessFormApplePayResponse: Codable {
-    
+
     let success: Bool
     let data: ApplePayData?
-    
+
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 

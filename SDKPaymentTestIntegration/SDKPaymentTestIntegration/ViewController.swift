@@ -5,7 +5,6 @@
 
 import UIKit
 import SDKPayment
-import SDKForms
 
 class ViewController: UIViewController {
 

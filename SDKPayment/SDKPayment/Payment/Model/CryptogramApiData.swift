@@ -2,7 +2,7 @@
 //  CryptogramApiData.swift
 //  SDKPayment
 //
-// 
+//
 //
 
 import Foundation
@@ -15,7 +15,7 @@ import Foundation
 ///     - holder first and last cardholder name.
 ///     - saveCard should saving a card.
 struct CryptogramApiData: Codable {
-    
+
     let paymentToken: String
     let mdOrder: String
     let holder: String

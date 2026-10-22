@@ -2,7 +2,7 @@
 //  DefaultPaymentStringProcessor.swift
 //  SDKCore
 //
-// 
+//
 //
 
 import Foundation
@@ -10,8 +10,8 @@ import Foundation
 /// Implementation of a processor for generating a line with payment information using a template.
 final class DefaultPaymentStringProcessor: PaymentStringProcessor {
 
-    private let SPLASH = "/"
-    
+    private let SLASH = "/"
+
     init() {}
 
     /// Generates a list of payment data using a template.
@@ -31,59 +31,68 @@ final class DefaultPaymentStringProcessor: PaymentStringProcessor {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
         formatter.locale = Locale(identifier: "en_US_POSIX")
+
         return formatter
     }()
-    
+
     func createPaymentString(order: String,
-                                    timestamp: Int64,
-                                    uuid: String,
-                                    cardInfo: CoreCardInfo,
-                                    registeredFrom: MSDKRegisteredFrom = .MSDK_CORE
+                             timestamp: Int64,
+                             uuid: String,
+                             cardInfo: CoreCardInfo,
+                             registeredFrom: MSDKRegisteredFrom = .MSDK_CORE
     ) -> String {
         let cardIdentifier = cardInfo.identifier
         let bindingId: String = {
             if case let .storedPaymentMethodIdentifier(value) = cardIdentifier {
                 return value
             }
+
             return ""
         }()
 
         var str = String()
+
         // timestamp(1)
-        str.append(Date(timeIntervalSince1970: TimeInterval(timestamp))
-            .formatDate(dateFormatter: dateFormatter))
-        str.append(SPLASH)
+        str.append(Date(timeIntervalSince1970: TimeInterval(timestamp)).formatDate(dateFormatter: dateFormatter))
+        str.append(SLASH)
+
         // uuid (2)
         str.append(uuid)
-        str.append(SPLASH)
+        str.append(SLASH)
+
         // pan (3)
         let panIdentifier: String = {
             if case let .newPaymentMethodIdentifier(value) = cardIdentifier {
                 return value
             }
+
             return ""
         }()
         str.append(panIdentifier)
+        str.append(SLASH)
 
-        str.append(SPLASH)
         // cvv(4)
         str.append(cardInfo.cvv ?? "")
-        str.append(SPLASH)
+        str.append(SLASH)
+
         // expdate(5)
         str.append(cardInfo.expDate?.format() ?? "")
-        str.append(SPLASH)
+        str.append(SLASH)
+
         // mdOrder(6)
         str.append(order)
-        str.append(SPLASH)
+        str.append(SLASH)
+
         // bindingId(7)
         str.append(bindingId)
-        str.append(SPLASH)
+        str.append(SLASH)
+
         // cardHolder(8)
         str.append(cardInfo.cardHolder ?? "")
-        str.append(SPLASH)
+        str.append(SLASH)
+
         // registeredFrom (9)
         str.append(registeredFrom.rawValue)
-        
 
         return str
     }

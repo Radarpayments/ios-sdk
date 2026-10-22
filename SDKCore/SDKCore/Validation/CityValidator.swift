@@ -1,15 +1,18 @@
 //
-//  File.swift
+//  CityValidator.swift
+//  SDKCore
+//
+//
 //
 
 import Foundation
 
 /// City value validator
 public final class CityValidator: BaseValidator<String> {
-    
+
     override public init() {
         super.init()
-        
+
         addRules(
             AnyBaseValidationRule(
                 baseRule: StringRequiredRule(

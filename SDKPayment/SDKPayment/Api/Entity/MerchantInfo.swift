@@ -2,7 +2,7 @@
 //  MerchantInfo.swift
 //  SDKPayment
 //
-// 
+//
 //
 
 import Foundation
@@ -17,14 +17,14 @@ import Foundation
 ///     - captchaMode is available captcha.
 ///     - custom if merchant has a custom rules.
 struct MerchantInfo: Codable {
-    
+
     let merchantUrl: String
     let merchantFullName: String
     let mcc: String?
     let merchantLogin: String
     let captchaMode: String
     var custom: Bool = false
-    
+
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 

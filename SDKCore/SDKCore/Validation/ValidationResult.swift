@@ -2,7 +2,7 @@
 //  ValidationResult.swift
 //  SDKCore
 //
-// 
+//
 //
 
 import Foundation
@@ -18,13 +18,13 @@ public struct ValidationResult {
     public let isValid: Bool
     public let errorCode: String?
     public let errorMessage: String?
-    
+
     public static var VALID = ValidationResult(
         isValid: true,
         errorCode: nil,
         errorMessage: nil
     )
-    
+
     /// Method describing the error .
     ///
     /// - Parameters:

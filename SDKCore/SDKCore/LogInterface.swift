@@ -2,13 +2,14 @@
 //  LogInterface.swift
 //  SDKCore
 //
-// 
+//
 //
 
 import Foundation
 
 /// Interface for custom log.
 public protocol LogInterface {
+
     /// Method signature for implementing logs.
     ///
     /// - Parameters:

@@ -2,7 +2,7 @@
 //  ProcessFormResponse.swift
 //  SDKPayment
 //
-// 
+//
 //
 
 import Foundation
@@ -26,7 +26,7 @@ struct ProcessFormResponse: Codable {
     let paReq: String?
     let termUrl: String?
     let threeDSMethodURL: String?
-    
+
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 

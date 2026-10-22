@@ -1,17 +1,18 @@
 //
-//  File.swift
+//  PaymentResultData.swift
+//  SDKPayment
+//
+//
 //
 
 import Foundation
-import SDKForms
 
 struct PaymentResultData {
-    
+
     var isSuccess = false
     let exception: SDKException?
-    
-    init(isSuccess: Bool = false, 
-         exception: SDKException? = nil) {
+
+    init(isSuccess: Bool = false, exception: SDKException? = nil) {
         self.isSuccess = isSuccess
         self.exception = exception
     }

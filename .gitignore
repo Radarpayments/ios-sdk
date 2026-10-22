@@ -81,9 +81,14 @@ dist
 *.framework
 *.xcframework
 */build
+*/.build
 */DerivedData
 *.swiftpm
 */.swiftpm
 */.mocky*
 .mocky*
+.buildServer.json
 
+
+# SwiftPM (root Package.swift)
+.build/

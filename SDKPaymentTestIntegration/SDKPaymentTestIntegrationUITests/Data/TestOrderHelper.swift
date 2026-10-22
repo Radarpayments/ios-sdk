@@ -8,8 +8,21 @@
 import XCTest
 import Foundation
 import SDKPayment
-import SDKForms
 import SDKCore
+
+enum TestCredentials {
+
+    static var merchantLogin: String { value("MSDK_TEST_MERCHANT_LOGIN") }
+    static var merchantPassword: String { value("MSDK_TEST_MERCHANT_PASSWORD") }
+    static var apiKey: String { value("MSDK_TEST_API_KEY") }
+
+    private static func value(_ name: String) -> String {
+        guard let value = ProcessInfo.processInfo.environment[name], !value.isEmpty else {
+            fatalError("\(name) is not set. Pass it as TEST_RUNNER_\(name)=... to xcodebuild.")
+        }
+        return value
+    }
+}
 
 final class TestOrderHelper {
     
@@ -64,8 +77,8 @@ final class TestOrderHelper {
     func registerOrder(
         amount: Int = 20000,
         returnUrl: String = "sdk://done",
-        userName: String = "mobile-sdk-api",
-        password: String = "vkyvbG0",
+        userName: String = TestCredentials.merchantLogin,
+        password: String = TestCredentials.merchantPassword,
         clientId: String? = nil,
         email: String? = nil,
         mobilePhone: String? = nil,
@@ -109,7 +122,7 @@ final class TestOrderHelper {
     func registerNewSession(
         createSessionbaseUrl: String = "https://dev.bpcbt.com",
         amount: Int = 2000,
-        apiKey: String = "9yVrffWNAiHUUVUCQoX4NFHMxmRHYA2yB",
+        apiKey: String = TestCredentials.apiKey,
         xVersion: String = "2023-10-31",
         successUrl: String = "sdk://done",
         failureUrl: String = "sdk://done"

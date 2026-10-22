@@ -1,23 +1,15 @@
-/* 
-  Localizable.strings
-  SDKCore
+"payrdr_card_incorrect_cvc" = "CVC2/CVV2 указан неверно";
+"payrdr_card_incorrect_length" = "Длина номера карты должна быть 16–19 цифр";
+"payrdr_card_incorrect_number" = "Номер карты указан неверно";
+"payrdr_card_incorrect_expiry" = "Срок действия карты указан неверно";
+"payrdr_card_incorrect_card_holder" = "Держатель карты указан неверно";
+"payrdr_order_incorrect_length" = "Номер заказа не должен быть пустым";
+"payrdr_binding_incorrect_length" = "Неверная длина bindingId";
+"payrdr_pub_key_required" = "Требуется открытый ключ";
+"payrdr_binding_required" = "Требуется идентификатор привязки";
+"payrdr_binding_incorrect" = "Идентификатор привязки имеет неверный формат";
 
-  
-  
-*/
+"payrdr_field_required" = "Поле обязательно для заполнения";
 
-"payrdr_card_incorrect_cvc" = "CVC2/CVV2 is incorrect";
-"payrdr_card_incorrect_length" = "Card number length should be 16–19 digit";
-"payrdr_card_incorrect_number" = "The card number is incorrect";
-"payrdr_card_incorrect_expiry" = "Card expiry date is incorrect";
-"payrdr_card_incorrect_card_holder" = "The card holder is incorrect";
-"payrdr_order_incorrect_length" = "Order number should not be empty";
-"payrdr_binding_incorrect_length" = "Incorrect bindingId length";
-"payrdr_pub_key_required" = "Public key required";
-"payrdr_binding_required" = "Binding id required";
-"payrdr_binding_incorrect" = "Binding id has incorrect format";
-
-"payrdr_field_required" = "Field is required";
-
-"payrdr_email_incorrect" = "Email is incorrect";
-"payrdr_phone_number_incorrect" = "Phone number is incorrect";
+"payrdr_email_incorrect" = "Адрес электронной почты указан неверно";
+"payrdr_phone_number_incorrect" = "Номер телефона указан неверно";

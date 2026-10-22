@@ -1,11 +1,14 @@
 //
-//  File.swift
-//  
+//  CustomerDetails.swift
+//  SDKPayment
+//
+//
+//
 
 import Foundation
 
 struct CustomerDetails: Codable {
-    
+
     let email: String?
     let phone: String?
 }

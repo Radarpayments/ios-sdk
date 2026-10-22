@@ -2,7 +2,7 @@
 //  FinishedPaymentInfoResponse.swift
 //  SDKPayment
 //
-// 
+//
 //
 
 import Foundation
@@ -28,7 +28,7 @@ struct FinishedPaymentInfoResponse: Codable {
     let panMasked: String?
     let formattedAmount: String?
     let actionCodeDescription: String?
-    
+
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 

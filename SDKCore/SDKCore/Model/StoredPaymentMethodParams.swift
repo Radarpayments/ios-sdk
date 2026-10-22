@@ -9,7 +9,7 @@ import Foundation
 /// Information about stored payment method.
 ///
 /// - Parameters:
-///     - storePaymentMethodId: id of stored payment method.
+///     - storedPaymentMethodId: id of stored payment method.
 ///     - cvc: secret code for card.
 ///     - pubKey: public key.
 public struct StoredPaymentMethodParams {
@@ -18,11 +18,9 @@ public struct StoredPaymentMethodParams {
     public let cvc: String?
     public let pubKey: String
 
-    public init(pubKey: String,
-                storePaymentMethodId: String,
-                cvc: String? = nil) {
+    public init(pubKey: String, storedPaymentMethodId: String, cvc: String? = nil) {
         self.pubKey = pubKey
-        self.storedPaymentMethodId = storePaymentMethodId
+        self.storedPaymentMethodId = storedPaymentMethodId
         self.cvc = cvc
     }
 }

@@ -2,30 +2,29 @@
 //  ParamField.swift
 //  SDKCore
 //
-// 
+//
 //
 
 import Foundation
 
 /// Possible error locations.
-public enum ParamField: Error {
+public enum ParamField: String, Error {
     // Unknown error.
-    case UNKNOWN
-    // Card number error.
-    case PAN
-    // CVC error.
-    case CVC
-    // Expiry date error.
-    case EXPIRY
-    // Cardholder error.
-    case CARDHOLDER
-    // Public key error.
-    case PUB_KEY
+    case UNKNOWN = "UNKNOWN"
+    // Card number error
+    case PAN = "PAN"
+    // CVC error
+    case CVC = "CVC"
+    // Expiry date error
+    case EXPIRY = "EXPIRY"
+    // Cardholder error
+    case CARDHOLDER = "CARDHOLDER"
+    // Public key error
+    case PUB_KEY = "PUB_KEY"
     // Stored payment method Id
-    case STORED_PAYMENT_METHOD_ID
-    
-    // Binding number error.
-    case BINDING_ID
-    // Number order error.
-    case MD_ORDER
+    case STORED_PAYMENT_METHOD_ID = "STORED_PAYMENT_METHOD_ID"
+    // Binding number error
+    case BINDING_ID = "BINDING_ID"
+    // Number order error
+    case MD_ORDER = "MD_ORDER"
 }

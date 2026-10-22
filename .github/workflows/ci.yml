@@ -1,0 +1,90 @@
+name: CI
+
+# Runs on every PR and on pushes to master. Publishes nothing:
+# the XCFramework zips are kept only as workflow artifacts for manual testing.
+
+on:
+  pull_request:
+  push:
+    branches: [ master ]
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+# bash with pipefail, so a failing xcodebuild still fails the step behind | grep
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  build-test:
+    runs-on: macos-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Pick simulator
+        run: echo "DESTINATION=$(.github/scripts/simulator.sh)" >> "$GITHUB_ENV"
+
+      - name: Versions in SDKCore and SDKPayment match
+        run: |
+          core=$(sed -nE 's/.*SDK_VERSION = "([^"]+)".*/\1/p' SDKCore/SDKCore/Constants.swift)
+          payment=$(sed -nE 's/.*SDK_VERSION = "([^"]+)".*/\1/p' SDKPayment/SDKPayment/Constants.swift)
+          echo "SDKCore=$core SDKPayment=$payment"
+          [[ -n "$core" && "$core" == "$payment" ]]
+
+      - name: Build root package
+        run: xcodebuild build -scheme SDKPayment -destination 'generic/platform=iOS Simulator' -quiet
+
+      - name: SDKCore unit tests
+        working-directory: SDKCore
+        run: xcodebuild test -scheme SDKCore -destination "$DESTINATION" | grep -E "Test Case .*(passed|failed|skipped)|Executed|error:"
+
+      # InstancePaymentTest pays on dev.bpcbt.com and is skipped when the secrets are not set (e.g. PRs from forks).
+      - name: SDKPayment unit tests
+        working-directory: SDKPayment
+        env:
+          TEST_RUNNER_MSDK_TEST_MERCHANT_LOGIN: ${{ secrets.MSDK_TEST_MERCHANT_LOGIN }}
+          TEST_RUNNER_MSDK_TEST_MERCHANT_PASSWORD: ${{ secrets.MSDK_TEST_MERCHANT_PASSWORD }}
+        run: xcodebuild test -scheme SDKPayment -destination "$DESTINATION" | grep -E "Test Case .*(passed|failed|skipped)|Executed|error:"
+
+      - name: Integrator check (local checkout)
+        working-directory: .github/spm-check
+        run: xcodebuild test -scheme SPMCheck-Package -destination "$DESTINATION" | grep -E "Test Case .*(passed|failed|skipped)|Executed|error:"
+
+  spm-remote:
+    if: github.event_name == 'push'
+    runs-on: macos-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Pick simulator
+        run: echo "DESTINATION=$(.github/scripts/simulator.sh)" >> "$GITHUB_ENV"
+
+      - name: Integrator check (git URL)
+        working-directory: .github/spm-check
+        env:
+          PAYRDR_SDK_URL: ${{ github.server_url }}/${{ github.repository }}.git
+          PAYRDR_SDK_REF: ${{ github.sha }}
+        run: xcodebuild test -scheme SPMCheck-Package -destination "$DESTINATION" | grep -E "Test Case .*(passed|failed|skipped)|Executed|error:"
+
+  xcframework:
+    runs-on: macos-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build XCFrameworks
+        run: ./build_frameworks.sh
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: xcframeworks-${{ github.sha }}
+          path: Frameworks/output/*.zip
+          retention-days: 14

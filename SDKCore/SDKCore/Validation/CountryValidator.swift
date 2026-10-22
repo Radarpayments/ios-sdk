@@ -1,15 +1,18 @@
 //
-//  File.swift
+//  CountryValidator.swift
+//  SDKCore
+//
+//
 //
 
 import Foundation
 
 /// Country value validator
 public final class CountryValidator: BaseValidator<String> {
-    
+
     override public init() {
         super.init()
-        
+
         addRules(
             AnyBaseValidationRule(
                 baseRule: StringRequiredRule(

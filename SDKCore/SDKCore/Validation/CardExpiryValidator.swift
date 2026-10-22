@@ -2,7 +2,7 @@
 //  CardExpiryValidator.swift
 //  SDKCore
 //
-// 
+//
 //
 
 import Foundation
@@ -11,7 +11,7 @@ import Foundation
 public class CardExpiryValidator: BaseValidator<String> {
 
     private let PATTERN = "^\\d{2}/\\d{2}$"
-    
+
     override public init() {
         super.init()
 

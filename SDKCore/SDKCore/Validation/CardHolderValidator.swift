@@ -2,7 +2,7 @@
 //  CardHolderValidator.swift
 //  SDKCore
 //
-// 
+//
 //
 
 import Foundation
@@ -12,7 +12,7 @@ public class CardHolderValidator: BaseValidator<String> {
 
     private let MAX_LENGTH = 30
     private let PATTERN = "^[a-zA-Z ]+$"
-    
+
     override public init() {
         super.init()
 

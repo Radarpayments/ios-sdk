@@ -42,8 +42,8 @@ class BaseTestCase: XCTestCase {
     func registerOrderAndLaunchApp(
         amount: Int = 20000,
         returnUrl: String = "sdk://done",
-        userName: String = "mobile-sdk-api",
-        password: String = "vkyvbG0",
+        userName: String = TestCredentials.merchantLogin,
+        password: String = TestCredentials.merchantPassword,
         clientId: String? = nil
     ) -> String {
         app = XCUIApplication()
@@ -76,8 +76,8 @@ class BaseTestCase: XCTestCase {
     func registerOrderAndLaunchAppWithPreFilledBiilingData(
         amount: Int = 20000,
         returnUrl: String = "sdk://done",
-        userName: String = "mobile-sdk-api",
-        password: String = "vkyvbG0",
+        userName: String = TestCredentials.merchantLogin,
+        password: String = TestCredentials.merchantPassword,
         clientId: String? = nil,
         email: String = "test@test.com",
         mobilePhone: String = "+35799902871",
@@ -116,7 +116,7 @@ class BaseTestCase: XCTestCase {
     func registerSessionAndLaunchApp(
         createSessionbaseUrl: String = "https://dev.bpcbt.com",
         amount: Int = 2000,
-        apiKey: String = "9yVrffWNAiHUUVUCQoX4NFHMxmRHYA2yB"
+        apiKey: String = TestCredentials.apiKey
     ) -> String {
         app = XCUIApplication()
         app.launchArguments = ["-uiTesting"]
