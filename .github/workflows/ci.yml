@@ -1,12 +1,12 @@
 name: CI
 
-# Runs on every PR and on pushes to master and task branches (MSDK-*). Publishes nothing:
+# Runs on every PR and on pushes to master. Publishes nothing:
 # the XCFramework zips are kept only as workflow artifacts for manual testing.
 
 on:
   pull_request:
   push:
-    branches: [ master, 'MSDK-*' ]
+    branches: [ master ]
   workflow_dispatch:
 
 concurrency:
