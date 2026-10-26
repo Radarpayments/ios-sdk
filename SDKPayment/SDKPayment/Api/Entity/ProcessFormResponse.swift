@@ -11,6 +11,7 @@ import Foundation
 ///
 /// - Parameters:
 ///     - errorCode error code.
+///     - error error text when errorCode is not 0.
 ///     - threeDSServerTransId transaction identifier for 3DS Server.
 ///     - threeDSSDKKey key to encrypt device data.
 ///     - acsUrl automatic configuration server url.
@@ -26,6 +27,7 @@ struct ProcessFormResponse: Codable {
     let paReq: String?
     let termUrl: String?
     let threeDSMethodURL: String?
+    let error: String?
 
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -37,5 +39,6 @@ struct ProcessFormResponse: Codable {
         self.paReq = try? container.decodeIfPresent(String.self, forKey: .paReq)
         self.termUrl = try? container.decodeIfPresent(String.self, forKey: .termUrl)
         self.threeDSMethodURL = try? container.decodeIfPresent(String.self, forKey: .threeDSMethodURL)
+        self.error = try? container.decodeIfPresent(String.self, forKey: .error)
     }
 }

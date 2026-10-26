@@ -88,11 +88,7 @@ final class PaymentManagerImpl: PaymentManager {
                         return
                     }
 
-                    if status.containsAnyOfKeywordIgnoreCase(keywords: [OrderStatus.declined.rawValue]) {
-                        finishWithError(exception: SDKDeclinedException())
-
-                        return
-                    }
+                    finishWithError(exception: response.failureException())
                 } else {
                     let exception: SDKException
 
@@ -146,7 +142,7 @@ final class PaymentManagerImpl: PaymentManager {
 
             let paymentResultData = PaymentResultData(
                 isSuccess: isSuccess,
-                exception: exception
+                exception: exception ?? (isSuccess ? nil : paymentFinishInfo.failureException())
             )
 
             viewControllerDelegate?.finishWithResult(paymentData: paymentResultData)
@@ -231,6 +227,14 @@ final class PaymentManagerImpl: PaymentManager {
         processFormResponse: ProcessFormResponse,
         isBinding: Bool
     ) throws {
+        if processFormResponse.errorCode != 0 {
+            LogDebug.shared.logIfDebug(message: "processForm - Error: \(processFormResponse)")
+
+            throw SDKPaymentApiException(
+                message: processFormResponse.error ?? "processForm errorCode \(processFormResponse.errorCode)"
+            )
+        }
+
         if processFormResponse.threeDSMethodURL != nil {
             LogDebug.shared.logIfDebug(
                 message: "Merchant is not configured to be used without 3DS2SDK: \(processFormResponse)"

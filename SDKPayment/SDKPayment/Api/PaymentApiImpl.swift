@@ -95,7 +95,7 @@ final class PaymentApiImpl: NSObject, PaymentApi {
     }
 
     func getFinishedPaymentInfo(orderId: String) throws -> FinishedPaymentInfoResponse {
-        let body = ["orderId": orderId]
+        let body = ["orderId": orderId, "language": Locale.preferredLanguages.first.map { String($0.prefix(2)) } ?? "en"]
 
         return try startRunCatching(
             urlString: "\(baseUrl)/rest/getFinishedPaymentInfo.do",

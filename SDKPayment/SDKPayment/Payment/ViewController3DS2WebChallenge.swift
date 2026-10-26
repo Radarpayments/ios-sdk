@@ -105,7 +105,10 @@ final class ViewController3DS2WebChallenge: UIViewController {
             let isSuccess = paymentFinishedInfo.status?
                 .containsAnyOfKeywordIgnoreCase(keywords: OrderStatuses.payedStatuses) ?? false
 
-            let paymentResultData = PaymentResultData(isSuccess: isSuccess)
+            let paymentResultData = PaymentResultData(
+                isSuccess: isSuccess,
+                exception: isSuccess ? nil : paymentFinishedInfo.failureException()
+            )
 
             LogDebug.shared.logIfDebug(message: "getSessionStatus - Remaining sec \(orderStatus.remainingSecs)")
 
