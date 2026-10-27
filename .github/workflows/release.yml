@@ -1,18 +1,20 @@
 name: Release
 
-# Actions → Release → Run workflow, or: gh workflow run release.yml --ref <branch> -f version=3.0.11 -f dry_run=false
+# Actions → Release → Run workflow, or: gh workflow run release.yml --ref <branch> -f version=3.1.0 -f dry_run=false
 #
 # dry_run (default) runs every check and builds the zips as workflow artifacts, but creates no tag and no release.
-# A pre-release version (3.0.11-rc.1) can be published from any branch: SPM never picks it up for integrators
+# A pre-release version (3.1.0-rc.1) can be published from any branch: SPM never picks it up for integrators
 # using "Up to Next Major" and resolves it only when it is requested exactly.
-# A stable version (3.0.11) is published only from master.
+# A stable version (3.1.0) is published only from master.
+# Publishing a stable version deletes the GitHub releases of its pre-releases (3.1.0-rc.*); their tags stay,
+# so SPM still resolves them when requested exactly.
 # Pull requests that touch the release pipeline run it as a dry run.
 
 on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'Version to release, e.g. 3.0.11 or 3.0.11-rc.1'
+        description: 'Version to release, e.g. 3.1.0 or 3.1.0-rc.1'
         required: true
         type: string
       dry_run:
@@ -44,7 +46,7 @@ jobs:
     runs-on: macos-latest
     timeout-minutes: 60
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
@@ -114,7 +116,7 @@ jobs:
       - name: Build XCFrameworks
         run: ./build_frameworks.sh
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: xcframeworks-${{ env.VERSION }}
           path: Frameworks/output/*.zip
@@ -137,6 +139,18 @@ jobs:
           PAYRDR_SDK_VERSION: ${{ env.VERSION }}
           TEST_RUNNER_EXPECTED_SDK_VERSION: ${{ env.BASE_VERSION }}
         run: xcodebuild test -scheme SPMCheck-Package -destination "$DESTINATION" | grep -E "Test Case .*(passed|failed|skipped)|Executed|error:"
+
+      - name: Delete GitHub releases of the pre-releases
+        if: env.DRY_RUN != 'true' && env.PRERELEASE == 'false'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release list --limit 100 --json tagName,isPrerelease \
+            --jq ".[] | select(.isPrerelease and (.tagName | startswith(\"$VERSION-\"))) | .tagName" |
+            while read -r tag; do
+              gh release delete "$tag" --yes
+              echo "Deleted the GitHub release $tag, the tag is kept"
+            done
 
       - name: Summary
         run: |

@@ -9,7 +9,7 @@ import Foundation
 
 struct Constants {
     // SDK Version
-    static let SDK_VERSION = "3.0.10"
+    static let SDK_VERSION = "3.1.0"
 
     // Tag for the log SDK Payment processes
     static let TAG = "SDK Payment"
