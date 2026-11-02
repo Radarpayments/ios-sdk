@@ -16,6 +16,7 @@ import Foundation
 ///     - merchantLogin the login of merchant in system.
 ///     - captchaMode is available captcha.
 ///     - custom if merchant has a custom rules.
+///     - merchantCountry the merchant's country.
 struct MerchantInfo: Codable {
 
     let merchantUrl: String
@@ -24,6 +25,7 @@ struct MerchantInfo: Codable {
     let merchantLogin: String
     let captchaMode: String
     var custom: Bool = false
+    let merchantCountry: MerchantCountry?
 
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -34,5 +36,12 @@ struct MerchantInfo: Codable {
         self.merchantLogin = try container.decode(String.self, forKey: .merchantLogin)
         self.captchaMode = try container.decode(String.self, forKey: .captchaMode)
         self.custom = (try? container.decode(Bool.self, forKey: .custom)) ?? false
+        self.merchantCountry = try? container.decodeIfPresent(MerchantCountry.self, forKey: .merchantCountry)
     }
+}
+
+/// The merchant's country, ISO 3166-1 alpha-2 in `countryCodeAlpha2`.
+struct MerchantCountry: Codable {
+
+    let countryCodeAlpha2: String?
 }
