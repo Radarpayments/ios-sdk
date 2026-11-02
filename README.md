@@ -21,13 +21,13 @@ In Xcode: **File → Add Package Dependencies…**, enter
 https://github.com/Radarpayments/ios-sdk
 ```
 
-choose **Up to Next Major Version** starting from `3.1.0` and add the `SDKPayment` product (or `SDKCore` only).
+choose **Up to Next Major Version** starting from `3.1.1` and add the `SDKPayment` product (or `SDKCore` only).
 
 In `Package.swift`:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/Radarpayments/ios-sdk", from: "3.1.0")
+    .package(url: "https://github.com/Radarpayments/ios-sdk", from: "3.1.1")
 ],
 targets: [
     .target(

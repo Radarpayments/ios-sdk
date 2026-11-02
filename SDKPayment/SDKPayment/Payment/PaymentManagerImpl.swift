@@ -119,7 +119,8 @@ final class PaymentManagerImpl: PaymentManager {
                 bindingDeactivationEnabled: sessionStatusResponse.bindingDeactivationEnabled,
                 applePayPaymentConfig: createApplePayPaymentConfig(
                     applePaySettings: applePaySettings,
-                    currencyCode: sessionStatusResponse.currencyAlphaCode
+                    currencyCode: sessionStatusResponse.currencyAlphaCode,
+                    merchantCountryCode: sessionStatusResponse.merchantInfo.merchantCountry?.countryCodeAlpha2
                 ),
                 sessionStatus: sessionStatusResponse
             )
@@ -280,7 +281,11 @@ final class PaymentManagerImpl: PaymentManager {
         try paymentApi.getSessionStatus(mdOrder: mdOrder)
     }
 
-    private func createApplePayPaymentConfig(applePaySettings: ApplePaySettings?, currencyCode: String?) -> ApplePayPaymentConfig? {
+    private func createApplePayPaymentConfig(
+        applePaySettings: ApplePaySettings?,
+        currencyCode: String?,
+        merchantCountryCode: String?
+    ) -> ApplePayPaymentConfig? {
         guard let applePaySettings, let currencyCode else { return nil }
 
         let mapper = NetworkSystemMapper()
@@ -289,7 +294,7 @@ final class PaymentManagerImpl: PaymentManager {
         return ApplePayPaymentConfig(
             merchantId: applePaySettings.merchantId,
             currencyCode: currencyCode,
-            countryCode: applePaySettings.countryCode,
+            countryCode: applePaySettings.countryCode(merchantCountryCode: merchantCountryCode),
             supportedNetworks: supportedNetworks,
             items: applePaySettings.summaryItems.map {
                 ApplePayPaymentConfig
