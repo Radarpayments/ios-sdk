@@ -5,7 +5,7 @@ name: Release
 # dry_run (default) runs every check and builds the zips as workflow artifacts, but creates no tag and no release.
 # A pre-release version (3.1.0-rc.1) can be published from any branch: SPM never picks it up for integrators
 # using "Up to Next Major" and resolves it only when it is requested exactly.
-# A stable version (3.1.0) is published only from master.
+# A stable version (3.1.0) is published only from main.
 # Publishing a stable version deletes the GitHub releases of its pre-releases (3.1.0-rc.*); their tags stay,
 # so SPM still resolves them when requested exactly.
 # Pull requests that touch the release pipeline run it as a dry run.
@@ -82,8 +82,8 @@ jobs:
               echo "::error::Tag $version already exists"; exit 1
             fi
           fi
-          if [[ "$dry_run" != "true" && "$version" == "$base" && "$GITHUB_REF" != "refs/heads/master" ]]; then
-            echo "::error::Stable versions are released only from master. Use a pre-release version like $base-rc.1."; exit 1
+          if [[ "$dry_run" != "true" && "$version" == "$base" && "$GITHUB_REF" != "refs/heads/main" ]]; then
+            echo "::error::Stable versions are released only from main. Use a pre-release version like $base-rc.1."; exit 1
           fi
 
           {
